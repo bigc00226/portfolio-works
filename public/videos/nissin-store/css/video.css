@@ -1,0 +1,74 @@
+/* nissin-store: the makeshop byGMO admin (migration source; same look as the makeshop video): a reconstruction with the
+   admin's own logo, icons, font stack and theme colours (js/makeshop-ui.js); the login page before it is the real one */
+#msLoginFrame { background: #fff; }
+.ms-adm { position: absolute; inset: 0; background: #f2f4f7; font-family: メイリオ, Meiryo, "ＭＳ ゴシック", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif; color: #10163d; }
+.ms-shell { position: absolute; inset: 0; display: flex; }
+.ms-side { width: 256px; flex: none; background: #fff; border-right: 1px solid #e6eaf0; display: flex; flex-direction: column; overflow: hidden; }
+.ms-brand { height: 60px; display: flex; align-items: center; gap: 9px; padding: 0 14px 0 18px; font-size: 14px; }
+.ms-brand-logo { display: block; height: 30px; width: auto; } /* the admin's own horizontal logo (assets/makeshop/ms-logo-typeA.svg) */
+.ms-collapse { margin-left: auto; color: #6f738a; display: grid; }
+.ms-collapse svg { width: 18px; height: 18px; }
+.ms-shop { padding: 6px 18px 14px; border-bottom: 1px solid #e6eaf0; }
+.ms-shop-name { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.ms-shop-name svg { width: 13px; height: 13px; color: #4558c4; }
+.ms-shop-id { font-size: 11.5px; color: #6f738a; margin-top: 3px; }
+.ms-grp { font-size: 11px; color: #6f738a; padding: 16px 18px 6px; }
+.ms-item { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px 0 18px; font-size: 13.5px; color: #10163d; margin: 0 8px; border-radius: 7px; }
+.ms-item svg { width: 17px; height: 17px; color: #6f738a; }
+.ms-item .chev { margin-left: auto; }
+.ms-item .chev svg { width: 14px; height: 14px; }
+.ms-item.on, .ms-item.is-hover { background: #f2f4fc; }
+.ms-item.open .chev { transform: rotate(180deg); }
+.ms-sub { display: none; padding: 2px 0 6px; }
+.ms-sub.open { display: block; }
+.ms-subitem { height: 32px; display: flex; align-items: center; white-space: nowrap; padding-left: 42px; font-size: 13px; color: #10163d; margin: 0 8px; border-radius: 6px; }
+.ms-subitem.on { background: #f2f4fc; color: #293576; font-weight: 700; box-shadow: inset 3px 0 #4558c4; }
+.ms-subitem.is-hover:not(.on) { background: #f4f5f8; }
+.ms-bottom { margin-top: auto; margin-bottom: 14px; }
+.ms-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ms-top { height: 56px; flex: none; background: #fff; border-bottom: 1px solid #e6eaf0; display: flex; align-items: center; padding: 0 22px; gap: 18px; font-size: 13px; color: #10163d; }
+.ms-crumb { display: flex; align-items: center; gap: 8px; color: #6f738a; }
+.ms-crumb .sl { color: #b6b8c4; }
+.ms-tl { display: inline-flex; align-items: center; gap: 6px; }
+.ms-tl svg { width: 16px; height: 16px; }
+.ms-view { display: none; flex: 1; min-height: 0; overflow: hidden; position: relative; }
+.ms-view.on { display: block; }
+.ms-h1 { font-size: 24px; margin: 30px 34px 18px; font-weight: 700; }
+.ms-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 0 34px; max-width: 1240px; }
+.ms-card { background: #fff; border: 1px solid #e6eaf0; border-radius: 10px; padding: 18px 22px; }
+.ms-card h3 { margin: 0 0 10px; font-size: 15px; }
+.ms-card p { margin: 6px 0; font-size: 13.5px; }
+.ms-card.ms-wide { grid-column: 1 / -1; }
+.ms-card b { color: #c2410c; }
+.ms-note { color: #6f738a; font-size: 13px !important; line-height: 1.7; }
+.ms-mute { color: #6f738a; }
+.ms-ph { height: 64px; border-radius: 6px; background: repeating-linear-gradient(90deg, #f3f4f6 0 18%, #fff 18% 20%); margin-top: 12px; }
+.ms-main { flex: 1; min-height: 0; overflow: hidden; background: #f2f4f7; }
+.ms-panel { background: #fff; border: 1px solid #e6eaf0; border-radius: 10px; padding: 20px 24px; margin: 0 34px 18px; max-width: 1100px; }
+.ms-panel h3 { margin: 0 0 12px; font-size: 15px; }
+.ms-form { display: grid; grid-template-columns: 160px 1fr; gap: 14px 18px; align-items: center; margin: 16px 0 20px; font-size: 13.5px; }
+.ms-form > label { color: #10163d; font-weight: 700; }
+.ms-radio, .ms-check { display: inline-block; width: 16px; height: 16px; border: 1.5px solid #b6b8c4; border-radius: 50%; vertical-align: -3px; margin-right: 6px; background: #fff; }
+.ms-check { border-radius: 4px; }
+.ms-radio.on { border: 5px solid #4558c4; }
+.ms-check.on { background: #4558c4; border-color: #4558c4; position: relative; }
+.ms-check.on::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.ms-sel { display: inline-flex; align-items: center; height: 34px; padding: 0 34px 0 12px; border: 1px solid #cad1e0; border-radius: 6px; background: #fff; position: relative; }
+.ms-sel::after { content: ""; position: absolute; right: 12px; top: 12px; width: 6px; height: 6px; border: solid #6f738a; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.ms-btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 22px; border-radius: 7px; background: #4558c4; color: #fff; font-weight: 700; font-size: 14px; }
+.ms-btn.is-hover { background: #677cf0; }
+.ms-btn svg { width: 16px; height: 16px; }
+.ms-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ms-tbl th { text-align: left; color: #6f738a; font-weight: 500; border-bottom: 1px solid #e6eaf0; padding: 8px 10px; }
+.ms-tbl td { padding: 10px; border-bottom: 1px solid #f3f4f6; }
+.ms-tbl tr.new td { animation: rowIn 1.2s ease; }
+.ms-adm .ms-item { cursor: default; }
+/* CSV一括処理: the operations as rows */
+.ms-ops { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; margin: 0 34px; max-width: 1100px; }
+.ms-ops .ms-panel { margin: 0 0 18px; }
+.ms-panel h3 { display: flex; align-items: center; gap: 8px; }
+.ms-panel h3 svg { width: 18px; height: 18px; color: #4558c4; }
+.ms-op { display: flex; align-items: center; justify-content: space-between; height: 42px; padding: 0 10px; border-bottom: 1px solid #e6eaf0; font-size: 13.5px; color: #293576; }
+.ms-op:last-child { border-bottom: 0; }
+.ms-op svg { width: 16px; height: 16px; color: #6f738a; }
+.ms-op.is-hover { background: #f2f4fc; }

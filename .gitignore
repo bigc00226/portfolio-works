@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# tools: temporary captures
+tools/snapshots/*/.capture/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

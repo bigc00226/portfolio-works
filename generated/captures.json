@@ -1,0 +1,31 @@
+{
+  "online-healing-salon": {
+    "date": "2026-11-17",
+    "icon": "online-healing-salon-icon.ico",
+    "logo": "online-healing-salon-logo.svg"
+  },
+  "android-automation-browser": {
+    "date": "2026-11-17",
+    "icon": "android-automation-browser-icon.svg"
+  },
+  "pitch-lab-app": {
+    "date": "2026-11-17",
+    "icon": "pitch-lab-app-icon.svg"
+  },
+  "gacha-point-platform": {
+    "date": "2026-11-17",
+    "icon": "gacha-point-platform-icon.svg"
+  },
+  "car-rent-sakuragroup": {
+    "date": "2026-11-17",
+    "icon": "car-rent-sakuragroup-icon.svg"
+  },
+  "the-sanctuary": {
+    "date": "2026-11-17",
+    "icon": "the-sanctuary-icon.svg"
+  },
+  "the-sanctuary-screens": {
+    "date": "2026-11-17",
+    "icon": "the-sanctuary-screens-icon.svg"
+  }
+}

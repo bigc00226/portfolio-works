@@ -1,0 +1,34 @@
+/* soup-stock-tokyo: locations, inventory, GitHub Actions run page */
+.ss-num { animation: ssNum 1.4s ease; font-variant-numeric: tabular-nums; }
+@keyframes ssNum { 0% { background: #e0f0ff; } 100% { background: transparent; } }
+.ss-zero { color: #8e0b21; font-weight: 700; }
+.ss-av { display: inline-block; min-width: 72px; text-align: right; padding: 3px 8px; border-radius: 8px; box-shadow: inset 0 0 0 1px #8a8a8a; background: #fdfdfd; font-variant-numeric: tabular-nums; }
+.ss-av.ss-zero { box-shadow: inset 0 0 0 1px #e51c00; background: #fff4f4; }
+.ss-locs { display: flex; flex-direction: column; }
+.ss-loc { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid #ebebeb; }
+.ss-loc:last-child { border-bottom: 0; }
+.ss-loc.new { animation: rowIn 1.2s ease; }
+.ss-loc p { margin: 2px 0 0; }
+.ss-loc .sp { flex: 1; }
+.ss-loc-ic { width: 36px; height: 36px; border-radius: 10px; background: #f1f1f1; display: grid; place-items: center; color: #4a4a4a; }
+.ss-loc-ic svg { width: 18px; height: 18px; }
+.ss-loc.is-hover { background: #f7f7f7; }
+.ss-route { margin: 10px 0 0; padding: 0; list-style: none; counter-reset: r; }
+.ss-route li { counter-increment: r; display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-radius: 10px; box-shadow: inset 0 0 0 1px #e3e3e3; margin-bottom: 6px; font-weight: 550; }
+.ss-route li::before { content: counter(r); width: 22px; height: 22px; border-radius: 50%; background: #303030; color: #fff; display: grid; place-items: center; font-size: 12px; order: 1; }
+.ss-route .ss-drag { order: 0; color: #8a8a8a; letter-spacing: -2px; }
+.ss-route li { flex-direction: row; }
+.ss-locsel { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 8px; background: #fff; box-shadow: inset 0 0 0 1px #e3e3e3, 0 1px 0 rgba(0,0,0,.05); margin-bottom: 14px; }
+.ss-locsel svg { width: 15px; height: 15px; }
+/* kit: hide a field's placeholder once it has a value */
+.sa-in .v:not(:empty) + .ph { display: none; }
+/* kit: a product without a picture shows the admin's placeholder */
+.sa-th[style=""] { background: #f7f7f7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b5b5b5' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='M21 15l-5-5L5 21'/%3E%3C/svg%3E") center / 18px no-repeat; }
+/* kit: the admin toast sits above the floating caption band */
+.sa-toast { bottom: 96px; }
+/* kit: a modal opened over the settings covers the settings (the overlay is moved into #saSet while it is open) */
+.sa-set > .sa-ov { z-index: 40; }
+
+/* GitHub Actions: the real pages (js/github-snapshot.js) in a frame filling the browser page */
+#ghRoot { position: absolute; inset: 0; background: #fff; }
+#ghRoot .gh-frame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }

@@ -1,0 +1,75 @@
+/* green-base: the real theme store in frames + admin pieces of this video */
+
+/* ------------------------------------------------------------------ theme store (themes.shopify.com, captured — js/themestore-frame.js) */
+.ts { position: absolute; inset: 0; background: #fff; }
+/* all three captured pages stay loaded (visibility, not display: their layout is ready the moment they are shown) */
+.ts-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; visibility: hidden; background: #fff; }
+.ts-frame.on { visibility: visible; }
+
+/* wireframe theme previews (the admin's theme library cards) */
+.tsw { aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--a); box-shadow: 0 0 0 1px rgba(0,0,0,.08); display: flex; flex-direction: column; gap: 7%; padding: 5%; transition: box-shadow .2s; }
+.tsw-bar { height: 7%; display: flex; gap: 6%; align-items: center; }
+.tsw-bar i { width: 18%; height: 100%; background: var(--b); border-radius: 3px; }
+.tsw-bar u { width: 9%; height: 45%; background: var(--d); opacity: .6; border-radius: 2px; }
+.tsw-hero { flex: 1; border-radius: 6px; background: linear-gradient(135deg, var(--b), var(--d) 60%, var(--c)); position: relative; }
+.tsw-hero b { position: absolute; left: 8%; bottom: 18%; width: 40%; height: 12%; background: rgba(255,255,255,.85); border-radius: 3px; }
+.tsw-hero s { position: absolute; left: 8%; bottom: 8%; width: 22%; height: 7%; background: rgba(255,255,255,.55); border-radius: 3px; }
+.tsw-row { height: 22%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4%; }
+.tsw-row span { background: var(--c); border-radius: 4px; }
+.tsw-row.two { grid-template-columns: 1fr 1fr; height: 16%; }
+.tsw.big { aspect-ratio: auto; height: 100%; }
+
+/* ------------------------------------------------------------------ admin pieces */
+.gb-th { display: flex; gap: 18px; align-items: center; }
+.gb-th-img { width: 260px; flex: none; }
+.gb-th-b { flex: 1; }
+.gb-th-b b { font-size: 15px; margin-right: 8px; }
+.gb-th-a { display: flex; gap: 8px; }
+.gb-lib { display: flex; align-items: center; gap: 12px; padding: 10px 4px; }
+.gb-lib .sp { flex: 1; }
+.gb-lib.new { animation: rowIn 1.4s ease; }
+.gb-res { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 8px; border-radius: 8px; border-top: 1px solid #f1f1f1; }
+.gb-res svg { width: 16px; height: 16px; color: #616161; }
+.gb-res .sp { flex: 1; }
+.gb-res.is-hover { background: #f7f7f7; }
+.gb-res.add { color: #005bd3; border-top: 0; }
+.gb-res.add svg { color: #005bd3; }
+.gb-fd { display: flex; align-items: center; gap: 12px; padding: 10px 8px; border-radius: 10px; box-shadow: inset 0 0 0 1px #ebebeb; margin-bottom: 8px; }
+.gb-fd.new { animation: rowIn 1.2s ease; }
+.gb-fd code { font-size: 12px; }
+.gb-fd .sp { flex: 1; }
+.gb-fd-ic { width: 30px; height: 30px; border-radius: 8px; background: #f1f1f1; display: grid; place-items: center; color: #4a4a4a; flex: none; }
+.gb-tys { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gb-ty { display: flex; gap: 10px; align-items: center; padding: 12px; border-radius: 10px; box-shadow: inset 0 0 0 1px #e3e3e3; }
+.gb-ty.is-hover { background: #f7f7f7; box-shadow: inset 0 0 0 2px #303030; }
+.gb-mf { display: flex; align-items: center; gap: 16px; }
+.gb-mf-k { width: 160px; flex: none; font-weight: 600; }
+.gb-mf-k small { display: block; font-weight: 400; color: #616161; font-family: Consolas, monospace; }
+.gb-mf .sa-in { flex: 1; }
+.gb-ent { display: inline-flex; align-items: center; gap: 6px; background: #f0e9ff; color: #5c2ec2; border-radius: 6px; padding: 1px 8px; font-weight: 550; }
+.gb-ent svg { width: 14px; height: 14px; }
+.gb-ref { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 12.5px; }
+.gb-ref.new { animation: rowIn 1.2s ease; }
+.sa-pop-i .gb-ent { pointer-events: none; }
+/* theme editor: the setting with a dynamic source */
+.te-set .sa-f { margin-bottom: 14px; }
+.gb-dyn-row { display: flex; align-items: center; gap: 8px; }
+.gb-dyn-row .sa-in { flex: 1; }
+.gb-src { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; box-shadow: inset 0 0 0 1px #c9c9c9; color: #4a4a4a; background: #fff; }
+.gb-src.is-hover { background: #f1f1f1; }
+.gb-dyn-pop { position: fixed; z-index: 9050; width: 300px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.22), 0 0 0 1px rgba(0,0,0,.06); padding: 8px; font: 13px -apple-system, "Segoe UI", "Yu Gothic UI", sans-serif; color: #303030; }
+.gb-dyn-pop h5 { margin: 4px 8px 6px; font-size: 12px; color: #616161; }
+.gb-dyn-pop div { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-radius: 8px; }
+.gb-dyn-pop div.is-hover { background: #f1f1f1; }
+.gb-dyn-pop div small { margin-left: auto; color: #8a8a8a; font-family: Consolas, monospace; }
+.gb-add-pop { position: fixed; z-index: 9050; width: 300px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.22), 0 0 0 1px rgba(0,0,0,.06); padding: 8px; font: 13px -apple-system, "Segoe UI", "Yu Gothic UI", sans-serif; color: #303030; }
+.gb-add-pop .s { height: 34px; border-radius: 8px; box-shadow: inset 0 0 0 1px #8a8a8a; display: flex; align-items: center; gap: 8px; padding: 0 10px; color: #8a8a8a; margin-bottom: 6px; }
+.gb-add-pop h5 { margin: 8px 8px 4px; font-size: 12px; color: #616161; }
+.gb-add-pop div.i { height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border-radius: 8px; }
+.gb-add-pop div.i.is-hover { background: #f1f1f1; }
+.gb-add-pop svg { width: 16px; height: 16px; color: #616161; }
+
+/* kit workarounds */
+#sa .sa-savebar { z-index: 20; }           /* the save bar also above the settings overlay (kit: hidden behind .sa-set) */
+.tsw.is-hover { box-shadow: 0 0 0 3px #1d5b2a, 0 10px 24px rgba(0,0,0,.12); }
+.sa-in .v:not(:empty) ~ .ph { display: none; }   /* kit: the placeholder stayed visible next to a typed value */

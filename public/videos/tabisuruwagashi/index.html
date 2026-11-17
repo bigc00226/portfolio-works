@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>旅するように和菓子と出逢う — makeshop クリエイターモード移行 デモ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23233b5d'/%3E%3Ctext x='16' y='22' font-family='serif' font-size='15' fill='%23fff' text-anchor='middle'%3E%E6%97%85%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/demo.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="../../shared/win11.css">
+</head>
+<body>
+<div id="app">
+  <div id="desk">
+
+    <!-- ===================================================== Browser (Chrome-style) -->
+    <section class="win max" id="win-browser" data-app="browser">
+      <header class="br-tabsbar">
+        <div class="br-tabs" id="brTabs"></div>
+        <span class="br-newtab" id="brNewTab"><i data-icon="plus"></i></span>
+        <span class="sp"></span>
+        <span class="wc dark"><i data-icon="min"></i><i data-icon="max"></i><i data-icon="close"></i></span>
+      </header>
+      <div class="br-bar">
+        <span class="br-nav" id="brBack"><i data-icon="arrow-left"></i></span><span class="br-nav off"><i data-icon="arrow-right"></i></span><span class="br-nav" id="brReload"><i data-icon="reload"></i></span>
+        <div class="br-omni" id="brOmni"><i data-icon="info" id="brLock"></i><span class="br-url" id="brUrl"></span></div>
+        <span class="br-nav"><i data-icon="star"></i></span><span class="br-nav"><i data-icon="puzzle"></i></span><span class="br-nav" id="brMenu"><i data-icon="dots"></i></span><span class="br-prof">T</span>
+      </div>
+      <div class="br-content" id="brContent">
+
+        <!-- ================================================= makeshop byGMO login (the real page: js/makeshop-login.js) -->
+        <div class="br-page" data-page="login"><iframe id="msLoginFrame" title="管理画面ログイン - makeshop byGMO"></iframe></div>
+
+        <!-- ================================================= shop admin (reconstruction with the real logo, icons, labels and colours: js/makeshop-ui.js) -->
+        <div class="br-page" data-page="admin" id="adm">
+          <div class="ms-shell" id="msShell">
+            <aside class="ms-side">
+              <div class="ms-brand"><img class="ms-brand-logo" src="assets/makeshop/ms-logo-typeA.svg" alt="makeshop byGMO"><span class="ms-collapse" title="メニューを折りたたむ"><i data-ms-icon="collapseHorizontal"></i></span></div>
+              <div class="ms-shop">
+                <div class="ms-shop-name">旅するように和菓子と出逢う<i data-icon="link"></i></div>
+                <div class="ms-shop-id">ID: <span class="pii">gaxwagashi</span></div>
+              </div>
+              <div class="ms-grp">日々のショップ運営をスムーズにする</div>
+              <div class="ms-item" data-nav="home"><i data-ms-icon="home"></i>ホーム</div>
+              <div class="ms-item" data-nav="menu"><i data-ms-icon="menuBook"></i>メインメニュー</div>
+              <div class="ms-item"><i data-ms-icon="product"></i>商品管理<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-item"><i data-ms-icon="order"></i>注文管理<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-item"><i data-ms-icon="customer"></i>会員管理<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-item" id="navDesign" data-nav="design"><i data-ms-icon="design"></i>ショップデザイン<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-sub" id="navDesignSub">
+                <div class="ms-subitem" id="navTemplate" data-nav="dslist">テンプレート選択・編集</div>
+                <div class="ms-subitem">デザイン設定</div>
+                <div class="ms-subitem">ストレージ</div>
+              </div>
+              <div class="ms-grp">現状を分析して、売上につなげる</div>
+              <div class="ms-item"><i data-ms-icon="analysis"></i>分析・販促管理<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-grp">便利な機能を追加する</div>
+              <div class="ms-item"><i data-ms-icon="app"></i>アプリ管理<i class="chev" data-icon="chevron-down"></i></div>
+              <div class="ms-item ms-bottom"><i data-ms-icon="config"></i>機能・設定</div>
+            </aside>
+            <div class="ms-body">
+              <header class="ms-top">
+                <div class="ms-crumb" id="msCrumb"></div>
+                <span class="sp"></span>
+                <span class="ms-tl"><i data-ms-icon="search"></i>検索</span>
+                <span class="ms-tl"><i data-ms-icon="help"></i>ヘルプ<i data-icon="chevron-down"></i></span>
+                <span class="ms-tl"><i data-ms-icon="account"></i>アカウント<i data-icon="chevron-down"></i></span>
+              </header>
+              <!-- home -->
+              <main class="ms-view on" data-view="home">
+                <h1 class="ms-h1">ホーム</h1>
+                <div class="ms-home">
+                  <div class="ms-card ms-wide">
+                    <h3>ショップデザイン</h3>
+                    <p>現在のデザイン編集モード：<b id="homeMode">ベーシックモード</b></p>
+                    <p class="ms-note">クリエイターモードでは、ページごとに HTML・CSS・JavaScript を自由に編集でき、レスポンシブデザインに対応したショップを構築できます。</p>
+                  </div>
+                  <div class="ms-card"><h3>受注</h3><p class="ms-mute">新規受注・発送待ちの確認</p><div class="ms-ph"></div></div>
+                  <div class="ms-card"><h3>商品</h3><p class="ms-mute">商品登録・在庫の管理</p><div class="ms-ph"></div></div>
+                  <div class="ms-card"><h3>会員</h3><p class="ms-mute">会員情報・メールマガジン</p><div class="ms-ph"></div></div>
+                </div>
+              </main>
+              <!-- design set list -->
+              <main class="ms-view" data-view="dslist">
+                <div class="cm-strip" id="dsStrip"><span class="cm-flag"><i data-icon="flag"></i><span class="cm-mode">ベーシックモード適用中</span></span><span class="sp"></span><span class="cm-old" id="dsToBasic">（旧デザイン）ベーシックモード編集画面へ<i data-icon="chevron-right"></i></span></div>
+                <div class="ds-wrap">
+                  <div class="ds-crumb">ショップデザイン<i data-icon="chevron-right"></i><b>クリエイターモード</b></div>
+                  <div class="ds-head">
+                    <h1>デザインセット一覧</h1>
+                    <span class="ds-btn" id="dsAdd"><i data-icon="plus"></i>デザインセットを追加</span>
+                    <span class="ds-btn"><i data-icon="download"></i>デザインセットのインポート</span>
+                  </div>
+                  <div class="ds-grid" id="dsGrid"></div>
+                </div>
+              </main>
+            </div>
+          </div>
+
+          <!-- base template picker -->
+          <div class="ms-pick" id="msPick">
+            <div class="pk-top"><span class="pk-back" id="pkBack"><i data-icon="close"></i>デザインセット一覧へ戻る</span></div>
+            <div class="pk-body">
+              <h2>ベーステンプレートの選択</h2>
+              <p>デザインセット一覧画面で「ショップに適用」ボタンを押さない限り、ショップには反映されません。</p>
+              <div class="pk-grid" id="pkGrid"></div>
+            </div>
+          </div>
+
+          <!-- design set name -->
+          <div class="ms-modal" id="msModal">
+            <div class="md-box">
+              <h3><i data-icon="check"></i>デザインセットを追加しました</h3>
+              <p>デザインセットの名前を入力してください<br>この名前は後から変更することができます</p>
+              <div class="md-input" id="mdName"><span class="v"></span></div>
+              <p class="md-note">※管理用の名称になりますので、ショップに表示されることはありません</p>
+              <span class="md-save" id="mdSave">保存</span>
+            </div>
+          </div>
+
+          <!-- apply confirm -->
+          <div class="ms-modal" id="msApply">
+            <div class="md-box">
+              <h3 class="warn"><i data-icon="alert"></i>デザインセットをショップに適用します</h3>
+              <p id="applyText"></p>
+              <div class="md-btns"><span class="md-cancel">キャンセル</span><span class="md-save" id="applyOk">適用する</span></div>
+            </div>
+          </div>
+
+          <!-- ============================================ creator-mode code editor -->
+          <div class="cm" id="cm">
+            <div class="cm-strip"><span class="cm-flag"><i data-icon="flag"></i><span class="cm-mode" id="cmMode">ベーシックモード適用中</span></span><span class="sp"></span><span class="cm-old">（旧デザイン）ベーシックモード編集画面へ<i data-icon="chevron-right"></i></span></div>
+            <div class="cm-body">
+              <aside class="cm-side">
+                <div class="cm-back" id="cmBack">デザインセット一覧<i data-icon="chevron-right"></i></div>
+                <div class="cm-set"><span><i data-icon="pencil"></i>編集中のデザインセット</span><b id="cmSetName"></b></div>
+                <div class="cm-resp"><span class="cm-toggle on"></span>レスポンシブ</div>
+                <div class="cm-pages" id="cmPages"></div>
+                <div class="cm-sep"></div>
+                <div class="cm-link" data-cm="freepage">フリーページ管理</div>
+                <div class="cm-link" data-cm="modules" id="cmModules">モジュール管理</div>
+                <div class="cm-tools">
+                  <div class="cm-link">ファイルサーバ</div>
+                  <div class="cm-link">タグリファレンス</div>
+                </div>
+              </aside>
+              <main class="cm-main" id="cmMain">
+                <!-- page: HTML / CSS / JavaScript -->
+                <div class="cm-view on" data-cv="page">
+                  <div class="cm-crumb">ショップデザイン<i data-icon="chevron-right"></i>クリエイターモード<i data-icon="chevron-right"></i><span id="cmCrumbPage">トップ</span></div>
+                  <div class="cm-title"><h1 id="cmPageTitle">トップ</h1><span class="cm-preview" id="cmPreview"><i data-icon="eye"></i>プレビュー</span></div>
+                  <div class="cm-alert" id="cmAlert"></div>
+                  <div class="cm-sec" id="secHtml"><div class="cm-sec-h">HTML<span class="cm-fold"><i data-icon="chevron-up"></i></span></div><div class="cm-code tall" id="edHtml"></div></div>
+                  <div class="cm-sec" id="secCss"><div class="cm-sec-h">CSS<span class="cm-fold"><i data-icon="chevron-up"></i></span></div><div class="cm-code" id="edCss"></div></div>
+                  <div class="cm-sec" id="secJs"><div class="cm-sec-h">JavaScript<span class="cm-fold"><i data-icon="chevron-up"></i></span></div><div class="cm-code" id="edJs"></div></div>
+                  <div class="cm-end"></div>
+                </div>
+                <!-- module list -->
+                <div class="cm-view" data-cv="modules">
+                  <div class="cm-crumb">ショップデザイン<i data-icon="chevron-right"></i>クリエイターモード<i data-icon="chevron-right"></i>モジュール管理</div>
+                  <div class="cm-title"><h1>モジュール管理</h1><span class="cm-addbtn" id="modAdd"><i data-icon="plus"></i>モジュール追加</span></div>
+                  <p class="cm-desc">ヘッダー・フッターなど、複数のページで使う HTML をモジュールとして登録し、モジュールタグでページの任意の位置に呼び出せます。（最大30個）</p>
+                  <table class="cm-table"><thead><tr><th>管理用名称</th><th>モジュールタグ</th><th></th></tr></thead><tbody id="modRows"></tbody></table>
+                </div>
+                <!-- module edit -->
+                <div class="cm-view" data-cv="module">
+                  <div class="cm-crumb">ショップデザイン<i data-icon="chevron-right"></i>クリエイターモード<i data-icon="chevron-right"></i>モジュール管理<i data-icon="chevron-right"></i><span id="modCrumb">モジュール追加</span></div>
+                  <div class="cm-title"><h1 id="modTitle">モジュール追加</h1></div>
+                  <div class="cm-alert" id="modAlert"></div>
+                  <div class="cm-form">
+                    <label>モジュールID<em>必須</em></label>
+                    <div class="cm-field"><div class="cm-input" id="modId"><span class="v"></span></div><div class="cm-hint">半角英数字とアンダーバー（_）のみ・32文字以内　モジュールタグ：<code id="modTag">&lt;{$module.}&gt;</code></div></div>
+                    <label>管理用名称<em>必須</em></label>
+                    <div class="cm-field"><div class="cm-input" id="modName"><span class="v"></span></div></div>
+                    <label>モジュール内容</label>
+                    <div class="cm-field"><div class="cm-code tall" id="edMod"></div><div class="cm-hint">モジュール内でモジュールタグは使用できません</div></div>
+                  </div>
+                  <div class="cm-end"></div>
+                </div>
+              </main>
+              <div class="cm-savebar"><span class="cm-del" id="modDel">削除</span><span class="cm-save" id="cmSave">保存</span></div>
+            </div>
+            <div class="cm-toast" id="cmToast"><i data-icon="check"></i><span></span></div>
+          </div>
+        </div>
+
+        <!-- ================================================= old (basic-mode) design editor: the migration source -->
+        <div class="br-page" data-page="basic" id="basic">
+          <div class="bm-strip">（旧デザイン）ベーシックモード編集画面<span class="sp"></span><span class="bm-applied">現在ショップに適用中</span></div>
+          <div class="bm-body">
+            <aside class="bm-side">
+              <div class="bm-h">デザイン</div>
+              <div class="bm-it">基本デザイン設定</div>
+              <div class="bm-h">独自デザイン</div>
+              <div class="bm-it" data-bm="header">共通ヘッダー</div>
+              <div class="bm-it" data-bm="footer">共通フッター</div>
+              <div class="bm-it" data-bm="top">トップページ</div>
+              <div class="bm-it" data-bm="css">CSS</div>
+              <div class="bm-it" data-bm="js">トップページ JavaScript</div>
+              <div class="bm-h">その他</div>
+              <div class="bm-it">商品詳細ページ</div>
+              <div class="bm-it">買い物かごページ</div>
+            </aside>
+            <main class="bm-main">
+              <h2 id="bmTitle">トップページ</h2>
+              <p class="bm-note">ベーシックモードで使用中の独自デザインです。（参照用）</p>
+              <div class="bm-area"><div class="cm-code" id="edBasic"></div></div>
+              <div class="bm-btns"><span class="bm-btn">設定する</span></div>
+            </main>
+          </div>
+        </div>
+
+        <!-- ================================================= preview of the design set (not applied yet) -->
+        <div class="br-page" data-page="preview" id="pv">
+          <div class="pv-bar" id="pvBar"><i data-icon="eye"></i><span id="pvBarText"></span><span class="sp"></span><span class="pv-close">プレビューを閉じる</span></div>
+          <div class="pv-main">
+            <div class="pv-stage" id="pvStage">
+              <div class="fit" id="pvFit"><iframe id="pvFrame" title="preview"></iframe></div>
+              <div class="dv" id="dv">
+                <div class="dv-bar">寸法: <b>レスポンシブ</b><i data-icon="chevron-down"></i><span class="dv-num" id="dvW">360</span>×<span class="dv-num">740</span><span class="dv-z">100%<i data-icon="chevron-down"></i></span><span class="dv-z">制限なし<i data-icon="chevron-down"></i></span></div>
+                <div class="dv-screen" id="dvScreen"><iframe id="pvSpFrame" title="preview sp"></iframe></div>
+              </div>
+            </div>
+            <!-- DevTools -->
+            <div class="dt" id="dt">
+              <div class="dt-tabs">
+                <span class="dt-ic" id="dtInspect"><i data-icon="inspect"></i></span><span class="dt-ic" id="dtDevice"><i data-icon="mobile"></i></span>
+                <span class="dt-tab">要素</span><span class="dt-tab on" data-dt="console">コンソール</span><span class="dt-tab">ソース</span><span class="dt-tab" data-dt="network">ネットワーク</span><span class="dt-tab">パフォーマンス</span><span class="dt-tab">アプリケーション</span>
+                <span class="sp"></span><span class="dt-count" id="dtCount"></span><span class="dt-ic"><i data-icon="settings"></i></span><span class="dt-ic"><i data-icon="menu-dots"></i></span><span class="dt-ic"><i data-icon="close"></i></span>
+              </div>
+              <div class="dt-tool"><span class="dt-ic"><i data-icon="ban"></i></span><span class="dt-top">top<i data-icon="chevron-down"></i></span><span class="dt-filter">フィルタ</span><span class="sp"></span><span class="dt-lv">デフォルトのレベル<i data-icon="chevron-down"></i></span></div>
+              <div class="dt-con" id="dtCon"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================= the live shop -->
+        <div class="br-page" data-page="live"><div class="fit" id="liveFit"><iframe id="liveFrame" title="www.tabisuruwagashi.com"></iframe></div></div>
+
+        <div class="br-page" data-page="blank"><div class="br-blank"><div class="br-blank-s"><i data-icon="search"></i>検索または URL を入力</div></div></div>
+      </div>
+    </section>
+
+    <!-- desktop notification (bottom-right) -->
+    <div class="notif" id="notif"><div class="notif-ic" id="notifIc"></div><div><b id="notifTitle"></b><p id="notifText"></p></div></div>
+  </div>
+
+  <!-- ===================================================== caption band -->
+  <div class="band" id="band">
+    <div class="band-steps" id="bandSteps">
+      <span data-step="1"><b>1</b>現状確認</span>
+      <span data-step="2"><b>2</b>デザインセット</span>
+      <span data-step="3"><b>3</b>モジュール化</span>
+      <span data-step="4"><b>4</b>トップ HTML</span>
+      <span data-step="5"><b>5</b>CSS / JS</span>
+      <span data-step="6"><b>6</b>プレビュー確認</span>
+      <span data-step="7"><b>7</b>スマホ確認</span>
+      <span data-step="8"><b>8</b>ショップに適用</span>
+    </div>
+    <div class="band-cap" id="caption"><span class="cap-chip" id="capChip"></span><span class="cap-text" id="capText"></span></div>
+  </div>
+
+  <!-- ===================================================== taskbar -->
+  <footer id="taskbar" data-pins="explorer edge chrome:browser vscode figma" data-open="browser" data-active="browser" data-start="2026-05-19T13:18"></footer>
+</div>
+
+<!-- ===================================================== HUD -->
+<div class="issue-box" id="issueBox"><span class="issue-lbl" id="issueLbl"></span></div>
+<div class="keystrip" id="keystrip"><span class="ks-mode" id="ksMode">あ</span><span class="ks-keys" id="ksKeys"></span></div>
+<div class="keycap" id="keycap"></div>
+<div class="ime" id="ime"></div>
+<div class="drag-ghost" id="ghost"></div>
+<div class="cursor" id="cursor" data-kind="arrow"></div>
+
+<div class="intro" id="intro">
+  <div class="intro-in">
+    <div class="intro-brand">旅するように和菓子と出逢う</div>
+    <div class="intro-sub">和菓子専門お取り寄せ「旅わが」</div>
+    <div class="intro-url">makeshop ベーシックモード → クリエイターモード 移行プロセス</div>
+    <ol class="intro-steps">
+      <li><b>01</b>デザインセット作成</li>
+      <li><b>02</b>モジュール化</li>
+      <li><b>03</b>テンプレートタグへ書き換え</li>
+      <li><b>04</b>プレビュー・修正</li>
+      <li><b>05</b>ショップに適用</li>
+    </ol>
+  </div>
+</div>
+
+<div class="hint" id="hint">
+  <b>Space</b> 再生 / 一時停止　<b>R</b> 最初から　<b>C</b> 字幕　<b>H</b> このヒントを隠す
+</div>
+<div class="ff-cover" id="ffCover"><div><span class="spin"></span>準備中…（指定したシーンまで早送りしています）</div></div>
+
+<script src="js/site-snapshot.js"></script>
+<script src="../../shared/stage.js"></script>
+<script src="../../shared/win11.js"></script>
+<script src="js/site-frame.js"></script>
+<script src="../../shared/engine.js"></script>
+<script src="js/makeshop-login.js"></script>
+<script src="js/makeshop-ui.js"></script>
+<script src="js/makeshop-login-frame.js"></script>
+<script src="js/template.js"></script>
+<script src="js/code.js"></script>
+<script src="js/apps.js"></script>
+<script src="js/scenario.js"></script>
+</body>
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="CROOZ">
+    
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<link rel="alternate" href="https://crooz.co.jp/" hreflang="ja" />
+<link rel="alternate" href="https://crooz.co.jp/en/" hreflang="en" />
+
+	<!-- This site is optimized with the Yoast SEO plugin v28.8 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>クルーズ株式会社 公式企業サイト｜CROOZ, Inc.</title>
+	<meta name="description" content="CROOZ, Inc.（クルーズ株式会社）の公式企業サイトです。クルーズ株式会社は、『国土の真価を証明し、世界に誇る観光立国へ』をビジョンに、都心のビル資産を、世界をもてなす最高の宿泊拠点へ。私たちは不動産の真価を再発見し、圧倒的な価値を持つホテルへと進化させる、観光立国・ニッポンの一翼を担うべく挑戦する企業です。" />
+	<link rel="canonical" href="https://crooz.co.jp/" />
+	<link rel="next" href="https://crooz.co.jp/page/2/" />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:locale:alternate" content="en_US" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="クルーズ株式会社 公式企業サイト｜CROOZ, Inc." />
+	<meta property="og:description" content="CROOZ, Inc.（クルーズ株式会社）の公式企業サイトです。クルーズ株式会社は、『国土の真価を証明し、世界に誇る観光立国へ』をビジョンに、都心のビル資産を、世界をもてなす最高の宿泊拠点へ。私たちは不動産の真価を再発見し、圧倒的な価値を持つホテルへと進化させる、観光立国・ニッポンの一翼を担うべく挑戦する企業です。" />
+	<meta property="og:url" content="https://crooz.co.jp/" />
+	<meta property="og:site_name" content="クルーズ株式会社" />
+	<meta property="og:image" content="https://crooz.co.jp/wp-content/uploads/2022/10/ogcrooz.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"CollectionPage","@id":"https:\/\/crooz.co.jp\/","url":"https:\/\/crooz.co.jp\/","name":"クルーズ株式会社 公式企業サイト｜CROOZ, Inc.","isPartOf":{"@id":"https:\/\/crooz.co.jp\/#website"},"about":{"@id":"https:\/\/crooz.co.jp\/#organization"},"description":"CROOZ, Inc.（クルーズ株式会社）の公式企業サイトです。クルーズ株式会社は、『国土の真価を証明し、世界に誇る観光立国へ』をビジョンに、都心のビル資産を、世界をもてなす最高の宿泊拠点へ。私たちは不動産の真価を再発見し、圧倒的な価値を持つホテルへと進化させる、観光立国・ニッポンの一翼を担うべく挑戦する企業です。","breadcrumb":{"@id":"https:\/\/crooz.co.jp\/#breadcrumb"},"inLanguage":"ja"},{"@type":"BreadcrumbList","@id":"https:\/\/crooz.co.jp\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"クルーズ株式会社TOP"}]},{"@type":"WebSite","@id":"https:\/\/crooz.co.jp\/#website","url":"https:\/\/crooz.co.jp\/","name":"クルーズ株式会社","description":"Just another WordPress site","publisher":{"@id":"https:\/\/crooz.co.jp\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/crooz.co.jp\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"ja"},{"@type":"Organization","@id":"https:\/\/crooz.co.jp\/#organization","name":"クルーズ株式会社","url":"https:\/\/crooz.co.jp\/","logo":{"@type":"ImageObject","inLanguage":"ja","@id":"https:\/\/crooz.co.jp\/#\/schema\/logo\/image\/","url":"https:\/\/crooz.co.jp\/wp-content\/uploads\/2022\/10\/ogcrooz.png","contentUrl":"https:\/\/crooz.co.jp\/wp-content\/uploads\/2022\/10\/ogcrooz.png","width":1200,"height":630,"caption":"クルーズ株式会社"},"image":{"@id":"https:\/\/crooz.co.jp\/#\/schema\/logo\/image\/"}}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style^=border-color],[style*=";border-color"],[style*="; border-color"]){border-style:solid}html :where([style^=border-top-color],[style*=";border-top-color"],[style*="; border-top-color"]){border-top-style:solid}html :where([style^=border-right-color],[style*=";border-right-color"],[style*="; border-right-color"]){border-right-style:solid}html :where([style^=border-bottom-color],[style*=";border-bottom-color"],[style*="; border-bottom-color"]){border-bottom-style:solid}html :where([style^=border-left-color],[style*=";border-left-color"],[style*="; border-left-color"]){border-left-style:solid}html :where([style^=border-width],[style*=";border-width"],[style*="; border-width"]){border-style:solid}html :where([style^=border-top-width],[style*=";border-top-width"],[style*="; border-top-width"]){border-top-style:solid}html :where([style^=border-right-width],[style*=";border-right-width"],[style*="; border-right-width"]){border-right-style:solid}html :where([style^=border-bottom-width],[style*=";border-bottom-width"],[style*="; border-bottom-width"]){border-bottom-style:solid}html :where([style^=border-left-width],[style*=";border-left-width"],[style*="; border-left-width"]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+/*wp_block_styles_on_demand_placeholder:6afc7b1605c86*/
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id="wp-block-styles-placeholder-inline-css">
+:root { --wp-internal-comment: "Placeholder for wp_hoist_late_printed_styles() to replace with the block styles printed at wp_footer." }
+/*# sourceURL=wp-block-styles-placeholder-inline-css */
+</style>
+<style id="wp-global-styles-placeholder-inline-css">
+:root { --wp-internal-comment: "Placeholder for wp_hoist_late_printed_styles() to replace with the global-styles printed at wp_footer." }
+/*# sourceURL=wp-global-styles-placeholder-inline-css */
+</style>
+<link rel='stylesheet' id='contact-form-7-css' href='https://crooz.co.jp/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.7.3' media='all' />
+<link rel='stylesheet' id='cf7msm_styles-css' href='https://crooz.co.jp/wp-content/plugins/contact-form-7-multi-step-module/resources/cf7msm.css?ver=4.2' media='all' />
+<link rel='stylesheet' id='spam-protect-for-contact-form7-css' href='https://crooz.co.jp/wp-content/plugins/wp-contact-form-7-spam-blocker/frontend/css/spam-protect-for-contact-form7.css?ver=1.0.0' media='all' />
+<script id="jquery-core-js" src="https://crooz.co.jp/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://crooz.co.jp/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<script id="spam-protect-for-contact-form7-js" src="https://crooz.co.jp/wp-content/plugins/wp-contact-form-7-spam-blocker/frontend/js/spam-protect-for-contact-form7.js?ver=1.0.0"></script>
+<link rel="https://api.w.org/" href="https://crooz.co.jp/wp-json/" />    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+JP&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link href="https://crooz.co.jp/wp-content/themes/crooz/js/lib/jquery.bxslider/jquery.bxslider.css" rel="stylesheet" />
+    <link href="https://crooz.co.jp/wp-content/themes/crooz/css/odometer-theme-default.css" rel="stylesheet" />
+    <link href="https://crooz.co.jp/wp-content/themes/crooz/style.css?v=20261117160438" rel="stylesheet" />
+    <link href="https://crooz.co.jp/wp-content/themes/crooz/editor-style.css?v=20261117160438" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/8dcd7dcb24.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+    </script>
+    <script type="text/javascript" src="https://crooz.co.jp/wp-content/themes/crooz/js/lib/jquery.bxslider/jquery.bxslider.min.js">
+    </script>
+    <script type="text/javascript" src="https://crooz.co.jp/wp-content/themes/crooz/js/lib/odometer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-scrollify@1/jquery.scrollify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="https://crooz.co.jp/wp-content/themes/crooz/js/ityped.js?v=20261117160438"></script>
+    <script type="text/javascript" src="https://crooz.co.jp/wp-content/themes/crooz/js/scripts.js?v=20261117160438">
+    </script>
+    
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ1BJ99RFE"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-EQ1BJ99RFE');
+    </script>
+
+</head>
+
+<body id="page_top" class="home blog wp-theme-crooz">
+
+    <div class="sitemap-nav">
+        <div class="sitemap-inner">
+            <div class="container">
+                <div class="sitemap-nav-close">
+                    <img src="https://crooz.co.jp/wp-content/themes/crooz/img/icn_gnav_close.svg" alt="" width="49">
+                </div>
+                <div class="main">
+                    <div class="cell">
+                        <dl>
+                            <dt>HOME</dt>
+                            <dd><a href="/">クルーズ株式会社 TOP</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>NEWS</dt>
+                            <dd><a href="/news">ニュース</a></dd>
+                        </dl>
+                    </div>
+                    <div class="cell">
+                        <dl>
+                            <dt>ABOUT</dt>
+                            <dd><a href="/about/">企業情報</a></dd>
+                                                        <dd><a href="/about/philosophy">代表メッセージ・ビジョン</a></dd>
+                                                        <dd><a href="/about/overview">会社概要</a></dd>
+                            <dd><a href="/about/officers">取締役・執行役員</a></dd>
+                            <dd><a href="/about/history">歴史・沿革</a></dd>
+                            <dd>&nbsp;</dd>
+                            <dd>&nbsp;</dd>
+                        </dl>
+                        <dl>
+                            <dt>BUSINESS</dt>
+                            <dd><a href="/business">事業・グループ会社紹介</a></dd>
+                        </dl>
+                    </div>
+                    <div class="cell">
+                        <dl>
+                            <dt>IR INFO</dt>
+                            <dd><a href="/about/philosophy/">代表メッセージ</a></dd>
+                            <dd><a href="/ir/ir_news">IRニュース</a></dd>
+                            <dd><a href="/ir/irdocument">IRライブラリー</a></dd>
+                            <dd><a href="/ir/faq">FAQ</a></dd>
+                            <dd><a href="/ir/calendar">IRカレンダー</a></dd>
+                            <dd><a href="/ir/mail">メール配信</a></dd>
+                            <dd><a href="/ir/policy">IRポリシー</a></dd>
+                            <dd><a href="https://finance.yahoo.co.jp/quote/2138.T" target="_blank"
+                                    rel="noopener noreferrer">株価情報</a></dd>
+                            <!-- <dd><a href="/ir/board">投稿フォーム</a></dd> -->
+                        </dl>
+                        <dl>
+                            <dt>RECRUIT</dt>
+                            <dd><a href="/recruit">採用情報</a></dd>
+                            <dd><a href="https://crooz.co.jp/recruit_group/blog/category/%e7%a4%be%e5%93%a1%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%93%e3%83%a5%e3%83%bc/"
+                                    target="_blank" rel="noopener noreferrer">社員ブログ</a></dd>
+                        </dl>
+                    </div>
+                </div>
+                <nav class="sitemap-shortcut">
+                    <a href="/">クルーズ株式会社 TOP</a>/<a href="/privacy">プライバシーポリシー</a>/<a href="/sitemap">サイトマップ</a>/<a
+                        href="/contact">お問い合わせ</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="sp_nav_main">
+        <dl>
+            <dt>MENU</dt>
+            <dd>メニュー</dd>
+        </dl>
+        <ul>
+            <li><a href="/news">ニュース</a></li>
+            <li><span class="SubNavCon" data-target="#spNav_01">企業情報</span></li>
+            <li><a href="/business">事業・<br>グループ会社紹介</a></li>
+            <li><span class="SubNavCon" data-target="#spNav_02">IR・投資家情報</span></li>
+            <li><a href="/recruit">採用情報</a></li>
+            <li><a href="https://crooz.co.jp/recruit_group/blog/category/%e7%a4%be%e5%93%a1%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%93%e3%83%a5%e3%83%bc/"
+                    target="_blank" rel="noopener noreferrer">社員ブログ</a></li>
+        </ul>
+    </div>
+    <div id="spNav_01" class="sp_nav_sub">
+        <dl>
+            <dt>ABOUT</dt>
+            <dd>企業情報</dd>
+        </dl>
+        <div class="backlink">
+            メニュートップ
+        </div>
+        <ul>
+            <li><a href="/about/">企業情報</a></li>
+                        <li><a href="/about/philosophy">代表メッセージ・ビジョン</a></li>
+                        <li><a href="/about/overview">会社概要</a></li>
+            <li><a href="/about/officers">取締役・執行役員</a></li>
+            <li><a href="/about/history">歴史・沿革</a></li>
+        </ul>
+    </div>
+    <div id="spNav_02" class="sp_nav_sub">
+        <dl>
+            <dt>IR INFO</dt>
+            <dd>IR・投資家情報</dd>
+        </dl>
+        <div class="backlink">
+            メニュートップ
+        </div>
+        <ul>
+            <li><a href="/ir">IR・投資家情報</a></li>
+            <li><a href="/about/philosophy/">代表メッセージ</a></li>
+            <li><a href="/ir/ir_news">IRニュース</a></li>
+            <li><a href="/ir/irdocument">IRライブラリー</a></li>
+            <li><a href="/ir/faq">FAQ</a></li>
+            <li><a href="/ir/calendar">IRカレンダー</a></li>
+            <li><a href="/ir/mail">メール配信</a></li>
+            <li><a href="/ir/policy">IRポリシー</a></li>
+            <li><a href="https://finance.yahoo.co.jp/quote/2138.T" target="_blank" rel="noopener noreferrer">株価情報</a>
+            </li>
+            <!-- <li><a href="/ir/board">投稿フォーム</a></li> -->
+        </ul>
+        <span class="SubNavCon btn-language" data-target="#spNav_03">English</span>
+    </div>
+    <div id="spNav_03" class="sp_nav_sub en">
+        <dl>
+            <dt>IR INFO</dt>
+        </dl>
+        <div class="backlink">
+            MENU TOP
+        </div>
+        <ul>
+            <li><a href="/en/ir-en">IR info</a></li>
+            <li><a href="/en/ir-en/manage_policy">President’s Message</a></li>
+            <li><a href="/en/ir-en/ir_news">IR NEWS</a></li>
+            <li><a href="/en/ir-en/irdocument">IR materials</a></li>
+            <li><a href="/en/ir-en/faq">FAQ</a></li>
+                        <li><a href="https://finance.yahoo.com/lookup?s=5ZC.F">Stock information</a></li>
+        </ul>
+        <div>
+            <span class="SubNavCon btn-language" data-target="#spNav_02">Japanese</span>
+        </div>
+    </div>
+    <div class="body-view">
+        <div class="body-inner">
+            <header class="header">
+                <div class="header-main">
+                    <div class="logo">
+                        <a href="/"><img src="https://crooz.co.jp/wp-content/themes/crooz/img/logo.svg" alt="クルーズ株式会社" width="76"></a>
+                    </div>
+                    <ul class="gnav">
+                        <li>
+                            <a href="/news" data-target="#nav01">ニュース</a>
+                        </li>
+                        <li><a href="/about" data-target="#nav02">企業情報</a></li>
+                        <li><a href="/business" data-target="#nav03">事業・グループ会社紹介</a></li>
+                        <li><a href="/ir" data-target="#nav04">IR・投資家情報</a></li>
+                        <li><a href="/recruit" data-target="#nav05">採用情報</a></li>
+                    </ul>
+                    <div class="sitemap-btn">
+                        <img src="https://crooz.co.jp/wp-content/themes/crooz/img/icn_gnav_btn.svg" alt="" width="49">
+                    </div>
+                </div>
+                <div class="sub-navbox">
+                    <div id="nav01" class="sub_nav">
+                        <h3>NEWS</h3>
+                        <ul>
+                            <li><a href="/news">ニュース一覧</a></li>
+                        </ul>
+                    </div>
+                    <div id="nav02" class="sub_nav">
+                        <h3>ABOUT</h3>
+                        <ul>
+                            <li><a href="/about">企業情報</a></li>
+                            <li><a href="/about/philosophy/">代表メッセージ・ビジョン</a></li>
+                                                                                    <li><a href="/about/overview">会社概要</a></li>
+                            <li><a href="/about/officers">取締役・執行役員</a></li>
+                            <li><a href="/about/history">歴史・沿革</a></li>
+                        </ul>
+                    </div>
+                    <div id="nav03" class="sub_nav">
+                        <h3>BUSINESS</h3>
+                        <ul>
+                            <li><a href="/business">事業・グループ会社紹介</a></li>
+                        </ul>
+                    </div>
+                    <div id="nav04" class="sub_nav">
+                        <h3>IR INFO <span class="language-btn" data-target="#menu-info-en">English</span><span
+                                class="language-btn active" data-target="#menu-info-jp">Japanese</span></h3>
+                        <ul id="menu-info-jp" class="info-list active">
+                            <li><a href="/ir">IR・投資家情報</a></li>
+                            <li><a href="/about/philosophy/">代表者メッセージ</a></li>
+                            <li><a href="/ir/ir_news">IRニュース</a></li>
+                            <li><a href="/ir/irdocument">IRライブラリー</a></li>
+                            <li><a href="/ir/faq">FAQ</a></li>
+                            <li><a href="/ir/calendar">IRカレンダー</a></li>
+                            <li><a href="/ir/mail">メール配信</a></li>
+                            <li><a href="/ir/policy">IRポリシー</a></li>
+                            <li><a href="https://finance.yahoo.co.jp/quote/2138.T" target="_blank"
+                                    rel="noopener noreferrer">株価情報</a></li>
+                            <!-- <li><a href="/ir/board">投稿フォーム</a></li> -->
+                        </ul>
+                        <ul id="menu-info-en" class="info-list">
+                            <li><a href="/en/ir-en">IR info</a></li>
+                            <li><a href="/en/ir-en/manage_policy">President’s Message</a></li>
+                            <li><a href="/en/ir-en/ir_news">IR NEWS</a></li>
+                            <li><a href="/en/ir-en/irdocument">IR materials</a></li>
+                            <li><a href="/en/ir-en/faq">FAQ</a></li>
+                                                        <li><a href="https://finance.yahoo.com/lookup?s=5ZC.F">Stock information</a></li>
+
+                        </ul>
+                    </div>
+                    <div id="nav05" class="sub_nav">
+                        <h3>RECRUIT</h3>
+                        <ul>
+                            <li><a href="/recruit">採用情報</a></li>
+                            <li><a href="https://crooz.co.jp/recruit_group/blog/category/%e7%a4%be%e5%93%a1%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%93%e3%83%a5%e3%83%bc/"
+                                    target="_blank" rel="noopener noreferrer">社員ブログ</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header><div class="page-top">
+    <div class="js-scrollsection">
+        <section class="section-mv">
+            <div class="main-bgslider">
+                <div class="mv_video pc_video rgba">
+                    <video id="video01" muted autoplay loop playsinline>
+                        <source src="https://crooz.co.jp/wp-content/themes/crooz/video/movie_202507_pc.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="mv_video tb_video rgba">
+                    <video id="video01" muted autoplay loop playsinline>
+                        <source src="https://crooz.co.jp/wp-content/themes/crooz/video/movie_202507_tb.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="mv_video sp_video rgba">
+                    <video id="video01_sp" muted autoplay loop playsinline>
+                        <source src="https://crooz.co.jp/wp-content/themes/crooz/video/movie_2026_06_sp.mp4" type="video/mp4">
+                    </video>
+                </div>
+                    </div>
+    <div class="mv-text">
+        <div>
+            <ul class="mv-title pc_only ">
+                <li class="">
+                    <span class="big" style="font-size: 2.86667vw;">
+                        「国土の真価」を証明し、世界に誇る観光立国へ
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        都心のビル資産を、世界をもてなす最高の宿泊拠点へ。
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        私たちは不動産の真価を再発見し、
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        圧倒的な価値を持つホテルへと進化させる、
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        観光立国・ニッポンの一翼を担うべく挑戦する企業です。
+                    </span>
+                </li>
+                <!-- <li class="">
+                    <span>
+                        観光立国・ニッポンの一翼を担うべく挑戦する企業です。
+                    </span>
+                </li> -->
+            </ul>
+            <ul class="mv-title sp_only">
+                <li class="">
+                    <span class="big">
+                        「国土の真価」を証明し、<br>世界に誇る観光立国へ
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        都心のビル資産を、世界をもてなす<br>最高の宿泊拠点へ。
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        私たちは不動産の真価を再発見し、<br>圧倒的な価値を持つホテルへと進化させる、
+                    </span>
+                </li>
+                <li class="">
+                    <span>
+                        観光立国・ニッポンの一翼を担うべく挑戦する企業です。
+                    </span>
+                </li>
+            </ul>
+            <div class="link">
+                <a class="btn btn-ghost" href="/about">
+                    企業情報はこちら
+                </a>
+            </div>
+        </div>
+    </div>
+    </section>
+</div>
+<div class="js-scrollsection">
+    <section class="section-news ">
+        <div class="news-bg">
+            <div class="container">
+                <div class="news-inner show">
+                    <div class="title-box show">
+                        <h2 class="title-en"><span>NEWS</span></h2>
+                        <div class="title-jp"><span>ニュース</span></div>
+                        <a class="btn btn-primary minipc_none" href="/news/">
+                            ニュース一覧へ
+                        </a>
+                    </div>
+                    <div class="summaries-news">
+                                                <article class="summary summary-news">
+                                                        <a href="https://crooz.co.jp/wp-content/uploads/2026/11/【PR】2027年3月期第2四半期期決算説明会の書き起こし公開のお知らせ.pdf"
+                                target="_blank" rel="noopener noreferrer">
+                                <div class="sub-box">
+                                    <span class="date">2026年11月16日</span>
+                                    <span
+                                        class="cat">IRニュース</span>
+                                </div>
+                                <span class="summary-title">2027年3月期第2四半期決算説明会の書き起こし公開のお知らせ</span>
+                            </a>
+                        </article>
+                                                <article class="summary summary-news">
+                                                        <a href="https://crooz.co.jp/wp-content/uploads/2026/11/【PR】20261113_2027年3月期第2四半期決算サマリー_ver2.pdf"
+                                target="_blank" rel="noopener noreferrer">
+                                <div class="sub-box">
+                                    <span class="date">2026年11月13日</span>
+                                    <span
+                                        class="cat">IRニュース</span>
+                                </div>
+                                <span class="summary-title">クルーズ、2Q売上高5,850百万円、前年同Q比213.7%を達成。ホテルコンバージョン事業初の物件売却で、同事業の上期営業利益は着地予想を上回る792百万円。</span>
+                            </a>
+                        </article>
+                                                <article class="summary summary-news">
+                                                        <a href="https://crooz.co.jp/wp-content/uploads/2026/11/半期報告書.pdf"
+                                target="_blank" rel="noopener noreferrer">
+                                <div class="sub-box">
+                                    <span class="date">2026年11月12日</span>
+                                    <span
+                                        class="cat">IRニュース</span>
+                                </div>
+                                <span class="summary-title">2027年3月期（第26期）半期報告書</span>
+                            </a>
+                        </article>
+                                                <article class="summary summary-news">
+                                                        <a href="https://crooz.co.jp/post-14665/"
+                                >
+                                <div class="sub-box">
+                                    <span class="date">2026年11月11日</span>
+                                    <span
+                                        class="cat">IRニュース</span>
+                                </div>
+                                <span class="summary-title">2027年3月期（第26期）第2四半期 決算説明資料</span>
+                            </a>
+                        </article>
+                                            </div>
+                    <a class="btn btn-primary view_minipc" href="/news/">
+                        ニュース一覧へ
+                    </a>
+                    <div class="decoratio-boxs">
+                        <div class="decoratio-box">
+                            <div class="inner">
+                                <div class="box-body color-02 right"></div>
+                            </div>
+                        </div>
+                        <div class="decoratio-box">
+                            <div class="inner">
+                                <div class="box-body color-04"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+</div>
+</section>
+</div>
+<div class="">
+    <section class="section-business">
+        <div class="business-bg">
+            <div class="container">
+                <div class="section-title show sp_only">
+                    <!-- <h2>
+          <div class="title-en"><span>BUSINESS</span></div>
+          <div class="title-jp"><span>事業・グループ会社紹介</span></div>
+        </h2> -->
+                </div>
+                            <div class="title-box show">
+                <div class="left">
+                    <img src="https://crooz.co.jp/wp-content/themes/crooz/img/crooz_group.png">
+                </div>
+                <div class="right">
+                    <h2 class="title-en"><span>BUSINESS</span></h2>
+                    <div class="title-jp"><span>事業・グループ会社紹介</span></div>
+                    <a class="btn btn-primary" href="/business">
+                        詳細はこちら
+                    </a>
+                </div>
+
+                <!--   <a class="btn btn-ghost sp_only" href="/business">
+          詳細はこちら
+        </a> -->
+            </div>
+                    <div class="decoratio-boxs">
+            <div class="decoratio-box">
+                <div class="inner">
+                    <div class="box-body color-02 right"></div>
+                </div>
+            </div>
+            <div class="decoratio-box">
+                <div class="inner">
+                    <div class="box-body color-04"></div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</section>
+</div>
+<div class="js-scrollsection">
+    <section class="section-investorrelations">
+        <div class="container sp_full">
+            <div class="section-title show">
+                <h2>
+                    <div class="title-en"><span>INVESTOR RELATIONS</span></div>
+                    <div class="title-jp"><span>投資家情報</span></div>
+                </h2>
+            </div>
+            <div class="investor-box">
+                <a href="/ir">
+                                                            <div class="link_btn">
+                        <span class="btn btn-primary">詳細はこちら</span>
+                    </div>
+                </a>
+            </div>
+            <div class="decoratio-boxs">
+                <div class="decoratio-box">
+                    <div class="inner">
+                        <div class="box-body color-02 right"></div>
+                    </div>
+                </div>
+                <div class="decoratio-box">
+                    <div class="inner">
+                        <div class="box-body color-04"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="js-scrollsection">
+    <section class="section-recruit">
+        <div class="container sp_full">
+            <div class="section-title show">
+                <h2>
+                    <div class="title-en"><span>RECRUIT</span></div>
+                    <div class="title-jp"><span>採用情報</span></div>
+                </h2>
+            </div>
+            <div class="recruit-img">
+                <a href="/recruit">
+                    <img class="minipc_none" src="https://crooz.co.jp/wp-content/themes/crooz/img/img_top_recruit_01.png" alt="RECRUIT">
+                    <img class="view_minipc" src="https://crooz.co.jp/wp-content/themes/crooz/img/img_top_recruit_01_sp.png"
+                        alt="RECRUIT">
+                    <div class="link_btn">
+                        <span class="btn btn-primary">詳細はこちら</span>
+                    </div>
+                </a>
+            </div>
+            <div class="decoratio-boxs">
+                <div class="decoratio-box">
+                    <div class="inner">
+                        <div class="box-body color-02 right"></div>
+                    </div>
+                </div>
+                <div class="decoratio-box">
+                    <div class="inner">
+                        <div class="box-body color-04"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section class="section-blog">
+    <div class="section-title show">
+        <h2>
+            <div class="title-en"><span>OFFICIAL BLOG</span></div>
+            <div class="title-jp"><span>オフィシャルブログ</span></div>
+        </h2>
+        <a target="_blank" href="https://crooz.co.jp/recruit_group/blog/">ブログ一覧へ</a>
+    </div>
+    <div class="bd">
+        <ul>
+            <li>
+                <a target="_blank"
+                    href="https://crooz.co.jp/recruit_group/blog/category/%e7%a4%be%e5%93%a1%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%93%e3%83%a5%e3%83%bc/">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="https://crooz.co.jp/wp-content/themes/crooz/img/blog_img1_sp.png">
+                        <img src="https://crooz.co.jp/wp-content/themes/crooz/img/blog_img1.png" alt="">
+                    </picture>
+                    <em><span>社員インタビュー</span></em>
+                </a>
+            </li>
+
+            <li>
+                <a target="_blank"
+                    href="https://crooz.co.jp/recruit_group/blog/category/%E4%BA%BA%E4%BA%8B%E3%83%96%E3%83%AD%E3%82%B0/">
+                    <picture>
+                        <source media="(max-width: 768px)" srcset="https://crooz.co.jp/wp-content/themes/crooz/img/blog_img3_sp.png">
+                        <img src="https://crooz.co.jp/wp-content/themes/crooz/img/blog_img3.png" alt="">
+                    </picture>
+                    <em><span>人事ブログ</span></em>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="txt-01">
+        クルーズのことをより知っていただくため、<br class="sp_only">
+        働くイメージを持っていただけるように、<br class="sp_only">
+        ヒト・コト・モノに関する記事をお届けします。
+    </div>
+</section>
+</div>
+
+<footer class="footer">
+<div class="container">
+  <div class="footer-links">
+    <div class="sub">
+      <div class="logo">
+        <a href="https://crooz.co.jp">
+          <img src="https://crooz.co.jp/wp-content/themes/crooz/img/logo.svg" alt="クルーズ株式会社" width="178" alt="クルーズ株式会社" />
+        </a>
+      </div>
+
+    </div>
+      </div>
+</div>
+<div class="container sp_full">
+  <nav class="footer-shortcut">
+    <ul>
+      <li><a href="/">クルーズ株式会社 TOP</a></li>
+      <li><a href="/privacy">プライバシーポリシー</a></li>
+      <li><a href="/sitemap">サイトマップ</a></li>
+      <li><a href="/contact">お問い合わせ</a></li>
+      <li><a href="/contact-form/compliance/">外部通報窓口</a></li>
+    </ul>
+      
+  </nav>
+</div>
+<div class="container">
+  <p class="copy">
+    Copyright (C) CROOZ,Inc. <br class="view_minipc">All Rights Reserved.
+  </p>
+</div></footer>
+
+</div></div>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" rel="stylesheet">
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/crooz/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script id="swv-js" src="https://crooz.co.jp/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=5.7.3"></script>
+<script id="contact-form-7-js-extra">
+var wpcf7 = {"api":{"root":"https://crooz.co.jp/wp-json/","namespace":"contact-form-7/v1"}};
+//# sourceURL=contact-form-7-js-extra
+</script>
+<script id="contact-form-7-js" src="https://crooz.co.jp/wp-content/plugins/contact-form-7/includes/js/index.js?ver=5.7.3"></script>
+<script id="cf7msm-js-extra">
+var cf7msm_posted_data = [];
+//# sourceURL=cf7msm-js-extra
+</script>
+<script id="cf7msm-js" src="https://crooz.co.jp/wp-content/plugins/contact-form-7-multi-step-module/resources/cf7msm.min.js?ver=4.2"></script>
+<script id="pll_cookie_script-js-after">
+(function() {
+				var expirationDate = new Date();
+				expirationDate.setTime( expirationDate.getTime() + 31536000 * 1000 );
+				document.cookie = "pll_language=ja; expires=" + expirationDate.toUTCString() + "; path=/; secure; SameSite=Lax";
+			}());
+
+//# sourceURL=pll_cookie_script-js-after
+</script>
+<script id="google-recaptcha-js" src="https://www.google.com/recaptcha/api.js?render=6LdGkQkdAAAAAOQez_LlgzEN8zOuXaVZswni-h8c&#038;ver=3.0"></script>
+<script id="wp-polyfill-js" src="https://crooz.co.jp/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0"></script>
+<script id="wpcf7-recaptcha-js-extra">
+var wpcf7_recaptcha = {"sitekey":"6LdGkQkdAAAAAOQez_LlgzEN8zOuXaVZswni-h8c","actions":{"homepage":"homepage","contactform":"contactform"}};
+//# sourceURL=wpcf7-recaptcha-js-extra
+</script>
+<script id="wpcf7-recaptcha-js" src="https://crooz.co.jp/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=5.7.3"></script>
+</body>
+</html>

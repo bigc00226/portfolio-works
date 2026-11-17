@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+  <g id="icn_gnav_close" transform="translate(-1335 -46)">
+    <g id="楕円形_105" data-name="楕円形 105" transform="translate(1335 46)" fill="none" stroke="#d8d8d8" stroke-width="1">
+      <circle cx="18.5" cy="18.5" r="18.5" stroke="none"/>
+      <circle cx="18.5" cy="18.5" r="18" fill="none"/>
+    </g>
+    <line id="線_353" data-name="線 353" x2="17.908" transform="translate(1346.826 58.169) rotate(45)" fill="none" stroke="#000" stroke-width="1"/>
+    <line id="線_354" data-name="線 354" x2="17.908" transform="translate(1359.488 58.168) rotate(135)" fill="none" stroke="#000" stroke-width="1"/>
+  </g>
+</svg>

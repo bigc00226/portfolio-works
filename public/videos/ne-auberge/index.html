@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Né（ne-auberge.jp）— 制作プロセス デモ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23222'/%3E%3Ctext x='16' y='22' font-family='serif' font-size='15' fill='%23F7F7F6' text-anchor='middle'%3EN%C3%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/demo.css">
+<link rel="stylesheet" href="../../shared/vscode.css">
+<link rel="stylesheet" href="../../shared/win11.css">
+</head>
+<body>
+<div id="app">
+  <div id="desk">
+
+    <!-- ===================================================== Design tool (Figma-style) -->
+    <section class="win max" id="win-design" data-app="design">
+      <!-- Figma desktop app: file tabs + window buttons -->
+      <div class="fg-tabbar"><span class="fg-home"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-6h-5v6H4z"/></svg></span><span class="fg-ftab on"><span>Web サイト デザイン</span><svg viewBox="0 0 24 24" width="13" height="13"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="fg-tabplus">+</span><span class="sp"></span><span class="wc"></span></div>
+      <header class="fg-top">
+        <div class="fg-tools">
+          <span class="fg-tool fg-menu"><i data-icon="menu"></i></span>
+          <span class="fg-tool active" data-tool="move"><i data-icon="pointer"></i></span>
+          <span class="fg-tool" data-tool="frame"><i data-icon="frame"></i></span>
+          <span class="fg-tool" data-tool="rect"><i data-icon="square"></i></span>
+          <span class="fg-tool" data-tool="pen"><i data-icon="pen"></i></span>
+          <span class="fg-tool" data-tool="text"><i data-icon="type"></i></span>
+          <span class="fg-tool" data-tool="hand"><i data-icon="hand"></i></span>
+          <span class="fg-tool" data-tool="comment"><i data-icon="comment"></i></span>
+        </div>
+        <div class="fg-file"><span class="fg-proj">Né</span><span class="fg-sep">/</span><b>Web サイト デザイン</b><i data-icon="chevron-down"></i></div>
+        <div class="fg-right">
+          <span class="fg-avatar">K</span>
+          <span class="fg-share">共有</span>
+          <span class="fg-tool"><i data-icon="play"></i></span>
+          <span class="fg-zoom" id="fgZoom">50%</span>
+        </div>
+      </header>
+      <div class="fg-body">
+        <aside class="fg-left">
+          <div class="fg-ltabs"><span class="on" data-ltab="layers">レイヤー</span><span data-ltab="assets">アセット</span></div>
+          <div class="fg-lpane on" data-lpane="layers">
+            <div class="fg-sec-h">ページ<i data-icon="plus"></i></div>
+            <div class="fg-pages">
+              <div class="fg-page on"><i data-icon="check"></i>Home</div>
+              <div class="fg-page"><i></i>Design System</div>
+              <div class="fg-page"><i></i>Cuisine / Stay / Architecture</div>
+            </div>
+            <div class="fg-sec-h">レイヤー</div>
+            <div class="fg-layers" id="fgLayers"></div>
+          </div>
+          <div class="fg-lpane" data-lpane="assets">
+            <div class="fg-search"><i data-icon="search"></i>アセットを検索</div>
+            <div class="fg-sec-h">写真（Ne_photos）</div>
+            <div class="fg-assets" id="fgAssets"></div>
+            <div class="fg-sec-h">ロゴ（awards）</div>
+            <div class="fg-assets logos" id="fgLogos"></div>
+          </div>
+        </aside>
+        <main class="fg-canvas" id="fgCanvas">
+          <div class="fg-world" id="fgWorld"></div>
+          <div class="fg-draw" id="fgDraw"></div>
+          <div class="fg-sel" id="fgSel"><span class="fg-sel-size" id="fgSelSize"></span></div>
+          <div class="fg-hov" id="fgHov"></div>
+        </main>
+        <aside class="fg-rightpanel">
+          <div class="fg-rtabs"><span class="on">デザイン</span><span>プロトタイプ</span></div>
+          <div class="fg-props" id="fgProps"></div>
+        </aside>
+      </div>
+      <!-- local variables -->
+      <div class="fg-modal" id="fgVars">
+        <div class="fg-modal-h"><b>ローカル変数</b><span class="fg-x" id="fgVarsClose"><i data-icon="close"></i></span></div>
+        <div class="fg-modal-b">
+          <div class="fg-vcols">
+            <div class="fg-vcol-nav">
+              <div class="fg-vcoll on" data-coll="color">Color</div>
+              <div class="fg-vcoll" data-coll="type">Typography</div>
+              <div class="fg-vcoll" data-coll="space">Spacing</div>
+            </div>
+            <div class="fg-vtable" id="fgVarTable"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== Code editor (VS Code-style) -->
+    <section class="win max hidden" id="win-code" data-app="code">
+      <header class="vs-title">
+        <span class="vs-logo"><img src="../../shared/icons/vscode.webp" alt="" width="16" height="16"></span>
+        <nav class="vs-menu"><span>ファイル</span><span>編集</span><span>選択</span><span>表示</span><span>移動</span><span>実行</span><span>ターミナル</span><span>ヘルプ</span></nav>
+        <div class="vs-cc"><span class="ci">&#xea9b;</span><span class="ci off">&#xea9c;</span><div class="vs-search"><span class="ci">&#xea6d;</span>ne-auberge</div><span class="ci vs-chat">&#xec1e;</span></div>
+        <span class="vs-layout"><span class="ci">&#xebf3;</span><span class="ci">&#xec01;</span><span class="ci">&#xec00;</span><span class="ci">&#xebeb;</span></span>
+        <span class="wc"><i data-icon="min"></i><i data-icon="max"></i><i data-icon="close"></i></span>
+      </header>
+      <div class="vs-body">
+        <nav class="vs-activity">
+          <span class="on"><i class="ci">&#xeaf0;</i></span><span><i class="ci">&#xea6d;</i></span>
+          <span class="vs-git"><i class="ci">&#xea68;</i><b id="vsGitBadge"></b></span><span><i class="ci">&#xeb91;</i></span><span><i class="ci">&#xeae6;</i></span>
+          <span class="sp"></span><span><i class="ci">&#xeb99;</i></span><span><i class="ci">&#xeb51;</i></span>
+        </nav>
+        <aside class="vs-side">
+          <div class="vs-side-h">エクスプローラー<span class="ci">&#xea7c;</span></div>
+          <div class="vs-root"><span class="ci">&#xeab4;</span>NE-AUBERGE<span class="vs-root-acts"><span class="ci">&#xea7f;</span><span class="ci">&#xea80;</span><span class="ci">&#xeb37;</span><span class="ci">&#xeac5;</span></span></div>
+          <div class="vs-tree" id="vsTree"></div>
+          <div class="vs-secs"><div class="vs-sec"><span class="ci">&#xeab6;</span>アウトライン</div><div class="vs-sec"><span class="ci">&#xeab6;</span>タイムライン</div></div>
+        </aside>
+        <main class="vs-main">
+          <div class="vs-tabs" id="vsTabs"></div>
+          <div class="vs-crumbs" id="vsCrumbs"></div>
+          <div class="vs-editor" id="vsEditor"><div class="vs-lines" id="vsLines"></div><canvas class="vs-mini" id="vsMini"></canvas><div class="vs-hbar" id="vsHbar"><i></i></div></div>
+          <div class="vs-panel" id="vsPanel">
+            <div class="vs-ptabs"><span>問題</span><span>出力</span><span>デバッグ コンソール</span><span class="on">ターミナル</span><span>ポート</span><span class="vs-pt-r"><span class="ci">&#xea60;</span><span class="ci">&#xeab4;</span><span class="vs-pt-sh">powershell</span><span class="ci">&#xea81;</span><span class="ci">&#xea7c;</span><span class="ci">&#xeab7;</span><span class="ci">&#xea76;</span></span></div>
+            <div class="vs-term" id="vsTerm"></div>
+          </div>
+        </main>
+      </div>
+      <footer class="vs-status"><span class="vs-remote"><span class="ci">&#xeb3a;</span></span><span><span class="ci">&#xec6f;</span> main<span class="ci vs-sync">&#xea77;</span></span><span id="vsProblems"><span class="ci">&#xea87;</span> 0 <span class="ci">&#xea6c;</span> 0</span><span class="sp"></span><span id="vsPos">Ln 1, Col 1</span><span>スペース: 2</span><span>UTF-8</span><span>LF</span><span class="vs-lang"><span class="ci">&#xeb0f;</span><span id="vsLang">Astro</span></span><span class="ci">&#xec1e;</span><span class="ci">&#xeaa2;</span></footer>
+    </section>
+
+    <!-- ===================================================== Browser (Chrome-style) -->
+    <section class="win max hidden" id="win-browser" data-app="browser">
+      <header class="br-tabsbar">
+        <div class="br-tabs" id="brTabs"></div>
+        <span class="br-newtab" id="brNewTab"><i data-icon="plus"></i></span>
+        <span class="sp"></span>
+        <span class="wc dark"><i data-icon="min"></i><i data-icon="max"></i><i data-icon="close"></i></span>
+      </header>
+      <div class="br-bar">
+        <span class="br-nav"><i data-icon="arrow-left"></i></span><span class="br-nav off"><i data-icon="arrow-right"></i></span><span class="br-nav" id="brReload"><i data-icon="reload"></i></span>
+        <div class="br-omni" id="brOmni"><i data-icon="info" id="brLock"></i><span class="br-url" id="brUrl"></span></div>
+        <span class="br-nav"><i data-icon="star"></i></span><span class="br-nav"><i data-icon="puzzle"></i></span><span class="br-prof">K</span>
+      </div>
+      <div class="br-content" id="brContent">
+        <!-- dev server / production site -->
+        <div class="br-page" data-page="site">
+          <div class="br-device" id="brDevice">
+            <iframe id="devFrame" title="localhost:4321"></iframe>
+          </div>
+          <div class="astro-err" id="astroErr">
+            <div class="ae-box">
+              <div class="ae-top"><span class="ae-kind">FailedToLoadModuleSSR</span><span class="ae-x"><i data-icon="close"></i></span></div>
+              <h2 class="ae-title" id="aeTitle"></h2>
+              <div class="ae-hint"><b>Hint:</b> This is often caused by a typo in the import path. Please make sure the file exists.</div>
+              <div class="ae-loc" id="aeLoc"></div>
+              <pre class="ae-code" id="aeCode"></pre>
+              <div class="ae-stack">at ViteNodeRunner.directRequest (node_modules/vite-node/dist/client.mjs)<br>at async ViteNodeRunner.cachedRequest</div>
+            </div>
+          </div>
+        </div>
+        <div class="br-page" data-page="live"><iframe id="liveFrame" title="ne-auberge.jp"></iframe></div>
+        <div class="br-page" data-page="cms" id="cmsPage"></div>
+        <div class="br-page" data-page="gtm" id="gtmPage"></div>
+        <div class="br-page" data-page="ta" id="taPage"></div>
+        <div class="br-page" data-page="ga" id="gaPage"></div>
+        <div class="br-page" data-page="val" id="valPage"></div>
+        <div class="br-page" data-page="src" id="srcPage"></div>
+        <div class="br-page" data-page="txt" id="txtPage"><pre class="txtview" id="txtView"></pre></div>
+        <div class="br-page" data-page="blank"><div class="br-blank"><div class="br-blank-s"><i data-icon="search"></i>検索または URL を入力</div></div></div>
+      </div>
+    </section>
+
+    <!-- desktop notification (bottom-right) -->
+    <div class="notif" id="notif"><div class="notif-ic" id="notifIc"></div><div><b id="notifTitle"></b><p id="notifText"></p></div></div>
+  </div>
+
+  <!-- ===================================================== caption band -->
+  <div class="band" id="band">
+    <div class="band-steps" id="bandSteps">
+      <span data-step="1"><b>1</b>Figma Design</span>
+      <span data-step="2"><b>2</b>レスポンシブデザイン</span>
+      <span data-step="3"><b>3</b>Frontend / CMS 実装</span>
+      <span data-step="4"><b>4</b>SEO / LLMO 基盤</span>
+      <span data-step="5"><b>5</b>GA4 / GTM 計測設計</span>
+    </div>
+    <div class="band-cap" id="caption"><span class="cap-chip" id="capChip"></span><span class="cap-text" id="capText"></span></div>
+  </div>
+
+  <!-- ===================================================== taskbar -->
+  <footer id="taskbar" data-pins="explorer edge chrome:browser vscode:code figma:design" data-open="design" data-active="design" data-start="2026-04-22T15:36"></footer>
+</div>
+
+<!-- ===================================================== HUD -->
+<div class="issue-box" id="issueBox"><span class="issue-lbl" id="issueLbl"></span></div>
+<div class="keystrip" id="keystrip"><span class="ks-mode" id="ksMode">あ</span><span class="ks-keys" id="ksKeys"></span></div>
+<div class="keycap" id="keycap"></div>
+<div class="ime" id="ime"></div>
+<div class="drag-ghost" id="ghost"></div>
+<div class="cursor" id="cursor" data-kind="arrow"></div>
+
+<div class="intro" id="intro">
+  <div class="intro-in">
+    <div class="intro-brand">Né</div>
+    <div class="intro-sub">新潟・新発田、一日一組のオーベルジュ</div>
+    <div class="intro-url">ne-auberge.jp — Web サイト制作プロセス</div>
+    <ol class="intro-steps">
+      <li><b>01</b>Figma Design</li>
+      <li><b>02</b>レスポンシブデザイン</li>
+      <li><b>03</b>Frontend / CMS 実装</li>
+      <li><b>04</b>SEO / LLMO 基盤</li>
+      <li><b>05</b>GA4 / GTM 計測設計</li>
+    </ol>
+  </div>
+</div>
+
+<div class="hint" id="hint">
+  <b>Space</b> 再生 / 一時停止　<b>R</b> 最初から　<b>C</b> 字幕　<b>H</b> このヒントを隠す
+</div>
+<div class="ff-cover" id="ffCover"><div><span class="spin"></span>準備中…（指定したシーンまで早送りしています）</div></div>
+
+<script src="js/site-snapshot.js"></script>
+<script src="js/site-source.js"></script>
+<script src="js/cms-snapshot.js"></script>
+<script src="js/validator-snapshot.js"></script>
+<script src="js/view-source-snapshot.js"></script>
+<script src="../../shared/stage.js"></script>
+<script src="../../shared/win11.js"></script>
+<script src="js/site-frame.js"></script>
+<script src="../../shared/engine.js"></script>
+<script src="../../shared/vscode.js"></script>
+<script src="js/real-ui.js"></script>
+<script src="js/code-files.js"></script>
+<script src="js/apps.js"></script>
+<script src="js/scenario.js"></script>
+</body>
+</html>

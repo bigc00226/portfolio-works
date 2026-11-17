@@ -1,0 +1,4 @@
+/* The real WordPress screens in the browser window (public/shared/wordpress/wp-frame.js): one iframe per captured screen */
+#wpPage { position: absolute; inset: 0; overflow: hidden; background: #f0f0f1; }
+#wpPage .wpf { position: absolute; left: 0; top: 0; border: 0; display: block; visibility: hidden; background: #f0f0f1; }
+#wpPage .wpf.on { visibility: visible; }

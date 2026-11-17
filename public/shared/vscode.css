@@ -1,0 +1,69 @@
+/* =====================================================================
+   VS Code as it looks by default today — shared by every video that shows VS Code (load it after the video's own CSS):
+   the "Dark Modern" theme (VS Code's default since 1.78; colours from its theme-defaults/dark_modern.json),
+   its icon font (codicons, CC BY 4.0) and the "Seti" file icons (MIT) in public/shared/fonts/, the minimap.
+   Markup: #win-code with .vs-title / .vs-activity / .vs-side / .vs-tabs / .vs-editor (+ canvas.vs-mini) / .vs-panel / .vs-status;
+   icons and the minimap: public/shared/vscode.js.
+   ===================================================================== */
+@font-face { font-family: "codicon"; src: url("fonts/codicon.ttf") format("truetype"); font-display: block; }
+@font-face { font-family: "seti"; src: url("fonts/seti.woff") format("woff"); font-display: block; }
+.ci { font: normal normal normal 16px/1 codicon; display: inline-block; text-align: center; -webkit-font-smoothing: antialiased; user-select: none; }
+.fi.seti { font-family: seti; font-size: 19.5px; font-weight: normal; line-height: 1; width: 16px; display: inline-flex; justify-content: center; align-items: center; height: 22px; -webkit-font-smoothing: antialiased; }
+#win-code { background: #1f1f1f; }
+.vs-title { background: #181818; color: #cccccc; border-bottom: 1px solid #2b2b2b; height: 35px; box-sizing: border-box; }
+.vs-menu span { padding: 0 7px; font-size: 13px; }
+.vs-cc { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; color: #cccccc; }
+.vs-cc > .ci { font-size: 16px; width: 22px; height: 22px; display: grid; place-items: center; }
+.vs-cc > .ci.off { opacity: .4; }
+.vs-cc .vs-search { position: static; transform: none; width: 520px; height: 24px; box-sizing: border-box; background: rgba(255, 255, 255, .05); border: 1px solid rgba(204, 204, 204, .2); border-radius: 6px; color: #cccccc; font-size: 12px; gap: 6px; }
+.vs-cc .vs-search .ci { font-size: 14px; }
+.vs-cc .vs-chat { margin-left: 4px; }
+.vs-layout { position: absolute; right: 150px; display: flex; gap: 2px; color: #cccccc; }
+.vs-layout .ci { width: 26px; height: 22px; display: grid; place-items: center; font-size: 16px; }
+.vs-activity { background: #181818; border-right: 1px solid #2b2b2b; box-sizing: border-box; }
+.vs-activity > span { color: #868686; }
+.vs-activity > span .ci { font-size: 24px; }
+.vs-activity > span.on { color: #d7d7d7; box-shadow: inset 2px 0 #0078d4; }
+.vs-activity > .sp { flex: 1; height: auto; }
+.vs-git b { background: #0078d4; }
+.vs-side { background: #181818; color: #cccccc; border-right: 1px solid #2b2b2b; display: flex; flex-direction: column; }
+.vs-side-h { color: #cccccc; justify-content: space-between; padding: 0 12px 0 20px; }
+.vs-side-h .ci { font-size: 16px; }
+.vs-root { gap: 2px; }
+.vs-root > .ci { font-size: 16px; }
+.vs-root-acts { display: inline-flex; gap: 4px; margin-left: auto; margin-right: 10px; }
+.vs-root-acts .ci { font-size: 16px; width: 20px; height: 20px; display: grid; place-items: center; }
+.vs-tree { flex: 1; min-height: 0; overflow: hidden; }
+.vs-secs { border-top: 1px solid #2b2b2b; }
+.vs-sec { height: 22px; display: flex; align-items: center; gap: 2px; padding-left: 2px; font-size: 11px; font-weight: 700; color: #cccccc; border-bottom: 1px solid #2b2b2b; }
+.vs-sec .ci { font-size: 16px; }
+.vs-node .tw { width: 16px; height: 22px; align-items: center; justify-content: center; }
+.vs-node .tw .ci { font-size: 16px; }
+.vs-node.sel { background: #37373d; }
+.vs-node.focus { background: #04395e; box-shadow: inset 0 0 0 1px #0078d4; }
+.vs-main { background: #1f1f1f; }
+.vs-tabs { background: #181818; box-shadow: inset 0 -1px #2b2b2b; }
+.vs-tab { background: #181818; color: #9d9d9d; border-right: 1px solid #2b2b2b; gap: 6px; padding: 0 10px 0 12px; box-shadow: inset 0 -1px #2b2b2b; }
+.vs-tab.on { background: #1f1f1f; color: #ffffff; box-shadow: inset 0 1px #0078d4; }
+.vs-tab .x .ci { font-size: 16px; }
+.vs-tab.dirty .x::before { background: #cccccc; }
+.vs-tab.dirty .x .ci { display: none; }
+.vs-crumbs { color: #a9a9a9; }
+.vs-crumbs .ci { font-size: 14px; opacity: .8; }
+.vs-crumbs .fi.seti { height: 18px; font-size: 17px; }
+.vs-lines { right: 134px; color: #cccccc; }
+.vs-mini { position: absolute; top: 0; right: 14px; width: 120px; height: 100%; }
+.vs-hbar { right: 134px; }
+.vs-panel { background: #181818; border-top-color: #2b2b2b; }
+.vs-ptabs { color: #9d9d9d; font-size: 11px; gap: 20px; }
+.vs-ptabs span.on { color: #e7e7e7; box-shadow: inset 0 -1px #0078d4; }
+.vs-pt-r { display: inline-flex; align-items: center; gap: 10px; color: #cccccc; }
+.vs-pt-r .ci { font-size: 16px; }
+.vs-pt-sh { font-size: 11.5px; margin-left: -6px; }
+.vs-term { color: #cccccc; }
+.vs-status { background: #181818; color: #cccccc; border-top: 1px solid #2b2b2b; padding: 0 10px 0 0; gap: 12px; box-sizing: border-box; }
+.vs-status .ci { font-size: 14px; }
+.vs-status .vs-remote { background: #0078d4; color: #fff; height: 100%; padding: 0 10px; margin-right: -2px; }
+.vs-status .vs-sync { margin-left: 4px; }
+.vs-status .vs-lang { gap: 4px; }
+.vs-status .vs-lang .ci { font-size: 13px; }

@@ -1,0 +1,264 @@
+# Process Portfolio — 制作過程の動画ポートフォリオ（Next.js）
+
+制作の一部始終を録画した「制作プロセス動画」と、制作実績・公開中のデモをまとめたポートフォリオです。
+Next.js（App Router・TypeScript）で作っています。
+
+```
+npm install        初回のみ（Node.js 22.18 以上）
+npm run dev        開発サーバー → http://localhost:3000
+npm run build      本番ビルド（全ページを静的に生成）
+npm start          ビルドしたものを http://localhost:3000 で配信
+```
+
+| ページ | URL | 中身 |
+| --- | --- | --- |
+| 一覧 | `/` | ヒーロー・WHY VIDEO・制作の記録（タブ：特別 / 一般 / デモ / ゲーム）。`/#general` のようにタブを指定できます |
+| 再生 | `/watch/<id>` | 動画のプレーヤー。`?t=秒` `&autoplay=1` `&captions=0`。登録にない id は一覧の「特別」へ戻ります |
+| 動画の本体 | `/videos/<id>/index.html` | 1920×1080 の動画のページ（再生ページの中に表示）。`public/videos/<id>/index.html` をブラウザで直接開いても再生できます（録画用。サーバー不要） |
+
+以前の静的版の URL（`index.html`・`watch.html?v=<id>`）は、新しい URL へ転送されます（`next.config.ts`）。
+
+## ファイル構成
+
+```
+movie/
+├── app/                          ページ（Next.js App Router）
+│   ├── (site)/                   一覧ページ（専用のレイアウト・CSS・フォント）
+│   │   ├── layout.tsx            <html>・フォント（next/font：Inter / Noto Sans JP / Shippori Mincho B1）
+│   │   ├── page.tsx              一覧ページ（レジストリを読んで各部品に渡す）
+│   │   └── home.css              一覧ページの見た目（色は :root の変数でまとめて変更）
+│   ├── (player)/                 再生ページ（黒背景の別レイアウト。一覧とはスタイルが混ざりません）
+│   │   ├── layout.tsx · player.css
+│   │   └── watch/[id]/page.tsx   /watch/<id>（全動画を静的に生成）
+│   └── icon.svg                  サイトのファビコン
+├── components/
+│   ├── home/                     Header · Hero · Showreel · ToolsStrip · Why · Library（タブ）· FeatureCard · SiteCard · SitePreview（ライブプレビュー）· Footer · icons
+│   └── player/Player.tsx         プレーヤー（シーク・字幕・全画面・キー操作）
+├── content/                      ★ 掲載内容（レジストリ）。ここだけを編集します
+│   ├── videos.ts                 制作動画（特別タブ）
+│   ├── sites.ts                  制作実績（一般）・デモ・ゲーム
+│   └── tabs.ts                   タブの名前・説明文・NEW バッジ・データがないときの文言
+├── generated/                    ツールが書き出すデータ（手で編集しない）
+│   ├── timeline.json             動画の長さ・チャプターの開始時刻（npm run timeline）
+│   └── captures.json             サイトのプレビュー画像の撮影日・ファビコン（npm run capture）
+├── lib/
+│   ├── types.ts                  レジストリの型
+│   ├── registry.ts               レジストリ＋生成データ（並び順・チャプター・アイコン）
+│   ├── paths.ts                  id から決まるすべての URL
+│   └── image-size.ts             WebP の縦横サイズ（ビルド時に読む）
+├── public/                       そのまま配信するファイル
+│   ├── videos/<id>/              動画のページ本体（index.html・js・css・assets）
+│   ├── shared/                   動画のページの共通部品（時計・ポインター・IME・Windows 11・Shopify の画面・アイコン・ファビコン・ロゴ）
+│   └── thumbs/                   動画のサムネイル（videos/<id>.webp）・サイトのプレビュー画像（sites/<id>-pc|full|sp.webp）
+├── docs/videos/<id>.md           各動画の説明（内容・本物と再現の区別・録画の手順）
+├── tools/                        撮影・測定・確認のツール（下表）
+│   └── snapshots/<id>/           その動画専用の取り込みスクリプト（と確認用の test/）
+└── next.config.ts · tsconfig.json · eslint.config.mjs · package.json
+```
+
+**id が唯一の名前です。** 動画の id（例：`nissin-store`）が、`public/videos/<id>/`・`public/thumbs/videos/<id>.webp`・`/watch/<id>`・
+`generated/timeline.json` のキー・`docs/videos/<id>.md`・`tools/snapshots/<id>/` をすべて決めます（レジストリにパスは書きません）。
+サイトの id も同じく `public/thumbs/sites/<id>-*` を決めます（一般・デモ・ゲームで重ならない名前に。重なるとツールがエラーで知らせます）。
+
+## 掲載内容を変えるとき（レジストリ）
+
+| やりたいこと | 手順 |
+| --- | --- |
+| 動画を追加 | ① `public/videos/<id>/` に動画のページを作る ② `content/videos.ts` にエントリーを追加 ③ `npm run timeline -- <id>`（長さ・チャプター時刻・サムネイル）④ `npm run verify -- <id>`・`npm run check -- <id>` |
+| 台本を変更 | `npm run timeline -- <id>`（サムネイルの場面は `thumbAt`） |
+| サイト（一般・デモ・ゲーム）を追加 | `content/sites.ts` の `links` / `demos` / `games` にエントリーを追加 → `npm run capture -- <id>`（プレビュー画像・ファビコン） |
+| タブの文言 | `content/tabs.ts` |
+
+一覧の並び順は画面上の日付（`recorded`）の新しい順で、自動で決まります。型は `lib/types.ts`。ツールも同じ `content/*.ts` を読みます（Node.js 22.18 以上は TypeScript をそのまま読み込めます）。
+
+## 画像（WebP）
+
+- `public/` の画像（動画の中に映るサイトの画像・サムネイル・Windows のアイコン・マウスポインター）は **すべて WebP** です。
+  変換前 144.0 MB → 変換後 93.5 MB（2,894 枚、35% 減）。写真は非可逆（品質 80）、ロゴ・UI の画像は劣化のない可逆圧縮、アニメーション GIF はアニメーションのまま変換しています。
+- `npm run webp`（`tools/webp.js`）が変換と同時に、HTML・JS（取り込んだサイトのスナップショットを含む）・CSS の中の参照を書き換えます。
+  動画の中で入力しているソースコードの文字（例：Né の Astro のコードの `/photos/….jpg`）は、実際のサイトのファイル名のままにしてあります。
+- `npm run snapshot -- <id>` でサイトを取り込み直すと、最後に自動で WebP に変換されます。サムネイル・サイトのプレビュー画像も最初から WebP で撮影します。
+- 一覧ページの画像は `next/image` で表示し、カードの大きさに合わせて縮小した WebP が配信されます。
+- ファビコン（`public/shared/favicons/`・`public/thumbs/sites/*-icon.*`）だけは、ブラウザのタブと同じ見た目にするため元の形式（ICO・PNG・SVG）のままです。
+
+## 本物の画面と再現の区別
+
+動画の中の画面は、公開されているもの・オープンソースのものは **本物を取り込んで表示** し、ログインが必要で取り込めないものだけを **見た目を似せた再現** にしています（各動画の詳細は `docs/videos/<id>.md`）。
+
+| 画面 | 動画 | 本物 / 再現 | 内容 |
+| --- | --- | --- | --- |
+| 各サイト・ストアの画面（PC / スマホ） | 全 10 本 | **本物** | 公開中のサイトを、サイト自身のスクリプトが動いた後の状態で取り込んだもの（HTML・CSS・画像。`npm run snapshot -- <id>`） |
+| Shopify テーマストア | GREEN BASE | **本物** | themes.shopify.com（日本語）の一覧・検索候補・Flow のページ（2026-11-17 取得） |
+| GitHub Actions | Soup Stock Tokyo | **本物** | 公開リポジトリの実行ページを取り込み、名前を動画のものに置換。ログイン後のヘッダーも GitHub 自身のコードで描画。ログの文面・ボタンは再現（ログはログインが必要） |
+| Schema Markup Validator・view-source | Né | **本物** | validator.schema.org に動画のソースを実際に検証させた画面、Chrome 自身の view-source の表示 |
+| Sveltia CMS | Né | **本物** | オープンソースの Sveltia CMS（v0.268.0）を、サイト自身の設定でローカルに動かして取り込んだ画面 |
+| Chrome の PDF ビューア・見積書 PDF | KANADEMONO | **本物** | 見積書を実際に PDF にし、Chrome の PDF ビューアで開いた画面 |
+| 顧客アカウントのログイン画面 | KANADEMONO | **本物** | ストアの実際のログイン画面（確認コードの画面・注文一覧はログインが必要なため再現） |
+| Lighthouse のレポート | SANYO | **本物** | Lighthouse 13.6 のレポート描画そのもので、ストアの実際の測定結果を表示（スコアの数値は工程の説明に合わせて設定、DevTools の枠は再現） |
+| makeshop のログイン画面 | 旅わが・日清 | **本物** | console.makeshop.jp のログイン画面（GMO のヘッダー・ロゴ・フォームとも本物） |
+| WordPress の管理画面（ACF を含む） | NOT A HOTEL | **本物** | WordPress Playground（ブラウザで動く本物の WordPress 7.1・日本語）に、動画のテーマ・ACF・ハウスのデータを入れて取り込んだ 13 画面。アドレスは開発環境の localhost:8888 に置き換え |
+| VS Code | 7 本 | 本物の部品で再現 | 今の既定の見た目：Dark Modern テーマの色、VS Code 自身のアイコン（codicon）、Seti のファイルアイコン、ミニマップ（`public/shared/vscode.*`。VS Code はオープンソース） |
+| makeshop の管理画面（ログイン後） | 旅わが・日清 | 再現 | ログインが必要なため。ロゴ・アイコン・色・ページの名前と URL は管理画面自身の公開ファイルから |
+| Shopify の管理画面・テーマエディタ | Shopify の 6 本 | 再現 | ログインが必要なため。左上のロゴ・タブのファビコンは本物 |
+| STUDIO のエディタ | 吉武工務店 | 再現 | ログインが必要なため。左上のロゴ（/S）・タブのファビコンは本物 |
+| Figma | Né・NOT A HOTEL | 再現 | デスクトップアプリでログインが必要なため。タスクバーのアイコンは本物 |
+| Google Analytics・Tag Manager・Tag Assistant・Gmail | Né・KANADEMONO | 再現 | ログインが必要なため。タブのファビコンは本物 |
+| Windows 11・Chrome の枠（タブ・アドレスバー） | 全 10 本 | 再現 | アプリの画面のため取り込めません。アイコン・マウスポインター・ファビコンは本物（下表） |
+
+ログインが必要な画面（Shopify・makeshop の管理画面、STUDIO、Figma、Google のツール）も、各サービスにご自身のアカウントでログインした状態であれば、同じ方法で本物を取り込めます。
+
+## 再生ページの操作
+
+- 再生 / 一時停止ボタン、10 秒戻る / 進む、シークバー（チャプターの区切り付き。ポイントすると時刻とチャプター名）、字幕（CC）、全画面
+- マウスを動かすと操作バーとポインターが表示され、約 2.6 秒止めると両方とも自動で隠れます（操作バーの上にポインターがあるときは隠れません）
+- 操作バーが出ている間は、動画内の字幕が操作バーに重ならない位置まで上がります
+- キー操作：`Space` / `K` 再生・一時停止、`←` `→` 5 秒、`J` `L` 10 秒、`0`〜`9` 0〜90% の位置、`C` 字幕、`F` 全画面、`Home` 先頭
+- 画面をクリックで再生 / 一時停止、ダブルクリックで全画面。最後まで再生すると、もう一度再生と次の動画が出ます
+
+動画は 1920×1080 の画面として描画され、ウィンドウに合わせて拡大・縮小されます（全画面の 1920×1080 で等倍）。
+
+### シークの仕組み
+
+各動画は、台本どおりに画面を動かす HTML です。`public/shared/stage.js` の時計は、台本のすべての待ち時間を時刻順に 1 つずつ処理し、乱数も固定の種から作るため、
+何度再生しても「1:23 の画面」は同じになります。先へ移動するときはその時刻まで画面の裏で高速に進め、前へ戻るときは動画のページを読み込み直して高速に進めます。
+再生ページ（`components/player/Player.tsx`）と動画のページは `postMessage` でやり取りします。
+
+## 動画の一覧
+
+| 動画（id） | 再生ページ | 長さ | 画面上の日付 |
+| --- | --- | --- | --- |
+| 株式会社吉武工務店 コーポレートサイト制作（`yoshitake-koumuten`） | `/watch/yoshitake-koumuten` | 5:31 | 2026/03/10 10:42〜 |
+| Né（ネ）オーベルジュ Web サイト制作（`ne-auberge`） | `/watch/ne-auberge` | 5:49 | 2026/04/22 15:36〜 |
+| 旅するように和菓子と出逢う makeshop クリエイターモード移行（`tabisuruwagashi`） | `/watch/tabisuruwagashi` | 5:14 | 2026/05/19 13:18〜 |
+| 日清食品グループ オンラインストア makeshop から Shopify への移行（`nissin-store`） | `/watch/nissin-store` | 7:40 | 2026/06/09 10:12〜 |
+| GREEN BASE テーマ選定とメタフィールドによる商品ページのカスタマイズ（`green-base`） | `/watch/green-base` | 6:14 | 2026/07/07 13:40〜 |
+| SANYO ONLINE STORE 既存ストアの機能改善（ブランド横断の絞り込み・店舗在庫 / OMO・表示速度）（`sanyo-online-store`） | `/watch/sanyo-online-store` | 7:30 | 2026/08/04 09:55〜 |
+| Soup Stock Tokyo 公式オンラインショップ 倉庫・店舗の在庫連携（`soup-stock-tokyo`） | `/watch/soup-stock-tokyo` | 5:41 | 2026/08/25 15:41〜（途中で 16:01 へカット） |
+| KANADEMONO for BUSINESS 法人向け見積もり・お問い合わせ機能の開発（`kanademono-business`） | `/watch/kanademono-business` | 8:59 | 2026/09/15 10:30〜 |
+| Kanro POCKeT Shopify と業務システムの連携（`kanro-pocket`） | `/watch/kanro-pocket` | 6:46 | 2026/10/06 11:20〜 |
+| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:27 | 2026/10/27 10:18〜 |
+
+合計 10 本・約 65 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
+
+### Shopify の動画（6 本）
+
+| 動画 | 事例のテーマ | 主な工程 |
+| --- | --- | --- |
+| 日清食品グループ オンラインストア | makeshop → Shopify への移行 | makeshop の管理画面へのログイン・CSV の書き出し・変換（Shift_JIS）・商品 / 顧客のインポート・URL リダイレクト・Prestige の商品カード・ドメイン切り替え |
+| GREEN BASE | テーマの選定と再設計 | テーマストア（本物）でガーデンの絞り込みと検索から Flow を選定・メタオブジェクトと商品メタフィールド・Liquid のセクション・テーマエディタの動的ソース |
+| SANYO ONLINE STORE | 既存ストアの機能改善 | ストア分析・ブランドのメタフィールドと Search & Discovery の絞り込み・店舗在庫の表示（OMO）・Lighthouse（本物のレポート）で表示速度改善 |
+| Soup Stock Tokyo 公式オンラインショップ | 商品・在庫の同期 | ロケーション設定・WMS の在庫を Admin GraphQL API で同期・THROTTLED の再試行・GitHub Actions（本物の画面）の定期実行と Webhook |
+| KANADEMONO for BUSINESS | 見積もり・お問い合わせ機能 | 法人会員登録フォーム（App Proxy）・会社と法人カタログ・カンタン見積もり（下書き注文・見積書 PDF を Chrome の PDF ビューアで確認）・請求書・通知メール |
+| Kanro POCKeT | 外部業務システムとの連携 | 受注 Webhook の署名検証・基幹への受注 CSV・在庫取り込み・出荷実績から発送済み・会員ランク / ポイントの同期・監視と再送対策 |
+
+各社の作業工程・ログイン後の管理画面の操作・外部システム・件数や在庫数などは **工程を説明するための再現** で、実際の作業の記録ではありません。
+いずれも実在の企業・サイトのため、ローカルのファイルとしてだけ使ってください（どこまでが本物かは各動画の `docs/videos/<id>.md` の「最初に確認していただきたいこと」）。
+
+### 掲載中のサイト（一般・デモ）
+
+| タブ | サイト | URL |
+| --- | --- | --- |
+| 一般 | さくらレンタカー（レンタカー管理システム（社内向け業務システム）） | https://car-rent.sakuragroup.jp/ |
+| 一般 | THE SANCTUARY（完全会員制のオンラインヒーリングサロン） | https://the-sanctuary.jp/ |
+| 一般 | THE SANCTUARY 画面一覧（the-sanctuary.jp の全画面を収録した一覧） | https://the-sanctuary-screens.vercel.app/ |
+| デモ | LUMINA（会員制オンラインヒーリングサロン） | https://online-healing-salon.vercel.app/ |
+| デモ | FixView Browser（Android 自動化向けブラウザ（Web デモ）） | https://android-automation-browser.vercel.app/ |
+| デモ | PitchLab（投手のためのオンライン指導アプリ） | https://pitch-lab-app.vercel.app/ |
+| デモ | ポイガチャ（ポイ活 × オリパ風 Web ガチャ） | https://gacha-point-platform.vercel.app/ |
+
+
+## 画面の環境（全動画共通）
+
+- **Windows 11**（ライトモード）。タスクバーは中央揃え、右側に IME（あ / A）・Wi-Fi・音量・時計（日付 2 段表示）・通知ベル。時計は動画の経過時間に合わせて進みます
+- Chrome は現行の見た目。タブのファビコンは各サービスの本物（下表）
+- マウスポインターは Windows 標準のポインター画像。Microsoft IME の変換候補ウィンドウと、クリップボード履歴（Win + V）は Windows 11 の見た目
+
+### 本物のアイコン・ファビコン・ロゴ（`public/shared/`）
+
+`npm run favicons`（`tools/favicons.js`）で各サービスの公開ページが指定しているファイルを取り直せます（2026-11-17 取得）。
+
+| ファイル | 使う場所 | 出どころ |
+| --- | --- | --- |
+| `favicons/default.png` | ファビコンのないページ（開発サーバー・自作のモニター画面・PDF ビューア・view-source） | Chrome 本体のアイコン（Chromium のソース `ui/resources/…/default_favicon.png`、BSD ライセンス） |
+| `favicons/shopify.png` | Shopify の管理画面・テーマエディタ・テーマストア | `cdn.shopify.com/static/shopify-favicon.png`（themes.shopify.com が指定） |
+| `favicons/makeshop.ico` | makeshop の管理画面（console.makeshop.jp） | `console.makeshop.jp/favicon.ico` |
+| `favicons/studio.svg` | STUDIO のエディタ | `app.studio.design/favicon.svg` |
+| `favicons/github.svg` | GitHub | `github.githubassets.com/favicons/favicon.svg` |
+| `favicons/gmail.ico` | Gmail | Gmail の受信トレイのファビコン |
+| `favicons/ga.svg` `gtm.svg` `ta.svg` | Analytics / Tag Manager / Tag Assistant | 各サービスのファビコン（gstatic.com・tagassistant.google.com） |
+| `favicons/schema.ico` | Schema Markup Validator | `schema.org/docs/favicon.ico` |
+| `favicons/sveltia.svg` | Sveltia CMS（Né の /admin） | Sveltia CMS がロゴ未設定のときにファビコンにする自身のロゴ（公開バンドルから取得、MIT） |
+| `favicons/notahotel.ico` `tabisuruwagashi.png` | 各サイト | 各サイトのファビコン。Shopify のストアのファビコンは各動画のスナップショットに含まれます |
+| `logos/shopify.svg` | Shopify 管理画面の左上 | shopify.com のヘッダーのロゴ |
+| `logos/makeshop.svg` | makeshop の管理画面 | console.makeshop.jp のログイン画面のロゴ |
+| `logos/studio.svg` | STUDIO のエディタの左上 | app.studio.design のログイン画面のロゴ |
+| `icons/chrome.webp` `vscode.webp` `edge.webp` | タスクバー | この PC にインストールされている Chrome / VS Code / Edge の実行ファイルから取り出したアイコン |
+| `icons/start.webp` `explorer.webp` `store.webp` ほか | タスクバー | Windows 11 のシステムアイコン |
+| `icons/fl-*.svg` | タスクバーの右側 | Microsoft の Fluent UI System Icons（MIT） |
+| `icons/figma.svg` | タスクバー | Figma のロゴ |
+| `cursors/*.webp` | マウスポインター | この PC の `C:\Windows\Cursors\aero_*.cur` |
+| `fonts/codicon.ttf` `fonts/seti.woff` | VS Code のアイコン・ファイルアイコン | VS Code 自身のアイコンフォント（`@vscode/codicons`、CC BY 4.0）と Seti のアイコンフォント（VS Code のリポジトリ、MIT） |
+
+### ぼかし（編集でかけたもの）
+
+| 動画 | ぼかした箇所 |
+| --- | --- |
+| STUDIO | アドレスバーのプロジェクト ID |
+| Né | Tag Manager のアカウント ID・コンテナ ID、Analytics のプロパティ ID（アドレスバー）、`git push` の出力のリポジトリ所有者名 |
+| makeshop（旅わが・日清） | ショップ ID（＝管理画面のログイン ID） |
+| NOT A HOTEL | `git push` の出力のリポジトリ所有者名（本番サーバーは SSH の接続名 `notahotel-prod` で表示し、アドレスは出していません） |
+| Shopify の動画 | 顧客・会員・担当者の氏名・メールアドレス・住所など（日清・Soup Stock Tokyo・KANADEMONO・Kanro）、`.env` のシークレット（Soup Stock Tokyo・Kanro。SANYO は伏せ字）。いずれも再現用の値ですが、本物の個人情報・鍵に見えないようにしています |
+
+ぼかしたい箇所を増やすときは、要素に `class="pii"` を付けます（`public/shared/win11.css`）。
+
+### 日付について（確認していただきたい点）
+
+画面上の日付（2026 年 3〜10 月）より後に取り込んだ本番サイトの内容が含まれます（サイトは本番と同一の構成のまま変えていません）。
+
+- Né：サイトに「GOOD DESIGN AWARD 2026」のロゴがあります（グッドデザイン賞の発表は例年 10 月）
+- 旅わが：プレビュー / 公開ショップのお知らせ・記事・レビューに 2026/06〜11 の日付があります
+- STUDIO：お知らせの最新は 2026.2.21 で、3/10 の日付と矛盾しません
+- NOT A HOTEL：お知らせの最新（NOTA への社名変更）が 2026/10/05 のため、画面の日付は 2026/10/27 にしました（矛盾しません）
+- Shopify の 6 本（画面の日付 2026/06〜10）：ストアの画面は 2026/11/17 に取り込んだため、冬のキャンペーン・期間限定商品・賞味期限の表示など、画面の日付より後の内容が含まれます
+
+## ツール（`tools/`。Node.js 22.18 以上と Google Chrome が必要）
+
+| コマンド | 内容 |
+| --- | --- |
+| `npm run timeline`（`-- <id>` で 1 本だけ） | 全編を高速再生して長さ・チャプター時刻を測り（`generated/timeline.json`）、サムネイル（`public/thumbs/videos/<id>.webp`、`thumbAt` 秒の場面）を撮影します |
+| `npm run verify`（`-- <id>` で 1 本だけ） | 全編を高速再生して、スクリプトのエラー・読み込めないファイル（画像のパスの誤りなど）・入力した文字の食い違いを報告します。`--shots=12,95 --out=<フォルダ>` でその秒のスクリーンショットも撮ります |
+| `npm run check`（`-- <id>`） | 入力中の文字が画面に見えていない瞬間（字幕・キー表示の下、枠の外）がないかを確認します |
+| `npm run snapshot -- <id>` | 動画の中に映る本番サイトを取り込み直し、画像を WebP に変換します（Shopify のストアは `tools/snapshot-store.js`、ほかは `tools/snapshots/<id>/update-snapshot.js`） |
+| `npm run capture`（`-- <id>`） | 一般・デモ・ゲームのサイトのプレビュー画像（PC・ページ全体・スマホ、WebP）とファビコンを撮影します |
+| `npm run webp`（`-- <id>`） | 画像を WebP に変換して参照を書き換えます（`--dry` で確認だけ） |
+| `npm run favicons` | 各サービスの本物のファビコン・ロゴを取り直します |
+| `npm run lint` / `npm run typecheck` | ESLint / TypeScript の確認 |
+
+### Shopify の動画を増やすとき
+
+1. 既存の Shopify の動画（例：`public/videos/nissin-store/`）を参考に `public/videos/<id>/` を作る（`index.html` は共通のまま、`js/config.js` に工程・ストア・取り込むページを書く）
+2. `npm run snapshot -- <id>`（`config.js` の `snapshot` を読んでストアを取り込み、WebP に変換）
+3. `js/scenario.js` に台本を書く（管理画面は `Kit.Admin` と `Kit.H`、コードは `Kit.Code` / `Kit.Term`、ストアは `Kit.Store`、日本語入力は `Kit.codeScript` / `Kit.typeInput`）
+4. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`
+
+## Next.js への移行（2026-11-17）
+
+| 以前（静的な HTML） | 現在（Next.js） |
+| --- | --- |
+| `index.html`（HTML・CSS・JS を 1 ファイルに 900 行） | `app/(site)/page.tsx` ＋ `components/home/*`（部品ごとに分割）＋ `home.css`。フォントは `next/font` で配信 |
+| `watch.html` ＋ `shared/player.js` / `player.css` | `app/(player)/watch/[id]/page.tsx`（`/watch/<id>`、全動画を静的に生成）＋ `components/player/Player.tsx` |
+| `data/videos.js` `links.js` `demos.js` `games.js`（`window.*` に代入） | `content/videos.ts` `sites.ts`（型付き。`lib/types.ts`）。タブの文言は `index.html` の中から `content/tabs.ts` へ |
+| `data/timeline.js` `captures.js`（生成） | `generated/timeline.json` `captures.json` |
+| `videos/<id>/` `shared/` `thumbs/` | `public/videos/<id>/` `public/shared/` `public/thumbs/` |
+| `videos/<id>/README.md` | `docs/videos/<id>.md`（公開フォルダの外へ） |
+| `videos/<id>/tools/`・`tools/.test/` | `tools/snapshots/<id>/`・`tools/snapshots/<id>/test/`（公開フォルダの外へ） |
+| `package.json` の `snapshot:<id>` × 10 | `npm run snapshot -- <id>` 1 つ（取り込み方は id から自動で選択） |
+| `tools/build-timeline.js` | `tools/timeline.js`（ほか `verify-video.js` `webp.js` `favicons.js` `snapshot.js` を追加） |
+| JPEG・PNG・AVIF・GIF | WebP（上記） |
+| ファビコンのないタブの地球儀（自作の図） | Chrome 本体のアイコン（Chromium のソースから） |
+| makeshop の管理画面の URL `admin.makeshop.jp`（存在しないドメイン） | 実際の管理画面のドメイン `console.makeshop.jp`、タブのタイトルも実際の形式（「… - makeshop byGMO」） |
+| 公開されている画面も見た目を似せた再現（テーマストア・GitHub・検証ツール・Sveltia CMS・WordPress の管理画面・Lighthouse・PDF ビューア・ログイン画面） | 本物の画面を取り込んで表示（上の「本物の画面と再現の区別」。取り込みのスクリプトは `tools/snapshots/<id>/`） |
+| VS Code の見た目（以前の Dark+ 風の色・手描きのアイコン、動画ごとに別々） | 今の既定の見た目（Dark Modern の色・codicon・Seti のファイルアイコン・ミニマップ）を `public/shared/vscode.css` / `vscode.js` で 7 本に共通化 |
+| Shopify・STUDIO・makeshop の画面にロゴなし | 各サービスの本物のロゴ（`public/shared/logos/`。makeshop の管理画面は管理画面自身のファイルから） |
+
+移行前の静的版は `../movie-static-backup-2026-11-17.tar` に保存してあります。

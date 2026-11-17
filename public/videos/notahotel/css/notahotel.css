@@ -1,0 +1,164 @@
+/* =====================================================================================================
+   NOT A HOTEL demo — additions to demo.css (the shared look of the production-process videos):
+   brand boards, Dev Mode, VS Code horizontal scrolling, DevTools / device mode, WordPress admin + block editor
+   ===================================================================================================== */
+
+/* the site's own type for the design boards (self-hosted copies; neue-haas-grotesk-text comes from the Adobe Fonts kit) */
+@font-face { font-family: "Manuka Condensed"; src: url(../assets/site/notahotel.com/assets/font/manuka-condensed-bold.woff2) format("woff2"); font-weight: 700; }
+@font-face { font-family: "YakuHanJP"; font-weight: 400; src: url(../assets/site/cdn.jsdelivr.net/npm/yakuhanjp_3.4.1/dist/fonts/YakuHanJP/YakuHanJP-Regular.woff2) format("woff2");
+  unicode-range: U+3001, U+3002, U+3008-3011, U+3014, U+3015, U+30FB, U+FF01, U+FF08, U+FF09, U+FF1A, U+FF1B, U+FF1F, U+FF3B, U+FF3D, U+FF5B, U+FF5D; }
+@font-face { font-family: "YakuHanJP"; font-weight: 600; src: url(../assets/site/cdn.jsdelivr.net/npm/yakuhanjp_3.4.1/dist/fonts/YakuHanJP/YakuHanJP-Bold.woff2) format("woff2");
+  unicode-range: U+3001, U+3002, U+3008-3011, U+3014, U+3015, U+30FB, U+FF01, U+FF08, U+FF09, U+FF1A, U+FF1B, U+FF1F, U+FF3B, U+FF3D, U+FF5B, U+FF5D; }
+:root {
+  --nh-text: YakuHanJP, "Hiragino Sans", Meiryo, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --nh-en: neue-haas-grotesk-text, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --nh-hl: "Manuka Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* intro / outro card: the brand's own look (black, the logotype, sans) */
+.intro { background: #0b0b0d; color: #fff; }
+.intro-in { font-family: var(--nh-text); }
+.intro-brand { letter-spacing: 0; padding: 0; color: #fff; line-height: 0; }
+.intro-brand svg { width: 360px; height: 100px; }
+.intro-sub { margin-top: 34px; font: 600 22px var(--nh-text); letter-spacing: .12em; color: #fff; }
+.intro-url { color: #8e8e93; font-family: var(--nh-en); }
+.intro-steps { font-family: var(--nh-text); }
+.intro-steps li { background: #161619; border-color: #2a2a2f; color: #e5e5e5; }
+.intro-steps li b { color: #8e8e93; }
+.intro-steps li.ok b { color: #42d083; }
+
+/* ---------------------------------------------------------------- VS Code: tabs, terminal, horizontal scrolling */
+.vs-lines { tab-size: 4; }
+/* the terminal keeps its prompt line clear of the caption overlay at the bottom of the screen */
+.vs-term { padding-bottom: 50px; }
+/* ---------------------------------------------------------------- VS Code: horizontal scrolling */
+.vs-line .lc { position: relative; overflow: hidden; }
+.vs-line .lx { display: inline-block; white-space: pre; transform: translateX(calc(var(--hx, 0px) * -1)); min-width: 100%; }
+.vs-hbar { position: absolute; left: 66px; right: 14px; bottom: 0; height: 12px; display: none; }
+.vs-hbar.show { display: block; }
+.vs-hbar i { position: absolute; top: 2px; height: 8px; background: rgba(121,121,121,.4); }
+#vsLines.selall .vs-line .lx { background: #264f78; }
+.fi.php { background: #777bb3; color: #fff; font-size: 7.5px; font-weight: 700; border-radius: 2px; width: 18px; height: 11px; display: inline-grid; place-items: center; font-style: normal; }
+.fi.git { color: #e44d26; } .fi.img { color: #a074c4; } .fi.mjs { color: #cbcb41; }
+
+/* ---------------------------------------------------------------- Figma additions */
+.fg-dev { width: 34px; height: 26px; border-radius: 6px; display: grid; place-items: center; color: #e8e8e8; margin: 0 2px; border: 1px solid #555; }
+.fg-dev.on { background: #1bc47d; border-color: #1bc47d; color: #111; }
+.fg-dev svg { width: 16px; height: 16px; }
+#win-design.devmode .fg-tools .fg-tool.active { background: #1bc47d; color: #111; }
+#win-design.devmode .fg-sel, #win-design.devmode .fg-sel .h { border-color: #1bc47d !important; }
+#win-design.devmode .fg-sel .fg-sel-size { background: #1bc47d; color: #111; }
+.fg-sel.cmp { border-color: #9747ff; }
+.fg-sel.cmp .h { border-color: #9747ff !important; }
+.fg-sel.cmp .fg-sel-size { background: #9747ff; }
+.fg-title.cmp { color: #7b3ff2; }
+.fg-title.cmp svg { color: #9747ff; }
+.fg-prop { display: flex; justify-content: space-between; align-items: center; height: 30px; padding: 0 8px; margin-bottom: 4px; border-radius: 5px; background: #f6f2ff; color: #3b1f7a; }
+.fg-prop .pk { display: inline-flex; gap: 6px; align-items: center; font-weight: 600; }
+.fg-prop .pk svg { width: 13px; height: 13px; color: #9747ff; }
+.fg-prop .pv { color: #555; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fg-prop.new { animation: fgIn .45s ease both; }
+@keyframes fgIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+.fg-code { margin: 0; background: #1e1e1e; color: #d4d4d4; border-radius: 6px; padding: 10px 12px; font: 11.5px/1.65 Consolas, monospace; white-space: pre; overflow: hidden; }
+.fg-code .ck { color: #9cdcfe; }
+.fg-hint { color: #8a8a8a; line-height: 1.6; font-size: 11.5px; }
+.fg-ps-h .k { color: #8a8a8a; font-weight: 400; }
+.fg-cmp-tag { position: absolute; left: 0; bottom: 100%; color: #9747ff; font-weight: 600; white-space: nowrap; padding-bottom: 4px; }
+.fg-plugin { position: absolute; right: 290px; top: 96px; width: 520px; background: #fff; border-radius: 10px; box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 14px 40px rgba(0,0,0,.25); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .2s, transform .2s; z-index: 30; }
+.fg-plugin.show { opacity: 1; transform: none; }
+.fg-plugin-h { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #eee; font-weight: 600; font-size: 12.5px; }
+.fg-plugin-b { padding: 12px 16px 16px; font-size: 12px; }
+.fg-plugin-row { display: flex; justify-content: space-between; padding: 4px 0; color: #666; }
+.fg-plugin-row b { color: #222; font-weight: 600; }
+.fg-plugin-json { margin: 10px 0 12px; height: 360px; overflow: hidden; background: #f7f7f7; border-radius: 6px; padding: 10px 12px; font: 11.5px/1.55 Consolas, monospace; color: #333; white-space: pre; }
+.fg-plugin-btns { display: flex; gap: 8px; justify-content: flex-end; }
+.fg-pbtn { padding: 7px 12px; border-radius: 6px; border: 1px solid #ddd; font-weight: 600; }
+.fg-pbtn.pri { background: #0d99ff; color: #fff; border-color: #0d99ff; }
+.fg-pbtn.done { background: #1bc47d; border-color: #1bc47d; color: #fff; }
+.fg-asset.logo .th { background: #fff; display: grid; place-items: center; line-height: 0; color: #000; }
+.fg-asset.logo .th svg { width: 70%; height: auto; }
+.fg-asset.logo.neg .th { background: #0b0b0d; color: #fff; }
+.fg-layer.instance .lic, .fg-layer.component .lic { color: #9747ff; }
+.fg-layer.instance, .fg-layer.component { color: #7b3ff2; }
+
+/* brand guideline boards */
+.bd { position: absolute; inset: 0; font-family: var(--nh-text); color: #0b0b0d; }
+.bd-h { position: absolute; left: 64px; top: 52px; font: 500 15px var(--nh-en); letter-spacing: .08em; color: #8e8e93; }
+.bd-t { position: absolute; left: 64px; top: 80px; font: 600 40px var(--nh-text); letter-spacing: .02em; }
+.bd-d { position: absolute; left: 64px; top: 142px; font: 400 16px/1.9 var(--nh-text); color: #48484a; max-width: 620px; }
+.bd-logo { position: absolute; color: #000; line-height: 0; }
+.bd-logo svg { width: 100%; height: 100%; display: block; }
+.bd-clear { position: absolute; border: 2px dashed #ff3b6b; pointer-events: none; }
+.bd-clear i { position: absolute; background: rgba(255,59,107,.12); border: 1px solid rgba(255,59,107,.6); font: 600 18px var(--nh-en); color: #ff3b6b; display: grid; place-items: center; font-style: normal; }
+.bd-tile { position: absolute; border-radius: 12px; display: grid; place-items: center; line-height: 0; }
+.bd-tile svg { width: 56%; height: auto; }
+.bd-cap { position: absolute; font: 500 14px var(--nh-en); color: #8e8e93; letter-spacing: .04em; }
+.bd-min { position: absolute; display: flex; align-items: center; gap: 18px; font: 500 14px var(--nh-en); color: #48484a; line-height: 0; }
+.bd-min span { line-height: 1.2; }
+.bd-sw { position: absolute; width: 236px; height: 300px; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.08); background: #fff; }
+.bd-sw .c { height: 186px; }
+.bd-sw .m { padding: 14px 16px; font: 500 15px var(--nh-en); }
+.bd-sw .m b { display: block; font-weight: 500; font-size: 17px; color: #0b0b0d; margin-bottom: 6px; }
+.bd-sw .m span { display: block; color: #8e8e93; font-size: 13.5px; line-height: 1.6; }
+.bd-type { position: absolute; left: 64px; right: 460px; border-top: 1px solid #e5e5e5; padding-top: 16px; }
+.bd-type small { display: block; font: 500 14px var(--nh-en); color: #8e8e93; letter-spacing: .04em; margin-bottom: 8px; }
+.bd-type .s-hl { font: 700 132px/1 var(--nh-hl); letter-spacing: 0; text-transform: uppercase; }
+.bd-type .s-en { font: 500 64px/1.1 var(--nh-en); letter-spacing: -.01em; }
+.bd-type .s-ja { font: 600 56px/1.3 var(--nh-text); letter-spacing: .04em; min-height: 73px; white-space: nowrap; }
+.bd-type .s-body { font: 400 16px/2.1 var(--nh-text); color: #0b0b0d; letter-spacing: .04em; }
+.bd-rule { position: absolute; right: 64px; width: 360px; background: #f5f5f7; border-radius: 10px; padding: 18px 20px; font: 400 15px/1.85 var(--nh-text); color: #3a3a3c; }
+.bd-rule b { display: block; font-weight: 600; color: #0b0b0d; margin-bottom: 6px; font-size: 16px; }
+.bd-rule em { font-style: normal; background: #fff3b0; padding: 0 3px; }
+.bd .demo-caret { display: inline-block; width: 3px; height: .9em; background: #0d99ff; margin: 0 2px; vertical-align: -0.05em; animation: blink 1s steps(1) infinite; }
+.bd .demo-ime { text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: 3px; text-underline-offset: .14em; text-decoration-skip-ink: none; }
+.bd .demo-ime.conv { text-decoration-style: solid; text-decoration-thickness: 2px; }
+.bd .demo-ime.conv.active { text-decoration-thickness: 6px; background: rgba(13,153,255,.2); }
+.bd .seltext { background: rgba(13,153,255,.28); }
+.bd-hide { visibility: hidden; }
+.pop-in { animation: demoPopIn .5s cubic-bezier(.2,.75,.25,1) both; }
+@keyframes demoPopIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.fg-note { z-index: 2; }
+
+/* ---------------------------------------------------------------- Chrome additions: DevTools + device mode */
+.br-body { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.br-content { container-type: inline-size; }
+.dt { height: 0; flex: none; background: #fff; border-top: 1px solid #cbcdd1; overflow: hidden; transition: height .3s ease; font-family: "Segoe UI", "Yu Gothic UI", sans-serif; font-size: 12px; color: #202124; }
+.dt.show { height: 300px; }
+.dt-tabs { height: 30px; display: flex; align-items: center; gap: 2px; padding: 0 6px; border-bottom: 1px solid #dadce0; background: #f1f3f4; color: #474747; }
+.dt-tabs > span { padding: 0 10px; height: 100%; display: flex; align-items: center; white-space: nowrap; }
+.dt-tabs > span.on { color: #1a73e8; box-shadow: inset 0 -2px #1a73e8; }
+.dt-tabs .dt-ic { padding: 0 6px; color: #5f6368; }
+.dt-tabs .dt-ic.on { color: #1a73e8; box-shadow: none; }
+.dt-tabs .dt-sep { width: 1px; height: 16px; background: #ccc; padding: 0; margin: 0 4px; }
+.dt-errs .e { color: #d93025; display: inline-flex; gap: 3px; align-items: center; }
+.dt-errs .w { color: #b06000; display: inline-flex; gap: 3px; align-items: center; margin-left: 8px; }
+.dt-errs svg { width: 13px; height: 13px; }
+.dt-con { height: calc(100% - 30px); overflow: hidden; font-family: Consolas, "Yu Gothic", monospace; font-size: 12.5px; }
+.dt-l { display: flex; gap: 8px; align-items: flex-start; padding: 3px 10px; border-bottom: 1px solid #f0f0f0; line-height: 1.5; }
+.dt-l svg { width: 13px; height: 13px; flex: none; margin-top: 2px; }
+.dt-l .tx { flex: 1; min-width: 0; word-break: break-all; }
+.dt-l .src { color: #5f6368; text-decoration: underline; white-space: nowrap; }
+.dt-l.err { background: #fdf2f2; color: #d93025; border-color: #f9d6d5; }
+.dt-l.warn { background: #fffbe5; color: #5c3c00; border-color: #fff0b3; }
+.dt-l.warn svg { color: #e2a300; }
+.dt-l .dt-i { width: 13px; flex: none; color: #1a73e8; }
+.dt-l.prompt { border: 0; }
+.dt-l .caret { height: 14px; background: #202124; width: 1px; }
+.br-devbar { display: none; height: 34px; align-items: center; justify-content: center; gap: 14px; background: #f1f3f4; border-bottom: 1px solid #dadce0; font-size: 12.5px; color: #3c4043; }
+.br-devbar svg { width: 12px; height: 12px; vertical-align: -1px; }
+.br-devbar .dv-num { background: #fff; border: 1px solid #dadce0; border-radius: 3px; padding: 2px 8px; min-width: 46px; text-align: center; }
+.br-page[data-page="site"].device .br-devbar { display: flex; }
+.br-page[data-page="site"].device .br-device { top: 34px; background: #e8eaed; display: flex; justify-content: center; align-items: flex-start; padding-top: 12px; }
+.br-page[data-page="site"].device #devFrame { flex: none; transform: scale(var(--dz, 1)); transform-origin: 50% 0; box-shadow: 0 0 0 1px #c9ccd1, 0 6px 22px rgba(0,0,0,.12); }
+.br-device iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+.br-page[data-page="live"] iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ---------------------------------------------------------------- WordPress (real wp-admin, js/wp-snapshot.js + js/wp.js) */
+/* each captured screen is an iframe at the size it was captured (960 × 947 snapped / 1920 × 947 maximized) */
+#wpPage { background: #f0f0f1; }
+#wpPage .wpf { position: absolute; left: 0; top: 0; border: 0; display: block; background: #f0f0f1; visibility: hidden; }
+#wpPage .wpf.on { visibility: visible; }
+/* the PHP parse error with WP_DEBUG on: WordPress' own page over the dev site */
+.php-err { position: absolute; inset: 0; background: #f0f0f1; display: none; z-index: 4; overflow: hidden; }
+.php-err.show { display: block; }
+.php-err iframe { width: 100%; height: 100%; border: 0; display: block; }

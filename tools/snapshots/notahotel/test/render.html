@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#888}iframe{border:0;display:block;background:#fff}</style></head><body>
+<iframe id="f" style="width:1440px;height:900px"></iframe>
+<script>window.SITE_BASE = location.href.replace(/tools\/snapshots\/notahotel\/test\/.*$/, 'public/videos/notahotel/');</script>
+<script src="../../../../public/videos/notahotel/js/site-snapshot.js"></script>
+<script src="../../../../public/videos/notahotel/js/site-frame.js"></script>
+<script>
+const p = new URLSearchParams(location.search);
+const mode = p.get('mode') || 'live', view = p.get('view') || 'pc';
+const f = document.getElementById('f');
+f.style.width = (p.get('w') || (view === 'sp' ? 375 : 1440)) + 'px';
+f.style.height = (p.get('h') || (view === 'sp' ? 812 : 900)) + 'px';
+SiteFrame.load(f, mode, { view, vh: 9, w: 1440 }).then((d) => { window.__doc = d; window.__ready = true; });
+</script></body></html>
