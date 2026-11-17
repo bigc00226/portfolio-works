@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Team member card with avatar, role and social links">
+  <title>Team Section — member card</title>
+  <defs>
+    <linearGradient id="tms-bg" x1="0" y1="0" x2="1" y2="1" gradientTransform="rotate(0)">
+      <stop offset="0" stop-color="#146ef5"/>
+      <stop offset="1" stop-color="#6155f5"/>
+    </linearGradient>
+    <linearGradient id="tms-av" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f8bff"/>
+      <stop offset="1" stop-color="#6a5cf5"/>
+    </linearGradient>
+    <linearGradient id="tms-chipg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f7bf6"/>
+      <stop offset="1" stop-color="#6a5cf5"/>
+    </linearGradient>
+    <radialGradient id="tms-glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="tms-tile"><rect x="0" y="0" width="256" height="256" rx="56"/></clipPath>
+    <clipPath id="tms-avclip"><circle cx="128" cy="98" r="30"/></clipPath>
+    <style>
+      :root { --tms: 3.6s; }
+      .tms-bob { animation: tms-bob var(--tms) ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .tms-ring { animation: tms-ring var(--tms) ease-out infinite; transform-box: fill-box; transform-origin: center; }
+      .tms-chip { transform-box: fill-box; transform-origin: center; }
+      .tms-c1 { animation: tms-pop var(--tms) ease-in-out infinite; }
+      .tms-c2 { animation: tms-pop2 var(--tms) ease-in-out infinite; }
+      .tms-c3 { animation: tms-pop3 var(--tms) ease-in-out infinite; }
+      .tms-g1 { animation: tms-lift var(--tms) ease-in-out infinite; }
+      .tms-g2 { animation: tms-lift2 var(--tms) ease-in-out infinite; }
+      .tms-g3 { animation: tms-lift3 var(--tms) ease-in-out infinite; }
+      @keyframes tms-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
+      @keyframes tms-ring { 0% { transform: scale(0.7); opacity: .5; } 70%,100% { transform: scale(1.35); opacity: 0; } }
+      @keyframes tms-pop  { 0%,4% { transform: scale(1);} 12% { transform: scale(1.18);} 24%,100% { transform: scale(1);} }
+      @keyframes tms-pop2 { 0%,37% { transform: scale(1);} 45% { transform: scale(1.18);} 57%,100% { transform: scale(1);} }
+      @keyframes tms-pop3 { 0%,70% { transform: scale(1);} 78% { transform: scale(1.18);} 90%,100% { transform: scale(1);} }
+      @keyframes tms-lift  { 0%,4% { opacity:.35;} 12%,20% { opacity:1;} 30%,100% { opacity:.35;} }
+      @keyframes tms-lift2 { 0%,37% { opacity:.35;} 45%,53% { opacity:1;} 63%,100% { opacity:.35;} }
+      @keyframes tms-lift3 { 0%,70% { opacity:.35;} 78%,86% { opacity:1;} 96%,100% { opacity:.35;} }
+      @media (prefers-reduced-motion: reduce) {
+        .tms-bob,.tms-ring,.tms-c1,.tms-c2,.tms-c3,.tms-g1,.tms-g2,.tms-g3 { animation: none; }
+        .tms-ring { opacity: 0; }
+        .tms-g1,.tms-g2,.tms-g3 { opacity: 1; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#tms-tile)">
+    <rect x="0" y="0" width="256" height="256" fill="url(#tms-bg)"/>
+    <circle cx="66" cy="60" r="80" fill="url(#tms-glow)" opacity="0.10"/>
+    <circle cx="128" cy="118" r="120" fill="url(#tms-glow)" opacity="0.12"/>
+
+    <!-- member card -->
+    <rect x="52" y="44" width="152" height="168" rx="26" fill="#ffffff"/>
+    <rect x="52" y="44" width="152" height="168" rx="26" fill="none" stroke="#e7ebf6" stroke-width="1.5"/>
+
+    <!-- pulse ring behind avatar -->
+    <circle class="tms-ring" cx="128" cy="98" r="30" fill="none" stroke="#6a5cf5" stroke-width="3"/>
+
+    <!-- avatar -->
+    <g class="tms-bob">
+      <circle cx="128" cy="98" r="30" fill="#eef2fe"/>
+      <g clip-path="url(#tms-avclip)">
+        <circle cx="128" cy="90" r="12" fill="url(#tms-av)"/>
+        <path d="M104 130 a24 22 0 0 1 48 0 z" fill="url(#tms-av)"/>
+      </g>
+      <circle cx="128" cy="98" r="30" fill="none" stroke="#dfe6fb" stroke-width="2"/>
+    </g>
+
+    <!-- name + role bars -->
+    <rect x="86" y="144" width="84" height="12" rx="6" fill="#2a3550"/>
+    <rect x="100" y="164" width="56" height="8" rx="4" fill="#9aa6c2"/>
+
+    <!-- social chips -->
+    <g transform="translate(96,192)">
+      <g class="tms-chip tms-c1">
+        <circle cx="0" cy="0" r="12" fill="url(#tms-chipg)"/>
+        <g class="tms-g1" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-5 -2 a5 5 0 0 1 10 0 a5 5 0 0 1 -5 5 l-4 3 v-3 a5 5 0 0 1 -1 -5" fill="#ffffff" stroke="none"/>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(128,192)">
+      <g class="tms-chip tms-c2">
+        <circle cx="0" cy="0" r="12" fill="url(#tms-chipg)"/>
+        <g class="tms-g2" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="0" cy="0" r="5.5"/>
+          <path d="M-5.5 0 h11 M0 -5.5 c3 2 3 9 0 11 M0 -5.5 c-3 2 -3 9 0 11"/>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(160,192)">
+      <g class="tms-chip tms-c3">
+        <circle cx="0" cy="0" r="12" fill="url(#tms-chipg)"/>
+        <path class="tms-g3" d="M0 4.5 C-6 0 -6 -5 -2.6 -5 C-0.8 -5 0 -3.6 0 -3 C0 -3.6 0.8 -5 2.6 -5 C6 -5 6 0 0 4.5 Z" fill="#ffffff"/>
+      </g>
+    </g>
+  </g>
+</svg>

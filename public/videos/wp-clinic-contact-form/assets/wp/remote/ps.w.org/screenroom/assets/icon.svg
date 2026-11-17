@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+	<defs>
+		<linearGradient id="srl-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2347"/><stop offset="1" stop-color="#0a0d1b"/></linearGradient>
+		<radialGradient id="srl-glow" cx=".5" cy=".46" r=".5"><stop offset="0" stop-color="#7c6dff" stop-opacity=".55"/><stop offset=".6" stop-color="#ff7a59" stop-opacity=".12"/><stop offset="1" stop-color="#7c6dff" stop-opacity="0"/></radialGradient>
+		<linearGradient id="srl-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b6cff"/><stop offset=".55" stop-color="#c46bd6"/><stop offset="1" stop-color="#ff9a6b"/></linearGradient>
+		<linearGradient id="srl-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe7a8"/><stop offset="1" stop-color="#ffb36b"/></linearGradient>
+		<linearGradient id="srl-night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f3f8f"/><stop offset="1" stop-color="#3fa7c9"/></linearGradient>
+		<linearGradient id="srl-dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7ab6"/><stop offset="1" stop-color="#ffb46b"/></linearGradient>
+		<linearGradient id="srl-edge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient>
+		<clipPath id="srl-card"><rect x="52" y="66" width="152" height="104" rx="18"/></clipPath>
+		<clipPath id="srl-left"><rect x="20" y="86" width="52" height="64" rx="12"/></clipPath>
+		<clipPath id="srl-right"><rect x="184" y="86" width="52" height="64" rx="12"/></clipPath>
+		<filter id="srl-drop" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#05060f" flood-opacity=".6"/></filter>
+	</defs>
+
+	<rect width="256" height="256" rx="58" fill="url(#srl-bg)"/>
+	<ellipse cx="128" cy="118" rx="128" ry="100" fill="url(#srl-glow)"/>
+
+	<!-- The video before: a mountain by moonlight. -->
+	<g clip-path="url(#srl-left)">
+		<rect x="20" y="86" width="52" height="64" fill="url(#srl-night)"/>
+		<circle cx="34" cy="102" r="6" fill="#eaf3ff"/>
+		<path d="M20 150 L40 116 L50 128 L58 118 L72 136 V150 Z" fill="#14285e"/>
+		<path d="M40 116 L45 124 L40 122 L36 123 Z" fill="#eaf3ff" opacity=".85"/>
+		<rect x="20" y="86" width="52" height="64" fill="#0a0d1b" opacity=".38"/>
+	</g>
+	<rect x="20.75" y="86.75" width="50.5" height="62.5" rx="11.25" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="1.5"/>
+
+	<!-- The video after: the sea at sunset. -->
+	<g clip-path="url(#srl-right)">
+		<rect x="184" y="86" width="52" height="64" fill="url(#srl-dusk)"/>
+		<circle cx="222" cy="118" r="9" fill="#fff3c4"/>
+		<rect x="184" y="124" width="52" height="26" fill="#6a3a8a"/>
+		<path d="M190 132 H212 M200 139 H230 M188 145 H208" stroke="#ffd2a0" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+		<rect x="184" y="86" width="52" height="64" fill="#0a0d1b" opacity=".38"/>
+	</g>
+	<rect x="184.75" y="86.75" width="50.5" height="62.5" rx="11.25" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="1.5"/>
+
+	<!-- The video in front: hills at dusk. -->
+	<g filter="url(#srl-drop)"><rect x="52" y="66" width="152" height="104" rx="18" fill="url(#srl-sky)"/></g>
+	<g clip-path="url(#srl-card)">
+		<circle cx="160" cy="112" r="20" fill="url(#srl-sun)"/>
+		<path d="M52 150 C84 128 112 132 136 144 C160 156 182 140 204 132 V170 H52 Z" fill="#2b2f6b" opacity=".85"/>
+		<path d="M52 160 C92 146 132 150 204 158 V170 H52 Z" fill="#171a42"/>
+	</g>
+	<rect x="53" y="67" width="150" height="102" rx="17" fill="none" stroke="url(#srl-edge)" stroke-width="2"/>
+
+	<!-- Play as frosted glass. -->
+	<circle cx="128" cy="118" r="25" fill="#fff" fill-opacity=".24"/>
+	<circle cx="128" cy="118" r="24.5" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.5"/>
+	<path d="M122 107v22l18-11z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+
+	<!-- Where you are in the slider. -->
+	<rect x="102" y="194" width="28" height="7" rx="3.5" fill="#fff"/>
+	<rect x="136" y="194" width="8" height="7" rx="3.5" fill="#fff" opacity=".35"/>
+	<rect x="150" y="194" width="8" height="7" rx="3.5" fill="#fff" opacity=".35"/>
+</svg>

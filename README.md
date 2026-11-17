@@ -48,10 +48,13 @@ movie/
 │   └── image-size.ts             WebP の縦横サイズ（ビルド時に読む）
 ├── public/                       そのまま配信するファイル
 │   ├── videos/<id>/              動画のページ本体（index.html・js・css・assets）
-│   ├── shared/                   動画のページの共通部品（時計・ポインター・IME・Windows 11・Shopify の画面・アイコン・ファビコン・ロゴ）
+│   ├── shared/                   動画のページの共通部品（時計・ポインター・IME・Windows 11・VS Code・アイコン・ファビコン・ロゴ）
+│   │   ├── kit/                  Shopify と WordPress の動画の共通部品（エディタ・ターミナル・ブラウザ・管理画面・ストアの表示）
+│   │   └── wordpress/            WordPress の本物の画面（取り込んだもの）の表示（wp-frame.js・wp.css）
 │   └── thumbs/                   動画のサムネイル（videos/<id>.webp）・サイトのプレビュー画像（sites/<id>-pc|full|sp.webp）
 ├── docs/videos/<id>.md           各動画の説明（内容・本物と再現の区別・録画の手順）
 ├── tools/                        撮影・測定・確認のツール（下表）
+│   ├── wp/playground.js          WordPress の本物の管理画面の取り込み（WordPress Playground）
 │   └── snapshots/<id>/           その動画専用の取り込みスクリプト（と確認用の test/）
 └── next.config.ts · tsconfig.json · eslint.config.mjs · package.json
 ```
@@ -74,7 +77,7 @@ movie/
 ## 画像（WebP）
 
 - `public/` の画像（動画の中に映るサイトの画像・サムネイル・Windows のアイコン・マウスポインター）は **すべて WebP** です。
-  変換前 144.0 MB → 変換後 93.5 MB（2,894 枚、35% 減）。写真は非可逆（品質 80）、ロゴ・UI の画像は劣化のない可逆圧縮、アニメーション GIF はアニメーションのまま変換しています。
+  Next.js への移行時に変換した 10 本分は、変換前 144.0 MB → 変換後 93.5 MB（2,894 枚、35% 減）。WordPress の 12 本は取り込みの最後に WebP に変換しています。写真は非可逆（品質 80）、ロゴ・UI の画像は劣化のない可逆圧縮、アニメーション GIF はアニメーションのまま変換しています。
 - `npm run webp`（`tools/webp.js`）が変換と同時に、HTML・JS（取り込んだサイトのスナップショットを含む）・CSS の中の参照を書き換えます。
   動画の中で入力しているソースコードの文字（例：Né の Astro のコードの `/photos/….jpg`）は、実際のサイトのファイル名のままにしてあります。
 - `npm run snapshot -- <id>` でサイトを取り込み直すと、最後に自動で WebP に変換されます。サムネイル・サイトのプレビュー画像も最初から WebP で撮影します。
@@ -87,7 +90,7 @@ movie/
 
 | 画面 | 動画 | 本物 / 再現 | 内容 |
 | --- | --- | --- | --- |
-| 各サイト・ストアの画面（PC / スマホ） | 全 10 本 | **本物** | 公開中のサイトを、サイト自身のスクリプトが動いた後の状態で取り込んだもの（HTML・CSS・画像。`npm run snapshot -- <id>`） |
+| 各サイト・ストアの画面（PC / スマホ） | 全 22 本 | **本物** | 公開中のサイトを、サイト自身のスクリプトが動いた後の状態で取り込んだもの（HTML・CSS・画像。`npm run snapshot -- <id>`） |
 | Shopify テーマストア | GREEN BASE | **本物** | themes.shopify.com（日本語）の一覧・検索候補・Flow のページ（2026-11-17 取得） |
 | GitHub Actions | Soup Stock Tokyo | **本物** | 公開リポジトリの実行ページを取り込み、名前を動画のものに置換。ログイン後のヘッダーも GitHub 自身のコードで描画。ログの文面・ボタンは再現（ログはログインが必要） |
 | Schema Markup Validator・view-source | Né | **本物** | validator.schema.org に動画のソースを実際に検証させた画面、Chrome 自身の view-source の表示 |
@@ -97,13 +100,15 @@ movie/
 | Lighthouse のレポート | SANYO | **本物** | Lighthouse 13.6 のレポート描画そのもので、ストアの実際の測定結果を表示（スコアの数値は工程の説明に合わせて設定、DevTools の枠は再現） |
 | makeshop のログイン画面 | 旅わが・日清 | **本物** | console.makeshop.jp のログイン画面（GMO のヘッダー・ロゴ・フォームとも本物） |
 | WordPress の管理画面（ACF を含む） | NOT A HOTEL | **本物** | WordPress Playground（ブラウザで動く本物の WordPress 7.1・日本語）に、動画のテーマ・ACF・ハウスのデータを入れて取り込んだ 13 画面。アドレスは開発環境の localhost:8888 に置き換え |
-| VS Code | 7 本 | 本物の部品で再現 | 今の既定の見た目：Dark Modern テーマの色、VS Code 自身のアイコン（codicon）、Seti のファイルアイコン、ミニマップ（`public/shared/vscode.*`。VS Code はオープンソース） |
+| WordPress の管理画面・プラグインの画面・フロントの出力 | WordPress の 12 本 | **本物** | 同じく WordPress Playground（WordPress 7.1.4・日本語）に、各サイトの公開データ（ページ・投稿・商品・イベントなど）と wordpress.org の本物のプラグイン（Contact Form 7・WooCommerce・ACF・SEO SIMPLE PACK・All in One SEO・Booking Package・B2BKing・Members・Duplicate Post・WP Super Cache・All-in-One WP Migration ほか）を入れ、動画の操作を実際に行って取り込んだ画面。独自プラグインの動画では、エディタで入力するのと同じソースを実際に動かした画面（`tools/wp/playground.js`） |
+| 有料のテーマ・プラグイン、外部サービス | WordPress の 12 本 | 再現 | 有料のもの（TCD のテーマ・Arkhe Blocks Pro・WooCommerce Subscriptions・Booking Package の有料版の決済など）はインストールできないため、近い無料の構成か、見た目の再現（各動画の docs に明記）。サーバー・DNS・外部 API・受信トレイも再現 |
+| VS Code | Shopify・WordPress の動画ほか | 本物の部品で再現 | 今の既定の見た目：Dark Modern テーマの色、VS Code 自身のアイコン（codicon）、Seti のファイルアイコン、ミニマップ（`public/shared/vscode.*`。VS Code はオープンソース） |
 | makeshop の管理画面（ログイン後） | 旅わが・日清 | 再現 | ログインが必要なため。ロゴ・アイコン・色・ページの名前と URL は管理画面自身の公開ファイルから |
 | Shopify の管理画面・テーマエディタ | Shopify の 6 本 | 再現 | ログインが必要なため。左上のロゴ・タブのファビコンは本物 |
 | STUDIO のエディタ | 吉武工務店 | 再現 | ログインが必要なため。左上のロゴ（/S）・タブのファビコンは本物 |
 | Figma | Né・NOT A HOTEL | 再現 | デスクトップアプリでログインが必要なため。タスクバーのアイコンは本物 |
-| Google Analytics・Tag Manager・Tag Assistant・Gmail | Né・KANADEMONO | 再現 | ログインが必要なため。タブのファビコンは本物 |
-| Windows 11・Chrome の枠（タブ・アドレスバー） | 全 10 本 | 再現 | アプリの画面のため取り込めません。アイコン・マウスポインター・ファビコンは本物（下表） |
+| Google Analytics・Tag Manager・Tag Assistant・Gmail | Né・KANADEMONO・WordPress（お問い合わせ・予約） | 再現 | ログインが必要なため。タブのファビコンは本物 |
+| Windows 11・Chrome の枠（タブ・アドレスバー） | 全 22 本 | 再現 | アプリの画面のため取り込めません。アイコン・マウスポインター・ファビコンは本物（下表） |
 
 ログインが必要な画面（Shopify・makeshop の管理画面、STUDIO、Figma、Google のツール）も、各サービスにご自身のアカウントでログインした状態であれば、同じ方法で本物を取り込めます。
 
@@ -136,9 +141,21 @@ movie/
 | Soup Stock Tokyo 公式オンラインショップ 倉庫・店舗の在庫連携（`soup-stock-tokyo`） | `/watch/soup-stock-tokyo` | 5:41 | 2026/08/25 15:41〜（途中で 16:01 へカット） |
 | KANADEMONO for BUSINESS 法人向け見積もり・お問い合わせ機能の開発（`kanademono-business`） | `/watch/kanademono-business` | 8:59 | 2026/09/15 10:30〜 |
 | Kanro POCKeT Shopify と業務システムの連携（`kanro-pocket`） | `/watch/kanro-pocket` | 6:46 | 2026/10/06 11:20〜 |
-| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:27 | 2026/10/27 10:18〜 |
+| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:25 | 2026/10/27 10:18〜 |
+| クルーズ株式会社 WordPress コーポレートサイトの新規制作（`wp-crooz`） | `/watch/wp-crooz` | 6:21 | 2026/10/28 10:39〜 |
+| 整体りびるど 既存 WordPress サイトのリニューアル（`wp-ribuild-renewal`） | `/watch/wp-ribuild-renewal` | 7:41 | 2026/10/29 13:32〜 |
+| はらいろ整骨院・へいわじま整骨院 WordPress 既存ページの修正（`wp-seikotsuin-fixes`） | `/watch/wp-seikotsuin-fixes` | 5:32 | 2026/10/30 14:06〜（途中でカット） |
+| Stand by Beauty Clinic 12-1月限定キャンペーンのランディングページ制作（`wp-stand-by-lp`） | `/watch/wp-stand-by-lp` | 6:17 | 2026/11/02 13:30〜（途中でカット） |
+| 仁秀 NINSHU WooCommerce による EC サイト構築（`wp-ninshu-woocommerce`） | `/watch/wp-ninshu-woocommerce` | 9:05 | 2026/11/04 10:05〜 |
+| 京橋ウェルネスクリニック・かとう歯科 お問い合わせフォームの構築（`wp-clinic-contact-form`） | `/watch/wp-clinic-contact-form` | 6:08 | 2026/11/05 14:10〜（途中でカット） |
+| クックパッド株式会社 WordPress おしらせ（ブログ・オウンドメディア）の構築（`wp-cookpad-media`） | `/watch/wp-cookpad-media` | 7:13 | 2026/11/06 13:12〜（途中でカット） |
+| カイロライン三鷹整体院 WordPress サイトの SEO 対策・検索順位改善（`wp-chiroline-seo`） | `/watch/wp-chiroline-seo` | 5:06 | 2026/11/09 13:20〜 |
+| GMOアリーナさいたま WordPress マルチサイトのサーバー移転・新ドメイン移行準備（`wp-saitama-arena-migration`） | `/watch/wp-saitama-arena-migration` | 7:07 | 2026/11/10 22:04〜（途中でカット） |
+| 福岡正信自然農園 WordPress 会員制サイト・ログイン機能（`wp-f-masanobu-members`） | `/watch/wp-f-masanobu-members` | 5:44 | 2026/11/11 13:20〜 |
+| アジアンリトリート WordPress 予約システムの導入（`wp-asianretreat-booking`） | `/watch/wp-asianretreat-booking` | 5:21 | 2026/11/12 10:12〜（途中でカット） |
+| GMOアリーナさいたま WordPress 独自プラグイン開発（催事管理システムとのイベント連携）（`wp-saitama-arena-plugin`） | `/watch/wp-saitama-arena-plugin` | 8:09 | 2026/11/13 10:31〜（途中でカット） |
 
-合計 10 本・約 65 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
+合計 22 本・約 144 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
 
 ### Shopify の動画（6 本）
 
@@ -153,6 +170,29 @@ movie/
 
 各社の作業工程・ログイン後の管理画面の操作・外部システム・件数や在庫数などは **工程を説明するための再現** で、実際の作業の記録ではありません。
 いずれも実在の企業・サイトのため、ローカルのファイルとしてだけ使ってください（どこまでが本物かは各動画の `docs/videos/<id>.md` の「最初に確認していただきたいこと」）。
+
+### WordPress の動画（12 本）
+
+「WordPress制作・開発業務一覧」の業務ごとに 1 本です（一覧に 5 番はないため 12 本）。参考サイトが 2 つある業務は、主に 1 つのサイトで作業し、もう 1 つは動画の中の 2 件目の依頼か `docs/videos/<id>.md` で触れています。
+
+| 業務（一覧の番号） | 動画（id） | 主な工程 | 主なプラグイン・ツール |
+| --- | --- | --- | --- |
+| 1 企業ホームページの新規制作 | クルーズ株式会社（`wp-crooz`） | wp-env・オリジナルテーマ・グローバルナビ・会社概要 / 事業紹介のテンプレート・お問い合わせ・スマホ対応 | Contact Form 7 |
+| 2 既存サイトのリニューアル | 整体りびるど（`wp-ribuild-renewal`） | 現状確認・親子ページで導線整理・新テーマ・旧 URL の 301・スマホの電話予約ボタン・バックアップしてテーマ移行 | All-in-One WP Migration・Elementor |
+| 3 既存ページの修正 | はらいろ整骨院・へいわじま整骨院（`wp-seikotsuin-fixes`） | 6 件の修正依頼（メニュー追加・予約リンク・フッター・説明文・診療時間・スマホ表示） | All in One SEO |
+| 4 LP 制作 | Stand by Beauty Clinic（`wp-stand-by-lp`） | 構成と導線・料金表の作成・前回の LP を複製して差し替え・トップのバナー・スマホの固定予約ボタン | Duplicate Post・WP Super Cache |
+| 6 WooCommerce の EC サイト | 仁秀 NINSHU（`wp-ninshu-woocommerce`） | 店舗設定・送料（5 区分・送料無料）・Stripe / 銀行振込・会員登録・CSV で 158 商品・注文ステータス | WooCommerce・WooCommerce Stripe |
+| 7 お問い合わせフォーム | 京橋ウェルネスクリニック・かとう歯科（`wp-clinic-contact-form`） | フォーム作成・テーマに設置・通知 / 自動返信メール・reCAPTCHA v3・入力チェック・画像の添付 | Contact Form 7 |
+| 8 ブログ・オウンドメディア | クックパッド株式会社（`wp-cookpad-media`） | 投稿タイプ「おしらせ」・カテゴリー・882 件の移行・予約投稿・記事テンプレート・一覧ページ | Advanced Custom Fields・WP-CLI |
+| 9 SEO 対策 | カイロライン三鷹整体院（`wp-chiroline-seo`） | ソースで現状確認・title / description / OGP・noindex の修正・構造化データ（JSON-LD）・カテゴリーのスラッグと説明文 | SEO SIMPLE PACK（Arkhe 子テーマ） |
+| 10 サーバー移転・ドメイン移行 | GMOアリーナさいたま（`wp-saitama-arena-migration`） | マルチサイトの移転（WP-CLI・rsync）・DB 移行・ロードバランサーと SSL・hosts で事前確認・DNS 切り替え・新ドメインの準備 | WP-CLI・All-in-One WP Migration（無料版はマルチサイト非対応） |
+| 11 会員制サイト | 福岡正信自然農園（`wp-f-masanobu-members`） | 会員登録の項目追加・管理画面の会員情報・マイページ・卸会員グループと卸価格・権限グループと会員限定ページ | WooCommerce・B2BKing・Members |
+| 12 予約システム | アジアンリトリート（`wp-asianretreat-booking`） | メニューと料金・予約枠・入力項目・通知メール・オンライン決済・予約ページ・テスト予約・予約の管理 | Booking Package |
+| 13 独自プラグイン・PHP 開発 | GMOアリーナさいたま（`wp-saitama-arena-plugin`） | 外部 API クライアント・設定画面と同期ログ・本日開催のイベント（テンプレートタグ・REST API）・WP-Cron と WP-CLI・PHPCS・本番へ反映 | 独自プラグイン「Arena Events Sync」 |
+
+- 参考サイトの入れ替え：2 番は maruyama-sekkei.com ではなく ribuild.jp を、9 番は arakidashika.com（この PC から応答がなかったため）ではなく chiroline-mitakain.com を主なサイトにしました。外した 2 サイトは各動画の docs で触れています。
+- どの動画も、各社のサイトの公開ページと公開データだけを使っています（ログイン・会員登録・フォーム送信・予約はしていません）。管理画面は使い捨ての WordPress Playground のものです。
+- 作業の順序・ミスとその修正・サーバーやメール・外部 API・テーマのソースコード（公開されていないため、公開中の HTML と同じ出力になるように書いたもの）は **工程を説明するための再現** です。
 
 ### 掲載中のサイト（一般・デモ）
 
@@ -188,6 +228,7 @@ movie/
 | `favicons/ga.svg` `gtm.svg` `ta.svg` | Analytics / Tag Manager / Tag Assistant | 各サービスのファビコン（gstatic.com・tagassistant.google.com） |
 | `favicons/schema.ico` | Schema Markup Validator | `schema.org/docs/favicon.ico` |
 | `favicons/sveltia.svg` | Sveltia CMS（Né の /admin） | Sveltia CMS がロゴ未設定のときにファビコンにする自身のロゴ（公開バンドルから取得、MIT） |
+| `favicons/wordpress.png` | サイトアイコンのない WordPress の管理画面・ログイン画面 | WordPress 本体の `wp-includes/images/w-logo-blue-white-bg.png`（GPL） |
 | `favicons/notahotel.ico` `tabisuruwagashi.png` | 各サイト | 各サイトのファビコン。Shopify のストアのファビコンは各動画のスナップショットに含まれます |
 | `logos/shopify.svg` | Shopify 管理画面の左上 | shopify.com のヘッダーのロゴ |
 | `logos/makeshop.svg` | makeshop の管理画面 | console.makeshop.jp のログイン画面のロゴ |
@@ -208,6 +249,7 @@ movie/
 | makeshop（旅わが・日清） | ショップ ID（＝管理画面のログイン ID） |
 | NOT A HOTEL | `git push` の出力のリポジトリ所有者名（本番サーバーは SSH の接続名 `notahotel-prod` で表示し、アドレスは出していません） |
 | Shopify の動画 | 顧客・会員・担当者の氏名・メールアドレス・住所など（日清・Soup Stock Tokyo・KANADEMONO・Kanro）、`.env` のシークレット（Soup Stock Tokyo・Kanro。SANYO は伏せ字）。いずれも再現用の値ですが、本物の個人情報・鍵に見えないようにしています |
+| WordPress の動画 | テスト会員・テスト注文・テスト予約のお客様の氏名・メールアドレス・住所、口座番号、reCAPTCHA・Stripe のキー、サーバーの接続情報・DB のパスワード・AWS の ID など（いずれも再現用の値。管理画面の中は `wp-frame.js` が同じぼかしをかけます） |
 
 ぼかしたい箇所を増やすときは、要素に `class="pii"` を付けます（`public/shared/win11.css`）。
 
@@ -220,6 +262,7 @@ movie/
 - STUDIO：お知らせの最新は 2026.2.21 で、3/10 の日付と矛盾しません
 - NOT A HOTEL：お知らせの最新（NOTA への社名変更）が 2026/10/05 のため、画面の日付は 2026/10/27 にしました（矛盾しません）
 - Shopify の 6 本（画面の日付 2026/06〜10）：ストアの画面は 2026/11/17 に取り込んだため、冬のキャンペーン・期間限定商品・賞味期限の表示など、画面の日付より後の内容が含まれます
+- WordPress の 12 本（画面の日付 2026/10/28〜11/13）：サイトと管理画面は 2026/11/17〜18 に取り込みました。管理画面の「今日」の日付・時刻は取り込み時に画面の日付と時計に置き換えています（`tools/wp/playground.js`）。画面の日付より後のお知らせ・イベントは、目立つものを各動画で外すか日付を合わせています（各動画の docs）
 
 ## ツール（`tools/`。Node.js 22.18 以上と Google Chrome が必要）
 
@@ -240,6 +283,14 @@ movie/
 2. `npm run snapshot -- <id>`（`config.js` の `snapshot` を読んでストアを取り込み、WebP に変換）
 3. `js/scenario.js` に台本を書く（管理画面は `Kit.Admin` と `Kit.H`、コードは `Kit.Code` / `Kit.Term`、ストアは `Kit.Store`、日本語入力は `Kit.codeScript` / `Kit.typeInput`）
 4. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`
+
+### WordPress の動画を増やすとき
+
+1. 既存の WordPress の動画（例：`public/videos/wp-crooz/`）を参考に `public/videos/<id>/` を作る（WordPress の画面はブラウザのページ `wp` に表示）
+2. `tools/snapshots/<id>/capture-wp.js` を書いて実行：`tools/wp/playground.js` で本物の WordPress（日本語）を起動し、サイトの公開データ・wordpress.org のプラグイン（`cap.translations()` で日本語化）を入れ、動画の操作を実際に行って画面を取り込む → `js/wp-snapshot.js` と `assets/wp/`。続けて `node tools/webp.js <id>`
+3. 公開中のサイトは `npm run snapshot -- <id>`（`config.js` の `snapshot`）
+4. `js/scenario.js` に台本を書く（WordPress の画面は `WP.show(key)`、入力は `Demo.typeInto(WP.typeInto(name), …)`、PHP は `Kit.Code` がハイライト。WordPress のコーディング規約どおりタブでインデント）
+5. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`
 
 ## Next.js への移行（2026-11-17）
 

@@ -1,0 +1,8 @@
+/* wp-seikotsuin-fixes: the real WordPress screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+
+/* tab-indented PHP (WordPress coding standards) at VS Code's tab size 4 (the editor's status bar: タブのサイズ: 4) */
+#vsLines, #vsLines * { tab-size: 4; -moz-tab-size: 4; }
+
+/* the store page while another site is being loaded into it (the two sites share the kit's store frame) */
+#stPage.swap #stFrame, #stPage.swap #stSpFrame { visibility: hidden; }

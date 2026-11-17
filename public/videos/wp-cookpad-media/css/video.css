@@ -1,0 +1,8 @@
+/* wp-cookpad-media: the real WordPress screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+
+/* Chrome's status bubble (the address of the link under the pointer), bottom left of the page */
+.cp-status { position: absolute; left: 0; bottom: 0; z-index: 30; max-width: 60%; padding: 3px 8px 4px 7px; background: #f1f3f4; color: #202124;
+  border: 1px solid #dadce0; border-left: 0; border-bottom: 0; border-top-right-radius: 6px; font: 12px/16px "Segoe UI", "Yu Gothic UI", sans-serif;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity .12s; pointer-events: none; }
+.cp-status.show { opacity: 1; }

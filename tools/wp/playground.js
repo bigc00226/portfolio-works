@@ -47,6 +47,8 @@ add_action( 'admin_menu', function () { foreach ( $GLOBALS['menu'] as $k => $m )
 /* the Playground's "username: admin / password: password" box on the login screen is not part of WordPress */
 add_action( 'login_init', function () { remove_all_filters( 'login_message' ); }, 999 );
 add_filter( 'login_message', fn( $m ) => stripos( $m, 'password' ) !== false && stripos( $m, 'admin' ) !== false ? '' : $m, 9999 );
+/* the dashboard's "WordPress イベントとニュース" box picks events by the capturing machine's location: closed unless the user opened it */
+add_filter( 'get_user_option_closedpostboxes_dashboard', fn( $v ) => is_array( $v ) ? $v : [ 'dashboard_primary' ] );
 `;
 
 /**
@@ -91,6 +93,23 @@ async function serializeInPage(opts) {
     'border-left-color', 'border-radius', 'background-color', 'color', 'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing',
     'box-shadow', 'outline-style', 'outline-width', 'outline-color', 'outline-offset', 'vertical-align', 'max-width', 'flex', 'text-align'];
   const boxStyle = (el) => { const cs = getComputedStyle(el); return STYLE_PROPS.map((p) => `${p}:${cs.getPropertyValue(p)}`).join(';'); };
+  /** a plugin's stylesheet that @imports another one relative to itself (WP Statistics: "plugin/tooltipster.bundle.css"):
+   *  the imported sheet is put in its place (its url()s made absolute); Google Fonts stay @imports (absolute) */
+  async function inlineImports(text, base, depth) {
+    let out = text;
+    for (const m of [...text.matchAll(/@import\s+(?:url\(\s*(['"]?)(.*?)\1\s*\)|(['"])(.*?)\3)\s*([^;]*);/g)]) {
+      const a = abs(m[2] || m[4], base);
+      if (depth > 2 || /fonts\.googleapis\.com/.test(a)) { out = out.replace(m[0], m[0].replace(m[2] || m[4], a)); continue; }
+      try {
+        const r = await fetch(a);
+        let t = r.ok ? await r.text() : '';
+        if (!t || /^\s*</.test(t)) continue;
+        t = (await inlineImports(t, a, depth + 1)).replace(/url\((['"]?)(.*?)\1\)/g, (all, q, u) => (/^(data:|#)/.test(u) ? all : `url(${q}${abs(u, a)}${q})`));
+        out = out.replace(m[0], () => (m[5].trim() ? `@media ${m[5].trim()}{${t}}` : t));
+      } catch (er) { /* leave the @import */ }
+    }
+    return out;
+  }
 
   async function doc2html(doc, depth) {
     const live = doc.documentElement;
@@ -140,7 +159,7 @@ async function serializeInPage(opts) {
       let text = '', base = doc.baseURI;
       if (isLink) {
         base = e.href;
-        try { text = await (await fetch(e.href)).text(); } catch (er) { text = ''; }
+        try { text = await inlineImports(await (await fetch(e.href)).text(), e.href, 0); } catch (er) { text = ''; }
       } else {
         try { text = e.sheet && e.sheet.cssRules.length && !e.textContent.trim() ? [...e.sheet.cssRules].map((r) => r.cssText).join('\n') : e.textContent; } catch (er) { text = e.textContent; }
       }
@@ -162,6 +181,14 @@ async function serializeInPage(opts) {
       if (e.tagName === 'SOURCE') c.remove();
       const st = e.getAttribute && e.getAttribute('style');
       if (st && /url\(/.test(st)) c.setAttribute('style', st.replace(/url\((['"]?)([^'")]+)\1\)/g, (m, q, u) => { if (/^data:/.test(u)) return m; const a = abs(u, doc.baseURI); assets.add(a); return `url("${a}")`; }));
+    });
+    // modal dialogs (CF7's tag generator …) are re-opened as modal by wp-frame.js; scrolled boxes (CodeMirror, lists) keep
+    // their scroll position
+    all.forEach((e) => {
+      const c = twin.get(e);
+      if (!c) return;
+      if (e.tagName === 'DIALOG' && e.open && e.matches(':modal')) c.setAttribute('data-demo-modal', '');
+      if ((e.scrollTop || e.scrollLeft) && e !== live && e !== doc.body) c.setAttribute('data-demo-scroll', `${Math.round(e.scrollLeft)},${Math.round(e.scrollTop)}`);
     });
     // iframes inside (the block editor canvas, previews): their own document
     const frames = {};
@@ -234,14 +261,19 @@ async function start(o) {
       return cap;
     },
     async view(v) { await ctx.page.setViewport(VIEWS[v] || v); await wait(400); },
-    /** opens a page of the site (path relative to the site root) and waits for `ready` (a CSS selector) */
-    async go(rel, ready = 'body') {
+    /**
+     * opens a page of the site (path relative to the site root) and waits for `ready` (a CSS selector).
+     * { redirect: true }: the link redirects (Duplicate Post's "新規下書きとして複製" → post.php …): any page other than
+     * the one it starts from counts, once `ready` is there
+     */
+    async go(rel, ready = 'body', opt = {}) {
+      const from = await wpFrame().evaluate(() => location.href).catch(() => '');
       await wpFrame().evaluate((u) => { setTimeout(() => { location.href = u; }, 0); }, ctx.origin + rel).catch(() => null);
       const want = new URL(ctx.origin + rel).pathname;
       for (let i = 0; i < 180; i++) {
         await wait(500);
         const g = wpFrame();
-        try { if (await g.evaluate((r, sel) => location.pathname === r && document.readyState === 'complete' && !!document.querySelector(sel), want, ready)) { ctx.wp = g; await wait(800); return g; } } catch (e) { /* navigating */ }
+        try { if (await g.evaluate((r, sel, redirect, from) => (redirect ? location.href !== from : location.pathname === r) && document.readyState === 'complete' && !!document.querySelector(sel), want, ready, !!opt.redirect, from)) { ctx.wp = g; await wait(800); return g; } } catch (e) { /* navigating */ }
       }
       const info = await wpFrame().evaluate(() => ({ url: location.href, title: document.title, text: (document.body && document.body.innerText || '').slice(0, 400) })).catch((e) => ({ err: e.message }));
       await ctx.page.screenshot({ path: path.join(o.shots || DIR, 'wp-go-failed.jpg'), type: 'jpeg', quality: 70 }).catch(() => {});
@@ -264,7 +296,9 @@ async function start(o) {
           const nonce = await (await fetch(origin + '/wp-admin/admin-ajax.php?action=rest-nonce')).text();
           const res = await fetch(origin + '/index.php?rest_route=/demo/v1/php', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': nonce }, body: JSON.stringify({ code, data }) });
           return { status: res.status, body: await res.text() };
-        }, ctx.origin, code, data).catch(async (e) => { if (!/context was destroyed|detached|Target closed/i.test(e.message)) throw e; await wait(1500); return null; });
+        }, ctx.origin, code, data).catch(async (e) => { if (!/context was destroyed|detached|Target closed|Failed to fetch|NetworkError|could not connect/i.test(e.message)) throw e; await wait(1500); return null; });
+        // right after boot the Playground's PHP worker can answer "could not connect" once or twice
+        if (r && r.status >= 500 && /could not connect|Failed to fetch/i.test(r.body) && i < 7) { await wait(2000); r = null; }
       }
       if (!r) throw new Error('PHP: the WordPress frame kept reloading');
       if (r.status !== 200) throw new Error(`PHP failed (${r.status}): ${r.body.slice(0, 600)}`);
@@ -401,10 +435,14 @@ async function start(o) {
         for (const [u, lp] of [...localOf].sort((a, b) => b[0].length - a[0].length)) h = h.split(u).join(lp).split(u.replace(/&/g, '&amp;')).join(lp);
         h = h.split(slug(origin)).join(slug(LOCAL));
         h = h.split(origin).join(LOCAL).split(origin.replace(/^https:/, 'http:')).join(LOCAL).split(encodeURIComponent(origin)).join(encodeURIComponent(LOCAL)).split(new URL(origin).pathname).join('');
+        // what is left of the Playground's host: blob: URLs (the block editor's canvas), the bare origin / host in texts
+        h = h.split(new URL(origin).origin).join(new URL(LOCAL).origin).split(new URL(origin).host).join(new URL(LOCAL).host);
         h = h.split('/wordpress/wp-content/').join(o.serverPath || '/home/www/wp-content/');
         h = h.replace(/ data-playground-[a-z-]+="[^"]*"/g, '');
         // the capture's date (and time of day) → the video's; "12:46 am" (some plugins write lower case) keeps its case
         h = h.replace(new RegExp(`${y}年${mo}月${da}日(\\s*)(\\d{1,2}:\\d{2}(\\s*(AM|PM|am|pm|午前|午後))?)?`, 'g'), (m0, sp, t, sp2, apm) => `${Y}年${M}月${Dd}日${sp || ''}${t ? (apm ? (/^[ap]m$/.test(apm) ? ampm.toLowerCase() : ampm) : hhmm) : ''}`)
+          // times the editor computes from the capturing machine's clock: "今日 1:36 AM" → the video's clock
+          .replace(/今日(\s*)\d{1,2}:\d{2}(\s*)(AM|PM|am|pm|午前|午後)?/g, (m0, sp, sp2, apm) => `今日${sp}${apm ? (/^[ap]m$/.test(apm) ? ampm.toLowerCase() : ampm) : hhmm}`)
           .replace(new RegExp(`${y}/${pad(mo)}/${pad(da)}`, 'g'), `${Y}/${pad(M)}/${pad(Dd)}`)
           .replace(new RegExp(`${y}-${pad(mo)}-${pad(da)}`, 'g'), `${Y}-${pad(M)}-${pad(Dd)}`)
           .replace(new RegExp(`/uploads/${y}/${pad(mo)}/`, 'g'), `/uploads/${Y}/${pad(M)}/`);
@@ -412,7 +450,8 @@ async function start(o) {
       };
       const fixPage = (p) => ({ ...p, html: fix(p.html), url: fix(p.url), title: fix(p.title), frames: Object.fromEntries(Object.entries(p.frames || {}).map(([k, f]) => [k, fixPage(f)])) });
       for (const k of Object.keys(SNAP.pages)) SNAP.pages[k] = fixPage(SNAP.pages[k]);
-      const out = { capturedAt: now.toISOString().slice(0, 10), source: 'WordPress Playground (playground.wordpress.net)', site: LOCAL, info: cap.info, data: cap.data, css: SNAP.css, pages: SNAP.pages };
+      const data = cap.data && JSON.parse(fix(JSON.stringify(cap.data)));   // ids, urls … the capture script stored
+      const out = { capturedAt: now.toISOString().slice(0, 10), source: 'WordPress Playground (playground.wordpress.net)', site: LOCAL, info: cap.info, data, css: SNAP.css, pages: SNAP.pages };
       const file = path.join(DIR, 'js', 'wp-snapshot.js');
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, `/* real WordPress screens (tools/wp/playground.js, captured ${out.capturedAt}) — generated, do not edit */\nwindow.WP_SNAPSHOT = ` + JSON.stringify(out) + ';\n');

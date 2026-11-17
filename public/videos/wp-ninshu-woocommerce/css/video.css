@@ -1,0 +1,4 @@
+/* 仁秀 NINSHU — WooCommerce: the few things of this video only (the screens themselves are the real ones) */
+/* the WordPress screens fill the browser page */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+/* the CSV in the editor: long lines run past the right edge as in VS Code (no wrap) */

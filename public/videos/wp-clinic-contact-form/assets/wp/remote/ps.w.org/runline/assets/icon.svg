@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+	<style>
+		@keyframes run { from { transform: translateX(28px) } to { transform: translateX(-192px) } }
+		@keyframes twinkle { 0%, 100% { opacity: 1 } 50% { opacity: .55 } }
+		@keyframes drift { 0%, 100% { transform: translateX(0) } 50% { transform: translateX(10px) } }
+		.strip { animation: run 3.6s linear infinite }
+		.dot { animation: twinkle 1.8s ease-in-out infinite }
+		.top { animation: drift 3.6s ease-in-out infinite }
+		.bottom { animation: drift 3.6s ease-in-out infinite reverse }
+		@media (prefers-reduced-motion: reduce) {
+			.strip, .dot, .top, .bottom { animation: none }
+		}
+	</style>
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#4f46e5"/>
+			<stop offset="1" stop-color="#7c3aed"/>
+		</linearGradient>
+		<clipPath id="bar"><rect x="28" y="98" width="200" height="60" rx="30"/></clipPath>
+		<g id="part">
+			<rect x="0" y="120" width="70" height="16" rx="8" fill="#4f46e5"/>
+			<circle class="dot" cx="90" cy="128" r="6" fill="#f59e0b"/>
+			<rect x="110" y="120" width="86" height="16" rx="8" fill="#4f46e5"/>
+			<circle class="dot" cx="208" cy="128" r="6" fill="#f59e0b"/>
+		</g>
+	</defs>
+	<rect width="256" height="256" rx="56" fill="url(#bg)"/>
+	<rect class="top" x="44" y="58" width="96" height="14" rx="7" fill="#fff" opacity=".35"/>
+	<rect class="bottom" x="116" y="184" width="96" height="14" rx="7" fill="#fff" opacity=".35"/>
+	<rect x="28" y="98" width="200" height="60" rx="30" fill="#fff"/>
+	<g clip-path="url(#bar)">
+		<g class="strip">
+			<use href="#part"/>
+			<use href="#part" x="220"/>
+			<use href="#part" x="440"/>
+		</g>
+	</g>
+</svg>

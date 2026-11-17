@@ -62,6 +62,7 @@
     .demo-ime.conv { text-decoration-style: solid; }
     .demo-ime.conv.active { text-decoration-thickness: 3px; background: rgba(56,88,233,.2); }
     [data-demo-input]:empty::before { content: attr(data-demo-placeholder); color: #8c8f94; }
+    .pii { filter: blur(5px); } .pii-strong { filter: blur(7px); }   /* as public/shared/win11.css, inside the screens too */
   `;
   const RUNTIME = function () {
     window.__demoHover = (el, on) => {
@@ -88,6 +89,26 @@
     const imgs = [...doc.images].filter((i) => !i.complete);
     await Promise.race([Promise.all(imgs.map((i) => new Promise((r) => { i.onload = i.onerror = r; }))), new Promise((r) => setTimeout(r, 6000))]);
   }
+  /**
+   * the captured scroll positions (the window, scrolled boxes: data-demo-scroll) — once the frame is laid out: a screen
+   * preloaded while its browser page is hidden (display: none) has no layout yet, so WP.show() does it then. Only once:
+   * after that the video owns the scrolling.
+   */
+  function restore(iframe, page) {
+    const doc = iframe.contentDocument;
+    if (!doc || !page || iframe._demoRestored || !iframe.getClientRects().length) return;
+    if (page.scroll && (page.scroll[0] || page.scroll[1])) doc.defaultView.scrollTo(page.scroll[0], page.scroll[1]);
+    doc.querySelectorAll('[data-demo-scroll]').forEach((e) => { const [x, y] = e.dataset.demoScroll.split(',').map(Number); e.scrollLeft = x; e.scrollTop = y; });
+    iframe._demoRestored = true;
+    doc.querySelectorAll('iframe[data-demo-frame]').forEach((sub) => restore(sub, page.frames && page.frames[sub.dataset.demoFrame]));
+  }
+  /** dialogs captured open as modal (data-demo-modal): open them as modal again (centred, with the backdrop) */
+  function reopenModals(doc) {
+    doc.querySelectorAll('dialog[data-demo-modal]').forEach((d) => {
+      try { if (!d.matches(':modal')) { d.close(); d.showModal(); } } catch (e) { /* keep it as it is */ }
+    });
+    if (doc.activeElement && doc.activeElement !== doc.body && doc.activeElement.blur) doc.activeElement.blur();
+  }
   /** loads a captured page (and the iframes inside it) into an iframe */
   function loadInto(iframe, page) {
     return new Promise((resolve) => {
@@ -97,7 +118,8 @@
         const subs = [...doc.querySelectorAll('iframe[data-demo-frame]')];
         await Promise.all(subs.map((f) => (page.frames && page.frames[f.dataset.demoFrame] ? loadInto(f, page.frames[f.dataset.demoFrame]) : null)));
         await settle(doc);
-        if (page.scroll && (page.scroll[0] || page.scroll[1])) doc.defaultView.scrollTo(page.scroll[0], page.scroll[1]);
+        if (doc.querySelector('dialog[data-demo-modal]')) reopenModals(doc);
+        restore(iframe, page);
         resolve(doc);
       });
       iframe.srcdoc = build(page);
@@ -131,10 +153,11 @@
       if (!this.frames[key]) await this.preload([key]);
       $$('.wpf', this.page()).forEach((f) => f.classList.toggle('on', f.dataset.wp === key));
       this.screen = key;
+      restore(this.frames[key], WS.pages[key]);
       return this.doc(key);
     },
-    doc(key = this.screen) { const f = this.frames[key]; return f && f.contentDocument; },
-    docs(key = this.screen) {
+    doc(key) { const f = this.frames[key == null ? this.screen : key]; return f && f.contentDocument; },
+    docs(key) {   // key: a captured screen; null / undefined: the one on screen
       const out = [];
       const add = (d) => { if (!d) return; out.push(d); d.querySelectorAll('iframe').forEach((f) => { try { add(f.contentDocument); } catch (e) {} }); };
       add(this.doc(key));
@@ -142,8 +165,8 @@
     },
     el(sel, key) { for (const d of this.docs(key)) { const e = d.querySelector(sel); if (e) return e; } return null; },
     els(sel, key) { return this.docs(key).flatMap((d) => [...d.querySelectorAll(sel)]); },
-    title(key = this.screen) { return WS.pages[key].title; },
-    url(key = this.screen) { return WS.pages[key].url; },
+    title(key) { return WS.pages[key == null ? this.screen : key].title; },
+    url(key) { return WS.pages[key == null ? this.screen : key].url; },
     focus(el, on) {
       if (!el.dataset.demoBlur) el.dataset.demoBlur = el.getAttribute('style') || '';
       el.setAttribute('style', on ? `${el.dataset.demoBlur};${el.dataset.demoFocus || ''}` : el.dataset.demoBlur);

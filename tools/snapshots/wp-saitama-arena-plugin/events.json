@@ -1,0 +1,198 @@
+{
+ "source": "https://www.saitama-arena.co.jp/schedule/ (2026年11月のイベント, fetched 2026-11-18) — the API fields and ids are invented; titles, dates, fees, contacts, categories, venue types, links and images are the live list",
+ "events": [
+  {
+   "id": "EV2604-165",
+   "title": "TSQ presents「MYSTERY GATE」",
+   "slug": "",
+   "start_date": "2026-04-24T00:00:00+09:00",
+   "end_date": "2027-03-31T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "有料",
+   "contact": "TSQ実行委員会 info@tsq-nazo.com",
+   "url": "https://tsq-nazo.com/mystery_gate/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2024/08/MYSTERYGATE_banner_1.jpg",
+   "live_id": 22165
+  },
+  {
+   "id": "EV2607-738",
+   "title": "ある料理人が遺した謎",
+   "slug": "secret_recipe",
+   "start_date": "2026-07-24T00:00:00+09:00",
+   "end_date": "2027-03-31T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "有料",
+   "contact": "TSQ実行委員会 info@tsq-nazo.com",
+   "url": "https://tsq-nazo.com/secret_recipe/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/07/recipe_05_arena_0714.jpg",
+   "live_id": 22738
+  },
+  {
+   "id": "EV2610-038",
+   "title": "エビカニフェス 2026",
+   "slug": "",
+   "start_date": "2026-10-31T00:00:00+09:00",
+   "end_date": "2026-11-03T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料（飲食代別途）",
+   "contact": "info@ebikani.jp",
+   "url": "https://ebikani.jp/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/10/6465bd01276ee52677ee7432ee0e4eee.jpg",
+   "live_id": 23038
+  },
+  {
+   "id": "EV2611-794",
+   "title": "SAITAMA DANCE BASE",
+   "slug": "saitama-dance-base",
+   "start_date": "2026-11-07T00:00:00+09:00",
+   "end_date": "2026-11-08T23:59:59+09:00",
+   "category": "concert-show",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "主催：SAITAMA DANCE BASE実行委員会（YODEL／代表 矢澤直人）／saitama_dancebase@yo-del.site",
+   "url": "https://sai-dan.yo-del.site/#hero",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/11/logo-1.png",
+   "live_id": 22794
+  },
+  {
+   "id": "EV2611-071",
+   "title": "GMO winter illumination in けやきひろば～If Snow～",
+   "slug": "",
+   "start_date": "2026-11-07T00:00:00+09:00",
+   "end_date": "2027-01-24T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "GMOアリーナさいたま 048-601-1122",
+   "url": "https://www.saitama-arena.co.jp/event/illumination2026/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/10/7149224a2a5d1cd1ca78bed6da330d61-scaled-e1792735709590.jpg",
+   "live_id": 23071
+  },
+  {
+   "id": "EV2611-094",
+   "title": "GMO winter illumination in けやきひろば～If Snow～ 点灯セレモニー",
+   "slug": "",
+   "start_date": "2026-11-07T00:00:00+09:00",
+   "end_date": "2026-11-07T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "GMOアリーナさいたま 048-601-1122",
+   "url": "https://www.saitama-arena.co.jp/event/illumination2026/outline/#ceremony",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/10/23c581801fb8765322326d794dfd3c07-e1792819074302.jpg",
+   "live_id": 23094
+  },
+  {
+   "id": "EV2611-024",
+   "title": "2026さいたまるしぇ in さいたまクリテリウム",
+   "slug": "",
+   "start_date": "2026-11-14T00:00:00+09:00",
+   "end_date": "2026-11-15T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "公益社団法人さいたま観光国際協会 048-647-8339（平日9:00〜17:45、土日祝休)",
+   "url": "https://visitsaitamacity.jp/events/5",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2022/11/marche.gif",
+   "live_id": 23024
+  },
+  {
+   "id": "EV2611-005",
+   "title": "フリーマーケットinさいたま新都心けやきひろば",
+   "slug": "",
+   "start_date": "2026-11-18T00:00:00+09:00",
+   "end_date": "2026-11-18T23:59:59+09:00",
+   "category": "exhibition",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "リサイクル運動市民の会・埼玉本部 メール recycle-s@hop100.com",
+   "url": "https://furima-s.com/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2020/12/ecc10f7ecb7c61467ffb76701bd201e9-scaled-e1606388292959.jpg",
+   "live_id": 23005
+  },
+  {
+   "id": "EV2611-143",
+   "title": "アバスポさいたま in さいたま新都心 けやきひろば",
+   "slug": "",
+   "start_date": "2026-11-22T00:00:00+09:00",
+   "end_date": "2026-11-23T23:59:59+09:00",
+   "category": "sports",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "一般社団法人さいたまスポーツコミッション TEL： 048-762-8334 ／",
+   "url": "https://saitamasc.jp/abasupo",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/11/img_abasupo_1122_01resise.png",
+   "live_id": 23143
+  },
+  {
+   "id": "EV2611-007",
+   "title": "フリーマーケットinさいたま新都心けやきひろば",
+   "slug": "",
+   "start_date": "2026-11-27T00:00:00+09:00",
+   "end_date": "2026-11-27T23:59:59+09:00",
+   "category": "exhibition",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "リサイクル運動市民の会・埼玉本部 メール recycle-s@hop100.com",
+   "url": "https://furima-s.com/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2020/12/ecc10f7ecb7c61467ffb76701bd201e9-scaled-e1606388292959.jpg",
+   "live_id": 23007
+  },
+  {
+   "id": "EV2611-319",
+   "title": "LOVE JAZZ TIME 2026",
+   "slug": "",
+   "start_date": "2026-11-28T00:00:00+09:00",
+   "end_date": "2026-11-28T23:59:59+09:00",
+   "category": "concert-show",
+   "venue": [
+    "keyakihiroba"
+   ],
+   "fee": "無料",
+   "contact": "埼玉県ビッグバンド連盟",
+   "url": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/10/daa7b390683faf997fb9308341b4294e.pdf",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2024/02/Image-2024-02-07T180322.685.jpeg",
+   "live_id": 22319
+  },
+  {
+   "id": "EV2611-997",
+   "title": "さいたまを冒険しよう！「さいたまロゲイニング2026 Vol.2」",
+   "slug": "",
+   "start_date": "2026-11-29T00:00:00+09:00",
+   "end_date": "2026-11-29T23:59:59+09:00",
+   "category": "other",
+   "venue": [
+    "keyakihiroba",
+    "other"
+   ],
+   "fee": "中学生以上：2,200円／小学生：1,100円／未就学児：無料",
+   "contact": "株式会社さいたまアリーナ:048-601-1122",
+   "url": "https://www.saitama-arena.co.jp/event/rogaining26/",
+   "image": "https://www.saitama-arena.co.jp/schedule/wp-content/uploads/sites/2/2026/09/d2f4cb26e31792bda0768fca4730fdaa-1.jpg",
+   "live_id": 22997
+  }
+ ]
+}

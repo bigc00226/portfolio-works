@@ -7,12 +7,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const cache = new Map<string, { width: number; height: number } | null>();
+// only the site screenshots are measured: a narrow folder, so the build traces public/thumbs/sites — not all of public/
+// (the videos' assets are hundreds of MB)
+const SITES = path.join(process.cwd(), 'public', 'thumbs', 'sites');
 
 export function webpSize(publicPath: string): { width: number; height: number } | null {
   if (cache.has(publicPath)) return cache.get(publicPath)!;
   let size: { width: number; height: number } | null = null;
   try {
-    const fd = fs.openSync(path.join(process.cwd(), 'public', publicPath), 'r');
+    const m = publicPath.match(/^\/thumbs\/sites\/([^/]+\.webp)$/);
+    if (!m) throw new Error('not a site screenshot: ' + publicPath);
+    const fd = fs.openSync(path.join(SITES, m[1]), 'r');
     const b = Buffer.alloc(30);
     fs.readSync(fd, b, 0, 30, 0);
     fs.closeSync(fd);

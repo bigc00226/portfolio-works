@@ -63,9 +63,9 @@
   }
 
   /* ================================================================= highlighter */
-  const LANG = { liquid: 'liquid', html: 'html', css: 'css', scss: 'css', js: 'js', mjs: 'js', cjs: 'js', ts: 'js', jsx: 'js', tsx: 'js', json: 'json', csv: 'csv', tsv: 'csv', yml: 'yaml', yaml: 'yaml', toml: 'toml', md: 'md', env: 'env', graphql: 'gql', gql: 'gql', sh: 'sh', txt: 'txt' };
+  const LANG = { liquid: 'liquid', html: 'html', php: 'php', css: 'css', scss: 'css', js: 'js', mjs: 'js', cjs: 'js', ts: 'js', jsx: 'js', tsx: 'js', json: 'json', csv: 'csv', tsv: 'csv', yml: 'yaml', yaml: 'yaml', toml: 'toml', md: 'md', env: 'env', graphql: 'gql', gql: 'gql', sh: 'sh', txt: 'txt' };
   const langOf = (p) => { const n = p.split('/').pop(); if (n.startsWith('.env')) return 'env'; return LANG[n.split('.').pop()] || 'txt'; };
-  const LANG_NAME = { liquid: 'Liquid', html: 'HTML', css: 'CSS', js: 'JavaScript', json: 'JSON', csv: 'CSV', yaml: 'YAML', toml: 'TOML', md: 'Markdown', env: 'Properties', gql: 'GraphQL', sh: 'Shell Script', txt: 'Plain Text' };
+  const LANG_NAME = { liquid: 'Liquid', html: 'HTML', php: 'PHP', css: 'CSS', js: 'JavaScript', json: 'JSON', csv: 'CSV', yaml: 'YAML', toml: 'TOML', md: 'Markdown', env: 'Properties', gql: 'GraphQL', sh: 'Shell Script', txt: 'Plain Text' };
   const JS_RE = /(\/\/.*$|\/\*.*?(?:\*\/|$))|(`(?:[^`\\]|\\.)*`?|'(?:[^'\\]|\\.)*'?|"(?:[^"\\]|\\.)*"?)|\b(import|from|export|default|return|if|else|for|of|in|while|await|try|catch|finally|throw|new|switch|case|break|continue)\b|\b(const|let|var|function|async|class|extends|this|typeof|instanceof)\b|\b(true|false|null|undefined|NaN)\b|\b(\d[\d_]*(?:\.\d+)?)\b|([A-Za-z_$][\w$]*)(?=\s*\()|\b([A-Z][A-Za-z0-9_]*)\b|([A-Za-z_$][\w$]*)|(=>|[{}()[\];,.:?=<>!&|+*/%-])/g;
   function jsTokens(s, out) {
     let last = 0, m;
@@ -160,8 +160,69 @@
     if (/^\/\*|^\*/.test(tr)) { out.push([s, 't-com']); return; }
     const prop = s.match(/^(\s*)([\w-]+)(\s*:\s*)(.*?)(;?)(\s*\/\*.*\*\/)?$/);
     if (prop && !/[{,]\s*$/.test(tr) && !/^@/.test(tr)) { out.push([prop[1], '']); out.push([prop[2], 't-prop']); out.push([prop[3], '']); out.push([prop[4], 't-str']); out.push([prop[5], '']); if (prop[6]) out.push([prop[6], 't-com']); return; }
-    if (/^@/.test(tr)) { const m = s.match(/^(\s*)(@[\w-]+)(.*)$/); out.push([m[1], '']); out.push([m[2], 't-ctl']); out.push([m[3], '']); return; }
+    if (/^@/.test(tr)) { const m = s.match(/^(\s*)(@[\w-]*)(.*)$/); out.push([m[1], '']); out.push([m[2], 't-ctl']); out.push([m[3], '']); return; }
     out.push([s, tr === '}' ? '' : 't-sel']);
+  }
+  /*
+   * PHP as VS Code's Dark Modern colours it: markup outside <?php ?> as HTML, inside: $variables, keywords / storage /
+   * control words, functions, Class_Names, CONSTANTS, strings, comments (also /* *\/ over several lines).
+   * State across lines in `st`: st.php (inside <?php), st.pcom (inside /* *\/), st.pq (an HTML attribute quote that the
+   * PHP block interrupted: class="<?php echo … ?>").
+   */
+  const PHP_RE = /(\?>)|(\/\*)|(\/\/.*?(?=\?>|$)|#(?!\[).*?(?=\?>|$))|('(?:[^'\\]|\\.)*'?|"(?:[^"\\]|\\.)*"?)|(\$[A-Za-z_]\w*)|\b(if|else|elseif|endif|foreach|endforeach|for|endfor|while|endwhile|do|switch|endswitch|case|default|break|continue|return|require|require_once|include|include_once|try|catch|finally|throw|match|yield|goto)\b|\b(function|fn|class|interface|trait|enum|extends|implements|public|private|protected|static|const|namespace|use|abstract|final|readonly|global|var|new|instanceof|as|and|or|xor|insteadof)\b|\b(echo|print|array|list|isset|unset|empty|exit|die|eval)\b(?=\s*[\s(;'"$])|\b(true|false|null|TRUE|FALSE|NULL|self|parent)\b|\b(\d[\d_]*(?:\.\d+)?)\b|([A-Za-z_\\][\w\\]*)(?=\s*\()|\b([A-Z][A-Z0-9_]*[A-Z0-9])\b(?!\s*::)|\b([A-Z][A-Za-z0-9_]*)\b|([A-Za-z_]\w*)|(=>|->|\?->|::|[{}()[\];,.:?=<>!&|+*/%@-])/g;
+  function phpTokens(s, st, out) {
+    let i = 0;
+    while (i < s.length) {
+      if (!st.php) {
+        if (st.pq) {   // the rest of an attribute value the PHP block was inside of
+          const e = s.indexOf(st.pq, i);
+          const j = e < 0 ? s.length : e + 1;
+          out.push([s.slice(i, j), 't-str']); i = j;
+          if (e >= 0) st.pq = null;
+          continue;
+        }
+        const k = s.indexOf('<?', i);
+        const seg = k < 0 ? s.slice(i) : s.slice(i, k);
+        if (seg) {
+          const n = out.length;
+          htmlTokens(seg, st, out, false);
+          const last = out.length > n ? out[out.length - 1] : null;
+          // the segment ended inside an attribute value ( class="<?php … ): the value goes on after the PHP block
+          if (k >= 0 && last && last[1] === 't-str' && /^["']/.test(last[0]) && (last[0].length === 1 || !last[0].endsWith(last[0][0]))) st.pq = last[0][0];
+        }
+        if (k < 0) return;
+        const open = s.slice(k).match(/^<\?(?:php|=)?/)[0];
+        out.push([open, 't-php']); i = k + open.length; st.php = true;
+        continue;
+      }
+      if (st.pcom) {
+        const e = s.indexOf('*/', i);
+        const j = e < 0 ? s.length : e + 2;
+        out.push([s.slice(i, j), 't-com']); i = j;
+        if (e >= 0) st.pcom = false;
+        continue;
+      }
+      PHP_RE.lastIndex = i;
+      const m = PHP_RE.exec(s);
+      if (!m) { out.push([s.slice(i), '']); return; }
+      if (m.index > i) out.push([s.slice(i, m.index), '']);
+      i = PHP_RE.lastIndex;
+      if (m[1]) { out.push([m[1], 't-php']); st.php = false; continue; }
+      if (m[2]) {
+        const e = s.indexOf('*/', m.index + 2);
+        i = e < 0 ? s.length : e + 2;
+        out.push([s.slice(m.index, i), 't-com']);
+        if (e < 0) st.pcom = true;
+        continue;
+      }
+      const before = s.slice(0, m.index);
+      const member = /(\?->|->)\s*$/.test(before);   // $post->ID, $q->posts: properties
+      const cls = m[3] ? 't-com' : m[4] ? 't-str' : m[5] ? 't-var' : m[6] ? 't-ctl' : m[7] ? 't-kw' : m[8] ? 't-fn' : m[9] ? 't-kw' : m[10] ? 't-num'
+        : m[11] ? (/\bnew\s+$/.test(before) ? 't-type' : 't-fn')
+          : m[12] ? (member ? 't-var' : 't-const') : m[13] ? (member ? 't-var' : 't-type') : m[14] ? (member ? 't-var' : '') : '';
+      out.push([m[0], cls]);
+      if (m[0] === '') PHP_RE.lastIndex++;
+    }
   }
   function jsonTokens(s, out) {
     const re = /("(?:[^"\\]|\\.)*")(\s*:)?|(-?\b\d+(?:\.\d+)?\b)|\b(true|false|null)\b/g;
@@ -241,6 +302,7 @@
         if (open && !close) st.block = open[1];
         if (close) st.block = null;
       } else if (lang === 'html') htmlTokens(s, st, out, false);
+      else if (lang === 'php') phpTokens(s, st, out);
       else if (lang === 'css') cssTokens(s, out);
       else if (lang === 'js') jsTokens(s, out);
       else if (lang === 'json') jsonTokens(s, out);
@@ -255,7 +317,7 @@
     }
     return res;
   }
-  const Hi = { langOf, highlight, LANG_NAME, jsTokens, htmlTokens, withLiquid };
+  const Hi = { langOf, highlight, LANG_NAME, jsTokens, htmlTokens, phpTokens, withLiquid };
 
   /* ======================================================================== CODE */
   const LH = 21;

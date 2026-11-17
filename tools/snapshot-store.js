@@ -178,12 +178,16 @@ async function capture(browser, pageKey, pagePath, viewKey) {
     if (u.startsWith('data:') || u.startsWith('#')) return all;
     try { return `url(${q}${new URL(u, href).href}${q})`; } catch (e) { return all; }
   });
+  // @import url("…") / url(…) / "…" — a quoted URL may contain ";" (Google Fonts: …:wght@400;500;700&display=swap)
+  const IMPORT = /@import\s+(?:url\(\s*(['"]?)(.*?)\1\s*\)|(['"])(.*?)\3)\s*([^;]*);/g;
   async function fetchCss(href, depth = 0) {
     let text = await get(href);
-    for (const m of [...text.matchAll(/@import\s+(?:url\(\s*)?(['"]?)([^'")\s;]+)\1\s*\)?\s*([^;]*);/g)]) {
-      const a = new URL(m[2], href).href;
-      if (depth > 3 || /fonts\.googleapis\.com/.test(a)) continue;
-      try { const inner = await fetchCss(a, depth + 1); text = text.replace(m[0], m[3].trim() ? `@media ${m[3].trim()}{${inner}}` : inner); } catch (e) { console.warn('@import failed', a, e.message); }
+    if (/^\s*</.test(text)) throw new Error('not a stylesheet (an HTML page)');
+    for (const m of [...text.matchAll(IMPORT)]) {
+      let a;
+      try { a = new URL(m[2] || m[4], href).href; } catch (e) { continue; }
+      if (depth > 3 || /fonts\.googleapis\.com/.test(a)) { text = text.replace(m[0], m[0].replace(m[2] || m[4], a)); continue; }
+      try { const inner = await fetchCss(a, depth + 1); text = text.replace(m[0], () => (m[5].trim() ? `@media ${m[5].trim()}{${inner}}` : inner)); } catch (e) { console.warn('@import failed', a, e.message); }
     }
     return absolutize(text, href);
   }

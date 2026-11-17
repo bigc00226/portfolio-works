@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Business Card Block — glass vCard with avatar, contact lines and download button">
+  <title>Business Card Block (animated, glass variant)</title>
+  <style>
+    :root { --bcc: 3.6s; }
+    .bccb-sway { animation: bccb-sway var(--bcc) ease-in-out infinite; transform-box: fill-box; transform-origin: 128px 128px; }
+    .bccb-dl { animation: bccb-dl var(--bcc) ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .bccb-arrow { animation: bccb-arrow var(--bcc) ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .bccb-ring { animation: bccb-ring var(--bcc) ease-out infinite; transform-box: fill-box; transform-origin: center; }
+    .bccb-l1 { animation: bccb-line var(--bcc) ease-in-out infinite; }
+    .bccb-l2 { animation: bccb-line var(--bcc) ease-in-out infinite; }
+    .bccb-l3 { animation: bccb-line var(--bcc) ease-in-out infinite; }
+    @keyframes bccb-sway { 0%,100% { transform: rotate(-2.4deg); } 50% { transform: rotate(2.4deg); } }
+    @keyframes bccb-dl { 0%,100% { transform: scale(1); } 12% { transform: scale(1.07); } 24% { transform: scale(1); } }
+    @keyframes bccb-arrow { 0%,60%,100% { transform: translateY(0); opacity: 1; } 8% { transform: translateY(-2.2px); } 20% { transform: translateY(2.2px); } }
+    @keyframes bccb-ring { 0% { transform: scale(1); opacity: .5; } 55% { opacity: 0; } 100% { transform: scale(1.9); opacity: 0; } }
+    @keyframes bccb-line { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <defs>
+    <linearGradient id="bccbTile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a3670"/>
+      <stop offset="1" stop-color="#18152e"/>
+    </linearGradient>
+    <linearGradient id="bccbGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8f95ff"/>
+      <stop offset="1" stop-color="#5761f0"/>
+    </linearGradient>
+    <linearGradient id="bccbGlass" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.06"/>
+    </linearGradient>
+    <radialGradient id="bccbGlow" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="#7f86ff" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#7f86ff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bccbTileClip"><rect x="0" y="0" width="256" height="256" rx="56"/></clipPath>
+    <clipPath id="bccbAvClip"><circle cx="90" cy="112" r="19"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#bccbTileClip)">
+    <rect x="0" y="0" width="256" height="256" fill="url(#bccbTile)"/>
+    <circle cx="58" cy="50" r="86" fill="#ffffff" opacity="0.06"/>
+    <ellipse cx="128" cy="132" rx="118" ry="100" fill="url(#bccbGlow)"/>
+  </g>
+
+  <g class="bccb-sway">
+    <!-- glass card -->
+    <rect x="40" y="76" width="176" height="104" rx="22" fill="url(#bccbGlass)"/>
+    <rect x="40" y="76" width="176" height="104" rx="22" fill="none" stroke="#ffffff" stroke-opacity="0.32" stroke-width="1.5"/>
+    <rect x="40" y="76" width="176" height="30" rx="22" fill="#ffffff" opacity="0.05"/>
+
+    <!-- avatar ring pulse -->
+    <g class="bccb-ring"><circle cx="90" cy="112" r="20" fill="none" stroke="#8f95ff" stroke-width="3"/></g>
+    <!-- avatar -->
+    <circle cx="90" cy="112" r="19" fill="url(#bccbGrad)"/>
+    <g clip-path="url(#bccbAvClip)">
+      <circle cx="90" cy="107" r="6.5" fill="#ffffff"/>
+      <path d="M76,129 a14,11 0 0 1 28,0 z" fill="#ffffff"/>
+    </g>
+
+    <!-- contact lines -->
+    <rect class="bccb-l1" x="122" y="100" width="72" height="8" rx="4" fill="#ffffff"/>
+    <rect class="bccb-l2" x="122" y="115" width="58" height="6" rx="3" fill="#c9cdff"/>
+    <rect class="bccb-l3" x="122" y="128" width="44" height="6" rx="3" fill="#c9cdff"/>
+
+    <!-- download button -->
+    <g class="bccb-dl">
+      <rect x="90" y="150" width="76" height="20" rx="10" fill="url(#bccbGrad)"/>
+      <g class="bccb-arrow">
+        <path d="M104,155 v6 M100.6,158.6 L104,162 L107.4,158.6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M100,164.5 h8" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <rect x="116" y="157" width="38" height="6" rx="3" fill="#ffffff" opacity="0.9"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,3 @@
+/* wp-stand-by-lp: the real WordPress screens fill the browser page (shared/wordpress/wp.css); nothing else is drawn here */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+.pii { filter: blur(5px); }

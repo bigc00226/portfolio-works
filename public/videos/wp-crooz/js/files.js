@@ -335,6 +335,10 @@
     '\t\t\t\t\t\t\t\t<dd><?php echo esc_html( $crooz_value ); ?></dd>',
     '\t\t\t\t\t\t\t</dl>',
     '\t\t\t\t\t\t<?php endforeach; ?>',
+    '\t\t\t\t\t\t<dl>',
+    '\t\t\t\t\t\t\t<dt>取締役・執行役員</dt>',
+    "\t\t\t\t\t\t\t<dd><a href=\"<?php echo esc_url( home_url( '/about/directors' ) ); ?>\">取締役・執行役員の紹介はこちら</a></dd>",
+    '\t\t\t\t\t\t</dl>',
     '\t\t\t\t\t</div>',
     '\t\t\t\t</div>',
     '\t\t\t</div>',
@@ -430,11 +434,26 @@
   F[T + 'page-business.php'] = [...BIZ_HEAD, ...BIZ_DATA, ...BIZ_PAGE_TOP, ...BIZ_LOOP.map((l) => '\t\t\t' + l), ...BIZ_PAGE_END, ''].join('\n');
   const BIZ_BEFORE_LOOP = [...BIZ_HEAD, ...BIZ_DATA, ...BIZ_PAGE_TOP, ...BIZ_PAGE_END, ''].join('\n');
   F[T + 'template-parts/business/group-companies.php'] = [
+    '<?php',
+    '$crooz_companies = array(',
+    "\tarray( 'CROOZ Hotel ,Inc.', 'https://croozhotel.co.jp/', 'img-assets-01.webp' ),",
+    "\tarray( 'CROOZ Asset ,Inc.', 'https://croozasset.co.jp', 'img-assets-03.webp' ),",
+    "\tarray( '４９６ ,Inc.', 'https://yonkyuroku.co.jp/', 'img-assets-02.webp' ),",
+    ');',
+    '?>',
     '<div class="logo-card-section">',
     '\t<h4>事業・グループ会社公式ページ</h4>',
     '\t<div class="logo-cards">',
-    "\t\t<?php foreach ( array( array( 'CROOZ Hotel ,Inc.', 'https://croozhotel.co.jp/', 'img-assets-01.webp' ), array( 'CROOZ Asset ,Inc.', 'https://croozasset.co.jp', 'img-assets-03.webp' ) ) as $crooz_c ) : ?>",
-    '\t\t\t<div class="logo-card"><a class="logo-box" href="<?php echo esc_url( $crooz_c[1] ); ?>" target="_blank" rel="noopener"><p class="logo-name"><?php echo esc_html( $crooz_c[0] ); ?></p></a></div>',
+    '\t\t<?php foreach ( $crooz_companies as $crooz_c ) : ?>',
+    '\t\t\t<div class="logo-card">',
+    '\t\t\t\t<a target="_blank" href="<?php echo esc_url( $crooz_c[1] ); ?>" class="logo-box" rel="noopener">',
+    "\t\t\t\t\t<figure class=\"left\"><img src=\"<?php echo esc_url( get_theme_file_uri( 'img/' . $crooz_c[2] ) ); ?>\" alt=\"\"></figure>",
+    '\t\t\t\t\t<div class="right">',
+    '\t\t\t\t\t\t<p class="logo-name"><?php echo esc_html( $crooz_c[0] ); ?></p>',
+    "\t\t\t\t\t\t<figure class=\"logo-icon\"><img src=\"<?php echo esc_url( get_theme_file_uri( 'img/img_business_link_03.svg' ) ); ?>\" alt=\"\"><figcaption>公式ページ</figcaption></figure>",
+    '\t\t\t\t\t</div>',
+    '\t\t\t\t</a>',
+    '\t\t\t</div>',
     '\t\t<?php endforeach; ?>',
     '\t</div>',
     '</div>',
@@ -572,7 +591,10 @@
     '<div class="sendbtn">[submit "こちらの内容で送信"]</div>',
     '</div>',
   ].join('\n');
+  // the mail: the default Reply-To still names [your-email] (the field is user_email): CF7 reports it
   const CF7_MAIL = {
+    headers: 'Reply-To: [user_email]',
+    headersBad: 'Reply-To: [your-email]',
     subject: '[_site_title] お問い合わせ（[user_surname] [user_name] 様）',
     body: [
       '[user_surname] [user_name] 様からお問い合わせがありました。',

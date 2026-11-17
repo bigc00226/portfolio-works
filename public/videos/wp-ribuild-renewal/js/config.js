@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'wp-ribuild-renewal',
   title: '整体りびるど — WordPress サイトのリニューアル デモ',
-  start: '2026-10-29T13:30',
+  start: '2026-10-29T13:32',
   steps: ['現状の確認', 'ページ構成・導線の整理', '新テーマの実装', 'スマートフォン表示の最適化', '本番への反映（テーマの移行）'],
   intro: {
     kicker: 'WordPress リニューアル',

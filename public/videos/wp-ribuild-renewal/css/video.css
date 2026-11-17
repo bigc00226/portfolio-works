@@ -1,0 +1,17 @@
+/* 整体りびるど — only what this video adds on top of the shared kit (shared/kit/kit.css, shared/wordpress/wp.css) */
+
+/* the WordPress screens fill the browser page */
+.br-page[data-page="wp"] { position: absolute; inset: 0; overflow: hidden; background: #f0f0f1; }
+
+/* the list Chrome opens for a <select> (bulk actions, the parent page) */
+.rb-sel { position: fixed; z-index: 9000; transform-origin: 0 0; background: #fff; border: 1px solid #8c8f94; box-shadow: 0 2px 8px rgb(0 0 0 / 25%); padding: 2px 0; font: 13px "Segoe UI", "Yu Gothic UI", Meiryo, sans-serif; color: #1d2327; }
+.rb-sel div { padding: 2px 10px 2px 6px; white-space: pre; line-height: 18px; }
+.rb-sel div.cur { background: #0078d7; color: #fff; }
+
+/* terminal colours used by the outputs of this video */
+.vs-term .tg { color: #23d18b; }
+.vs-term .ty { color: #e5e510; }
+.vs-term .tr { color: #f14c4c; }
+.vs-term .tc { color: #29b8db; }
+.vs-term .tdim { color: #8b8b8b; }
+.vs-term .tw2 { color: #e5e5e5; }

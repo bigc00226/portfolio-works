@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+
+    <!-- Accent Emerald-Cyan Gradient -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Image Card Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Lens/Search Gradient -->
+    <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Container -->
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bgGrad)" stroke="#334155" stroke-width="2.5" />
+
+  <!-- Ambient Light Corner Glow -->
+  <circle cx="210" cy="46" r="60" fill="#10b981" opacity="0.15" filter="url(#glow)" />
+  <circle cx="46" cy="210" r="70" fill="#06b6d4" opacity="0.12" filter="url(#glow)" />
+
+  <!-- Main Image Card Frame -->
+  <g filter="url(#dropShadow)">
+    <rect x="42" y="46" width="140" height="120" rx="16" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="2.5" stroke-opacity="0.6" />
+    
+    <!-- Image Card Inner Content: Sun & Mountains -->
+    <circle cx="76" cy="78" r="14" fill="url(#accentGrad)" />
+    <!-- Distant Mountain -->
+    <path d="M52 144 L88 98 L124 144 Z" fill="#334155" opacity="0.7" />
+    <!-- Foreground Mountain -->
+    <path d="M84 144 L122 88 L168 144 Z" fill="url(#accentGrad)" opacity="0.9" />
+  </g>
+
+  <!-- Tag Pill [ALT] on Image Card -->
+  <g filter="url(#dropShadow)">
+    <rect x="48" y="140" width="72" height="24" rx="7" fill="#0284c7" />
+    <text x="84" y="157" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="900" letter-spacing="1.5" text-anchor="middle">ALT</text>
+  </g>
+
+  <!-- SEO Magnifying Glass / Analysis Overlay -->
+  <g filter="url(#dropShadow)">
+    <!-- Lens Outer Ring -->
+    <circle cx="168" cy="156" r="44" fill="none" stroke="url(#accentGrad)" stroke-width="7" />
+    <!-- Lens Glow -->
+    <circle cx="168" cy="156" r="38" fill="url(#lensGrad)" fill-opacity="0.25" />
+    
+    <!-- Inside Lens: SEO Checkmark & Rays -->
+    <path d="M152 156 L164 168 L186 144" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Magnifier Handle -->
+    <path d="M200 188 L228 216" stroke="url(#accentGrad)" stroke-width="9" stroke-linecap="round" />
+    <path d="M202 190 L226 214" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+  </g>
+
+  <!-- Top Right Micro SEO Badge -->
+  <g>
+    <rect x="156" y="32" width="68" height="22" rx="11" fill="#10b981" />
+    <text x="190" y="47" fill="#064e3b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="800" text-anchor="middle">SEO 100</text>
+  </g>
+</svg>

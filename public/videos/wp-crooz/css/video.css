@@ -1,0 +1,5 @@
+/* wp-crooz: the real WordPress screens fill the browser page (shared/wordpress/wp.css); nothing else is drawn here */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+
+/* tab-indented PHP (WordPress coding standards) at VS Code's tab size 4 (the editor's status bar: タブのサイズ: 4) */
+#vsLines, #vsLines * { tab-size: 4; -moz-tab-size: 4; }

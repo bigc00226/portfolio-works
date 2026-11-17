@@ -1,0 +1,6 @@
+/* wp-saitama-arena-plugin: the real WordPress screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #f0f0f1; }
+
+/* the terminal: WP-CLI tables and PHPCS reports are wide; personal data / addresses blurred */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .w2 { display: inline-block; width: 2ch; }

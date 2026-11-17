@@ -33,9 +33,18 @@ const src = path.join(TMP, 'kato/assets/site');
 for (const host of fs.readdirSync(src)) fs.cpSync(path.join(src, host), path.join(DIR, 'assets/site', host), { recursive: true });
 fs.rmSync(TMP, { recursive: true, force: true });
 
+// 3. the clinic's tab icon: its <link rel="shortcut icon"> (favicon.ico) answers 404, so Chrome shows the site icon it also declares
+(async () => {
+const ICON = 'https://miyazawaclinic.net/wp-content/uploads/2025/07/f6ce9ba47ff68e74bee8e7a7a4492b0d-150x150.png';
+const sharp = require(path.join(ROOT, 'node_modules/sharp'));
+const buf = Buffer.from(await (await fetch(ICON)).arrayBuffer());
+fs.mkdirSync(path.join(DIR, 'assets/site/miyazawaclinic.net'), { recursive: true });
+await sharp(buf).resize(64, 64).webp({ lossless: true }).toFile(path.join(DIR, 'assets/site/miyazawaclinic.net/site-icon.webp'));
+main.favicon = 'assets/site/miyazawaclinic.net/site-icon.webp';
 main.pages['kato-contact'] = kato.pages.contact;
 Object.assign(main.css, kato.css);
 main.kato = { url: kato.url, title: kato.title, favicon: kato.favicon, capturedAt: kato.capturedAt };
 const out = path.join(DIR, 'js/site-snapshot.js');
 fs.writeFileSync(out, '/* the live sites (tools/snapshots/wp-clinic-contact-form/update-snapshot.js) — generated, do not edit */\nwindow.SITE_SNAPSHOT = ' + JSON.stringify(main) + ';\n');
 console.log('merged kato-dental-clinic.net →', path.relative(ROOT, out), (fs.statSync(out).size / 1048576).toFixed(2) + ' MB');
+})().catch((e) => { console.error(e); process.exit(1); });
