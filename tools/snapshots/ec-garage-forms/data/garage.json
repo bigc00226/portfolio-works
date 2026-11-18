@@ -1,0 +1,1515 @@
+{
+ "fetched": "2026-11-18",
+ "origin": "https://garage.plus.co.jp",
+ "categories": [
+  [
+   1,
+   "デスク・机",
+   0
+  ],
+  [
+   13,
+   "スタンダードデスク",
+   1
+  ],
+  [
+   14,
+   "L字(L型)デスク",
+   1
+  ],
+  [
+   15,
+   "昇降デスク",
+   1
+  ],
+  [
+   16,
+   "フリーアドレスデスク",
+   1
+  ],
+  [
+   2,
+   "テーブル",
+   0
+  ],
+  [
+   18,
+   "会議用テーブル",
+   2
+  ],
+  [
+   20,
+   "ローテーブル・サイドテーブル",
+   2
+  ],
+  [
+   3,
+   "チェア・ソファ",
+   0
+  ],
+  [
+   22,
+   "事務用チェア・オフィスチェア",
+   3
+  ],
+  [
+   25,
+   "会議用チェア・ミーティングチェア",
+   3
+  ],
+  [
+   133,
+   "ソファー・ベンチ",
+   3
+  ],
+  [
+   5,
+   "収納家具・シェルフ",
+   0
+  ],
+  [
+   29,
+   "ワゴン・サイドキャビネット",
+   5
+  ],
+  [
+   30,
+   "キャビネット・収納庫・書庫",
+   5
+  ],
+  [
+   8,
+   "パーティション・パネル",
+   0
+  ],
+  [
+   192,
+   "ロー パーティション",
+   8
+  ],
+  [
+   9,
+   "ホワイトボード・ミーティングツール",
+   0
+  ],
+  [
+   44,
+   "ホワイトボード 壁掛け",
+   9
+  ],
+  [
+   311,
+   "ホワイトボード 脚付き",
+   9
+  ],
+  [
+   7,
+   "デスク周辺用品",
+   0
+  ],
+  [
+   40,
+   "モニターアーム・ディスプレイスタンド",
+   7
+  ]
+ ],
+ "products": [
+  {
+   "id": 174348,
+   "name": "CHATboard チャットボード orbit オービット 70cm",
+   "brand": "",
+   "desc": "CHAT board に円形のホワイトボードが仲間入り!コンパクトな70cmは、組み合わせ次第でおしゃれな空間に!",
+   "icons": [
+    "完成品"
+   ],
+   "main": "/upload/save_image/orb70-001_main.jpg",
+   "variants": [
+    {
+     "code": "438-788",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 88000,
+     "price02": 88000,
+     "stock": 11,
+     "image": "/upload/save_image/438788.jpg"
+    },
+    {
+     "code": "438-792",
+     "color": "パイン",
+     "color2": "",
+     "price01": 88000,
+     "price02": 88000,
+     "stock": 4,
+     "image": "/upload/save_image/438792.jpg"
+    },
+    {
+     "code": "438-791",
+     "color": "インク",
+     "color2": "",
+     "price01": 88000,
+     "price02": 88000,
+     "stock": 7,
+     "image": "/upload/save_image/438791.jpg"
+    },
+    {
+     "code": "438-790",
+     "color": "ペタル",
+     "color2": "",
+     "price01": 88000,
+     "price02": 88000,
+     "stock": 4,
+     "image": "/upload/save_image/438790.jpg"
+    },
+    {
+     "code": "438-789",
+     "color": "ストーン",
+     "color2": "",
+     "price01": 88000,
+     "price02": 88000,
+     "stock": 15,
+     "image": "/upload/save_image/438789.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 13,
+   "fresh": false
+  },
+  {
+   "id": 152728,
+   "name": "ガラージ x 三英 ピンポンワークテーブル 幅152.5cm 高さ76cm 卓球台 SAN-EI",
+   "brand": "Garage",
+   "desc": "実際の卓球台と同じサイズのピンポンワークテーブル。会議、打ち合わせや作業スペースにおすすめ。リフレッシュでみんなで卓球大会!も可能な楽しい新しいタイプのフリーアドレスデスクです。",
+   "icons": [
+    "送料無料",
+    "最大積載質量60kg",
+    "設置費必須",
+    "組立品"
+   ],
+   "main": "/upload/save_image/pw1514hn-001_main.jpg",
+   "variants": [
+    {
+     "code": "434-673",
+     "color": "天板/濃木目×脚/濃木目",
+     "color2": "",
+     "price01": 254000,
+     "price02": 254000,
+     "stock": null,
+     "image": "/upload/save_image/434673.jpg"
+    },
+    {
+     "code": "434-674",
+     "color": "天板/白木×脚/白木",
+     "color2": "",
+     "price01": 254000,
+     "price02": 254000,
+     "stock": null,
+     "image": "/upload/save_image/434674.jpg"
+    },
+    {
+     "code": "435-132",
+     "color": "天板/オーク×脚/チャコール",
+     "color2": "",
+     "price01": 254000,
+     "price02": 254000,
+     "stock": 8,
+     "image": "/upload/save_image/435132.jpg"
+    },
+    {
+     "code": "435-764",
+     "color": "天板/濃木目×脚/チャコール",
+     "color2": "",
+     "price01": 254000,
+     "price02": 254000,
+     "stock": null,
+     "image": "/upload/save_image/435764.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 13,
+   "fresh": false
+  },
+  {
+   "id": 169670,
+   "name": "Garage ワイヤーケーブルトレー LLサイズ",
+   "brand": "Garage",
+   "desc": "デスク回りの配線をすっきり収納できるクランプ式のトレー幅88.7cm。穴あけ不要で取付簡単。",
+   "icons": [
+    "完成品"
+   ],
+   "main": "/upload/save_image/yywdctll-001_main.jpg",
+   "variants": [
+    {
+     "code": "435-929",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 5600,
+     "price02": 5600,
+     "stock": 84,
+     "image": "/upload/save_image/435929.jpg"
+    },
+    {
+     "code": "435-930",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 5600,
+     "price02": 5600,
+     "stock": 73,
+     "image": "/upload/save_image/435930.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 13,
+   "fresh": false
+  },
+  {
+   "id": 179822,
+   "name": "電動昇降テーブル EL2 幅160cm 奥行90cm 高さ65〜130cm",
+   "brand": "Garage",
+   "desc": "ボタンひとつで高さを自由に調整でき、立位・座位の姿勢を自在に選べる天板昇降テーブル「EL2」。多目的に使える昇降テーブルは、フリースタイルワークを促進する一台になります。",
+   "icons": [
+    "送料無料",
+    "設置費必須",
+    "組立品"
+   ],
+   "main": "/upload/save_image/el21609s-001_main.jpg",
+   "variants": [
+    {
+     "code": "797-047",
+     "color": "アイボリー木目×ホワイト",
+     "color2": "",
+     "price01": 81000,
+     "price02": 81000,
+     "stock": 6,
+     "image": "/upload/save_image/797047.jpg"
+    },
+    {
+     "code": "797-048",
+     "color": "ブラック木目×ホワイト",
+     "color2": "",
+     "price01": 81000,
+     "price02": 81000,
+     "stock": 6,
+     "image": "/upload/save_image/797048.jpg"
+    },
+    {
+     "code": "797-051",
+     "color": "アイボリー木目×ブラック",
+     "color2": "",
+     "price01": 81000,
+     "price02": 81000,
+     "stock": 6,
+     "image": "/upload/save_image/797051.jpg"
+    },
+    {
+     "code": "797-052",
+     "color": "ブラック木目×ブラック",
+     "color2": "",
+     "price01": 81000,
+     "price02": 81000,
+     "stock": 6,
+     "image": "/upload/save_image/797052.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 15,
+   "fresh": false
+  },
+  {
+   "id": 179218,
+   "name": "PLUS ワークモード 電動昇降デスク 幅154×奥行77.5×高さ65〜130cm",
+   "brand": "PLUS",
+   "desc": "ボタンひとつで高さを自由に調整できる電動昇降デスク Work Mode(ワークモード)。幅160×奥行80×高さ65〜130cm",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/wo21608h-001_main.jpg",
+   "variants": [
+    {
+     "code": "632-505",
+     "color": "ホワイト(W4)/ホワイト",
+     "color2": "",
+     "price01": 131000,
+     "price02": 131000,
+     "stock": null,
+     "image": "/upload/save_image/632505.jpg"
+    },
+    {
+     "code": "632-506",
+     "color": "ホワイトメープル(WM)/ホワイト",
+     "color2": "",
+     "price01": 131000,
+     "price02": 131000,
+     "stock": null,
+     "image": "/upload/save_image/632506.jpg"
+    },
+    {
+     "code": "632-508",
+     "color": "ホワイト(W4)/ブラック",
+     "color2": "",
+     "price01": 131000,
+     "price02": 131000,
+     "stock": null,
+     "image": "/upload/save_image/632508.jpg"
+    },
+    {
+     "code": "632-509",
+     "color": "ホワイトメープル(WM)/ブラック",
+     "color2": "",
+     "price01": 131000,
+     "price02": 131000,
+     "stock": null,
+     "image": "/upload/save_image/632509.jpg"
+    },
+    {
+     "code": "632-510",
+     "color": "ミディアムウッド(T2)/ブラック",
+     "color2": "",
+     "price01": 131000,
+     "price02": 131000,
+     "stock": null,
+     "image": "/upload/save_image/632510.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 15,
+   "fresh": false
+  },
+  {
+   "id": 179353,
+   "name": "PLUS ワークモード 電動昇降テーブルD 幅200×奥行105.7×高さ65〜130cm",
+   "brand": "PLUS",
+   "desc": "ボタンひとつで高さを自由に調整できる電動昇降デスク Work Mode(ワークモード)。幅200×奥行105.7×高さ65〜130cm",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/wo22010md-001_main.jpg",
+   "variants": [
+    {
+     "code": "632-600",
+     "color": "ホワイト(W4)/ホワイト",
+     "color2": "",
+     "price01": 214300,
+     "price02": 214300,
+     "stock": null,
+     "image": "/upload/save_image/632600.jpg"
+    },
+    {
+     "code": "632-601",
+     "color": "ホワイトメープル(WM)/ホワイト",
+     "color2": "",
+     "price01": 214300,
+     "price02": 214300,
+     "stock": null,
+     "image": "/upload/save_image/632601.jpg"
+    },
+    {
+     "code": "632-603",
+     "color": "ホワイト(W4)/ブラック",
+     "color2": "",
+     "price01": 214300,
+     "price02": 214300,
+     "stock": null,
+     "image": "/upload/save_image/632603.jpg"
+    },
+    {
+     "code": "632-604",
+     "color": "ホワイトメープル(WM)/ブラック",
+     "color2": "",
+     "price01": 214300,
+     "price02": 214300,
+     "stock": null,
+     "image": "/upload/save_image/632604.jpg"
+    },
+    {
+     "code": "632-605",
+     "color": "ミディアムウッド(T2)/ブラック",
+     "color2": "",
+     "price01": 214300,
+     "price02": 214300,
+     "stock": null,
+     "image": "/upload/save_image/632605.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 15,
+   "fresh": false
+  },
+  {
+   "id": 167550,
+   "name": "GMテーブル 長方形タイプ アジャスター脚 幅160cm 奥行80cm",
+   "brand": "Garage",
+   "desc": "幅160cm、奥行80cm、アジャスター脚の4人用多目的テーブル。コンパクトなのでちょっとしたスペースに置け、ミーティングテーブルとして、ワークデスクとして、組み合わせて様々な用途で使用できます。",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/gm168-001_main.jpg",
+   "variants": [
+    {
+     "code": "698-488",
+     "color": "Nウォルナット/黒",
+     "color2": "",
+     "price01": 30200,
+     "price02": 30200,
+     "stock": 39,
+     "image": "/upload/save_image/698488.jpg"
+    },
+    {
+     "code": "698-490",
+     "color": "黒/黒",
+     "color2": "",
+     "price01": 30200,
+     "price02": 30200,
+     "stock": 28,
+     "image": "/upload/save_image/698490.jpg"
+    },
+    {
+     "code": "698-492",
+     "color": "白/白",
+     "color2": "",
+     "price01": 30200,
+     "price02": 30200,
+     "stock": 25,
+     "image": "/upload/save_image/698492.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 18,
+   "fresh": false
+  },
+  {
+   "id": 176183,
+   "name": "GS1 天然木オーク ミーティングテーブル 高さ68cm (ダイニング テーブル)",
+   "brand": "Garage",
+   "desc": "ナチュラルでシンプルなデザインのテーブル。通常デスクより少し低めの高さ68cmで、明るめの色合いとまっすぐな木目が魅力的なオーク突板仕様です。奥行75cmのしっかり広めの天板で仕事や打ち合わせ、テレワークにも最適。",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/gs1ht-001_main.jpg",
+   "variants": [
+    {
+     "code": "439-150",
+     "color": "オーク",
+     "color2": "",
+     "price01": 43300,
+     "price02": 43300,
+     "stock": 9,
+     "image": "/upload/save_image/439150.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 18,
+   "fresh": false
+  },
+  {
+   "id": 178692,
+   "name": "PLUS mari メッシュチェア アジャスト肘/ヘッドレスト付き マリチェア",
+   "brand": "PLUS",
+   "desc": "柔らかな座り心地と洗練されたデザインを兼ね備えたメッシュチェア、マリチェアのアジャスト肘・ヘッドレスト付きタイプ。 背には製造工程での環境負荷が少ない3Dニットメッシュを採用し、快適さと環境配慮を両立。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/kdmr61m3l-001_main.jpg",
+   "variants": [
+    {
+     "code": "666-988",
+     "color": "マスタードイエロー",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 2,
+     "image": "/upload/save_image/666988.jpg"
+    },
+    {
+     "code": "666-986",
+     "color": "サンドベージュ",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 2,
+     "image": "/upload/save_image/666986.jpg"
+    },
+    {
+     "code": "666-985",
+     "color": "スカイブルー",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 2,
+     "image": "/upload/save_image/666985.jpg"
+    },
+    {
+     "code": "666-984",
+     "color": "モスグリーン",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 3,
+     "image": "/upload/save_image/666984.jpg"
+    },
+    {
+     "code": "666-983",
+     "color": "ディープブルー",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 3,
+     "image": "/upload/save_image/666983.jpg"
+    },
+    {
+     "code": "666-982",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 49000,
+     "price02": 49000,
+     "stock": 5,
+     "image": "/upload/save_image/666982.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 22,
+   "fresh": false
+  },
+  {
+   "id": 178685,
+   "name": "PLUS mari メッシュチェア アジャスト肘 マリチェア",
+   "brand": "PLUS",
+   "desc": "柔らかな座り心地と洗練されたデザインを兼ね備えたメッシュチェア、マリチェアのアジャスト肘タイプ。 背には製造工程での環境負荷が少ない3Dニットメッシュを採用し、快適さと環境配慮を両立。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/kdmr60m3l-001_main.jpg",
+   "variants": [
+    {
+     "code": "666-980",
+     "color": "マスタードイエロー",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 2,
+     "image": "/upload/save_image/666980.jpg"
+    },
+    {
+     "code": "666-978",
+     "color": "サンドベージュ",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 2,
+     "image": "/upload/save_image/666978.jpg"
+    },
+    {
+     "code": "666-977",
+     "color": "スカイブルー",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 3,
+     "image": "/upload/save_image/666977.jpg"
+    },
+    {
+     "code": "666-976",
+     "color": "モスグリーン",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 3,
+     "image": "/upload/save_image/666976.jpg"
+    },
+    {
+     "code": "666-975",
+     "color": "ディープブルー",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 3,
+     "image": "/upload/save_image/666975.jpg"
+    },
+    {
+     "code": "666-974",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 40600,
+     "price02": 40600,
+     "stock": 6,
+     "image": "/upload/save_image/666974.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 22,
+   "fresh": false
+  },
+  {
+   "id": 178678,
+   "name": "PLUS mari メッシュチェア 肘なし/ヘッドレスト付き マリチェア",
+   "brand": "PLUS",
+   "desc": "柔らかな座り心地と洗練されたデザインを兼ね備えたメッシュチェア、マリチェアの肘なし・ヘッドレスト付きタイプ。 背には製造工程での環境負荷が少ない3Dニットメッシュを採用し、快適さと環境配慮を両立。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/kcmr61m3l-001_main.jpg",
+   "variants": [
+    {
+     "code": "666-972",
+     "color": "マスタードイエロー",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 2,
+     "image": "/upload/save_image/666972.jpg"
+    },
+    {
+     "code": "666-970",
+     "color": "サンドベージュ",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 2,
+     "image": "/upload/save_image/666970.jpg"
+    },
+    {
+     "code": "666-969",
+     "color": "スカイブルー",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 2,
+     "image": "/upload/save_image/666969.jpg"
+    },
+    {
+     "code": "666-968",
+     "color": "モスグリーン",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 3,
+     "image": "/upload/save_image/666968.jpg"
+    },
+    {
+     "code": "666-967",
+     "color": "ディープブルー",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 3,
+     "image": "/upload/save_image/666967.jpg"
+    },
+    {
+     "code": "666-966",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 39900,
+     "price02": 39900,
+     "stock": 5,
+     "image": "/upload/save_image/666966.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 22,
+   "fresh": false
+  },
+  {
+   "id": 178671,
+   "name": "PLUS mari メッシュチェア 肘なし マリチェア",
+   "brand": "PLUS",
+   "desc": "柔らかな座り心地と洗練されたデザインを兼ね備えたメッシュチェア、マリチェアの肘なしタイプ。 背には製造工程での環境負荷が少ない3Dニットメッシュを採用し、快適さと環境配慮を両立。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/kcmr60m3l-001_main.jpg",
+   "variants": [
+    {
+     "code": "666-964",
+     "color": "マスタードイエロー",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 2,
+     "image": "/upload/save_image/666964.jpg"
+    },
+    {
+     "code": "666-962",
+     "color": "サンドベージュ",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 2,
+     "image": "/upload/save_image/666962.jpg"
+    },
+    {
+     "code": "666-961",
+     "color": "スカイブルー",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 3,
+     "image": "/upload/save_image/666961.jpg"
+    },
+    {
+     "code": "666-960",
+     "color": "モスグリーン",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 3,
+     "image": "/upload/save_image/666960.jpg"
+    },
+    {
+     "code": "666-959",
+     "color": "ディープブルー",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 3,
+     "image": "/upload/save_image/666959.jpg"
+    },
+    {
+     "code": "666-958",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 31500,
+     "price02": 31500,
+     "stock": 6,
+     "image": "/upload/save_image/666958.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 22,
+   "fresh": false
+  },
+  {
+   "id": 151780,
+   "name": "チェア ミーティングチェア チェアMC-A20 肘掛け付 キャスター付 受付イス 事務イス",
+   "brand": "PLUS",
+   "desc": "オフィスチェア ミーティングチェア チェアMC-A20 肘掛け付 キャスター付 受付イス 事務イス なら、オフィス家具メーカー プラスが運営する Garage(ガラージ)にお任せ！ 領収書 御見積対応可能。",
+   "icons": [
+    "送料無料",
+    "完成品"
+   ],
+   "main": "/upload/save_image/mba24k-001_main.jpg",
+   "variants": [
+    {
+     "code": "60-206",
+     "color": "ダークブルー",
+     "color2": "",
+     "price01": 55000,
+     "price02": 55000,
+     "stock": null,
+     "image": "/upload/save_image/60206.jpg"
+    },
+    {
+     "code": "60-209",
+     "color": "オレンジ",
+     "color2": "",
+     "price01": 55000,
+     "price02": 55000,
+     "stock": 1,
+     "image": "/upload/save_image/60209.jpg"
+    },
+    {
+     "code": "60-210",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 55000,
+     "price02": 55000,
+     "stock": null,
+     "image": "/upload/save_image/60210.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 25,
+   "fresh": false
+  },
+  {
+   "id": 164136,
+   "name": "会議イス【チェアUB キャスター脚】肘あり スタッキングチェア イス 椅子 カフェ",
+   "brand": "PLUS",
+   "desc": "背座一体型シェルのシンプルで美しいデザインのミーティングチェア。持ち運びしやすい穴あきチェア。背座一体型の構造で、しなやかに身体を包みこむような座り心地です。キャスター脚、肘ありタイプです。",
+   "icons": [
+    "送料無料",
+    "完成品"
+   ],
+   "main": "/upload/save_image/mcub06s-001_main.jpg",
+   "variants": [
+    {
+     "code": "15-495",
+     "color": "シャドーブラック",
+     "color2": "",
+     "price01": 32900,
+     "price02": 32900,
+     "stock": null,
+     "image": "/upload/save_image/15495.jpg"
+    },
+    {
+     "code": "15-496",
+     "color": "ナイトブルー",
+     "color2": "",
+     "price01": 32900,
+     "price02": 32900,
+     "stock": null,
+     "image": "/upload/save_image/15496.jpg"
+    },
+    {
+     "code": "15-497",
+     "color": "テラコッタレッド",
+     "color2": "",
+     "price01": 32900,
+     "price02": 32900,
+     "stock": null,
+     "image": "/upload/save_image/15497.jpg"
+    },
+    {
+     "code": "15-498",
+     "color": "カナリヤイエロー",
+     "color2": "",
+     "price01": 30100,
+     "price02": 30100,
+     "stock": null,
+     "image": "/upload/save_image/15498.jpg"
+    },
+    {
+     "code": "15-499",
+     "color": "リーフグリーン",
+     "color2": "",
+     "price01": 32900,
+     "price02": 32900,
+     "stock": null,
+     "image": "/upload/save_image/15499.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 25,
+   "fresh": false
+  },
+  {
+   "id": 179649,
+   "name": "PLUS L6 コンセントベース L6-11WC W4 幅90cm 奥行45cm用",
+   "brand": "PLUS",
+   "desc": "",
+   "icons": [
+    "送料無料",
+    "設置費必須",
+    "完成品"
+   ],
+   "main": "/upload/save_image/l611wc-001_main.jpg",
+   "variants": [
+    {
+     "code": "680-969",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 15400,
+     "price02": 15400,
+     "stock": null,
+     "image": "/upload/save_image/680969.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 30,
+   "fresh": false
+  },
+  {
+   "id": 179647,
+   "name": "PLUS L6 ストックボックス L6-105SX W4 幅90 奥行45 高さ105cm",
+   "brand": "PLUS",
+   "desc": "",
+   "icons": [
+    "送料無料",
+    "棚板最大積載51kg/1枚",
+    "設置費必須",
+    "組立品"
+   ],
+   "main": "/upload/save_image/l6105sx-001_main.jpg",
+   "variants": [
+    {
+     "code": "648-889",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 81600,
+     "price02": 81600,
+     "stock": null,
+     "image": "/upload/save_image/648889.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 30,
+   "fresh": false
+  },
+  {
+   "id": 179584,
+   "name": "L6 収納庫 NLロッカー 専用ベース 幅90×奥行40cm用 ブラック",
+   "brand": "PLUS",
+   "desc": "L6収納とNLロッカーの組合せに必要なベースのブラック色。こちらのベースを使用すれば、NLシリーズを本体幅90×奥行40cmのL6収納との上下連結が可能です。組合せてより使い勝手の良い収納に。",
+   "icons": [
+    "送料無料",
+    "設置費必須",
+    "完成品"
+   ],
+   "main": "/upload/save_image/l6a11b-001_main.jpg",
+   "variants": [
+    {
+     "code": "680-923",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 9450,
+     "price02": 9450,
+     "stock": null,
+     "image": "/upload/save_image/680923.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 30,
+   "fresh": false
+  },
+  {
+   "id": 174763,
+   "name": "トレイ付きスリムワゴン (サイドワゴン サイドテーブル 荷物置き)",
+   "brand": "Garage",
+   "desc": "最近の働き方にぴったりのサイドワゴン。通勤カバンの収納にもおすすめ。シンプルなデザインながらキズや凹凸などが目立ちにくいサテン塗装で、天然木の天板は取り外し可能。",
+   "icons": [
+    "完成品"
+   ],
+   "main": "/upload/save_image/sw4525-001_main.jpg",
+   "variants": [
+    {
+     "code": "439-102",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 18000,
+     "price02": 18000,
+     "stock": 158,
+     "image": "/upload/save_image/439102.jpg"
+    },
+    {
+     "code": "439-101",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 18000,
+     "price02": 18000,
+     "stock": 118,
+     "image": "/upload/save_image/439101.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 29,
+   "fresh": false
+  },
+  {
+   "id": 164569,
+   "name": "QUEST ファイリングキャビネット ハンガーフレーム ( ハンギングフレーム オプション)",
+   "brand": "PLUS",
+   "desc": "【パーツ】QUEST ファイリングキャビネットに取付られるハンガーフレーム。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/qenhck-001_main.jpg",
+   "variants": [
+    {
+     "code": "602-145",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 1500,
+     "price02": 1500,
+     "stock": 14,
+     "image": "/upload/save_image/602145.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 29,
+   "fresh": false
+  },
+  {
+   "id": 169850,
+   "name": "PALASSO パラッソ パネル 幅120cm 高さ136.5cm",
+   "brand": "Garage",
+   "desc": "ブラックのアルミフレーム、光を通しキズがつきにくいポリカーボネート製のパネルのお洒落なパーティション。パーソナルスペースを確保したい・会議室が欲しい・飛沫対策をしたいなど様々な対応が可能です。幅120cm 高さ136.5cmタイプです。",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/p31213-001_main.jpg",
+   "variants": [
+    {
+     "code": "436-962",
+     "color": " ブラック",
+     "color2": "",
+     "price01": 31000,
+     "price02": 31000,
+     "stock": 9,
+     "image": "/upload/save_image/436962.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 192,
+   "fresh": false
+  },
+  {
+   "id": 169858,
+   "name": "PALASSO パラッソ 補助脚両側用ブラケット BCW",
+   "brand": "Garage",
+   "desc": "ブラックのアルミフレーム、光を通しキズがつきにくいポリカーボネート製のパネルのお洒落なパーティション。パーソナルスペースを確保したい・会議室が欲しい・飛沫対策をしたいなど様々な対応が可能です。補助脚両側用ブラケットです。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/bcw-001_main.jpg",
+   "variants": [
+    {
+     "code": "436-966",
+     "color": " ブラック",
+     "color2": "",
+     "price01": 7500,
+     "price02": 7500,
+     "stock": 20,
+     "image": "/upload/save_image/436966.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 192,
+   "fresh": false
+  },
+  {
+   "id": 173809,
+   "name": "PLUS 壁掛けホワイトボード 幅180.9×高さ90.9cm 横型 無地タイプ",
+   "brand": "PLUS",
+   "desc": "幅180.9×高さ90.9cmの横型無地タイプの壁掛けホワイトボード。黒マーカー/イレーザー付き!",
+   "icons": [
+    "送料無料"
+   ],
+   "main": "/upload/save_image/pwk21809ss-001_main.jpg",
+   "variants": [
+    {
+     "code": "428-995",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 12500,
+     "price02": 12500,
+     "stock": 69,
+     "image": "/upload/save_image/428995.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 44,
+   "fresh": false
+  },
+  {
+   "id": 173807,
+   "name": "PLUS 壁掛けホワイトボード 幅120.9×高さ90.9cm 縦横変更可能 無地タイプ",
+   "brand": "PLUS",
+   "desc": "幅120.9×高さ90.9cmの大きめ無地タイプの壁掛けホワイトボード。黒マーカー/イレーザー付き!",
+   "icons": [
+    "送料無料"
+   ],
+   "main": "/upload/save_image/pwk21209ss-001_main.jpg",
+   "variants": [
+    {
+     "code": "428-994",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 8800,
+     "price02": 8800,
+     "stock": 117,
+     "image": "/upload/save_image/428994.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 44,
+   "fresh": false
+  },
+  {
+   "id": 164641,
+   "name": "Flo(フロー) モニターアーム シングル ( VESA規格対応 CBS ハーマンミラー)",
+   "brand": "",
+   "desc": "数々の賞を受賞した美しいフォルムと特許取得のスプリング構造で、驚くほどなめらかな動きの「Flo(フロー)」モニターアーム シングル。",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/cbsflo01s-001_main.jpg",
+   "variants": [
+    {
+     "code": "435-508",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 47000,
+     "price02": 47000,
+     "stock": null,
+     "image": "/upload/save_image/435508.jpg"
+    },
+    {
+     "code": "434-595",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 47000,
+     "price02": 47000,
+     "stock": null,
+     "image": "/upload/save_image/434595.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 40,
+   "fresh": false
+  },
+  {
+   "id": 164643,
+   "name": "Flo(フロー) モニターアーム デュアル ホワイト ( VESA規格対応 CBS ハーマンミラー)",
+   "brand": "",
+   "desc": "Flo(フロー) モニターアーム デュアル ホワイト ( VESA規格対応 CBS ハーマンミラー) なら、オフィス家具メーカー プラスが運営する Garage(ガラージ)にお任せ! 領収書 御見積対応可能。",
+   "icons": [
+    "送料無料",
+    "組立品"
+   ],
+   "main": "/upload/save_image/cbs_flo02s-001_main.jpg",
+   "variants": [
+    {
+     "code": "434-596",
+     "color": "ホワイト",
+     "color2": "",
+     "price01": 75300,
+     "price02": 75300,
+     "stock": 3,
+     "image": "/upload/save_image/434596.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 40,
+   "fresh": false
+  },
+  {
+   "id": 179861,
+   "name": "GS3 ソファー 2人掛け 右肘 PVCレザータイプ",
+   "brand": "Garage",
+   "desc": "ワークスペースにぴったりなGarageオリジナルソファーシリーズの2人掛けのソファー右肘タイプです。細身のブラックスチール脚で、洗練されたデザインが魅力です。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/y702p2pr-001_main.jpg",
+   "variants": [
+    {
+     "code": "GR0-850",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 71000,
+     "price02": 71000,
+     "stock": 12,
+     "image": "/upload/save_image/GR0850.jpg"
+    },
+    {
+     "code": "GR0-851",
+     "color": "キャメル",
+     "color2": "",
+     "price01": 71000,
+     "price02": 71000,
+     "stock": 12,
+     "image": "/upload/save_image/GR0851.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179812,
+   "name": "電動昇降デスク EL2 幅114cm 奥行57.5cm 高さ65〜130cm",
+   "brand": "Garage",
+   "desc": "ボタンひとつで高さを自由に調整でき、立位・座位の姿勢を自在に選べる天板昇降デスク「EL2」。多目的に使える昇降デスクは、フリースタイルワークを促進する一台になります。",
+   "icons": [
+    "送料無料",
+    "設置費必須",
+    "組立品"
+   ],
+   "main": "/upload/save_image/el21206s-001_main.jpg",
+   "variants": [
+    {
+     "code": "797-039",
+     "color": "アイボリー木目×ホワイト",
+     "color2": "",
+     "price01": 63500,
+     "price02": 63500,
+     "stock": 7,
+     "image": "/upload/save_image/797039.jpg"
+    },
+    {
+     "code": "797-040",
+     "color": "ブラック木目×ホワイト",
+     "color2": "",
+     "price01": 63500,
+     "price02": 63500,
+     "stock": 9,
+     "image": "/upload/save_image/797040.jpg"
+    },
+    {
+     "code": "797-043",
+     "color": "アイボリー木目×ブラック",
+     "color2": "",
+     "price01": 63500,
+     "price02": 63500,
+     "stock": 7,
+     "image": "/upload/save_image/797043.jpg"
+    },
+    {
+     "code": "797-044",
+     "color": "ブラック木目×ブラック",
+     "color2": "",
+     "price01": 63500,
+     "price02": 63500,
+     "stock": 9,
+     "image": "/upload/save_image/797044.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179746,
+   "name": "gNest ラウンジワーキング フリースタイルデスク 幅240cm",
+   "brand": "Garage",
+   "desc": "gNestシリーズのフリースタイルデスク幅240cmです。シンプルで細身のスチールフレームで、軽快な印象でありながら日常のワークシーンに対応する十分な強度を確保。",
+   "icons": [
+    "設置費必須",
+    "組立品"
+   ],
+   "main": "/upload/save_image/sp217dt24-001_main.jpg",
+   "variants": [
+    {
+     "code": "GR0-773",
+     "color": "ダークグレー×グレー",
+     "color2": "",
+     "price01": 130000,
+     "price02": 130000,
+     "stock": null,
+     "image": "/upload/save_image/GR0773.jpg"
+    },
+    {
+     "code": "GR0-774",
+     "color": "ライトグレー×グレー",
+     "color2": "",
+     "price01": 130000,
+     "price02": 130000,
+     "stock": null,
+     "image": "/upload/save_image/GR0774.jpg"
+    },
+    {
+     "code": "GR0-775",
+     "color": "ダークグレー×ブリック",
+     "color2": "",
+     "price01": 130000,
+     "price02": 130000,
+     "stock": null,
+     "image": "/upload/save_image/GR0775.jpg"
+    },
+    {
+     "code": "GR0-776",
+     "color": "ライトグレー×ブリック",
+     "color2": "",
+     "price01": 130000,
+     "price02": 130000,
+     "stock": null,
+     "image": "/upload/save_image/GR0776.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179736,
+   "name": "gNest ラウンジワーキング ミーティングテーブル",
+   "brand": "Garage",
+   "desc": "gNestシリーズの天板高65cmミーティングテーブルです。天板2色、脚2色で4通りの組み合わせが可能なカラーラインナップ。天板エッジのデザインがアクセントとなり、シンプルながらも印象的な表情を加えます。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/sp053ct01-001_main.jpg",
+   "variants": [
+    {
+     "code": "GR0-765",
+     "color": "ダークグレー×グレー",
+     "color2": "",
+     "price01": 68000,
+     "price02": 68000,
+     "stock": 20,
+     "image": "/upload/save_image/GR0765.jpg"
+    },
+    {
+     "code": "GR0-766",
+     "color": "ライトグレー×グレー",
+     "color2": "",
+     "price01": 68000,
+     "price02": 68000,
+     "stock": 20,
+     "image": "/upload/save_image/GR0766.jpg"
+    },
+    {
+     "code": "GR0-767",
+     "color": "ダークグレー×ブリック",
+     "color2": "",
+     "price01": 68000,
+     "price02": 68000,
+     "stock": 20,
+     "image": "/upload/save_image/GR0767.jpg"
+    },
+    {
+     "code": "GR0-768",
+     "color": "ライトグレー×ブリック",
+     "color2": "",
+     "price01": 68000,
+     "price02": 68000,
+     "stock": 20,
+     "image": "/upload/save_image/GR0768.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179699,
+   "name": "gNest ラウンジワーキング ソファー 2人掛け アームレス",
+   "brand": "Garage",
+   "desc": "gNestシリーズのアームレスソファーです。沈み込みすぎない適度な硬さのクッションで長時間のワークシーンでも姿勢を保ちやすく、休憩やコミュニケーションの場でも快適な座り心地です。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/s209al2s-001_main.jpg",
+   "variants": [
+    {
+     "code": "GR0-735",
+     "color": "ダークグレー×グレー",
+     "color2": "",
+     "price01": 90000,
+     "price02": 90000,
+     "stock": 12,
+     "image": "/upload/save_image/GR0735.jpg"
+    },
+    {
+     "code": "GR0-736",
+     "color": "ベージュ×グレー",
+     "color2": "",
+     "price01": 90000,
+     "price02": 90000,
+     "stock": 13,
+     "image": "/upload/save_image/GR0736.jpg"
+    },
+    {
+     "code": "GR0-737",
+     "color": "ダークグレー×ブリック",
+     "color2": "",
+     "price01": 90000,
+     "price02": 90000,
+     "stock": 9,
+     "image": "/upload/save_image/GR0737.jpg"
+    },
+    {
+     "code": "GR0-738",
+     "color": "ベージュ×ブリック",
+     "color2": "",
+     "price01": 90000,
+     "price02": 90000,
+     "stock": 9,
+     "image": "/upload/save_image/GR0738.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179589,
+   "name": "キングジム サイドバッグスタンド ボックスタイプ スタンダード (KING JIM 荷物置き)",
+   "brand": "",
+   "desc": "収納力に優れた箱型でスタンドタイプの折りたたみ式カバン置き。ブラックとベージュの2色。約38Lのたっぷり収納でオフィスや、カフェに。2人分の荷物が入る大きさ。【6600円以上送料無料/見積無料/請求書後払い可能】",
+   "icons": [],
+   "main": "/upload/save_image/bgsb100-001_main.jpg",
+   "variants": [
+    {
+     "code": "439-932",
+     "color": "ベージュ",
+     "color2": "",
+     "price01": 3600,
+     "price02": 3600,
+     "stock": 5,
+     "image": "/upload/save_image/439932.jpg"
+    },
+    {
+     "code": "439-931",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 3600,
+     "price02": 3600,
+     "stock": 7,
+     "image": "/upload/save_image/439931.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179586,
+   "name": "キングジム サイドバッグスタンド ボックスタイプ ミニ (KING JIM 荷物置き)",
+   "brand": "",
+   "desc": "折りたたみ式の収納力に優れたボックスタイプのカバン置き。ブラックとベージュの2色。コンパクトサイズでオフィスのデスク下、カフェの椅子の下に。【6600円以上送料無料/見積無料/請求書後払い可能】",
+   "icons": [],
+   "main": "/upload/save_image/bgsb50-001_main.jpg",
+   "variants": [
+    {
+     "code": "439-899",
+     "color": "ベージュ",
+     "color2": "",
+     "price01": 3200,
+     "price02": 3200,
+     "stock": 16,
+     "image": "/upload/save_image/439899.jpg"
+    },
+    {
+     "code": "439-898",
+     "color": "ブラック",
+     "color2": "",
+     "price01": 3200,
+     "price02": 3200,
+     "stock": 8,
+     "image": "/upload/save_image/439898.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  },
+  {
+   "id": 179578,
+   "name": "EIR エイルチェア GARAGEセレクトカラー (ワークチェア 曲木 アーム キャスター付)",
+   "brand": "",
+   "desc": "曲木をあしらったアームがアクセントの人気エイルチェアにセレクトカラーモデルが登場!従来のPUレザーに加え、ファブリック生地も用意。ほどよく反発するクッション性で、座り心地も快適です。",
+   "icons": [
+    "組立品"
+   ],
+   "main": "/upload/save_image/toumaeirpls-001_main.jpg",
+   "variants": [
+    {
+     "code": "GR0-733",
+     "color": "グレー/ナチュラル",
+     "color2": "",
+     "price01": 19800,
+     "price02": 19800,
+     "stock": 28,
+     "image": "/upload/save_image/GR0733.jpg"
+    },
+    {
+     "code": "GR0-734",
+     "color": "キャメル/ブラウン",
+     "color2": "",
+     "price01": 19800,
+     "price02": 19800,
+     "stock": 5,
+     "image": "/upload/save_image/GR0734.jpg"
+    }
+   ],
+   "single": null,
+   "cat": 0,
+   "fresh": true
+  }
+ ]
+}

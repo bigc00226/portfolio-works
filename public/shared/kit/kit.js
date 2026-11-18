@@ -63,9 +63,9 @@
   }
 
   /* ================================================================= highlighter */
-  const LANG = { liquid: 'liquid', html: 'html', php: 'php', css: 'css', scss: 'css', js: 'js', mjs: 'js', cjs: 'js', ts: 'js', jsx: 'js', tsx: 'js', json: 'json', csv: 'csv', tsv: 'csv', yml: 'yaml', yaml: 'yaml', toml: 'toml', md: 'md', env: 'env', graphql: 'gql', gql: 'gql', sh: 'sh', txt: 'txt' };
+  const LANG = { liquid: 'liquid', twig: 'twig', html: 'html', php: 'php', css: 'css', scss: 'css', js: 'js', mjs: 'js', cjs: 'js', ts: 'js', jsx: 'js', tsx: 'js', json: 'json', csv: 'csv', tsv: 'csv', yml: 'yaml', yaml: 'yaml', toml: 'toml', md: 'md', env: 'env', graphql: 'gql', gql: 'gql', sh: 'sh', txt: 'txt' };
   const langOf = (p) => { const n = p.split('/').pop(); if (n.startsWith('.env')) return 'env'; return LANG[n.split('.').pop()] || 'txt'; };
-  const LANG_NAME = { liquid: 'Liquid', html: 'HTML', php: 'PHP', css: 'CSS', js: 'JavaScript', json: 'JSON', csv: 'CSV', yaml: 'YAML', toml: 'TOML', md: 'Markdown', env: 'Properties', gql: 'GraphQL', sh: 'Shell Script', txt: 'Plain Text' };
+  const LANG_NAME = { liquid: 'Liquid', twig: 'Twig', html: 'HTML', php: 'PHP', css: 'CSS', js: 'JavaScript', json: 'JSON', csv: 'CSV', yaml: 'YAML', toml: 'TOML', md: 'Markdown', env: 'Properties', gql: 'GraphQL', sh: 'Shell Script', txt: 'Plain Text' };
   const JS_RE = /(\/\/.*$|\/\*.*?(?:\*\/|$))|(`(?:[^`\\]|\\.)*`?|'(?:[^'\\]|\\.)*'?|"(?:[^"\\]|\\.)*"?)|\b(import|from|export|default|return|if|else|for|of|in|while|await|try|catch|finally|throw|new|switch|case|break|continue)\b|\b(const|let|var|function|async|class|extends|this|typeof|instanceof)\b|\b(true|false|null|undefined|NaN)\b|\b(\d[\d_]*(?:\.\d+)?)\b|([A-Za-z_$][\w$]*)(?=\s*\()|\b([A-Z][A-Za-z0-9_]*)\b|([A-Za-z_$][\w$]*)|(=>|[{}()[\];,.:?=<>!&|+*/%-])/g;
   function jsTokens(s, out) {
     let last = 0, m;
@@ -80,10 +80,14 @@
     if (last < s.length) out.push([s.slice(last), '']);
   }
   const LQ_RE = /("[^"]*"?|'[^']*'?)|\b(if|elsif|else|endif|unless|endunless|for|endfor|in|case|when|endcase|assign|capture|endcapture|render|section|sections|schema|endschema|style|endstyle|stylesheet|endstylesheet|javascript|endjavascript|form|endform|comment|endcomment|liquid|echo|and|or|contains|limit|break|continue|paginate|endpaginate|with|as|blank|empty|nil|true|false)\b|(\|\s*)([a-z_]+)|\b(\d+(?:\.\d+)?)\b|([A-Za-z_][\w-]*)|([.[\]:,=<>!]+)/g;
+  /** Twig (EC-CUBE's templates): the same {{ }} / {% %} tags as Liquid, with Twig's own words (tests, operators, tags) */
+  const TW_RE = /("[^"]*"?|'[^']*'?)|\b(if|elseif|else|endif|for|endfor|in|block|endblock|extends|include|embed|endembed|use|set|endset|macro|endmacro|import|from|with|only|ignore|missing|filter|endfilter|apply|endapply|autoescape|endautoescape|spaceless|endspaceless|verbatim|endverbatim|do|is|not|and|or|matches|starts|ends|defined|empty|iterable|null|none|same|as|loop|true|false|form_theme|trans|endtrans)\b|(\|\s*)([a-z_]+)|\b(\d+(?:\.\d+)?)\b|([A-Za-z_]\w*)|([.[\]:,=<>!?~+*/%-]+)/g;
+  let INNER_RE = LQ_RE;
   function liquidInner(s, out) {
+    const RE = INNER_RE;
     let last = 0, m;
-    LQ_RE.lastIndex = 0;
-    while ((m = LQ_RE.exec(s))) {
+    RE.lastIndex = 0;
+    while ((m = RE.exec(s))) {
       if (m.index > last) out.push([s.slice(last, m.index), '']);
       if (m[1]) out.push([m[1], 't-str']);
       else if (m[2]) out.push([m[2], 't-lq']);
@@ -91,8 +95,8 @@
       else if (m[5]) out.push([m[5], 't-num']);
       else if (m[6]) out.push([m[6], 't-lqv']);
       else out.push([m[0], 't-pun']);
-      last = LQ_RE.lastIndex;
-      if (m[0] === '') LQ_RE.lastIndex++;
+      last = RE.lastIndex;
+      if (m[0] === '') RE.lastIndex++;
     }
     if (last < s.length) out.push([s.slice(last), '']);
   }
@@ -100,6 +104,16 @@
   function withLiquid(s, out, plain) {
     let i = 0;
     while (i < s.length) {
+      // Twig's {# comments #}
+      const c = INNER_RE === TW_RE ? s.indexOf('{#', i) : -1;
+      if (c >= 0 && [s.indexOf('{{', i), s.indexOf('{%', i)].every((x) => x < 0 || c < x)) {
+        if (c > i) plain(s.slice(i, c), out);
+        const e = s.indexOf('#}', c + 2);
+        const end = e < 0 ? s.length : e + 2;
+        out.push([s.slice(c, end), 't-com']);
+        i = end;
+        continue;
+      }
       const a = s.indexOf('{{', i), b = s.indexOf('{%', i);
       const k = a < 0 ? b : b < 0 ? a : Math.min(a, b);
       if (k < 0) { plain(s.slice(i), out); return; }
@@ -291,6 +305,7 @@
   function highlight(lang, lines) {
     const res = [];
     const st = { tag: false, block: null };
+    INNER_RE = lang === 'twig' ? TW_RE : LQ_RE;
     for (const s of lines) {
       const out = [];
       if (lang === 'liquid') {
@@ -301,7 +316,8 @@
         } else htmlTokens(s, st, out, true);
         if (open && !close) st.block = open[1];
         if (close) st.block = null;
-      } else if (lang === 'html') htmlTokens(s, st, out, false);
+      } else if (lang === 'twig') htmlTokens(s, st, out, true);
+      else if (lang === 'html') htmlTokens(s, st, out, false);
       else if (lang === 'php') phpTokens(s, st, out);
       else if (lang === 'css') cssTokens(s, out);
       else if (lang === 'js') jsTokens(s, out);

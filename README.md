@@ -344,6 +344,17 @@ movie/
 4. `js/scenario.js` に台本を書く（WordPress の画面は `WP.show(key)`、入力は `Demo.typeInto(WP.typeInto(name), …)`、PHP は `Kit.Code` がハイライト。WordPress のコーディング規約どおりタブでインデント）
 5. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`、`npm run pointer -- <id>`
 
+### EC-CUBE の動画を増やすとき
+
+EC-CUBE の管理画面・ショップの画面は、この PC の上で動かした **本物の EC-CUBE** から取り込みます（`tools/eccube/`）。PHP は WebAssembly 版（@php-wasm/node）、データベースは SQLite なので、PHP やデータベースのサーバーはインストールしません。
+
+- 準備（一度だけ。プロジェクトの外の `../eccube-local/`）：`runner/` で `npm install @php-wasm/node@3.1.65 @php-wasm/universal@3.1.65`。`inst/base/` に EC-CUBE 4.3.1-p1（公式の zip、SHA-256 を照合）をインストール済み（`node tools/eccube/runtime.js install4 <フォルダ>`）。`src2w/ec-cube2/` に EC-CUBE 2（GitHub の eccube2-weekly-20261110。SQLite に対応した最初の版）
+- 動画ごとの EC-CUBE：`node tools/eccube/runtime.js instance <id> [4|2]` で `../eccube-local/inst/<id>/` にコピーを作り、`node tools/eccube/runtime.js serve <フォルダ> [ポート]` で起動（管理画面は `/admin`。ログインはそのコピー専用の admin / password で、実在のショップのアカウントには一切ログインしません）
+- 取り込み：`tools/snapshots/<id>/capture-ec.js` から `tools/eccube/capture.js` を使い（使い方はファイルの先頭）、動画で行う操作を本物の EC-CUBE で実際に行って画面を取り込む → `js/ec-snapshot.js`（`window.EC_SNAPSHOT`）と `assets/ec/`。動画の中では WordPress の動画と同じ `public/shared/wordpress/wp-frame.js` が `window.EC` として表示します（`EC.show(key)` …）。続けて `node tools/webp.js <id>`
+- EC-CUBE 3（データ移行の動画）：自分で用意したコピーを、`runtime.js` が PHP 7.4・`html/` を公開フォルダとして動かします（`capture.js` の `dir`・`merge`）
+- コードエディター（`Kit.Code`）は Twig（拡張子 .twig）も色分けします
+- そのほかは WordPress の動画と同じです（公開中のサイトは `npm run snapshot -- <id>`、確認は `verify` / `check` / `pointer` / `timeline`）
+
 ## Next.js への移行（2026-11-17）
 
 | 以前（静的な HTML） | 現在（Next.js） |

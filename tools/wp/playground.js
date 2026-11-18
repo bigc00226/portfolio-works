@@ -462,4 +462,5 @@ async function start(o) {
   return cap;
 }
 
-module.exports = { start, blueprint, VIEWS, log, wait };
+// serializeInPage is also used by tools/eccube/capture.js (the EC-CUBE screens are captured the same way)
+module.exports = { start, blueprint, VIEWS, log, wait, serializeInPage };

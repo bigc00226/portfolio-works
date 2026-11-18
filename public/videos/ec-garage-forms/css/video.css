@@ -1,0 +1,16 @@
+/* ec-garage-forms: the real EC-CUBE 2 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* PDF viewer: Chrome's own viewer showing the real 納品書 PDF EC-CUBE 2 made, captured at this page area's size */
+.pv { position: absolute; inset: 0; background: #282828; overflow: hidden; }
+#pvImg { position: absolute; left: 0; top: 0; width: 1920px; height: 947px; display: block; }
+.pv-spot { position: absolute; pointer-events: none; }
+/* the (fictional) customer's name and address on the 納品書 */
+.pv-blur { position: absolute; pointer-events: none; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+
+/* the editor: CSV lines run past the right edge as in VS Code (no wrap); personal data blurred */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .w2 { display: inline-block; width: 2ch; }
+
+/* the explorer a little wider: EC-CUBE 2 keeps its page classes five folders deep (LC_Page_Admin_Order_Pdf_Ex.php) */
+#win-code .vs-side { width: 350px; }

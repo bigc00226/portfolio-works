@@ -1,0 +1,696 @@
+{#
+小山弓具 オンラインショップのテーマ（公開中のページの HTML から作った開発環境用のテーマ）
+#}
+<!doctype html>
+<html lang="{{ eccube_config.locale }}">
+<head prefix="og: https://ogp.me/ns# fb: https://ogp.me/ns/fb# product: https://ogp.me/ns/product#">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="eccube-csrf-token" content="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}">
+    <title>{{ BaseInfo.shop_name }}{% if subtitle is defined and subtitle is not empty %} / {{ subtitle }}{% elseif title is defined and title is not empty %} / {{ title }}{% endif %}</title>
+    {{ include('meta.twig') }}
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,500,700&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="/html/user_data/assets/img/common/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/html/user_data/assets/img/common/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/html/template/default/assets/css/style.css">
+    <link rel="stylesheet" href="/html/template/default/assets/project/css/layout.css">
+    <link rel="stylesheet" href="/html/template/default/assets/project/css/custom.css?20260408">
+    <link rel="stylesheet" href="/html/template/default/assets/project/css/slick.css">
+    <link rel="stylesheet" href="/html/template/default/assets/project/js/fancybox/jquery.fancybox.css">
+    <link rel="stylesheet" href="/html/user_data/assets/css/customize.css?20260217">
+    <script src="{{ asset('front.bundle.js', 'bundle') }}"></script>
+    {% block stylesheet %}{% endblock %}
+    <script>
+        $(function() {
+            $.ajaxSetup({ 'headers': { 'ECCUBE-CSRF-TOKEN': $('meta[name="eccube-csrf-token"]').attr('content') } });
+        });
+    </script>
+    {% if plugin_assets is defined %}{{ include('@admin/snippet.twig', { snippets: plugin_assets }) }}{% endif %}
+</head>
+<body id="page_{{ app.request.get('_route') }}" class="{{ body_class|default('other_page') }}">
+{% set cartQty = 0 %}{% for Cart in get_all_carts() %}{% set cartQty = cartQty + Cart.TotalQuantity %}{% endfor %}
+<div class="ec-layoutRole">
+<div class="ec-layoutRole__header">
+                <!-- ▼ヘッダー(商品検索・ログインナビ・カート) -->
+            <header>
+	<div id="header">
+		<div id="headerIn">
+			<div id="headerLinks">
+				<div class="btnMenu">
+					<a href="javascript:void(0);">
+						<span></span>
+						<span></span>
+						<span></span>
+						<em>MENU</em>
+					</a>
+				</div>
+			</div><!-- /.headerLinks -->
+			<div class="logoList NotoSerifJp">
+				<a href="/">
+					<span><img src="/html/template/default/assets/project/img/common/fixedLogo.png" srcset="/html/template/default/assets/project/img/common/fixedLogo.png 1x, /html/template/default/assets/project/img/common/fixedLogo@2x.png 2x"></span>
+				</a>
+				<p>公式オンラインショップ</p>
+			</div>
+			<nav id="gNavi">
+				<ul class="clearfix NotoSerifJp">
+					<li><a href="/">トップページ</a></li>
+					<li class="active"><a href="/products/list">商品一覧</a></li>
+					<li><a href="/custom">カスタムオーダー</a></li>
+					<li><a href="/user_data/guide">ご購入ガイド</a></li>
+					<li><a href="/user_data/fax">FAX・郵便注文</a></li>
+				</ul>
+			</nav><!-- /#gNavi -->
+			<div class="stadioBox">
+				<div class="stadioItem">
+					<ul>
+													{% if is_granted('ROLE_USER') %}<li><a href="{{ url('mypage') }}">マイページ</a></li>{% else %}<li><a href="{{ url('entry') }}">会員登録</a></li>{% endif %}
+							{% if is_granted('ROLE_USER') %}<li><a href="{{ url('logout') }}">ログアウト</a></li>{% else %}<li><a href="{{ url('mypage_login') }}">ログイン</a></li>{% endif %}
+												<li class="ec-headerRole__cart"><a href="/cart">カート</a><span>{{ cartQty }}</span>
+</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div><!-- /#header -->
+	<aside id="sidebar" class="sp">
+		<div class="siderArea">
+    <div class="siderGnaw">
+        <ul class="clearfix">
+            <li class="active"><a href="/">トップページ</a></li>
+            <li><a href="/products/list">商品一覧</a></li>
+            <li><a href="/custom">カスタムオーダー</a></li>
+            <li><a href="/user_data/guide">ご購入ガイド</a></li>
+            <li><a href="/user_data/fax">FAX・郵便注文</a></li>
+        </ul>
+    </div>
+    <p class="siderSub NotoSerifJp">商品カテゴリ</p>
+    <div class="siderItem">
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=1">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon01.png" srcset="/html/template/default/assets/project/img/common/icon01.png 1x, /html/template/default/assets/project/img/common/icon01@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=13">竹カーボン弓</a></li>
+                <li><a href="/products/list?category_id=14">竹弓</a></li>
+                <li><a href="/products/list?category_id=15">グラス弓</a></li>
+                <li><a href="/products/list?category_id=16">グラスカーボン弓</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=2">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon02.png" srcset="/html/template/default/assets/project/img/common/icon02.png 1x, /html/template/default/assets/project/img/common/icon02@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓　関連商品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=17">握り革</a></li>
+                <li><a href="/products/list?category_id=18">当てゴム</a></li>
+                <li><a href="/products/list?category_id=19">籐</a></li>
+                <li><a href="/products/list?category_id=20">弓巻</a></li>
+                <li><a href="/products/list?category_id=21">弓袋</a></li>
+                <li><a href="/products/list?category_id=22">右近弓袋</a></li>
+                <li><a href="/products/list?category_id=23">雨袋</a></li>
+                <li><a href="/products/list?category_id=24">石突</a></li>
+                <li><a href="/products/list?category_id=25">ゴム弓</a></li>
+                <li><a href="/products/list?category_id=26">お手入れ用品</a></li>
+                <li><a href="/products/list?category_id=27">便利グッズ</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=3">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon03.png" srcset="/html/template/default/assets/project/img/common/icon03.png 1x, /html/template/default/assets/project/img/common/icon03@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弦・弦巻</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=28">合成弦</a></li>
+                <li><a href="/products/list?category_id=29">麻弦</a></li>
+                <li><a href="/products/list?category_id=30">弦巻</a></li>
+                <li><a href="/products/list?category_id=31">弦巻ケース</a></li>
+                <li><a href="/products/list?category_id=32">さげ革</a></li>
+                <li><a href="/products/list?category_id=82">弦備品</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=4">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon04.png" srcset="/html/template/default/assets/project/img/common/icon04.png 1x, /html/template/default/assets/project/img/common/icon04@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">矢</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=37">アルミ矢　完成品</a></li>
+                <li><a href="/products/list?category_id=38">ウッドカーボン矢　完成品</a></li>
+                <li><a href="/products/list?category_id=39">巻藁矢</a></li>
+                <li><a href="/products/list?category_id=40">竹矢</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=5">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon05.png" srcset="/html/template/default/assets/project/img/common/icon05.png 1x, /html/template/default/assets/project/img/common/icon05@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">矢　関連商品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=41">アルミ矢　筈</a></li>
+                <li><a href="/products/list?category_id=42">アルミ矢　矢尻</a></li>
+                <li><a href="/products/list?category_id=43">カーボン矢　筈</a></li>
+                <li><a href="/products/list?category_id=44">カーボン矢　矢尻</a></li>
+                <li><a href="/products/list?category_id=45">EASTON　重量調整用ウエイト</a></li>
+                <li><a href="/products/list?category_id=46">ショルダー型矢筒</a></li>
+                <li><a href="/products/list?category_id=47">矢倒れ防止ゴム</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=6">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon06.png" srcset="/html/template/default/assets/project/img/common/icon06.png 1x, /html/template/default/assets/project/img/common/icon06@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓道着</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=48">弓道着4点セット</a></li>
+                <li><a href="/products/list?category_id=49">弓道衣</a></li>
+                <li><a href="/products/list?category_id=50">袴</a></li>
+                <li><a href="/products/list?category_id=51">胸当て</a></li>
+                <li><a href="/products/list?category_id=52">帯</a></li>
+                <li><a href="/products/list?category_id=53">足袋</a></li>
+                <li><a href="/products/list?category_id=54">雪駄</a></li>
+                <li><a href="/products/list?category_id=55">着物</a></li>
+                <li><a href="/products/list?category_id=56">襷</a></li>
+                <li><a href="/products/list?category_id=57">風呂敷</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=7">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon07.png" srcset="/html/template/default/assets/project/img/common/icon07.png 1x, /html/template/default/assets/project/img/common/icon07@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">カケ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=58">三ツカケ</a></li>
+                <li><a href="/products/list?category_id=60">下カケ</a></li>
+                <li><a href="/products/list?category_id=59">押手カケ</a></li>
+                <li><a href="/products/list?category_id=61">カケ備品</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=8">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon08.png" srcset="/html/template/default/assets/project/img/common/icon08.png 1x, /html/template/default/assets/project/img/common/icon08@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">粉・粉入れ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=81">粉</a></li>
+                <li><a href="/products/list?category_id=66">粉入れ</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=9">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon09.png" srcset="/html/template/default/assets/project/img/common/icon09.png 1x, /html/template/default/assets/project/img/common/icon09@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓道グッズ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=83">ストラップ類</a></li>
+                <li><a href="/products/list?category_id=84">その他</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=10">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon10.png" srcset="/html/template/default/assets/project/img/common/icon10.png 1x, /html/template/default/assets/project/img/common/icon10@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">道場用品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=68">巻藁</a></li>
+                <li><a href="/products/list?category_id=69">巻藁ネット</a></li>
+                <li><a href="/products/list?category_id=70">的紙・のり</a></li>
+                <li><a href="/products/list?category_id=71">的枠・的串</a></li>
+                <li><a href="/products/list?category_id=72">扇的</a></li>
+                <li><a href="/products/list?category_id=73">その他</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=12">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon12.png" srcset="/html/template/default/assets/project/img/common/icon12.png 1x, /html/template/default/assets/project/img/common/icon12@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">書籍</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=11">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon11.png" srcset="/html/template/default/assets/project/img/common/icon11.png 1x, /html/template/default/assets/project/img/common/icon11@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">四半的弓道具</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=88">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/bag_13185110.png" srcset="/html/template/default/assets/project/img/common/bag_13185110.png 1x, /html/template/default/assets/project/img/common/bag_13185110.png 2x"></dt>
+                        <dd class="NotoSerifJp">特価品</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+<div class="siderItem02">
+    <form method="get" class="searchform" action="/products/list">
+        <p class="siderSub NotoSerifJp">商品検索</p>
+        <p class="siderText">
+            <input type="search" name="name" maxlength="50" class="search-name">
+            <input type="submit">
+        </p>
+    </form>
+</div>
+
+    <div class="siderMon">
+        <p class="siderMonSub NotoSerifJp">おすすめキーワード</p>
+        <ul class="clearfix">
+            <li><a href="/products/list?name=直心">直心</a></li>
+            <li><a href="/products/list?name=冬用">冬用</a></li>
+            <li><a href="/products/list?name=練習">練習</a></li>
+            <li><a href="/products/list?name=便利">便利</a></li>
+            <li><a href="/products/list?name=保護">保護</a></li>
+            <li><a href="/products/list?name=カーボン">カーボン</a></li>
+        </ul>
+    </div>
+    <div class="siderWin">
+        <p class="siderWinSub NotoSerifJp">総合窓口</p>
+        <p class="siderTel NotoSerifJp">tel:<a href="tel:03-3256-2001">03-3256-2001</a></p>
+        <p class="siderTime">営業時間<br>[火～土曜日]10:00-19:00<br>[日・祝]10:00-18:00</p>
+        <!-- <p class="siderTime">営業時間<br>[水～日曜日]10:00-18:00</p>-->
+        <p class="sidericon">
+        <a href="https://twitter.com/koyamakyugu" target="_blank"><img src="/html/template/default/assets/project/img/common/twitter.png" srcset="/html/template/default/assets/project/img/common/twitter.png 1x, /html/template/default/assets/project/img/common/twitter@2x.png 2x"></a>
+        <a href="https://www.instagram.com/koyamakyugu" target="_blank"><img src="/html/template/default/assets/project/img/common/ins.png" srcset="/html/template/default/assets/project/img/common/ins.png 1x, /html/template/default/assets/project/img/common/ins@2x.png 2x"></a>
+        </p>
+    </div>
+</div>
+	</aside><!-- /#sidebar -->
+</header>
+
+        <!-- ▲ヘッダー(商品検索・ログインナビ・カート) -->
+
+        </div>
+    <div class="ec-layoutRole__contents">
+        <div class="ec-layoutRole__main">
+            <article>
+                <div id="contents">
+<div class="headerBox tabArea02">
+    <p class="tabBtn02 headerTitle"><span class="open">閉じる</span><span class="close">開く</span></p>
+    <div class="headertabBox">
+        <div class="tabBox02">
+            <ul>
+                                    {% if is_granted('ROLE_USER') %}<li><a href="{{ url('mypage') }}">マイページ</a></li>{% else %}<li><a href="{{ url('entry') }}">会員登録</a></li>{% endif %}
+                    {% if is_granted('ROLE_USER') %}<li><a href="{{ url('logout') }}">ログアウト</a></li>{% else %}<li><a href="{{ url('mypage_login') }}">ログイン</a></li>{% endif %}
+                                <li><a href="/cart">カート</a><span>{{ cartQty }}</span>
+</li>
+            </ul>
+        </div>
+    </div>
+</div>
+                    <div class="contentsWrap clearfix">
+<aside id="sidebar" class="sp">
+		<div class="siderArea">
+    <div class="siderGnaw">
+        <ul class="clearfix">
+            <li class="active"><a href="/">トップページ</a></li>
+            <li><a href="/products/list">商品一覧</a></li>
+            <li><a href="/custom">カスタムオーダー</a></li>
+            <li><a href="/user_data/guide">ご購入ガイド</a></li>
+            <li><a href="/user_data/fax">FAX・郵便注文</a></li>
+        </ul>
+    </div>
+    <p class="siderSub NotoSerifJp">商品カテゴリ</p>
+    <div class="siderItem">
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=1">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon01.png" srcset="/html/template/default/assets/project/img/common/icon01.png 1x, /html/template/default/assets/project/img/common/icon01@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=13">竹カーボン弓</a></li>
+                <li><a href="/products/list?category_id=14">竹弓</a></li>
+                <li><a href="/products/list?category_id=15">グラス弓</a></li>
+                <li><a href="/products/list?category_id=16">グラスカーボン弓</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=2">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon02.png" srcset="/html/template/default/assets/project/img/common/icon02.png 1x, /html/template/default/assets/project/img/common/icon02@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓　関連商品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=17">握り革</a></li>
+                <li><a href="/products/list?category_id=18">当てゴム</a></li>
+                <li><a href="/products/list?category_id=19">籐</a></li>
+                <li><a href="/products/list?category_id=20">弓巻</a></li>
+                <li><a href="/products/list?category_id=21">弓袋</a></li>
+                <li><a href="/products/list?category_id=22">右近弓袋</a></li>
+                <li><a href="/products/list?category_id=23">雨袋</a></li>
+                <li><a href="/products/list?category_id=24">石突</a></li>
+                <li><a href="/products/list?category_id=25">ゴム弓</a></li>
+                <li><a href="/products/list?category_id=26">お手入れ用品</a></li>
+                <li><a href="/products/list?category_id=27">便利グッズ</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=3">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon03.png" srcset="/html/template/default/assets/project/img/common/icon03.png 1x, /html/template/default/assets/project/img/common/icon03@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弦・弦巻</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=28">合成弦</a></li>
+                <li><a href="/products/list?category_id=29">麻弦</a></li>
+                <li><a href="/products/list?category_id=30">弦巻</a></li>
+                <li><a href="/products/list?category_id=31">弦巻ケース</a></li>
+                <li><a href="/products/list?category_id=32">さげ革</a></li>
+                <li><a href="/products/list?category_id=82">弦備品</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=4">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon04.png" srcset="/html/template/default/assets/project/img/common/icon04.png 1x, /html/template/default/assets/project/img/common/icon04@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">矢</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=37">アルミ矢　完成品</a></li>
+                <li><a href="/products/list?category_id=38">ウッドカーボン矢　完成品</a></li>
+                <li><a href="/products/list?category_id=39">巻藁矢</a></li>
+                <li><a href="/products/list?category_id=40">竹矢</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=5">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon05.png" srcset="/html/template/default/assets/project/img/common/icon05.png 1x, /html/template/default/assets/project/img/common/icon05@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">矢　関連商品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=41">アルミ矢　筈</a></li>
+                <li><a href="/products/list?category_id=42">アルミ矢　矢尻</a></li>
+                <li><a href="/products/list?category_id=43">カーボン矢　筈</a></li>
+                <li><a href="/products/list?category_id=44">カーボン矢　矢尻</a></li>
+                <li><a href="/products/list?category_id=45">EASTON　重量調整用ウエイト</a></li>
+                <li><a href="/products/list?category_id=46">ショルダー型矢筒</a></li>
+                <li><a href="/products/list?category_id=47">矢倒れ防止ゴム</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=6">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon06.png" srcset="/html/template/default/assets/project/img/common/icon06.png 1x, /html/template/default/assets/project/img/common/icon06@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓道着</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=48">弓道着4点セット</a></li>
+                <li><a href="/products/list?category_id=49">弓道衣</a></li>
+                <li><a href="/products/list?category_id=50">袴</a></li>
+                <li><a href="/products/list?category_id=51">胸当て</a></li>
+                <li><a href="/products/list?category_id=52">帯</a></li>
+                <li><a href="/products/list?category_id=53">足袋</a></li>
+                <li><a href="/products/list?category_id=54">雪駄</a></li>
+                <li><a href="/products/list?category_id=55">着物</a></li>
+                <li><a href="/products/list?category_id=56">襷</a></li>
+                <li><a href="/products/list?category_id=57">風呂敷</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=7">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon07.png" srcset="/html/template/default/assets/project/img/common/icon07.png 1x, /html/template/default/assets/project/img/common/icon07@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">カケ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=58">三ツカケ</a></li>
+                <li><a href="/products/list?category_id=60">下カケ</a></li>
+                <li><a href="/products/list?category_id=59">押手カケ</a></li>
+                <li><a href="/products/list?category_id=61">カケ備品</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=8">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon08.png" srcset="/html/template/default/assets/project/img/common/icon08.png 1x, /html/template/default/assets/project/img/common/icon08@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">粉・粉入れ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=81">粉</a></li>
+                <li><a href="/products/list?category_id=66">粉入れ</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=9">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon09.png" srcset="/html/template/default/assets/project/img/common/icon09.png 1x, /html/template/default/assets/project/img/common/icon09@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">弓道グッズ</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=83">ストラップ類</a></li>
+                <li><a href="/products/list?category_id=84">その他</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=10">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon10.png" srcset="/html/template/default/assets/project/img/common/icon10.png 1x, /html/template/default/assets/project/img/common/icon10@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">道場用品</dd>
+                    </dl>
+                </a>
+                <span class="cate_arrow tabBtn"></span>
+            </div>
+            <ul class="siderBoxul tabBox">
+                <li><a href="/products/list?category_id=68">巻藁</a></li>
+                <li><a href="/products/list?category_id=69">巻藁ネット</a></li>
+                <li><a href="/products/list?category_id=70">的紙・のり</a></li>
+                <li><a href="/products/list?category_id=71">的枠・的串</a></li>
+                <li><a href="/products/list?category_id=72">扇的</a></li>
+                <li><a href="/products/list?category_id=73">その他</a></li>
+            </ul>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=12">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon12.png" srcset="/html/template/default/assets/project/img/common/icon12.png 1x, /html/template/default/assets/project/img/common/icon12@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">書籍</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=11">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/icon11.png" srcset="/html/template/default/assets/project/img/common/icon11.png 1x, /html/template/default/assets/project/img/common/icon11@2x.png 2x"></dt>
+                        <dd class="NotoSerifJp">四半的弓道具</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+        <div class="siderBox tabArea">
+            <div class="siderLisr">
+                <a href="/products/list?category_id=88">
+                    <dl>
+                        <dt><img src="/html/template/default/assets/project/img/common/bag_13185110.png" srcset="/html/template/default/assets/project/img/common/bag_13185110.png 1x, /html/template/default/assets/project/img/common/bag_13185110.png 2x"></dt>
+                        <dd class="NotoSerifJp">特価品</dd>
+                    </dl>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+<div class="siderItem02">
+    <form method="get" class="searchform" action="/products/list">
+        <p class="siderSub NotoSerifJp">商品検索</p>
+        <p class="siderText">
+            <input type="search" name="name" maxlength="50" class="search-name">
+            <input type="submit">
+        </p>
+    </form>
+</div>
+
+    <div class="siderMon">
+        <p class="siderMonSub NotoSerifJp">おすすめキーワード</p>
+        <ul class="clearfix">
+            <li><a href="/products/list?name=直心">直心</a></li>
+            <li><a href="/products/list?name=冬用">冬用</a></li>
+            <li><a href="/products/list?name=練習">練習</a></li>
+            <li><a href="/products/list?name=便利">便利</a></li>
+            <li><a href="/products/list?name=保護">保護</a></li>
+            <li><a href="/products/list?name=カーボン">カーボン</a></li>
+        </ul>
+    </div>
+    <div class="siderWin">
+        <p class="siderWinSub NotoSerifJp">総合窓口</p>
+        <p class="siderTel NotoSerifJp">tel:<a href="tel:03-3256-2001">03-3256-2001</a></p>
+        <p class="siderTime">営業時間<br>[火～土曜日]10:00-19:00<br>[日・祝]10:00-18:00</p>
+        <!-- <p class="siderTime">営業時間<br>[水～日曜日]10:00-18:00</p>-->
+        <p class="sidericon">
+        <a href="https://twitter.com/koyamakyugu" target="_blank"><img src="/html/template/default/assets/project/img/common/twitter.png" srcset="/html/template/default/assets/project/img/common/twitter.png 1x, /html/template/default/assets/project/img/common/twitter@2x.png 2x"></a>
+        <a href="https://www.instagram.com/koyamakyugu" target="_blank"><img src="/html/template/default/assets/project/img/common/ins.png" srcset="/html/template/default/assets/project/img/common/ins.png 1x, /html/template/default/assets/project/img/common/ins@2x.png 2x"></a>
+        </p>
+    </div>
+</div>
+	</aside>
+                        <div id="main">
+                            <div class="inner">
+                                {% block main %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+<div class="ec-layoutRole__footer">
+                <!-- ▼フッター -->
+            <footer>
+    <div id="footer">
+        <div class="footerBox NotoSerifJp">
+            <div class="footerLogo">
+                <a href=""><img src="/html/template/default/assets/project/img/common/logo_white.png" srcset="/html/template/default/assets/project/img/common/logo_white.png 1x, /html/template/default/assets/project/img/common/logo_white@2x.png 2x"></a>
+            </div>
+            <div class="footerLeft clearfix">
+                <ul class="hlg01">
+                    <li><a href="/">トップページ</a></li>
+                    <li><a href="/products/list">商品一覧</a></li>
+                    <li><a href="/custom">カスタムオーダー</a></li>
+                    <li><a href="/user_data/guide">ご購入ガイド</a></li>
+                    <li><a href="/user_data/fax">FAX・郵便注文</a></li>
+                    <li><a href="/contact">お問い合わせ</a></li>
+                </ul>
+                <ul class="hlg01">
+                    <li><a href="/entry">新規会員登録</a></li>
+                    <li><a href="/mypage/login">ログイン</a></li>
+                    <li><a href="/mypage/favorite">お気に入り</a></li>
+                    <li><a href="/mypage/">マイページ</a></li>
+                    <li><a href="/cart">カートをみる</a></li>
+                </ul>
+                <ul class="hlg01">
+                    <li><a href="/help/about">当サイトについて</a></li>
+                    <li><a href="/help/agreement">利用規約</a></li>
+                    <li><a href="/help/privacy">プライバシーポリシー</a></li>
+                    <li><a href="/help/tradelaw">特定商取引法に基づく表記</a></li>
+                    <li><p class="outLine"><a href="https://koyama-kyugu.co.jp/" target="_blank">小山弓具コーポレートサイト</a></p></li>
+                </ul>
+                <ul class="lastUl">
+                    <li><p class="last01">総合窓口</p></li>
+                    <li><p class="last02">tel:<a href="tel:03-3256-2001">03-3256-2001</a></p></li>
+                    <!-- <li><p class="last03">営業時間 : [通常]10:00-19:00／<br class="sp">[日・祝]10:00-18:00</p></li> -->
+                    <li><p class="last03">営業時間 : [火～土曜日]10:00-19:00<br>[日・祝]10:00-18:00</p></li>
+                    <li><p class="last04">株式会社小山弓具<br>〒101-0041 東京都千代田区神田須田町1-6</p></li>
+                    <li><p class="last05">© KOYAMA KYUGU CO.LTD</p></li>
+                </ul>
+            </div>
+        </div>
+    </div><!-- /#footer -->
+</footer>
+        <!-- ▲フッター -->
+
+        </div>
+</div>
+{% include('@common/lang.twig') %}
+<script src="{{ asset('assets/js/function.js') }}"></script>
+<script src="{{ asset('assets/js/eccube.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+<script src="/html/template/default/assets/project/js/jquery.matchHeight-min.js"></script>
+<script src="/html/template/default/assets/project/js/jquery.biggerlink.min.js"></script>
+{% block javascript %}{% endblock %}
+{% if plugin_snippets is defined %}
+    {{ include('snippet.twig', { snippets: plugin_snippets }) }}
+{% endif %}
+</body>
+</html>

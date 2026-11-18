@@ -1,0 +1,7 @@
+/* ec-koyama-kyugu: the real EC-CUBE screens (admin and the dev copy's shop) fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #f4f5f7; }
+
+/* the terminal: SQL and log lines are long; personal data blurred */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .w2 { display: inline-block; width: 2ch; }
+.vs-term .tsql { color: #9cdcfe; }

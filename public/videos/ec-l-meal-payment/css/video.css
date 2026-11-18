@@ -1,0 +1,6 @@
+/* ec-l-meal-payment: the real EC-CUBE 4 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* the (fictional) test customer's name / address / mail and the transaction ids: blurred like the other videos */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .tsql { color: #9cdcfe; }

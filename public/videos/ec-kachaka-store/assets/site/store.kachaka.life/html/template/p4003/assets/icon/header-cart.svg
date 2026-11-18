@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_309" data-name="長方形 309" width="24" height="24" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="ShoppingCart" clip-path="url(#clip-path)">
+    <path id="パス_221" data-name="パス 221" d="M8.14,21.52a.95.95,0,1,0-.95-.95A.95.95,0,0,0,8.14,21.52Z" fill="#fffaf3" stroke="#fffaf3" stroke-width="1.5"/>
+    <path id="パス_222" data-name="パス 222" d="M18.64,21.52a.95.95,0,1,0-.95-.95A.95.95,0,0,0,18.64,21.52Z" fill="#fffaf3" stroke="#fffaf3" stroke-width="1.5"/>
+    <path id="パス_223" data-name="パス 223" d="M.5,1.48H4.32L6.88,14.26A1.91,1.91,0,0,0,8.79,15.8h9.27A1.91,1.91,0,0,0,20,14.26l1.53-8H5.27" fill="none" stroke="#fffaf3" stroke-width="1.5"/>
+  </g>
+</svg>

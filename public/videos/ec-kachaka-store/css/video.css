@@ -1,0 +1,20 @@
+/* ec-kachaka-store: the real EC-CUBE screens (admin and the dev copy's shop) fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #f4f5f7; }
+.br-page[data-page="wp"] .ks-devbar { display: none; }
+
+/* Chrome's device mode for the smartphone screens (390 × 844, scaled to the page like shared/kit Store.fit) */
+.br-page[data-page="wp"].device { background: #e8eaed; }
+.br-page[data-page="wp"].device .ks-devbar { display: flex; position: absolute; left: 0; right: 0; top: 0; z-index: 2; }
+.br-page[data-page="wp"].device #wpPage { top: 34px; background: #e8eaed; }
+.br-page[data-page="wp"].device #wpPage .wpf { left: 50%; top: 14px; margin-left: -195px; transform-origin: 50% 0; box-shadow: 0 0 0 1px #c9ccd1, 0 6px 22px rgba(0,0,0,.12); background: #fff; }
+
+/* terminal colours used by this video */
+.vs-term .tg { color: #23d18b; }
+.vs-term .ty { color: #e5e510; }
+.vs-term .tr { color: #f14c4c; }
+.vs-term .tc { color: #29b8db; }
+.vs-term .tdim { color: #8b8b8b; }
+.vs-term .tw2 { color: #e5e5e5; }
+.vs-term .tlog { color: #cccccc; white-space: pre-wrap; word-break: break-all; }
+.vs-term .pii { filter: blur(5px); }
+.vs-line.pii .lc { filter: blur(5px); }
