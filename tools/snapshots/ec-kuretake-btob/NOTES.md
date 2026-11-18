@@ -35,10 +35,16 @@ npm run check -- ec-kuretake-btob ; npm run pointer -- ec-kuretake-btob ; npm ru
 
 - capture-ec.js は毎回 fresh。途中で止めたときは、その EC-CUBE の node（とその子の chrome）を止めてから再実行。
 
-## 状況
+## 状況（2026-11-18 完了）
 
-- [x] 調査・scrape-shop.js・shop-data.json（29 商品）・b2b-src.js・build-core.js・capture-ec.js
-- [x] index.html / config.js / files.js / apps.js / scenario.js（下書き）/ css
-- [ ] capture の実行と画面の確認
-- [ ] npm run snapshot、webp / verify / check / pointer / timeline（thumbAt）
-- [ ] content/videos.ts のエントリー、docs/videos/ec-kuretake-btob.md
+- [x] 調査・scrape-shop.js・shop-data.json（32 件取得、キャラクター商品と詰め合わせを外して 29 商品）・b2b-src.js・build-core.js・capture-ec.js
+- [x] capture（50 画面、約 25 分）：承認 → 本会員・本登録完了メールのログ、卸価格のバグ（price02 450 → 270）と修正後 450、
+      発注単位 3 → 10 のモーダル、掛け払い（配送方法の取扱支払方法なしで出ない → 追加で出る）、注文 2 件（掛け払い / 銀行振込）
+- [x] webp・npm run snapshot（home / list 128 / detail 286 / login / features/new_customer、PC。営業日カレンダーとトップの新着情報は remove）
+- [x] scenario・apps・files・config・css、docs/videos/ec-kuretake-btob.md、content/videos.ts（thumbAt 330 = 卸価格の商品詳細）
+- [x] verify ✓ 9:52・check 0・pointer 0・timeline
+- 分かったこと：配送方法設定の「登録」ボタンを puppeteer でクリックしても送信されないことがあった（10 分待って失敗）→ form.submit() に。
+  会員一覧は会社名を出さない（メールアドレスで行を探す）。商品一覧は更新日順（清書用墨滴はスクロールした先）。
+  String.raw の最後に \ を置かない（\` がエスケープになる）。config.js の project.path は 'C:\\dev\\…'（他の動画は \d が消えている）。
+  エクスプローラーは video.css で 330px（深いフォルダーの新規ファイル名が切れないように）。
+- やっていないこと：本番の会員登録フォームにある「業界・既存取引」は管理画面側の項目にした。一括発注・SKU 登録・見積履歴（本番にある）は対象外。

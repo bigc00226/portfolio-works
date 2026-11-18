@@ -2,7 +2,7 @@
 
 > 一覧ページ（`/`）と再生ページ（`/watch/ec-kuretake-btob`）から、シークバー付きのプレーヤーで見られます（`npm run dev` で起動）。詳しくは `../../README.md`。
 > 動画のページ本体は `public/videos/ec-kuretake-btob/`（`index.html` はブラウザで直接開いても再生できます）。
-> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、長さは約 __LEN__、画面上の日付は 2026/10/01（10:04〜）です。
+> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、長さは約 9 分 52 秒、画面上の日付は 2026/10/01（10:04〜）です。
 
 画面録画用のデモページです。書道用品・筆ぺんのメーカー 呉竹の取引先専用の注文サイト（https://order.kuretake.co.jp 、EC-CUBE 4）に、
 **BtoB の機能（取引先情報・承認制の会員登録・掛率の卸価格・発注単位・掛け払い）** を開発環境の EC-CUBE 4.3 で組み込み、本番へ反映するまでを再生します。
@@ -43,7 +43,7 @@
 | 5 発注単位 | VS Code ＋ ショップ | `OrderUnitValidator`（@CartFlow）→ 美文字筆ぺん 中字を 3 個でカートに入れると「10 個単位」のお知らせと数量 10 | |
 | 6 掛け払い | 管理画面 ＋ VS Code ＋ ショップ | 支払方法「掛け払い（請求書払い）」を追加、`OrderTypeExtension`（承認済みの取引先だけ）→ ご注文手続き → 確認 → 完了。掛け払い不可の取引先には出ない | **掛け払いが出ない**：配送方法の取扱支払方法に入っていない → 配送方法設定で追加 |
 | 7 受注管理 | 管理画面 | 受注一覧・受注登録（会社名・掛け払い・卸価格の明細） | |
-| 8 本番へ反映 | ターミナル | git、本番サーバーで `eccube:generate:proxies`・`doctrine:schema:update`・`cache:clear`、本番の管理画面での設定 | |
+| 8 本番へ反映 | ターミナル | git、本番サーバーで `eccube:generate:proxies`・`cache:clear`・`doctrine:schema:update --force`、本番の管理画面での設定（仮会員機能・支払方法・配送方法） | |
 | 公開中のサイト | Chrome | 商品詳細（清書用墨滴）・取引先のログイン | |
 
 ### 日本語入力（Microsoft IME と同じ流れ）

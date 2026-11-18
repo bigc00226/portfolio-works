@@ -51,6 +51,17 @@
  *   - EC-CUBE 4.3 registers its bundled plugins in dtb_plugin without installing them: doctrine:schema:update then also emits
  *     their columns. Unregister the ones the video does not use (bundled plugins that were never installed) before a schema update.
  *   - bin/console gets the copy's .env (runtime.js consoleRun), so database commands work through cap.console().
+ *   - EC-CUBE's source on GitHub: use refs/tags/<version> (raw.githubusercontent.com/EC-CUBE/ec-cube/4.3.1/ is a branch that
+ *     already contains later patches).
+ *   - The admin route (ECCUBE_ADMIN_ROUTE) allows only \w characters (no hyphen).
+ *   - Canvas content (the 2FA QR code) is not kept by the capture: turn it into an <img> before capturing.
+ *   - page.deleteCookie may not remove EC-CUBE's session here: use a fresh browser for screens that need a logged-out state.
+ *   - Securitychecker42 makes the site fetch its own URLs: ~250 s under WebAssembly PHP; point its upload at a local stub.
+ *   - The admin's plugin actions (有効化 / 無効化 / 独自プラグインのアップロード) leak the proxy generator's "gen ->" lines into
+ *     the response and can leave .maintenance in PHP's stat cache: reopen the plugin list and restart the server after them
+ *     (tools/snapshots/ec-daikoku-plugin/capture-ec.js does).
+ *   - eccube:plugin:enable's dependency check asks the Owners Store through Composer (exec()): run PluginService's postInstall +
+ *     enable yourself, then cache:clear (tools/snapshots/ec-tackleberry-api/capture-ec.js does).
  *   - "lockWholeFile: unlock failed" lines are harmless.
  */
 const fs = require('fs');

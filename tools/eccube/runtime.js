@@ -22,7 +22,10 @@
  *   - EC-CUBE 2's pages require '../require.php' relative to themselves: each page runs in its own folder, as under Apache
  *   - one PHP request at a time (one PHP instance); a folder URL of EC-CUBE 2 is its index.php
  *   - EC-CUBE 3 (a copy you make yourself, e.g. for a 3 → 4 data migration): detected by html/index.php, served with PHP 7.4,
- *     html/ as document root and html/index.php as front controller; consoleRun() runs its app/console
+ *     html/ as document root and html/index.php as front controller; consoleRun() runs its app/console.
+ *     On PHP 7.4 in WebAssembly the copy needs two fixes (tools/snapshots/ec-cagiana-migration/setup-ec3.js applies them):
+ *     libxml_use_internal_errors() crashes the runtime (a namespaced stand-in through Composer's autoload "files"), and
+ *     Twig 1.34 eats the space before {{ on PHP 7.4 (the one-line Lexer check later Twig versions use)
  */
 const fs = require('fs');
 const path = require('path');

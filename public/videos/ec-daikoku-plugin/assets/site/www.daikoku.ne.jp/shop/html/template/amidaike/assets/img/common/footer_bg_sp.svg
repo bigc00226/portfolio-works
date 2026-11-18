@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_1" data-name="レイヤー_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 375 185" width="375" height="185" preserveAspectRatio="none">
+  <!-- Generator: Adobe Illustrator 29.1.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 142)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+      }
+
+      .st1 {
+        fill-rule: evenodd;
+      }
+
+      .st1, .st2 {
+        fill: #faf0e3;
+      }
+    </style>
+  </defs>
+  <rect class="st2" y="119" width="375" height="66"/>
+  <path class="st1" d="M375,93v26.9H0v-50.2c18.2,8.1,35.3,15.3,46.9,16.8,46.1,10.1,76.5,9.3,103.6,0,27.1-9.3,67.7-15.8,103.9-13.2,31.5,2.3,56.9,8.3,73.9,13.2,14.3,4.1,30.5,6.1,46.7,6.6Z"/>
+  <rect class="st0" width="375" height="185"/>
+</svg>

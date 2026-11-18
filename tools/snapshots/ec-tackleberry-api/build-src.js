@@ -6,7 +6,7 @@
 //                        Node gives header names in lower case, so the signature is never found → 401)
 //             stage 3  the header fixed + ship
 //             stage 4  + orders (the catch-up of orders whose WebHook never arrived) = the final file
-//   graphql/update-stock.graphql  stage 1 without stock_unlimited (the mistake: a required argument) · stage 2 = final
+//   graphql/update-stock.graphql  stage 1 without the stock_unlimited argument (the mistake: a required argument) · stage 2 = final
 const fs = require('fs');
 const path = require('path');
 const DIR = path.join(__dirname, 'store-link');
@@ -31,7 +31,7 @@ const s2 = s3.replace(D, '').replace(/\n+$/, '\n').replace(HS, '').replace(BUG[0
 const s1 = s2.replace(A, '').replace(B.replace(BUG[0], BUG[1]), '').replace("const PICKED = 'var/picked.json';\n", '');
 for (const [n, s] of Object.entries({ s1, s2, s3 })) if (s === L) throw new Error('stage ' + n + ' did not change');
 const U = files['graphql/update-stock.graphql'];
-const stockV1 = U.replace(', stock_unlimited: false', '').replace('# 店舗の在庫数を EC へ（中古品は 1 点もの：在庫は無制限にしない）', '# 店舗の在庫数を EC へ');
+const stockV1 = U.replace(', stock_unlimited: false', '');
 if (stockV1 === U) throw new Error('update-stock v1 did not change');
 
 // EC-CUBE 4.3.1-p1's bundled Api42 and the OAuth2 bundle it uses — opened read-only in the video, byte for byte from the EC-CUBE the captures run

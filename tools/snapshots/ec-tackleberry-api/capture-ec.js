@@ -21,8 +21,8 @@
  *   ch5      WebHook管理 → 新規登録 → order A (the receiver reads the signature header with capital letters: 401, EC-CUBE's log) →
  *            the fix → order B (200, 出荷指示) → 受注一覧
  *   ch6      store-link ship (updateShipped, 出荷完了メール) → 受注一覧 (発送済み), 受注登録 (出荷日・お問い合わせ番号)
- *   ch7      the access token expired → refresh: invalid_client (the client's grants are authorization_code only) →
- *            league:oauth2-server:update-client --add-grant-type=refresh_token → orders (the catch-up finds order A)
+ *   ch7      the access token expired (its expiry set in the past) → orders: refreshed for real, the catch-up finds order A;
+ *            list-clients / update-client are run too (not in the video: the admin's client already has refresh_token)
  * Outputs (store-link, bin/console, EC-CUBE's log) are kept in EC_SNAPSHOT.data with 127.0.0.1:<port> → localhost:8080 and the
  * clock moved to the video's.
  */

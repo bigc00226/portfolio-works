@@ -1,0 +1,11 @@
+/* ec-cagiana-migration: the real EC-CUBE 3 / 4 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* the (invented) members' mail / address / phone: blurred like the other videos; SQL and status codes in the terminal */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .tsql { color: #9cdcfe; }
+.vs-term .t3xx { color: #dcdcaa; }
+.vs-term .t404 { color: #f48771; }
+
+/* the explorer a little wider: the plugin's controller is four folders deep */
+#win-code .vs-side { width: 360px; }

@@ -17,7 +17,7 @@ window.VIDEO = {
     steps: ['依頼・現状確認（公開中の支払方法・開発環境）', 'GMO後払い：手数料と利用条件（〜55,000 円）', 'カード決済プラグイン（PaymentMethodInterface・トークン）', 'インストール・有効化、配送方法の取扱支払方法', 'テスト注文（テストモード）と購入エラーの修正', '受注管理（入金済み・取引 ID）・注文メール', '冷凍庫レンタルはカードのみ・後払いの上限', '本番へ反映'],
   },
   store: { name: 'ライフミール', handle: 'l-meal', domain: 'l-meal.com', initials: 'L', avatar: '#af1b55' },
-  project: { name: 'lmeal-eccube', path: 'C:\work\lmeal-eccube' },
+  project: { name: 'lmeal-eccube', path: 'C:\\work\\lmeal-eccube' },
   pins: 'explorer edge chrome:browser vscode:code',
   pages: { wp: '<div id="wpPage"></div>' },   // the real EC-CUBE screens (shared/wordpress/wp-frame.js as window.EC)
   snapshot: {

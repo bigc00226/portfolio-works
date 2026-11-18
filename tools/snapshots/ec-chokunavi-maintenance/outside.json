@@ -1,0 +1,65 @@
+{
+ "capturedAt": "2026-11-18T11:41:29.171Z",
+ "head": [
+  "HTTP/1.1 200 OK",
+  "Date: Wed, 18 Nov 2026 11:41:26 GMT",
+  "Content-Type: text/html; charset=UTF-8",
+  "Connection: keep-alive",
+  "X-Frame-Options: SAMEORIGIN",
+  "Set-Cookie: eccube=c6ec1devl8i3brk4ufoh503oru; path=/; secure; HttpOnly; SameSite=none",
+  "Cache-Control: max-age=0, must-revalidate, private",
+  "Expires: Wed, 18 Nov 2026 11:41:26 GMT",
+  "Set-Cookie: device_view=full; expires=Fri, 18-Dec-2026 11:41:26 GMT; Max-Age=2592000; path=/; httponly",
+  "Set-Cookie: maintenance_token=deleted; expires=Tue, 18-Nov-2025 11:41:25 GMT; Max-Age=0; path=/; httponly",
+  "Strict-Transport-Security: max-age=15724800; includeSubDomains",
+  "X-XSS-Protection: 1; mode=block",
+  "X-Content-Type-Options: nosniff"
+ ],
+ "cert": {
+  "subject": {
+   "CN": "www.chokunavi.shop"
+  },
+  "issuer": {
+   "C": "BE",
+   "O": "GlobalSign nv-sa",
+   "CN": "GlobalSign GCC R46 AlphaSSL CA 2025"
+  },
+  "valid_from": "Nov 13 18:10:43 2026 GMT",
+  "valid_to": "Dec 17 01:07:07 2026 GMT",
+  "subjectaltname": "DNS:www.chokunavi.shop",
+  "serialNumber": "4210E571C6A6F2E31E423991",
+  "fingerprint256": "4F:89:CA:37:70:29:36:67:26:49:9B:5C:08:CD:00:A6:BA:57:28:8A:54:25:8C:44:FD:15:FF:28:92:8D:5C:43",
+  "protocol": "TLSv1.3",
+  "cipher": {
+   "name": "TLS_AES_256_GCM_SHA384",
+   "standardName": "TLS_AES_256_GCM_SHA384",
+   "version": "TLSv1.3"
+  }
+ },
+ "scripts": [
+  "https://code.jquery.com/jquery-3.6.0.min.js",
+  "/html/template/default/assets/js/jquery.validate.js",
+  "/html/template/default/assets/js/jquery-ui.js",
+  "/html/template/default/assets/slick/slick.min.js",
+  "/html/template/default/assets/js/pagetop.js",
+  "/html/template/default/assets/js/common.js",
+  "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+  "https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js",
+  "/html/template/default/assets/js/jquery.validate.js",
+  "/html/template/default/assets/js/pagetop.js",
+  "/html/template/default/assets/js/common.js",
+  "/html/template/default/assets/js/function.js",
+  "/html/template/default/assets/js/eccube.js"
+ ],
+ "css": [
+  "/html/template/default/assets/css/jquery-ui.css",
+  "/html/template/default/assets/slick/slick.css",
+  "/html/template/default/assets/slick/slick-theme.css",
+  "/html/template/default/assets/css/style_ecc.css?20261030",
+  "/html/template/default/assets/css/style.css?20261113",
+  "/html/template/default/assets/css/responsive.css?20261113",
+  "/html/template/default/assets/css/custom.css",
+  "/html/user_data/assets/css/customize.css"
+ ],
+ "bare": "ENOTFOUND"
+}

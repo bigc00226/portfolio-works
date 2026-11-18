@@ -5,9 +5,8 @@
  * → 許可 → /callback (token) → POS の書き出し → updateProductStock (stock_unlimited missing: GraphQL's error → fixed) → 商品一覧
  * (在庫 0), 品切れ → WebHook管理: a WebHook (secret) → order A: 401 (the receiver reads 'X-ECCUBE-Signature'; Node's header names are
  * lower case), EC-CUBE's log → fixed → order B: 出荷指示 → 受注一覧 → the store's 出荷実績 → updateShipped (出荷完了メール) → 受注一覧
- * (発送済み), 受注登録 → an hour on: the refresh fails (invalid_client: the client's grants are authorization_code only) →
- * league:oauth2-server:update-client --add-grant-type=refresh_token → orders (the catch-up finds order A) → crontab → git, the
- * production server → the live shop.
+ * (発送済み), 受注登録 → orders (the catch-up), an hour on: the access token expired → refreshed → order A gets its 出荷指示
+ * → crontab → git, the production server → the live shop.
  * Every EC-CUBE screen and every API response is real: EC-CUBE 4.3.1-p1 running locally (js/ec-snapshot.js —
  * tools/snapshots/ec-tackleberry-api/capture-ec.js) with the store-link of js/link-src.js really talking to it; the shop is the
  * live b-net.tackleberry.co.jp (js/site-snapshot.js). docker, git and the servers are reconstructions.
@@ -33,8 +32,7 @@
   /* ------------------------------------------------ Japanese typed through the IME */
   const JA = {
     '店舗の在庫数を': { r: 'tenponozaikosuuwo', segs: ['店舗の', '在庫数を'] },
-    'へ': { r: 'he', segs: ['へ'] },
-    '（中古品は': { r: '(chuukohinha', segs: ['（', '中古品は'] },
+    'へ（中古品は': { r: 'he(chuukohinha', segs: ['へ', '（', '中古品は'] },
     '点もの：在庫は無制限にしない）': { r: 'tenmono:zaikohamuseigennishinai)', segs: ['点もの', '：', '在庫は', '無制限に', 'しない', '）'] },
     '先に': { r: 'sakini', segs: ['先に'] },
     'を返し、処理はそのあと': { r: 'wokaeshi,shorihasonoato', segs: ['を', '返し', '、', '処理は', 'そのあと'] },
@@ -287,8 +285,9 @@
     Issue.hide();
     // .env (the client's id / secret), authorize, serve
     await panel(true);
-    Term.prompt = 'PS C:\\work\\berrynet-eccube\\integration\\store-link> ';
     await run('cd integration\\store-link; Copy-Item .env.example .env', [], { kps: 34 });
+    Term.prompt = 'PS C:\\work\\berrynet-eccube\\integration\\store-link> ';
+    Term.render('<span class="caret"></span>');
     Code.addFile(L('.env'), nl(SRC.files['.env.example']).replace('CLIENT_ID=', 'CLIENT_ID=' + ((DATA.client && DATA.client.id) || '')).replace('CLIENT_SECRET=', 'CLIENT_SECRET=' + ((DATA.client && DATA.client.secret) || '')), { silent: true });
     Code.tree.splice(Code.tree.findIndex((n) => n.path === L('.env.example')), 0, { path: L('.env'), dir: false });
     Code.renderTree();
@@ -340,6 +339,7 @@
     await say('Mutation は .graphql に分けて、変数（商品コード・在庫数）で呼ぶ');
     const V1 = nl(SRC.stockV1).split('\n');
     await newLinkFile('graphql/update-stock.graphql', SRC.stockV1, { type: [0, V1.length], typeJa: true, kps: 26 });
+    await openAt(L('link.mjs'), { top: Math.max(0, lineOf(Code.text(L('link.mjs')), "if (cmd === 'stock')") - 8) });
     await frameLines(L('link.mjs'), "if (cmd === 'stock')", 'process.exitCode = 1;', 'CSV の行ごとに updateProductStock', { ms: 2600 });
     Issue.hide();
     await panel(true);
@@ -364,8 +364,6 @@
     const li = g0.findIndex((l) => l.includes('updateProductStock(code: $code, stock: $stock)'));
     await Code.clickAt(li, g0[li].indexOf(') {'), {});
     await Code.type(', stock_unlimited: false', { kps: 22 });
-    await Code.clickAt(0, g0[0].length, {});
-    await Code.paste('# 店舗の在庫数を EC へ（中古品は 1 点もの：在庫は無制限にしない）'.slice(g0[0].length), { after: 200 });
     await Code.save();
     check(G, nl(SRC.files['graphql/update-stock.graphql']), 'update-stock fix');
     await panel(true);
@@ -383,7 +381,7 @@
     await say('商品一覧：店頭で売れた 2 点は在庫 0、取置を解除したアンタレス RH は在庫 1');
     for (const [re, label] of [[/3461086007708/, '15イグジスト 2508PE — 在庫 0'], [/3921052011431/, 'アンタレス RH — 在庫 1']]) {
       const r = row(re);
-      if (r) await hold(R(r, 2), label, 2200);
+      if (r) { await EC.scroll(Math.max(0, r.getBoundingClientRect().top + EC.doc().defaultView.scrollY - 380), 900); await hold(R(r, 2), label, 2200); }
     }
     await Browser.newTab('shop');
     await Browser.typeUrl('localhost:8080/products/detail/1370013');
@@ -556,8 +554,9 @@
     await Code.reveal(end, 400);
     await Code.newLineAfter(end);
     const Dl = nl(SRC.blocks.D).split('\n');
-    await Code.paste('\n\n' + Dl.slice(0, 4).join('\n'), { after: 200 });
-    await typeChunks(Dl.slice(4), Dl[3], { kps: 40 });
+    await Code.paste('\n\n' + Dl[0], { after: 200 });
+    await typeChunks(Dl.slice(1, 5), Dl[0], { kps: 36 });
+    await Code.paste('\n' + Dl.slice(5).join('\n'), { after: 300 });
     await Code.save();
     check(LM, S3, 'link stage 3');
     await panel(true);
@@ -578,14 +577,14 @@
     await clickUi((orow && orow.querySelector('a[href*="/edit"]')) || T('a', /^\d+$/), { kind: 'hand', after: 60 });
     await TB.ec('admin', 'order-edit-b', { load: 1200, url: TB.DEV + `/admin/order/${(DATA.orderB && DATA.orderB.id) || 2}/edit` });
     mark('orderEdit');
+    await say('受注登録：対応状況「発送済み」と出荷日・お問い合わせ番号（4419-6203-7751）は API から。出荷完了メールも送信済み');
+    const sdl = EC.els('span, div, label').find((e) => e.textContent.trim() === '出荷日');
+    if (sdl) await hold(R(sdl.closest('.row') || sdl.parentElement, 4), '出荷日（updateShipped の実行日時）', 2200);
     const tn = EC.el('input[id*="tracking_number"]') || T('div, td, span', /4419-6203-7751/);
     if (tn) {
       await EC.scroll(Math.max(0, tn.getBoundingClientRect().top + EC.doc().defaultView.scrollY - 420), 1200);
-      await say('受注登録：出荷日・お問い合わせ番号（4419-6203-7751）は API から。出荷完了メールも送信済み');
       await hold(R(tn.closest('.row') || tn, 4), 'お問い合わせ番号', 2400);
-      const sd = EC.el('input[id*="shipping_date"]') || T('div, span', /^出荷日$/);
-      if (sd) await hold(R(sd.closest('.row') || sd, 4), '出荷日', 2000);
-    } else await readHold(2400);
+    } else await readHold(1200);
   });
 
   /* 7 — the catch-up (orders), an hour on: the token refreshed, crontab */

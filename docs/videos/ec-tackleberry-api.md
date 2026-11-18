@@ -2,7 +2,7 @@
 
 > 一覧ページ（`/`）と再生ページ（`/watch/ec-tackleberry-api`）から、シークバー付きのプレーヤーで見られます（`npm run dev` で起動）。詳しくは `../../README.md`。
 > 動画のページ本体は `public/videos/ec-tackleberry-api/`（`index.html` はブラウザで直接開いても再生できます）。
-> 画面は Windows 11（タスクバー・ポインター・IME）で、長さは LENGTH です。
+> 画面は Windows 11（タスクバー・ポインター・IME）で、長さは 9 分 47 秒 です。
 
 画面録画用のデモページです。Windows 11 のデスクトップを模した画面上でマウスカーソルが自動で動き、
 タックルベリーの新品・中古釣具の WEB ショップ ＠ベリーネット（https://b-net.tackleberry.co.jp/、EC-CUBE 4 で運営）と
@@ -34,7 +34,7 @@
     WebHook も EC-CUBE（Api42 の WebHookService）が実際に送った通知で、署名（`X-ECCUBE-Signature`、HMAC-SHA256）を store-link が検証しています。
     最初の版は署名のヘッダーを `req.headers['X-ECCUBE-Signature']` で読み（Node はヘッダー名を小文字にするため undefined）、すべて 401 で拒否 →
     EC-CUBE のログにも失敗が残る → 直したあとの注文で出荷指示、401 だった注文は `orders` の取りこぼし確認で拾います
-  - `bin/console` の出力（`cache:clear`、`eccube:api:dump-schema`、`league:oauth2-server:list-clients`）、EC-CUBE のログの行、`var/schema.graphql`（GraphQL のスキーマ）は
+  - `bin/console` の出力（`cache:clear`、`eccube:api:dump-schema`）、EC-CUBE のログの行、`var/schema.graphql`（GraphQL のスキーマ）は
     そのとき EC-CUBE が実際に出したものです。`eccube:api:dump-schema` はスキーマを出力したあと、Api42 4.3.2 の `execute()` が int を返さないため
     Symfony 6 の型エラーで終わります（動画のとおり）
   - 動画で開く Api42・OAuth2 バンドルのファイル（`UpdateProductStockMutation.php`・`WebHookService.php`・`ClientRepository.php`）は同じ版からそのまま表示しています（`js/link-src.js` の `core`）
@@ -71,7 +71,7 @@
 | 店頭販売の在庫を反映 | POS の書き出し → `update-stock.graphql` → 3 行とも GraphQL の検証エラー → `UpdateProductStockMutation.php`（stock_unlimited は必須）→ `stock_unlimited: false` → 在庫 0・0・1 → 商品一覧・品切れの商品ページ |
 | 注文を在庫店舗へ（WebHook） | WebHook管理 → 新規登録（URL・シークレット）→ `WebHookService.php`（HMAC-SHA256）→ 在庫台帳・`pick()`・署名の検証 → テスト注文 → 401（ヘッダー名の大文字）・EC-CUBE のログ → 直してもう一度注文 → 出荷指示（棚番・出荷 ID）→ 受注一覧 |
 | 出荷完了を EC へ | 店舗の出荷実績 → `update-shipped.graphql` → `node link.mjs ship` → 受注一覧（発送済み）→ 受注登録（出荷日・お問い合わせ番号） |
-| トークン更新・定期実行 | `orders.graphql`（新規受付）→ 1 時間後：アクセストークンの期限切れ → リフレッシュ → 401 だった注文を出荷指示 → `list-clients`（authorization_code・refresh_token）→ crontab |
+| トークン更新・定期実行 | `orders.graphql`（新規受付）→ 1 時間後：アクセストークンの期限切れ → リフレッシュ → 401 だった注文を出荷指示 → crontab |
 | 本番へ反映 | git・本番の EC-CUBE で Web API プラグインを有効化・店舗システムのサーバーへ store-link → 公開中の商品ページ |
 
 ## EC-CUBE の画面について
@@ -79,7 +79,7 @@
 - EC-CUBE 4.3.1-p1 は `../eccube-local/inst/ec-tackleberry-api/` に作るこの動画専用のコピーで、ログインはそのコピーの admin / password と
   テストのお客様だけです（実在のショップの管理画面・アカウント・店舗システム、EC-CUBE オーナーズストアには一切ログインしていません）
 - 画面は EC-CUBE 自身のスクリプトが動いた後の HTML とスタイルシート・画像をそのまま取り込み、アドレスは開発環境の `http://localhost:8080` に置き換えています
-- Api42 の管理画面で登録したクライアントには、Authorization code を選ぶと refresh_token の grant も付きます（`OAuthController`）。`list-clients` の出力のとおりです
+- Api42 の管理画面で登録したクライアントには、Authorization code を選ぶと refresh_token の grant も付きます（`OAuthController`）。そのため 7 章のリフレッシュはそのまま通ります
 - 取り込みのやり直し：`tools/snapshots/ec-tackleberry-api/NOTES.md`
 
 ## ファイル構成
@@ -94,4 +94,4 @@
 | `js/link-src.js` | store-link の段階ごとのソース（`tools/snapshots/ec-tackleberry-api/build-src.js` が `store-link/` から生成） |
 | `js/ec-snapshot.js`・`assets/ec/` | 取り込んだ EC-CUBE の画面と API の出力（`capture-ec.js`） |
 | `js/site-snapshot.js`・`assets/site/` | 公開中のショップ（`npm run snapshot -- ec-tackleberry-api`） |
-| `tools/snapshots/ec-tackleberry-api/` | `scrape-shop.js`（公開データ）・`shop-data.json`・`store-link/`（連携スクリプトの本体）・`build-src.js`・`capture-ec.js`・`NOTES.md` |
+| `tools/snapshots/ec-tackleberry-api/` | `scrape-shop.js`（公開データ）・`fix-site-snapshot.js`（公開中のショップの CSS のマスク画像 SVG を data: URL に。file:// のページでは CSS のマスクにファイルを使えないため）・`shop-data.json`・`store-link/`（連携スクリプトの本体）・`build-src.js`・`capture-ec.js`・`NOTES.md` |

@@ -1,0 +1,11 @@
+/* ec-chokunavi-maintenance: the real EC-CUBE 4 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* the local copy's secrets (ECCUBE_AUTH_MAGIC, the 2FA key and QR code, the maintenance token): blurred like the other videos */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .terr { color: #f48771; }
+.vs-term .tok { color: #89d185; }
+.vs-term .tw { color: #e5c07b; }
+
+/* the explorer a little wider: app/config/eccube/packages/prod/monolog.yml */
+#win-code .vs-side { width: 340px; }

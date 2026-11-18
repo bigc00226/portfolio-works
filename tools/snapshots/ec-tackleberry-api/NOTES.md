@@ -31,6 +31,7 @@ node tools/snapshots/ec-tackleberry-api/build-src.js       # store-link/ → js/
 node tools/snapshots/ec-tackleberry-api/capture-ec.js <shots>  # fresh なコピーから全工程 → js/ec-snapshot.js
 node tools/webp.js ec-tackleberry-api
 npm run snapshot -- ec-tackleberry-api                      # 公開中のサイト（detail・tradelaw。済）
+node tools/snapshots/ec-tackleberry-api/fix-site-snapshot.js  # snapshot のあと毎回（マスクの SVG を data: URL に）
 npm run verify -- ec-tackleberry-api --shots=… --out=<scratch>
 npm run check -- ec-tackleberry-api ; npm run pointer -- ec-tackleberry-api ; npm run timeline -- ec-tackleberry-api
 ```
@@ -43,4 +44,8 @@ npm run check -- ec-tackleberry-api ; npm run pointer -- ec-tackleberry-api ; np
 - [x] capture-ec.js（1 回目の実行 2026-11-18 19:50〜）
 - [x] index.html・css・apps.js・files.js・scenario.js（下書き）
 - [x] docs/videos/ec-tackleberry-api.md（長さ LENGTH は timeline のあと）
-- [ ] webp・verify・check・pointer・timeline
+- [x] webp・fix-site-snapshot.js（CSS のマスク SVG → data: URL）
+- [x] verify ✓ 9:47・check 0・pointer 0・timeline 587.4 s（thumbAt 436：WebHook の 401 のログと出荷指示）
+- メモ：update-stock.graphql の v1 は「コメントはそのまま、stock_unlimited の引数だけ無い」に変更済み（build-src.js）。
+  1 回目の取り込みでは v1 のコメントが短かった（GraphQL のコメントなので応答は同じ）。取り込み直せばそろう
+- 取り込みの所要：約 12 分（2026-11-18 19:50〜20:02）。capture-ec.js は list-clients / update-client も実行するが動画では使っていない

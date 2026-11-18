@@ -1,0 +1,330 @@
+{#
+商品一覧（公開中のページのマークアップ：.p_list の li#result_list_box--{id}）
+#}
+{% extends 'default_frame.twig' %}
+{% set body_class = 'product_page' %}
+
+{% block main %}
+
+
+        <div id="contents_top">
+                                                            <!-- ▼全ページ対応パンくずリストプラグイン -->
+                        <!--{
+This file is part of the BreadcrumbList3-plugin package.
+
+(c) Nobuhiko Kimoto All Rights Reserved.
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+}-->
+
+            <div class="breadcrumb">
+      <ul vocab="https://schema.org/" typeof="BreadcrumbList" class="breadcrumb">
+        <li property="itemListElement" typeof="ListItem">
+            <a href="/ec" property="item" typeof="WebPage" title="home">
+                <img src="/html/template/cagiana/img/noun_home.svg" alt="CAGIANAオーダーメイド靴">
+                <span style="display:none;" property="name">ホーム</span>
+                <meta property="position" content="1">
+            </a>
+        </li>
+                        
+        <li>
+            <span>
+                                オーダーシューズ商品一覧
+                            </span>
+        </li>
+      </ul>
+    </div>
+    
+                <!-- ▲全ページ対応パンくずリストプラグイン -->
+
+                                                </div>
+
+        <div class="container-fluid inner">
+                                    
+            <div id="main">
+                                                
+                <div id="main_middle">
+                            <form name="form1" id="form1" method="get" action="">
+        <input type="hidden" id="mode" name="mode" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <input type="hidden" value="" id="category_id" name="category_id" /><input type="hidden" id="name" name="name" maxlength="50" /><input type="hidden" id="pageno" name="pageno" />                                            <input type="hidden" value="16" id="disp_number" name="disp_number" />
+                                                                                                                                <input type="hidden" value="1" id="orderby" name="orderby" />
+                                                                                                                            
+    </form>
+    <!-- ▼topicpath▼ -->
+
+    <div class="p_title" style="background-image: url(/html/template/cagiana/img/product_bgimg.png);">
+        <h1 class="en">PRODUCT</h1>
+    </div>
+<div class="contents">
+
+  <!-- ▼▼▼ランキング▼▼▼ -->
+  <div id="rank">
+    <h2>POPULAR ITEMS</h2>
+    <ul class="rank-list slider">
+	　<!-- 202604 -->
+	    <li>
+	      <a href="/products/detail/434">
+	        <img src="/html/upload/save_image/2604_ryoho_01.jpg" class="rank_product" alt="涼歩">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/432">
+	        <img src="/html/upload/save_image/2604_seiko_01.jpg" class="rank_product" alt="清孔">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/430">
+	        <img src="/html/upload/save_image/2604_unyu_01.jpg" class="rank_product" alt="雲悠">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/429">
+	        <img src="/html/upload/save_image/2604_untei_01.jpg" class="rank_product" alt="雲綴">
+	      </a>
+	    </li>
+
+	    <li>
+	      <a href="/products/detail/426">
+	        <img src="/html/upload/save_image/2603_shunkai_01.jpg" class="rank_product" alt="瞬界">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/415">
+	        <img src="/html/upload/save_image/2602_wangetsu_01.jpg" class="rank_product" alt="彎月">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/416">
+	        <img src="/html/upload/save_image/2602_wangetsu_02.jpg" class="rank_product" alt="彎月">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/413">
+	        <img src="/html/upload/save_image/2511_gain_01.jpg" class="rank_product" alt="雅韻">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/414">
+	        <img src="/html/upload/save_image/2512_gain_01.jpg" class="rank_product" alt="雅韻">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/408">
+	        <img src="/html/upload/save_image/2512_gain_02.jpg" class="rank_product" alt="雅韻">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/410">
+	        <img src="/html/upload/save_image/2510_gajun_02.jpg" class="rank_product" alt="雅潤">
+	      </a>
+	    </li>
+
+	    <li>
+	      <a href="/products/detail/406">
+	        <img src="/html/upload/save_image/2510_cagolf_02.jpg" class="rank_product" alt="CAGOLF 風光">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/386">
+	        <img src="/html/upload/save_image/2510_cagolf_03.jpg" class="rank_product" alt="CAGOLF 風迅">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/387">
+	        <img src="/html/upload/save_image/2509_fuga_01.jpg" class="rank_product" alt="FUGA《風雅》">
+	      </a>
+	    </li>
+	    <li>
+	      <a href="/products/detail/395">
+	        <img src="/html/upload/save_image/2509_fuga_02.jpg" class="rank_product" alt="FUGA《風雅》">
+	      </a>
+	    </li>
+
+    </ul>
+  </div>
+<!-- ▲▲▲ランキングここまで▲▲▲ -->
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+  <script>
+
+  $('.slider').slick({
+    autoplay: true,//自動的に動き出すか。初期値はfalse。
+    infinite: true,//スライドをループさせるかどうか。初期値はtrue。
+    slidesToShow: 4,//スライドを画面に3枚見せる
+    slidesToScroll: 1,//1回のスクロールで3枚の写真を移動して見せる
+    prevArrow: '<div class="slick-prev"></div>',//矢印部分PreviewのHTMLを変更
+    nextArrow: '<div class="slick-next"></div>',//矢印部分NextのHTMLを変更
+    // dots: true,//下部ドットナビゲーションの表示
+    responsive: [
+      {
+      breakpoint: 769,//モニターの横幅が769px以下の見せ方
+      settings: {
+        slidesToShow: 2,//スライドを画面に2枚見せる
+        slidesToScroll: 1,//1回のスクロールで2枚の写真を移動して見せる
+      }
+    },
+    {
+      breakpoint: 426,//モニターの横幅が426px以下の見せ方
+      settings: {
+        slidesToShow: 2,//スライドを画面に1枚見せる
+        slidesToScroll: 1,//1回のスクロールで1枚の写真を移動して見せる
+      }
+    }
+  ]
+  });
+  </script>
+
+
+
+
+<!-- ▼▼▼カテゴリー▼▼▼ -->
+	
+<ul class="product_categoryList" data-set="new">
+
+    <li>
+	        <a href="/products/list?category_id=293"><p class="product_categoryList_tit">ゴルフシューズ</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=124"><p class="product_categoryList_tit">スニーカー</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=245"><p class="product_categoryList_tit">スニーカー［ハイグレード］</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=127"><p class="product_categoryList_tit">ドレスビジネス</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=148"><p class="product_categoryList_tit">ドレスカジュアル</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=125"><p class="product_categoryList_tit">ベロア</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=126"><p class="product_categoryList_tit">エクストラ［靴職人染色］</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=118"><p class="product_categoryList_tit">プレミアム</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=258"><p class="product_categoryList_tit">カタログギフト</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=304"><p class="product_categoryList_tit">Limited</p></a>
+	    </li>
+    <li>
+	        <a href="/products/list?category_id=305"><p class="product_categoryList_tit">Regular</p></a>
+	    </li>
+</ul>
+
+
+	<div id="result_info_box__menu_box" class="col-sm-6 no-padding">
+	    <ul id="result_info_box__menu" class="pagenumberarea clearfix">
+	        <li id="result_info_box__order_menu">
+	        	<div id="order_by_select_src" class="order_by_box">
+		                    <select id="order_by_select" name="orderby" class="custom-select form-control" placeholder="並び替え" onchange="javascript:fnChangeOrderBy(this.value);">
+                                    <option value="1">名前順</option><option value="2">価格順（低）</option><option value="3">価格順（高）</option><option value="4">新着順</option><option value="5">人気順</option>
+        </select>
+				</div>
+			</li>
+	        <li id="result_info_box__order_menu">
+	        	<div id="order_by_product" class="order_by_box">
+				</div>
+	        </li>
+	    </ul>
+	</div>
+
+<script>
+// 元selectタグからデザイン用の新しい選択肢を構成
+$('#order_by_select_src select').each(function() {
+	// URIのパラメータを分解して orderby の値を取得
+									
+	// 選択委の構造を再生成
+	var classes = $(this).attr("class"),
+		id      = $(this).attr("id");
+	var template =  '<div class="' + classes + '">';
+		template += '<div class="custom-select-trigger"><span id="select_value">並び替え</span><i class="fas fa-angle-up"></i></div>';
+		template += '<div class="custom-options">';
+	$(this).find("option").each(function() {
+		template += '<div class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</div>';
+	});
+	template += '</div></div>';
+
+	$(this).wrap('<div class="custom-select-wrapper"></div>');
+	$(this).hide();
+	$(this).after(template);
+
+	$('div.custom-select').removeClass('form-control');
+
+});
+
+$(".custom-option:first-of-type").hover(function() {
+	$(this).parents(".custom-options").addClass("option-hover");
+}, function() {
+	$(this).parents(".custom-options").removeClass("option-hover");
+});
+
+$(".custom-select-trigger").on("click", function() {
+	$('html').one('click', function() {
+		$('.custom-select-trigger i').removeClass('fa-angle-down');
+		$('.custom-select-trigger i').addClass('fa-angle-up');
+		$(".custom-select").removeClass("opened");
+	});
+	$(this).parents(".custom-select").toggleClass("opened");
+		if ($(this).parents(".custom-select").hasClass("opened")) {
+			$('.custom-select-trigger i').removeClass('fa-angle-up');
+			$('.custom-select-trigger i').addClass('fa-angle-down');
+		} else {
+			$('.custom-select-trigger i').removeClass('fa-angle-down');
+			$('.custom-select-trigger i').addClass('fa-angle-up');
+		}
+		event.stopPropagation();
+});
+
+$(".custom-option").on("click", function() {
+	$(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+	$(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+	$(this).addClass("selection");
+	$(this).parents(".custom-select").removeClass("opened");
+	$(this).parents(".custom-select").find(".custom-select-trigger #select_value").text($(this).text());
+	
+	fnChangeOrderBy($(this).attr('data-value'));
+});
+
+$(window).on('load', function() {
+	// URIパラメータの分割
+	uris = location.search.replace('?', '').split('&');
+	param = Array();
+	for (i = 0; i < uris.length; i++) {
+		data = uris[i].split('=');
+		param[data[0]] = data[1];
+	}
+	// 車両情報入力の督促メールからの表示の場合の対処
+	if ('orderby' in param) {
+		target = $('#result_info_box__menu_box').offset().top - $('#header').innerHeight();
+		$('html,body').animate({scrollTop : target}, 0);
+	}
+
+});
+</script>
+    <!-- ▼item_list▼ -->
+    <div class="p_list pickup">
+        <ul class="row no-padding">
+        {% for Product in pagination %}
+                <li id="result_list_box--{{ Product.id }}" class="col-sm-3 col-xs-6">
+                    <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                        <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}">
+                        <p class="p_name">{{ Product.name }}</p>
+                        <p class="p_price">¥ {{ Product.getPrice02IncTaxMin|number_format }}</p>
+                    </a>
+                </li>
+        {% endfor %}
+        </ul>
+
+
+    </div>
+    <!-- ▲item_list▲ -->
+                
+
+{% endblock %}
