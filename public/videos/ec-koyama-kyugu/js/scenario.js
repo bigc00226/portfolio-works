@@ -223,7 +223,10 @@
     await clickUi(EC.el('button[type=submit]'), { kind: 'hand', after: 80 });
     await KY.ec('admin-home', { tab: 'admin', load: 1000 });
     await wait(900);
-    await clickUi(EC.el('a[href$="/admin/product"]') || ecText(/商品一覧/, 'a'), { kind: 'hand', after: 60 });
+    // 商品管理 (its submenu opens, as the admin's collapse does) → 商品一覧
+    const navTop = EC.el('a[href="#nav-product"]') || ecText(/商品管理/, '.c-mainNavArea a');
+    if (navTop) { await clickUi(navTop, { kind: 'hand', after: 60 }); const sub = EC.el('#nav-product'); if (sub) sub.classList.add('show'); await wait(300); }
+    await clickUi(EC.el('#nav-product a[href$="/admin/product"]') || EC.el('a[href$="/admin/product"]'), { kind: 'hand', after: 60 });
     await KY.ec('admin-products', { tab: 'admin', load: 900 });
     Caption.set('商品管理：本番からコピーした商品（弓・弦・矢・矢筒・弓道着・カケ…）');
     const list = EC.el('table tbody') || EC.el('.c-contentsArea');
@@ -335,9 +338,6 @@
     const save = ecText(/^\s*登録\s*$/, 'button');
     await clickUi(save || EC.el('button[type=submit]'), { kind: 'hand', after: 80 });
     await KY.ec('admin-product-7-saved', { tab: 'admin', load: 1300 });
-    const ok = EC.el('.alert-success') || ecText(/保存しました/, 'div, span, p');
-    if (ok) Issue.ok(R(ok, 3), '保存しました');
-    await wait(2200);
     const lt2 = EC.field('lead_time') || EC.el('#admin_product_lead_time');
     if (lt2) Issue.ok(R(rowOf(lt2), 4), '受注生産・約1年');
     Caption.set('ほかの受注生産品も同じく設定（小山雅司：約2年、特作鵠心 アーチカーボン：約8～9ヶ月）');
@@ -366,12 +366,12 @@
     await openAt(DETAIL, { top: 60 });
     const d4 = lineOf(Code.text(DETAIL), SRC.DETAIL_OLD.trim());
     await Code.reveal(d4, 600);
-    Caption.set('テーマの Product/detail.twig：価格・送料サイズの下の空の p.detail04 に表示する');
-    Issue.show(linesRect(d4, d4, 700), '空の <p class="detail04">');
+    Caption.set('テーマの Product/detail.twig：価格・送料サイズの下、付属品などの説明（p.detail04）の上に表示する');
+    Issue.ok(linesRect(d4 - 7, d4, 1000), '送料サイズ（タグ）と p.detail04');
     await wait(2600);
     Issue.hide();
-    await Code.selectLines(d4, d4);
-    await Code.type(script(SRC.BADGE), { kps: 22 });
+    await Code.newLineAfter(d4 - 1);
+    await Code.type(script(SRC.BADGE, Code.files[DETAIL].lines[d4 - 1]), { kps: 22 });
     await Code.save();
     check(DETAIL, SRC.detail(P[DETAIL], 3), 'detail.twig');
     Issue.ok(linesRect(d4, d4 + SRC.BADGE.length - 1, 1100), 'stock_badge(Product)');
@@ -393,7 +393,7 @@
     await Win.switchTo('browser');
     await tabTo('shop');
     await Browser.reload(async () => { await KY.ec('front-7-badge', { tab: 'shop', load: 0 }); });
-    const bd = EC.el('p.detail04');
+    const bd = EC.el('p.stockBadges');
     Caption.set('清芳 前煤竹：価格の下に「受注生産　納期 約1年」');
     if (bd) { await hoverUi(bd, { hold: 400 }); Issue.ok(R(bd, 6), '受注生産・納期 約1年'); }
     await wait(3600);
@@ -401,12 +401,12 @@
     await Browser.typeUrl('localhost:8080/products/detail/139');
     await KY.ec('front-139', { tab: 'shop', load: 900 });
     Caption.set('三ツカケ 控え無し：在庫 2 点 →「残りわずか」');
-    if (EC.el('p.detail04')) Issue.ok(R('p.detail04', 6), '残りわずか（在庫 2 点）');
+    if (EC.el('p.stockBadges')) Issue.ok(R('p.stockBadges', 6), '残りわずか（在庫 2 点）');
     await wait(3200);
     await Browser.typeUrl('localhost:8080/products/detail/93');
     await KY.ec('front-93', { tab: 'shop', load: 900 });
     Caption.set('ショルダー型矢筒：在庫あり');
-    if (EC.el('p.detail04')) Issue.ok(R('p.detail04', 6), '在庫あり');
+    if (EC.el('p.stockBadges')) Issue.ok(R('p.stockBadges', 6), '在庫あり');
     await wait(2600);
     Issue.hide();
   });
@@ -555,7 +555,7 @@
     await Browser.typeUrl('www.koyama-kyugu.com/products/detail/7');
     await sitePage('live', 'product', WWW + '/products/detail/7', { states: ['badge'] });
     mark('live2');
-    const bd = Store.doc.querySelector('p.detail04');
+    const bd = Store.doc.querySelector('p.stockBadges');
     if (bd) { await hoverUi(bd, { hold: 400 }); Issue.ok(SR(bd, 6), '受注生産・納期 約1年'); }
     await wait(3800);
     Issue.hide();

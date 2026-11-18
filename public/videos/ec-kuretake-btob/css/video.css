@@ -1,0 +1,17 @@
+/* ec-kuretake-btob: the real EC-CUBE 4 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* the (fictional) test 取引先's names / addresses / mail: blurred like the other videos */
+.vs-term .pii, .vs-lines .pii, .vs-line.pii .lc { filter: blur(5px); }
+
+/* terminal colours used by this video */
+.vs-term .tg { color: #23d18b; }
+.vs-term .ty { color: #e5e510; }
+.vs-term .tr { color: #f14c4c; }
+.vs-term .tc { color: #29b8db; }
+.vs-term .tdim { color: #8b8b8b; }
+.vs-term .tsql { color: #9cdcfe; }
+.vs-term .tlog { color: #cccccc; white-space: pre-wrap; word-break: break-all; }
+
+/* a wider explorer: the Customize folders are deep and the class names long (the new-file name box stays inside) */
+#win-code .vs-side { width: 330px; }

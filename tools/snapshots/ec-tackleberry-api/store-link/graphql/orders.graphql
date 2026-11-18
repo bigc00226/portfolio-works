@@ -1,0 +1,10 @@
+# 新規受付（対応状況 1）の注文：WebHook が届かなかった注文の取りこぼし確認
+query NewOrders {
+  orders(status: ["1"]) {
+    totalCount
+    nodes {
+      id
+      order_no
+    }
+  }
+}

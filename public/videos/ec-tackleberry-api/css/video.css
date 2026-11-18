@@ -1,0 +1,10 @@
+/* ec-tackleberry-api: the real EC-CUBE 4 screens fill the browser page (shared/wordpress/wp.css) */
+.br-page[data-page="wp"] { background: #fff; }
+
+/* the (invented) test customer, the OAuth client's secret and the WebHook secret: blurred like the other videos */
+.vs-term .pii, .vs-lines .pii { filter: blur(5px); }
+.vs-term .terr { color: #f48771; }
+.vs-term .tok { color: #89d185; }
+
+/* the explorer a little wider: integration/store-link/graphql/update-shipped.graphql */
+#win-code .vs-side { width: 360px; }

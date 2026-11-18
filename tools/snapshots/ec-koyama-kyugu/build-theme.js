@@ -33,7 +33,7 @@ const get = async (u) => { const r = await fetch(u, { headers: { 'user-agent': U
       links: [...d.head.querySelectorAll('link[rel=stylesheet], link[rel~=icon], link[rel=apple-touch-icon]')].map((l) => l.outerHTML),
       header: o('.ec-layoutRole__header'),
       headerBox: o('#contents > .headerBox'),
-      sidebar: o('aside#sidebar'),
+      sidebar: o('.contentsWrap > aside#sidebar'),   // (the header has another aside#sidebar.sp: the phone menu)
       footer: o('.ec-layoutRole__footer'),
       notes: o('.detailBor'),
       guide: o('.guideArea'),
@@ -104,6 +104,8 @@ const get = async (u) => { const r = await fetch(u, { headers: { 'user-agent': U
 </head>
 <body id="page_{{ app.request.get('_route') }}" class="{{ body_class|default('other_page') }}">
 ${cartCount}
+<div id="wrapper" class="NotoSansJp">
+
 <div class="ec-layoutRole">
 ${member(parts.header)}
     <div class="ec-layoutRole__contents">
@@ -124,7 +126,10 @@ ${parts.sidebar}
         </div>
     </div>
 ${parts.footer}
-</div>
+</div><!-- ec-layoutRole -->
+<div class="ec-overlayRole"></div>
+<div class="ec-drawerRoleClose"><i class="fas fa-times"></i></div>
+</div><!-- #wrapper -->
 {% include('@common/lang.twig') %}
 <script src="{{ asset('assets/js/function.js') }}"></script>
 <script src="{{ asset('assets/js/eccube.js') }}"></script>
@@ -228,7 +233,7 @@ ${parts.footer}
                                 <p class="col02"><a href="#anchor03">料金表を見る</a></p>
                                 {% endif %}
                             </div>
-                            <p class="detail04"></p>
+                            <p class="detail04">{{ Product.free_area|raw }}</p>
                             <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
                                 {% if Product.stock_find %}
                                 {% if form.classcategory_id1 is defined %}

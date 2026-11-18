@@ -1,0 +1,16 @@
+# 出荷済みにして出荷完了メール（出荷日は実行日時）
+mutation Ship($id: ID!, $delivery: String, $tracking: String, $note: String) {
+  updateShipped(
+    id: $id
+    shipping_delivery_name: $delivery
+    tracking_number: $tracking
+    note: $note
+    is_send_mail: true
+  ) {
+    id
+    shipping_date
+    shipping_delivery_name
+    tracking_number
+    mail_send_date
+  }
+}

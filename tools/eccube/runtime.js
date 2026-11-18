@@ -65,12 +65,28 @@ async function newPHP(dir, version = phpFor(dir)) {
   return php;
 }
 
+/**
+ * the copy's .env as plain variables. EC-CUBE 4's bin/console loads .env only when APP_ENV is not set, and the CLI here
+ * has to set APP_ENV — so everything in .env (DATABASE_URL …) is passed along, or database commands find no tables
+ */
+function dotenvOf(dir) {
+  const f = path.join(dir, '.env');
+  if (!fs.existsSync(f)) return {};
+  const out = {};
+  for (const line of fs.readFileSync(f, 'utf8').split(/\r?\n/)) {
+    const m = /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/.exec(line);
+    if (!m || line.trim().startsWith('#')) continue;
+    out[m[1]] = m[2].replace(/^(['"])(.*)\1$/, '$2');
+  }
+  return out;
+}
+
 /** EC-CUBE 4's bin/console in a fresh PHP (the CLI uses up the instance) → { code, out, err } */
 async function consoleRun(dir, args, env = {}) {
   const php = await newPHP(dir);
   // EC-CUBE 4: bin/console · EC-CUBE 3: app/console
   const bin = isV3(dir) ? `${ROOT}/app/console` : `${ROOT}/bin/console`;
-  const r = await php.cli(['php', bin, ...args], { env: { APP_ENV: 'prod', ...env }, cwd: ROOT });
+  const r = await php.cli(['php', bin, ...args], { env: { APP_ENV: 'prod', ...dotenvOf(dir), ...env }, cwd: ROOT });
   const [out, err, code] = await Promise.all([r.stdoutText, r.stderrText, r.exitCode]);
   try { php.exit(); } catch (e) { /* done */ }
   return { code, out, err };
@@ -82,7 +98,7 @@ async function runPhp(dir, fileOrCode, env = {}) {
   const code = !/^<\?php/.test(fileOrCode) && fs.existsSync(fileOrCode) ? fs.readFileSync(fileOrCode, 'utf8') : fileOrCode;
   const name = `run-${Date.now()}-${crypto.randomBytes(3).toString('hex')}.php`;
   php.writeFile(`${ROOT}/var/${name}`, code);
-  const r = await php.cli(['php', `${ROOT}/var/${name}`], { env: { APP_ENV: 'prod', ...env }, cwd: ROOT });
+  const r = await php.cli(['php', `${ROOT}/var/${name}`], { env: { APP_ENV: 'prod', ...dotenvOf(dir), ...env }, cwd: ROOT });
   const [out, err, exit] = await Promise.all([r.stdoutText, r.stderrText, r.exitCode]);
   try { fs.unlinkSync(path.join(dir, 'var', name)); } catch (e) { /* gone */ }
   try { php.exit(); } catch (e) { /* done */ }
@@ -286,7 +302,7 @@ catch (\\Throwable $e) { echo "\\n@@ERROR@@", get_class($e), ': ', $e->getMessag
   return { url, port: server.address().port, version: v2 ? '2' : '4', dir, run: runRaw, php: phpBooted, close: () => new Promise((r) => server.close(r)) };
 }
 
-module.exports = { LOCAL, ROOT, instance, serve, consoleRun, runPhp, install4, install2, isV2, isV3, phpFor, portFor, copyDir, newPHP };
+module.exports = { LOCAL, ROOT, instance, serve, consoleRun, runPhp, dotenvOf, install4, install2, isV2, isV3, phpFor, portFor, copyDir, newPHP };
 
 if (require.main === module) {
   const [cmd, a, ...rest] = process.argv.slice(2);

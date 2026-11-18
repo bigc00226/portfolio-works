@@ -421,7 +421,7 @@
     await Win.switchTo('browser');
     await devReload('f-error', { after: 800 });
     Caption.issue('システムエラー', 'トップページが「システムエラーが発生しました」');
-    Issue.show(ecRect(() => byText('h1, h2, p, div', /システムエラー/) , 6), 'システムエラー');
+    Issue.show(ecRect(() => byText('h1, h2, h3, p', /システムエラー/) || EC.el('body'), 10), 'システムエラー');
     await wait(3200);
     Issue.hide();
     // the log

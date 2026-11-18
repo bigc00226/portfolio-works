@@ -52,13 +52,15 @@ const PICK = { 13: 2, 14: 1, 15: 2, 16: 1, 28: 2, 37: 3, 38: 2, 40: 1, 46: 1, 48
       const crumbs = [...(h.match(/<div id="breadcrumb">([\s\S]*?)<\/div>/) || ['', ''])[1].matchAll(/category_id=(\d+)">([^<]+)</g)].map((m) => ({ id: +m[1], name: m[2] }));
       const sel1 = (h.match(/<select id="classcategory_id1"[^>]*>([\s\S]*?)<\/select>/) || [])[1] || '';
       const class1 = [...sel1.matchAll(/<option value="(\d+)">([^<]+)<\/option>/g)].map((m) => ({ id: +m[1], name: m[2] }));
+      // the line under the price (付属品 … on some products; EC-CUBE: the free area)
+      const free = ((h.match(/<p class="detail04">([\s\S]*?)<\/p>/) || [])[1] || '').trim();
       const note = txt((h.match(/<\/select>\s*<\/span>\s*<\/h3>\s*<p>([\s\S]*?)<\/p>/) || [])[1]);
       products.push({
         id, name, category: +cid, crumbs,
         price: txt((h.match(/<span class="price02-default">([\s\S]*?)<\/span>/) || [])[1]),
         ship: [...((h.match(/<div class="detail03">([\s\S]*?)<\/div>/) || ['', ''])[1]).matchAll(/<span[^>]*>([^<]+)<\/span>/g)].map((m) => m[1]),
         soldOut: /ただいま品切れ中です/.test(h),
-        classLabels: labels, class1, classes, note,
+        classLabels: labels, class1, classes, note, free,
         options: opts, optionValues: optValues,
         description: desc.trim(), images,
       });

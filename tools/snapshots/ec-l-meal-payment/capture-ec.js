@@ -185,6 +185,14 @@ $em->flush();
 return ['products' => $made, 'categories' => count($cats), 'customer' => $C->getId(), 'payments' => $conn->fetchAllAssociative('SELECT id, payment_method, charge, rule_max FROM dtb_payment')];
 `;
 
+/** a bin/console command run in the server's PHP with EC-CUBE booted (its .env loaded) — $data: the command's input */
+const CONSOLE_PHP = String.raw`
+$app = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+$app->setAutoExit(false);
+$out = new \Symfony\Component\Console\Output\BufferedOutput();
+$code = $app->run(new \Symfony\Component\Console\Input\ArrayInput($data), $out);
+return ['code' => $code, 'out' => $out->fetch()];`;
+
 /** the newest lines of EC-CUBE's own logs (var/log/prod/*.log) that match */
 function logLines(dir, re, n = 3) {
   const d = path.join(dir, 'var/log/prod');
@@ -201,7 +209,13 @@ function logLines(dir, re, n = 3) {
   const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-09-24', time: '10:20', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
-  const cacheClear = () => cap.console(['cache:clear', '--no-warmup']);
+  /*
+   * bin/console cache:clear (EC-CUBE's own output for the video), then var/cache/prod removed for real: under PHP in
+   * WebAssembly on Windows, cache:clear leaves the web's compiled container (Eccube_KernelProdContainer) in place, so a
+   * new event subscription / PurchaseFlow validator would not be seen. The server is idle (restarted by cap.console).
+   */
+  const wipeCache = () => { try { fs.rmSync(path.join(cap.instance, 'var/cache/prod'), { recursive: true, force: true }); } catch (e) { log('cache dir:', e.message); } };
+  const cacheClear = async () => { const out = await cap.console(['cache:clear', '--no-warmup']); wipeCache(); return out; };
   // bin/console commands that need the database run in the server's PHP with EC-CUBE booted (its .env loaded)
   const dbConsole = async (input) => {
     const r = await cap.php(String.raw`
@@ -214,7 +228,29 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     if (r.code !== 0) throw new Error(r.out.slice(-2500));
     return r.out;
   };
-  const nav = async (fn, ready = 'body') => { await Promise.all([page.waitForNavigation({ waitUntil: 'load', timeout: 600000 }), page.evaluate(fn)]); await cap.settle(ready); };
+  /*
+   * eccube:plugin:install / enable run for real in the server's PHP; at their end they start bin/console cache:clear as a
+   * sub-process (PluginCommandTrait::clearCache), which PHP in WebAssembly cannot (proc_open): that cache:clear is run
+   * with cap.console instead and its own output joined where the command prints it, then the command's success line.
+   */
+  const pluginConsole = async (command, ok) => {
+    const r = await cap.php(CONSOLE_PHP, { command, '--code': 'LmealPayment' });
+    const RUN = 'Run bin/console cache:clear --no-warmup...';
+    const i = r.out.indexOf(RUN);
+    log(`console ${command} → ${r.code}`, r.out.slice(0, 300));
+    if (r.code !== 0 && !(i >= 0 && /Unable to launch a new process/.test(r.out))) throw new Error(r.out.slice(-2500));
+    const cc = await cacheClear();
+    return (i >= 0 ? r.out.slice(0, i + RUN.length) : r.out.replace(/\s+$/, '')) + '\n' + cc.replace(/^\n+/, '').replace(/\s+$/, '') + '\n\n [OK] ' + ok + '\n';
+  };
+  const adminLogin = async () => { await cap.go('/admin/login', 'body'); if (await page.$('#login_id')) await cap.login(); };
+  const frontLogin = async () => {
+    await cap.go('/mypage/login', 'body');
+    if (!(await page.$('#login_email'))) return;
+    await cap.type('#login_email', 'hanako.test@example.com');
+    await cap.type('#login_pass', 'lmeal-test-2026');
+    await nav(() => document.querySelector('#login_email').form.submit());
+  };
+  const nav = async (fn, ready = 'body', ...args) => { await Promise.all([page.waitForNavigation({ waitUntil: 'load', timeout: 180000 }), page.evaluate(fn, ...args)]); await cap.settle(ready); };
   const addCart = async (id) => {
     await cap.go('/products/detail/' + id, '#form1');
     await nav(() => document.querySelector('#form1').submit());
@@ -225,13 +261,14 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
   };
   /** the 注文手続き page's payment radio (EC-CUBE submits the form to shopping_redirect_to on change) */
   const choosePayment = async (name) => {
-    const cur = await page.evaluate((n) => {
-      const r = [...document.querySelectorAll('#shopping-form input[type=radio][name$="[Payment]"]')].find((x) => (x.closest('div') || x.parentElement).textContent.includes(n));
-      return r ? (r.checked ? 'checked' : r.id) : null;
+    const idx = await page.evaluate((n) => {
+      const rs = [...document.querySelectorAll('#shopping-form input[type=radio][name$="[Payment]"]')];
+      const i = rs.findIndex((x) => (x.closest('div') || x.parentElement).textContent.includes(n));
+      return i < 0 ? null : (rs[i].checked ? -1 : i);
     }, name);
-    if (!cur) throw new Error('no payment ' + name);
-    if (cur === 'checked') return;
-    await nav((idd) => { const r = document.getElementById(idd); r.checked = true; $(r).trigger('change'); }, '#shopping-form');
+    if (idx === null) throw new Error('no payment ' + name);
+    if (idx === -1) return;
+    await nav((i) => { const r = document.querySelectorAll('#shopping-form input[type=radio][name$="[Payment]"]')[i]; r.checked = true; $(r).trigger('change'); }, '#shopping-form', idx);
   };
   const paymentNames = () => page.evaluate(() => [...document.querySelectorAll('#shopping-form input[type=radio][name$="[Payment]"]')].map((x) => (x.closest('div') || x.parentElement).textContent.replace(/\s+/g, ' ').trim()));
   const CARD_INPUTS = [['#lmeal-card-number', 'card_number'], ['#lmeal-card-exp', 'card_exp'], ['#lmeal-card-cvc', 'card_cvc'], ['#lmeal-card-name', 'card_name']];
@@ -285,9 +322,12 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
 
     // ---------------------------------------------------------------- stage 1: the plugin
     await cap.files(SRC.files(1));
-    D.installOut = await dbConsole({ command: 'eccube:plugin:install', '--code': 'LmealPayment' });
-    D.enableOut = await dbConsole({ command: 'eccube:plugin:enable', '--code': 'LmealPayment' });
-    await cacheClear();
+    D.installOut = await pluginConsole('eccube:plugin:install', 'Installed.');
+    D.enableOut = await pluginConsole('eccube:plugin:enable', 'Plugin Enabled.');
+    D.plugin = await cap.php("return $em->getConnection()->fetchAllAssociative('SELECT code, name, version, enabled, initialized FROM dtb_plugin');");
+    log('plugin', JSON.stringify(D.plugin));
+    if (!D.plugin.some((p) => p.code === 'LmealPayment' && +p.enabled === 1)) throw new Error('LmealPayment is not enabled');
+    await adminLogin();
     await cap.go('/admin/store/plugin', '.c-contentsArea');
     await cap.capture('plugins');
     await cap.go('/admin/setting/shop/payment', '.c-contentsArea');
@@ -300,15 +340,12 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     await page.evaluate(() => { const e = document.querySelector('input[type=checkbox][name*="payments"]'); if (e) e.scrollIntoView({ block: 'center' }); });
     await cap.capture('deliv');
     await page.evaluate((id) => { const e = [...document.querySelectorAll('input[type=checkbox][name*="payments"]')].find((x) => x.value === String(id)); if (e && !e.checked) e.click(); }, D.cardPayment.id);
-    await nav(() => { const c = document.querySelector('input[type=checkbox][name*="payments"]'); c.form.querySelector('button[type=submit]').click(); }, '.c-contentsArea');
+    await nav(() => { const c = document.querySelector('input[type=checkbox][name*="payments"]'); c.form.submit(); }, '.c-contentsArea');
     await page.evaluate(() => { const e = document.querySelector('input[type=checkbox][name*="payments"]'); if (e) e.scrollIntoView({ block: 'center' }); });
     await cap.capture('deliv-saved');
 
     // the front: a card order (stage 1 fails at checkout)
-    await cap.go('/mypage/login', '#login_email');
-    await cap.type('#login_email', 'hanako.test@example.com');
-    await cap.type('#login_pass', 'lmeal-test-2026');
-    await nav(() => document.querySelector('#login_email').form.submit());
+    await frontLogin();
     await cap.go('/products/detail/2', '#form1');
     await cap.capture('product-2');
     await nav(() => document.querySelector('#form1').submit());
@@ -335,6 +372,7 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     // ---------------------------------------------------------------- stage 2: the token on the confirm page
     await cap.files(SRC.files(2));
     await cacheClear();
+    await frontLogin();
     await toShopping();
     await choosePayment('クレジットカード決済');
     await fillCard();
@@ -346,6 +384,7 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     D.order1 = await lastOrder();
     log('order 1', JSON.stringify(D.order1));
     D.okLog = logLines(cap.instance, /カード決済/, 2);
+    await adminLogin();
     await cap.go('/admin/order', '.c-contentsArea');
     await cap.capture('orders-1');
     await cap.go(`/admin/order/${D.order1.id}/edit`, '.c-contentsArea');
@@ -367,6 +406,7 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     // ---------------------------------------------------------------- stage 3: 冷凍庫レンタル → card only; 利用条件
     await cap.files(SRC.files(3));
     await cacheClear();
+    await frontLogin();
     await addCart(2);
     await addCart(7);
     await cap.go('/cart', '.ec-cartRole');
@@ -393,7 +433,9 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     await page.evaluate(() => { const e = document.querySelector('#shopping-form .ec-orderPayment'); if (e) e.scrollIntoView({ block: 'center' }); });
     await cap.capture('shop-limit');
     await cap.go('/cart', '.ec-cartRole');
-    await nav(() => { const a = document.querySelector('.ec-cartRow__delColumn a, a.ec-cartRow__delLink, a[href*="operation=remove"], a[href*="/remove/"]'); a.click(); }, '.ec-cartRole');
+    for (let k = 0; k < 6 && (await page.$('.ec-cartRow__delColumn a')); k++) await nav(() => document.querySelector('.ec-cartRow__delColumn a').click(), 'body');
+    D.cartLeft = await page.evaluate(() => document.querySelectorAll('.ec-cartRow__delColumn a').length);
+    log('cart rows left', D.cartLeft);
     // a GMO後払い order (20食プラン 9,800 円)
     await addCart(4);
     await toShopping();
@@ -402,10 +444,12 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     await confirmBtn();
     D.order3 = await lastOrder();
     log('order 3', JSON.stringify(D.order3));
+    await adminLogin();
     await cap.go('/admin/order', '.c-contentsArea');
     await cap.capture('orders-2');
     D.src = { files: Object.keys(SRC.files(3)) };
     await cap.finish();
+    process.exit(0);   // the PHP runtime keeps handles open after finish()
   } catch (e) {
     console.error(e);
     await cap.abort();

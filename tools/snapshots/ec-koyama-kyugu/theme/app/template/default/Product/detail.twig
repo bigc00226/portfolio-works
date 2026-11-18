@@ -87,7 +87,7 @@
                                 <p class="col02"><a href="#anchor03">料金表を見る</a></p>
                                 {% endif %}
                             </div>
-                            <p class="detail04"></p>
+                            <p class="detail04">{{ Product.free_area|raw }}</p>
                             <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
                                 {% if Product.stock_find %}
                                 {% if form.classcategory_id1 is defined %}

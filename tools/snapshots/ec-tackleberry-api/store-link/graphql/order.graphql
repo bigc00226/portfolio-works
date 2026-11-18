@@ -1,0 +1,19 @@
+# 受注 1 件：対応状況と、出荷ごとの商品（商品コード → 在庫店舗）
+query Order($id: ID!) {
+  order(id: $id) {
+    id
+    order_no
+    OrderStatus {
+      id
+      name
+    }
+    Shippings {
+      id
+      OrderItems {
+        product_code
+        product_name
+        quantity
+      }
+    }
+  }
+}

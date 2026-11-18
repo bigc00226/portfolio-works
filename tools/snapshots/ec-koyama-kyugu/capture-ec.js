@@ -129,7 +129,7 @@ $made = 0;
 foreach ($data['products'] as $p) {
     $P = new \Eccube\Entity\Product();
     $setId($P, $p['id']);
-    $P->setName($p['name'])->setStatus($Show)->setDescriptionDetail($p['description'])->setDescriptionList($p['note'] ?: null)
+    $P->setName($p['name'])->setStatus($Show)->setDescriptionDetail($p['description'])->setDescriptionList($p['note'] ?: null)->setFreeArea($p['free'] ?: null)
       ->setSearchWord(null)->setCreator($Member)->setCreateDate($now)->setUpdateDate($now);
     $em->persist($P);
     // categories: the breadcrumb of the live page (a child with its parents, as the admin form saves them)
@@ -352,25 +352,38 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     // ---------------------------------------------------------------- stage 4: the delivery fee rule
     await stageFiles(4);
     await cacheClear();
-    await cap.go('/mypage/login', '#login_email');
-    await cap.type('#login_email', 'test-order@example.com');
-    await cap.type('#login_pass', 'koyama-test-2026');
-    await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.evaluate(() => document.querySelector('#login_email').form.submit())]);
-    await cap.settle('body');
+    const frontLogin = async () => {
+      await cap.go('/mypage/login', '#login_email');
+      await cap.type('#login_email', 'test-order@example.com');
+      await cap.type('#login_pass', 'koyama-test-2026');
+      await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.evaluate(() => document.querySelector('#login_email').form.submit())]);
+      await cap.settle('body');
+    };
+    /** a product into the cart through its real form: the first in-stock 規格 of the page's own eccube.classCategories */
     const addCart = async (id) => {
       await cap.go('/products/detail/' + id, '#form1');
-      await page.evaluate(() => {
-        const s1 = document.querySelector('#classcategory_id1');
-        if (s1) { s1.value = [...s1.options].find((o) => o.value && o.value !== '__unselected').value; s1.dispatchEvent(new Event('change', { bubbles: true })); }
+      const pick = await page.evaluate(() => {
+        const cc = (window.eccube && window.eccube.classCategories) || {};
+        for (const [c1, set] of Object.entries(cc)) {
+          if (c1.startsWith('__')) continue;
+          for (const [k2, v] of Object.entries(set)) if (v && v.stock_find && v.product_class_id) return { c1, c2: v.classcategory_id2 || '', pc: v.product_class_id };
+        }
+        return null;
       });
-      await new Promise((r) => setTimeout(r, 500));
-      await page.evaluate(() => {
-        const s2 = document.querySelector('#classcategory_id2');
-        if (s2) s2.value = [...s2.options].find((o) => o.value && o.value !== '__unselected').value;
-      });
+      await page.evaluate((p) => {
+        const set = (sel, val) => {
+          const s = document.querySelector(sel);
+          if (!s || val === '' || val == null) return;
+          if (![...s.options].some((o) => o.value === String(val))) s.add(new Option(String(val), String(val)));
+          s.value = String(val);
+        };
+        if (p) { set('#classcategory_id1', p.c1); set('#classcategory_id2', p.c2); const pc = document.querySelector('#ProductClass'); if (pc) pc.value = p.pc; }
+      }, pick);
+      log('add to cart', id, JSON.stringify(pick));
       await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.evaluate(() => document.querySelector('#form1').submit())]);
       await cap.settle('body');
     };
+    await frontLogin();
     await addCart(93);
     await addCart(139);
     await cap.go('/cart', '.ec-cartRole');
@@ -383,6 +396,7 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     // ---------------------------------------------------------------- stage 5: the cart page's message, the order
     await stageFiles(5);
     await cacheClear();
+    await frontLogin();
     await cap.go('/cart', '.ec-cartRole');
     await cap.capture('cart-2');
     await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.evaluate(() => { location.href = document.querySelector('a.ec-blockBtn--action[href*="cart/buystep"]').href; })]);
@@ -402,6 +416,7 @@ return ['code' => $code, 'out' => $out->fetch()];`, input);
     await cap.capture('admin-order-edit');
     D.badgeTwig = SRC.BADGE;
     await cap.finish();
+    process.exit(0);   // PHP in WebAssembly keeps Node alive after finish()
   } catch (e) {
     console.error(e);
     try { log('failed at', page.url(), (await page.evaluate(() => document.body.innerText.slice(0, 300))).replace(/\s+/g, ' ')); } catch (e2) { /* gone */ }

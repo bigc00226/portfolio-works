@@ -1,0 +1,8 @@
+# 店舗の在庫数を EC へ（中古品は 1 点もの：在庫は無制限にしない）
+mutation UpdateStock($code: String!, $stock: Int!) {
+  updateProductStock(code: $code, stock: $stock, stock_unlimited: false) {
+    code
+    stock
+    stock_unlimited
+  }
+}

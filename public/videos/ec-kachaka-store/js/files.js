@@ -391,7 +391,7 @@ kachaka Online Store — トップページ：カテゴリごとに商品を並�
 
 {% block main %}
     {# カテゴリの見出し（英語） #}
-    {% set headings = {13: 'Kachaka', 7: 'Kachaka Furniture', 8: 'Kachaka Accessory', 12: 'Kachaka Subscription'} %}
+    {% set headings = {7: 'Kachaka Furniture', 8: 'Kachaka Accessory', 12: 'Kachaka Subscription', 13: 'Kachaka'} %}
     <div class="ec-newItemRole">
         {% for Category in repository('Eccube\\\\Entity\\\\Category').getList() %}
             {% set Products = Category.ProductCategories|map(pc => pc.Product)|filter(p => p.Status.id == 1)|sort((a, b) => b.create_date <=> a.create_date) %}

@@ -36,6 +36,22 @@
  *   removed   scripts
  *   changed   the local address → `site`, the capture date → the video's date (the time of day → the video's clock),
  *             text boxes listed in `inputs` → look-alike boxes with the input's own computed style (the video types into them)
+ *
+ * Known pitfalls (found while making the EC-CUBE videos):
+ *   - eccube:plugin:install / enable end by starting cache:clear as a sub-process, which PHP in WebAssembly cannot do: the
+ *     command reports a failure although the install / enable itself finished. Check the plugin's state, then run
+ *     cap.console(['cache:clear']) on its own.
+ *   - After cache:clear the web side can keep its compiled container (a new event subscriber or PurchaseFlow validator is then
+ *     silently ignored): delete <instance>/var/cache/prod as well (the next request rebuilds it, ~40 s).
+ *   - Installing a plugin whose folder or tables (plg_*, oauth2_*) are left over makes its schema update fail: remove them first.
+ *   - The admin / shop session can be lost after enabling a plugin or clearing the cache: log in again when a page shows the login form.
+ *   - Twig 3.8 (EC-CUBE 4.3) drops a key of a hash literal whose integer keys are not ascending ({13: …, 7: …}): keep them ascending.
+ *   - EC-CUBE's own front CSS uses two-class selectors: a theme's CSS needs the same or higher specificity.
+ *   - PHP in WebAssembly keeps Node alive: end a capture script with process.exit(0) after cap.finish().
+ *   - EC-CUBE 4.3 registers its bundled plugins in dtb_plugin without installing them: doctrine:schema:update then also emits
+ *     their columns. Unregister the ones the video does not use (bundled plugins that were never installed) before a schema update.
+ *   - bin/console gets the copy's .env (runtime.js consoleRun), so database commands work through cap.console().
+ *   - "lockWholeFile: unlock failed" lines are harmless.
  */
 const fs = require('fs');
 const path = require('path');

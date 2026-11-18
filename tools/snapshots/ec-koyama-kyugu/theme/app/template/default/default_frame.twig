@@ -31,6 +31,8 @@
 </head>
 <body id="page_{{ app.request.get('_route') }}" class="{{ body_class|default('other_page') }}">
 {% set cartQty = 0 %}{% for Cart in get_all_carts() %}{% set cartQty = cartQty + Cart.TotalQuantity %}{% endfor %}
+<div id="wrapper" class="NotoSansJp">
+
 <div class="ec-layoutRole">
 <div class="ec-layoutRole__header">
                 <!-- ▼ヘッダー(商品検索・ログインナビ・カート) -->
@@ -361,8 +363,8 @@
     </div>
 </div>
                     <div class="contentsWrap clearfix">
-<aside id="sidebar" class="sp">
-		<div class="siderArea">
+<aside id="sidebar">
+                    <div class="siderArea">
     <div class="siderGnaw">
         <ul class="clearfix">
             <li class="active"><a href="/">トップページ</a></li>
@@ -624,7 +626,7 @@
         </p>
     </div>
 </div>
-	</aside>
+                </aside>
                         <div id="main">
                             <div class="inner">
                                 {% block main %}{% endblock %}
@@ -681,7 +683,10 @@
         <!-- ▲フッター -->
 
         </div>
-</div>
+</div><!-- ec-layoutRole -->
+<div class="ec-overlayRole"></div>
+<div class="ec-drawerRoleClose"><i class="fas fa-times"></i></div>
+</div><!-- #wrapper -->
 {% include('@common/lang.twig') %}
 <script src="{{ asset('assets/js/function.js') }}"></script>
 <script src="{{ asset('assets/js/eccube.js') }}"></script>

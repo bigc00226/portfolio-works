@@ -81,7 +81,27 @@
     /** ticks a checkbox of the screen on show */
     check(el, on = true) { if (!el) return null; el.checked = on; if (on) el.setAttribute('checked', ''); else el.removeAttribute('checked'); return el; },
     /** an element of the screen on show by its text */
-    text(sel, re) { return EC.els(sel).find((e) => re.test(e.textContent.replace(/\s+/g, ' ').trim())) || null; },
+    text(sel, re) { return EC.els(sel).filter((e) => re.test(e.textContent.replace(/\s+/g, ' ').trim())).pop() || null; },
+    /** the screen rectangle of a run of text in the screen on show (a Range: one line of a long mail body) */
+    textRect(re, pad = 3) {
+      return () => {
+        const d = EC.doc();
+        const fr = EC.frames && EC.frames[EC.screen];
+        if (!d || !fr) return null;
+        const w = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT);
+        for (let n = w.nextNode(); n; n = w.nextNode()) {
+          const m = re.exec(n.nodeValue);
+          if (!m) continue;
+          const rg = d.createRange();
+          rg.setStart(n, m.index);
+          rg.setEnd(n, m.index + m[0].length);
+          const r = rg.getBoundingClientRect();
+          const f = D.screenRect(fr);
+          return { left: f.left + r.left - pad, top: f.top + r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 };
+        }
+        return null;
+      };
+    },
   };
 
   window.LM = LM;

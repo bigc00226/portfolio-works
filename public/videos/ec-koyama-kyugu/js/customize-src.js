@@ -10,7 +10,7 @@
  *   1  the Product entity extended (受注生産・納期の目安)          2  + the admin product form (FormType extension)
  *   3  + the Twig function for the 在庫・納期 badge                4  + the delivery fee rule (PurchaseFlow processor)
  *   5  + the cart page's 「あと○円で送料無料」 (EventSubscriber)
- * BADGE / CSS: what stage 3 adds to Product/detail.twig and customize.css. PSR-12 (4 spaces), as EC-CUBE's own code.
+ * BADGE / CSS: what stage 3 adds to Product/detail.twig (above p.detail04) and customize.css. PSR-12 (4 spaces), as EC-CUBE's own code.
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
@@ -316,11 +316,11 @@ class CartDeliveryFreeSubscriber implements EventSubscriberInterface
     'EventSubscriber/CartDeliveryFreeSubscriber.php': 5,
   };
 
-  /** Product/detail.twig: the empty <p class="detail04"></p> of the shop's template → the badge (stage 3) */
-  const DETAIL_OLD = '                            <p class="detail04"></p>';
+  /** Product/detail.twig: the badge goes above the shop's p.detail04 (the free area: 付属品 …) (stage 3) */
+  const DETAIL_OLD = '                            <p class="detail04">{{ Product.free_area|raw }}</p>';
   const BADGE = [
     '                            {% set badge = stock_badge(Product) %}',
-    '                            <p class="detail04">',
+    '                            <p class="stockBadges">',
     '                                <span class="stockBadge stockBadge--{{ badge.type }}">{{ badge.label }}</span>',
     '                                {% if badge.note %}<span class="stockBadge__note">{{ badge.note }}</span>{% endif %}',
     '                            </p>',
@@ -329,7 +329,7 @@ class CartDeliveryFreeSubscriber implements EventSubscriberInterface
   const CSS = [
     '',
     '/* 在庫・納期の表示（商品ページ） */',
-    '.detail04 { display: flex; align-items: center; gap: 10px; margin: 14px 0 6px; }',
+    '.stockBadges { display: flex; align-items: center; gap: 10px; margin: 16px 0 4px; }',
     '.stockBadge { display: inline-block; padding: 3px 14px; border-radius: 2px; color: #fff; font-size: 13px; font-weight: bold; line-height: 1.7; }',
     '.stockBadge--stock { background: #3f6f3a; }',
     '.stockBadge--few { background: #b8342b; }',
@@ -352,7 +352,7 @@ class CartDeliveryFreeSubscriber implements EventSubscriberInterface
       return out;
     },
     /** the theme's detail.twig at a stage (base: the shop's template) */
-    detail(base, stage) { return stage >= 3 ? base.replace(DETAIL_OLD, BADGE.join('\n')) : base; },
+    detail(base, stage) { return stage >= 3 ? base.replace(DETAIL_OLD, BADGE.join('\n') + '\n' + DETAIL_OLD) : base; },
     css(base, stage) { return stage >= 3 ? base.replace(/\s*$/, '\n') + CSS.join('\n') + '\n' : base; },
   };
 });

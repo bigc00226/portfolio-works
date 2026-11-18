@@ -25,6 +25,23 @@ npm run snapshot -- ec-koyama-kyugu                      # 公開中のショッ
 
 - [x] 調査・shop-data.json・theme/・customize-src.js・capture-ec.js・config.js・content/videos.ts のエントリー
 - [x] theme-src.js（make-theme-src.js）、files.js / apps.js / scenario.js / index.html / css、docs の下書き（__LEN__ / __DATE__ を埋める）
-- [ ] capture-ec.js の実行と画面の確認（1 回目：受注生産の商品が在庫 0 で「品切れ」→ UNLIMITED（在庫無制限）に修正済み、要再実行）
-- [ ] npm run snapshot（Chrome は 1 つずつ：キャプチャーの後に）
-- [ ] verify / check / pointer / timeline（thumbAt）
+- [x] capture-ec.js（18:27 に完了、19 画面・order id 2・送料 1,980 円）→ webp → npm run snapshot
+  - 分かったこと：cap.console は APP_ENV を渡すので bin/console が .env を読まず DATABASE_URL が空 → DB を使うコマンド
+    （doctrine:schema:update）はサーバーの PHP で Application を動かす（dbConsole）。cache:clear の後は var/cache/prod も消す。
+    キャッシュを消すと管理画面・会員のログインが切れる → adminGo / frontLogin で入り直す。4.3 同梱の未インストールの
+    プラグイン（dtb_plugin の 11 件）は登録を外す（schema:update がその列まで出すため）。finish() の後は process.exit(0)。
+- [x] verify / check / pointer / timeline
+
+## 状況（2026-11-18 夕方）
+
+- [x] docs/videos/ec-koyama-kyugu.md（長さ 7:49）
+- [x] verify（エラー・食い違いなし）・check（0）・pointer（3 件 → 修正：商品管理のサブメニュー、トグルの的、保存しましたの枠を削除）
+- [x] timeline（7:49、thumbAt 303 = 三ツカケの「残りわずか」の商品ページ。サムネイル確認済み）
+
+## テーマのレイアウト（2026-11-18 夜に修正）
+
+- 原因：公開中の HTML には #wrapper（padding-top: 100px）があり、aside#sidebar が 2 つ（ヘッダー内のスマホ用 .sp と
+  .contentsWrap 内の PC 用）ある。build-theme.js が #wrapper を落とし、スマホ用のサイドバーを取っていた（front.bundle.js は無関係）。
+- 修正：#wrapper・.ec-overlayRole・.ec-drawerRoleClose を付け、.contentsWrap > aside#sidebar を使う。p.detail04 は商品の
+  フリーエリア（付属品など。scrape-shop.js の free）、バッジはその上の p.stockBadges（customize-src.js・scenario.js・apps.js）。
+- 再取り込み：scrape → build-theme → make-theme-src → capture-ec → webp → verify / check / pointer / timeline。

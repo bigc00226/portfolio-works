@@ -62,7 +62,7 @@
   const cacheClear = () => run(DC + 'bin/console cache:clear --no-warmup', ['', ' // Clearing the cache for the <span class="tc">prod</span> environment with debug <span class="tc">false</span>', '',
     ' <span class="tg">[OK]</span> Cache for the "prod" environment (debug=false) was successfully cleared.', ''], { kps: 30 });
   /** EC-CUBE's own log lines (captured), shortened to the screen */
-  const logOut = (L, re) => ((L && L.lines) || []).filter((l) => !re || re.test(l)).map((l) => esc(l.replace(/\/srv\/eccube/g, '/var/www/html').replace(/\s*\[\]\s*$/, '').slice(0, 190)));
+  const logOut = (L, re) => ((L && L.lines) || []).filter((l) => !re || re.test(l)).map((l) => esc(l.replace(/\/srv\/eccube/g, '/var/www/html').replace(/\s*\[\]\s*$/, '').slice(0, 150)));
   const logFile = (L) => ((L && L.file) || 'var/log/prod/site.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-09-24');
 
   /* ------------------------------------------------------------- frames */
@@ -92,7 +92,7 @@
     const i = lineOf(t, a, o.from || 0);
     const j = b ? lineOf(t, b, i) : i;
     if (i < 0) return Promise.resolve();
-    return Code.reveal(Math.round((i + Math.max(i, j)) / 2), 500).then(() => { (o.issue ? Issue.show : Issue.ok)(linesRect(i, Math.max(i, j), o.w || 1100), label); return readHold(o.ms || 2600); });
+    return Code.reveal(Math.round((i + Math.max(i, j)) / 2), 500).then(() => { const rc = linesRect(i, Math.max(i, j), o.w || 1100); if (o.issue) Issue.show(rc, label); else Issue.ok(rc, label); return readHold(o.ms || 2600); });
   };
 
   /* ------------------------------------------------ the plugin's folders in the explorer */
@@ -295,7 +295,7 @@
     const id = DATA.cardPayment && DATA.cardPayment.id;
     const box = id && EC.el(`input[type=checkbox][name*="payments"][value="${id}"]`);
     const boxes = EC.els('input[type=checkbox][name*="payments"]');
-    const group = boxes.length ? (boxes[0].closest('.row') || boxes[0].closest('div')) : null;
+    const group = boxes.length ? (boxes[0].closest('.card') || boxes[0].closest('.row') || boxes[0].parentElement) : null;
     if (group) Issue.show(R(group, 6), '取扱支払方法');
     await readHold(2800);
     Issue.hide();
@@ -320,7 +320,7 @@
     await say('開発環境のショップでテスト注文（テストのお客様でログイン済み）：お得便 10食プラン ￥5,100');
     await clickUi(EC.el('button.add-cart, #form1 button[type=submit]'), { kind: 'hand', after: 60 });
     await LM.ec('shop', 'cart-1', { load: 1000 });
-    await clickUi(EC.el('a.ec-blockBtn--action[href*="buystep"], a.ec-blockBtn--action'), { kind: 'hand', after: 60 });
+    await clickUi((EC.el('a.ec-blockBtn--action[href*="buystep"]') || EC.el('.ec-cartRole a.ec-blockBtn--action')), { kind: 'hand', after: 60 });
     await LM.ec('shop', 'shop-1', { load: 1300 });
     const radios = () => EC.els('#shopping-form input[type=radio][name$="[Payment]"]');
     const radioOf = (re) => radios().find((r) => re.test(((r.closest('div') || r.parentElement).textContent || '')));
@@ -378,10 +378,13 @@
     await Code.type(script(E2.slice(m0 - 1, m1 + 1).concat(['']), ''), { kps: 30 });
     await Code.save();
     check(EV, SRC.event(2).replace(/\n$/, ''), 'event 2');
-    await newPluginFile('Resource/template/default/Shopping/card_confirm.twig', { type: [1, 2], kps: 26 });
+    await newPluginFile('Resource/template/default/Shopping/card_confirm.twig');
     await frameLines(full('Resource/template/default/Shopping/card_confirm.twig'), 'form_widget(form.lmeal_card_token', null, "form 属性で #shopping-form に入れる", { ms: 2400 });
     Issue.hide();
-    await panel(false);
+    await openAt(EV, { top: 0 });
+    await wait(400);
+    await panel(true);
+    await wait(500);
     await cacheClear();
     await Code.panel(false);
     // again
@@ -431,12 +434,12 @@
       await Browser.typeUrl(`localhost:8080/admin/order/${(DATA.order1 && DATA.order1.id) || 1}/mail`);
       await LM.ec('admin', 'order-mail-confirm', { load: 1200 });
       mark('mail');
-      const body = T('pre, td, div, textarea', /お支払いが完了しました/);
-      if (body) {
-        const line = [...(body.querySelectorAll ? [body] : [])][0];
-        await EC.scroll(Math.max(0, body.getBoundingClientRect().top + EC.doc().defaultView.scrollY - 260), 900);
-        Issue.ok(R(line, 3), '注文受付メール');
-        await readHold(3000);
+      const rect = LM.textRect(/クレジットカード（VISA \*{4}\d{4}）でのお支払いが完了しました。/);
+      const r0 = rect();
+      if (r0) {
+        await EC.scroll(Math.max(0, r0.top - 560 + EC.doc().defaultView.scrollY), 1400);
+        Issue.ok(rect, 'お支払い完了の案内（appendCompleteMailMessage）');
+        await readHold(3200);
         Issue.hide();
       }
     }
@@ -457,6 +460,8 @@
     await Win.switchTo('code');
     await say('PurchaseFlow のバリデーター（@ShoppingFlow）：冷凍庫レンタル（LM-FREEZER）があってカード以外なら警告');
     const VP = 'Service/PurchaseFlow/FreezerRentalPaymentValidator.php';
+    // the explorer folded a little (Form, Resource, src) so the new file's name box stays in view
+    Code.tree.forEach((n) => { if (n.dir && ['src', 'docs', 'app/Plugin/LmealPayment/Form', 'app/Plugin/LmealPayment/Resource'].includes(n.path)) n.open = false; });
     addDirs(['app/Plugin/LmealPayment/Service/PurchaseFlow'], 'app/Plugin/LmealPayment/Service/Method');
     const V = src(VP).replace(/\n$/, '').split('\n');
     const vi = V.findIndex((l) => l.includes('protected function validate('));
@@ -474,7 +479,7 @@
     await Browser.typeUrl('localhost:8080/cart');
     await LM.ec('shop', 'cart-freezer', { load: 1100 });
     await say('カート：10食プラン＋保存用冷凍庫 無料レンタル（￥0）');
-    await clickUi(EC.el('a.ec-blockBtn--action[href*="buystep"], a.ec-blockBtn--action'), { kind: 'hand', after: 60 });
+    await clickUi((EC.el('a.ec-blockBtn--action[href*="buystep"]') || EC.el('.ec-cartRole a.ec-blockBtn--action')), { kind: 'hand', after: 60 });
     await LM.ec('shop', 'shop-freezer-warn', { load: 1300 });
     mark('freezerWarn');
     Caption.issue('GMO後払いでは注文できない', '「冷凍庫レンタルをお申込みの場合は、クレジットカード決済のみご利用いただけます。」');

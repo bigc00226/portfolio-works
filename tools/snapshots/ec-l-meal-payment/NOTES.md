@@ -27,14 +27,19 @@ npm run verify -- ec-l-meal-payment --shots=… --out=<scratch>
 npm run check -- ec-l-meal-payment ; npm run pointer -- ec-l-meal-payment ; npm run timeline -- ec-l-meal-payment
 ```
 
-- capture-ec.js は毎回 fresh。途中で止めたときは、その EC-CUBE の node（とその子の chrome）を止めてから再実行。
+- capture-ec.js は毎回 fresh。途中で止めたときは、その EC-CUBE の node（とその子の chrome）を止めてから再実行
+  （PowerShell：Get-CimInstance Win32_Process で CommandLine に capture-ec.js を含む node を探して Stop-Process）。
+- わかったこと（php-wasm の EC-CUBE 4.3）：
+  - 同梱プラグインはフォルダー（app/Plugin・html/plugin）と var/cache/prod を最初の起動前に消し、テーブル（plg_*・oauth2_*）も DROP
+    （残すと eccube:plugin:install のスキーマ更新が失敗：マッピングのフォルダーがない／oauth2_scope 型が不明）
+  - eccube:plugin:install / enable は最後に cache:clear をサブプロセスで起動して失敗する（proc_open 不可）：インストール・有効化そのものは
+    済んでいるので、cache:clear は cap.console で実行し出力をつなぐ（pluginConsole）
+  - プラグインの有効化・cache:clear のあと管理画面・ショップのセッションが切れることがある → adminLogin / frontLogin で必要なら再ログイン
+  - 配送方法の編集フォームは button クリックでは送信されない（HTML5 の検証）→ form.submit()
 
-## 状況
+## 状況（2026-11-18）
 
-- [x] 調査・scrape-shop.js・shop-data.json（MENU 20 品）・payment-src.js・capture-ec.js
-- [ ] capture の実行と画面の確認（1 回目：同梱プラグインのフォルダーを消したあとも古いコンテナが残り eccube:plugin:install が失敗
-      → フォルダーと var/cache/prod を最初の起動の前に消すように修正済み）
-- [x] index.html / config.js / files.js（build-core.js → eccube-core.js）/ apps.js / scenario.js（下書き）/ css
-- [x] content/videos.ts のエントリー（thumbAt は timeline の後で）・docs/videos/ec-l-meal-payment.md（__LEN__ などを埋める）
-- [ ] npm run snapshot
-- [ ] webp / verify / check / pointer / timeline（thumbAt）
+- [x] 調査・データ・payment-src.js・capture-ec.js（全工程が通る。最後に process.exit）・動画の全ファイル・content/videos.ts・docs
+- [x] capture → webp → npm run snapshot（tradelaw / faq / plan）
+- [x] verify ✓ 9:48・check 0・pointer 0・timeline 586.8 s（thumbAt 352：購入エラーの画面）
+- 残り：サムネイルをカード入力欄の場面にしたいときは thumbAt を 340 前後で調整して timeline

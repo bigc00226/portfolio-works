@@ -2,7 +2,7 @@
 
 > 一覧ページ（`/`）と再生ページ（`/watch/ec-kachaka-store`）から、シークバー付きのプレーヤーで見られます（`npm run dev` で起動）。詳しくは `../../README.md`。
 > 動画のページ本体は `public/videos/ec-kachaka-store/`（`index.html` はブラウザで直接開いても再生できます）。
-> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、画面上の日付は 2026/09/10 です。
+> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、長さは約 7 分 44 秒、画面上の日付は 2026/09/10（10:06〜）です。
 
 画面録画用のデモページです。家庭用ロボット「カチャカ」の公式オンラインストア（https://store.kachaka.life 、EC-CUBE 4）の
 **デザインリニューアル（Twig テンプレート）** を、開発環境の EC-CUBE で進めて本番へ反映するまでを再生します。
@@ -15,7 +15,7 @@
   このデモは「EC-CUBE の標準テーマのストアを、今のデザインにリニューアルする」としたらどう進めるか、という **工程の再現** です。実際の制作の記録ではありません。
 - **本物のもの**
   - **EC-CUBE の画面はすべて本物の EC-CUBE 4.3.1-p1** です。この PC の上で、公式の EC-CUBE 4.3.1-p1 を PHP 8.3（WebAssembly 版、`@php-wasm/node`）と SQLite で動かし（`tools/eccube/runtime.js`）、
-    動画で行う操作を実際に行って取り込んだ 30 画面です（`tools/snapshots/ec-kachaka-store/capture-ec.js` → `js/ec-snapshot.js`・`assets/ec/`）。管理画面（ダッシュボード・商品一覧・テンプレート一覧 / アップロード・キャッシュ管理・ブロック管理・レイアウト管理）と、開発環境のショップ（PC 1920px / スマートフォン 390px）です。
+    動画で行う操作を実際に行って取り込んだ 33 画面です（`tools/snapshots/ec-kachaka-store/capture-ec.js` → `js/ec-snapshot.js`・`assets/ec/`）。管理画面（ダッシュボード・商品一覧・テンプレート一覧 / アップロード・キャッシュ管理・ブロック管理・レイアウト管理）と、開発環境のショップ（PC 1920px / スマートフォン 390px）です。
   - **動画で入力するテンプレートと CSS は、EC-CUBE で実際に動いているもの** です。`js/files.js` の Twig / CSS（`app/template/kachaka/…`・`html/template/kachaka/assets/css/kachaka.css`）を、取り込みのときに動画と同じ順にローカルの EC-CUBE へ書き込み、その都度 EC-CUBE が描画したショップの画面を取り込んでいます。
     - テンプレート「kachaka」は、管理画面のテンプレートのアップロード（default の assets をコピーして `tar -a -c -f` で作った zip）で実際に登録・選択しました（`.env` の `ECCUBE_TEMPLATE_CODE` が kachaka に書き換わります）。
     - ブロック「お知らせバー」は ブロック管理 で実際に作成し（EC-CUBE がテーマの `Block/header_news.twig` に保存）、レイアウト管理の配置（お知らせバー・カテゴリナビ(PC) を左カラムへ・標準のブロックを外す）も実際に登録しました（ドラッグの動きは画面の上の再現で、配置後の画面は本物です）。

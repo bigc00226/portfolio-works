@@ -22,8 +22,14 @@ Video: kachaka Online Store (store.kachaka.life) — EC-CUBE 4 design renewal (T
     npm run verify -- ec-kachaka-store --shots=… --out=…
     npm run check -- ec-kachaka-store ; npm run pointer -- ec-kachaka-store ; npm run timeline -- ec-kachaka-store
 
-## Status
-- [x] research, shop data, images, theme (files.js), capture-ec.js (runs OK: 33 screens), apps.js, config, css, scenario.js (first draft), content/videos.ts entry, docs/videos/ec-kachaka-store.md
-- [x] fixes: admin form ids are admin_template_* ; kachaka.css scoped under .ec-layoutRole (EC-CUBE style.css uses 2-class selectors); log regex (the log escapes quotes)
-- [ ] live snapshot (npm run snapshot -- ec-kachaka-store) · webp · verify / check / pointer / timeline (thumbAt)
-- known: the capture prints many "lockWholeFile: unlock failed" lines (php-wasm sessions) — harmless
+## Status (2026-11-18, done)
+- [x] capture (33 real EC-CUBE screens), webp, live snapshot (home / detail/1 / list, PC + SP), scenario, docs, content/videos.ts (thumbAt 321)
+- [x] checks: verify ✓ 7:44 · check 0 stretches · pointer 0 problems · timeline (thumbnail at 321 s = the renewed dev top)
+- fixes found on the way: admin form ids are admin_template_* ; kachaka.css scoped under .ec-layoutRole (EC-CUBE's style.css
+  uses two-class selectors); the log escapes quotes (regex); Twig 3.8 drops the key of a hash entry whose int key equals
+  the previous int key + 1 ({13:…, 7:…, 8:…} compiled to [13=>…, 7=>…, …] so 8 became 14) — the headings hash is in
+  ascending key order now
+- known: the capture prints many "lockWholeFile: unlock failed" lines (php-wasm sessions) — harmless; a 404 for
+  html/template/admin/img/moc.png (EC-CUBE admin CSS) and "not an image" for some html/bundle files in webp — harmless
+- ideas not done: the top's monthly-instalment price text for カチャカ (the real store shows ¥4,980/月…; no product field
+  for it in EC-CUBE), the Accessory picker of the real detail page

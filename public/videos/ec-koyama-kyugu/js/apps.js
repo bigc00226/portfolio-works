@@ -7,7 +7,7 @@
  *     captured text box; KY.toggle(sel) the admin's toggle switch flipped (its label as EC-CUBE's script sets it)
  *   - the test customer's name / address / mail / phone blurred inside the screens (.pii, as the WordPress videos)
  *   - the live product page after the deploy (StoreFrame state `badge`): the badge exactly as the dev copy's EC-CUBE
- *     rendered it (the captured front-7-badge screen's p.detail04) and its CSS (js/customize-src.js) — the deploy and
+ *     rendered it (the captured front-7-badge screen's p.stockBadges) and its CSS (js/customize-src.js) — the deploy and
  *     the live page with it are a simulation (the live page was captured as it is)
  *   - the terminal on the production server (ssh): the bash prompt instead of PowerShell's
  */
@@ -70,7 +70,8 @@
     async toggle(sel, on) {
       const box = EC.el(sel);
       if (!box) return;
-      await clickUi(box, { after: 80 });
+      // the switch is drawn by its label (the input itself is not laid out): the pointer clicks the switch
+      await clickUi(box.getBoundingClientRect().width ? box : (box.closest('.form-check, .form-switch, div') || box.parentElement), { after: 80 });
       box.checked = on;
       if (on) box.setAttribute('checked', ''); else box.removeAttribute('checked');
       // ToggleSwitchType: two labels (#id-on / #id-off), one hidden (d-none) — as its script switches them
@@ -86,7 +87,7 @@
   /* the live product page with the badge, after the deploy (a simulation, see above) */
   const badgeHtml = () => {
     const d = EC.doc('front-7-badge');
-    const p = d && d.querySelector('p.detail04');
+    const p = d && d.querySelector('p.stockBadges');
     return p ? p.outerHTML : '';
   };
   window.StoreFrame.STATES.badge = {
@@ -94,13 +95,13 @@
       const p = doc.querySelector('p.detail04');
       const html = badgeHtml();
       if (!p || !html) return;
-      p.outerHTML = html;
+      p.insertAdjacentHTML('beforebegin', html);
       const st = doc.createElement('style');
       st.dataset.demo = 'badge';
       st.textContent = SRC.CSS.join('\n');
       doc.head.appendChild(st);
     },
-    off(doc) { doc.querySelectorAll('style[data-demo="badge"]').forEach((n) => n.remove()); },
+    off(doc) { doc.querySelectorAll('style[data-demo="badge"], p.stockBadges').forEach((n) => n.remove()); },
   };
 
   /** the terminal on the production server (ssh): the bash prompt */
