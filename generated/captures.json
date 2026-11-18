@@ -1,4 +1,16 @@
 {
+  "car-rent-sakuragroup": {
+    "date": "2026-11-17",
+    "icon": "car-rent-sakuragroup-icon.svg"
+  },
+  "the-sanctuary": {
+    "date": "2026-11-17",
+    "icon": "the-sanctuary-icon.svg"
+  },
+  "the-sanctuary-screens": {
+    "date": "2026-11-17",
+    "icon": "the-sanctuary-screens-icon.svg"
+  },
   "online-healing-salon": {
     "date": "2026-11-17",
     "icon": "online-healing-salon-icon.ico",
@@ -16,16 +28,12 @@
     "date": "2026-11-17",
     "icon": "gacha-point-platform-icon.svg"
   },
-  "car-rent-sakuragroup": {
-    "date": "2026-11-17",
-    "icon": "car-rent-sakuragroup-icon.svg"
+  "genki-connect": {
+    "date": "2026-11-18",
+    "icon": "genki-connect-icon.png"
   },
-  "the-sanctuary": {
-    "date": "2026-11-17",
-    "icon": "the-sanctuary-icon.svg"
-  },
-  "the-sanctuary-screens": {
-    "date": "2026-11-17",
-    "icon": "the-sanctuary-screens-icon.svg"
+  "floorplan-similarity-survey": {
+    "date": "2026-11-18",
+    "icon": "floorplan-similarity-survey-icon.svg"
   }
 }

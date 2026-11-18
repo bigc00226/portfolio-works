@@ -20,7 +20,8 @@
   'use strict';
   const D = window.Demo;
   const { $, $$ } = D;
-  const WS = window.WP_SNAPSHOT || { pages: {}, css: {}, data: {} };
+  // (EC-CUBE videos: the same viewer for their captured admin screens, window.EC_SNAPSHOT → window.EC)
+  const WS = window.WP_SNAPSHOT || window.EC_SNAPSHOT || { pages: {}, css: {}, data: {} };
 
   const baseHref = () => location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
   function parseBlocks(css) {
@@ -192,4 +193,5 @@
   };
 
   window.WP = WP;
+  if (window.EC_SNAPSHOT && !window.WP_SNAPSHOT) window.EC = WP;
 })();

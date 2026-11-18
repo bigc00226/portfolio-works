@@ -90,6 +90,26 @@ export const demos: Site[] = [
     stack: ['Next.js', 'Vercel'],
     accent: '#f5b301',
   },
+  {
+    id: 'genki-connect',
+    url: 'https://genki-connect.vercel.app/',
+    name: '今日も元気だねット',
+    title: 'LINE 安否確認サービス',
+    summary: '毎朝 LINE で「今日も元気？」。返信がなければ再通知、続けてご家族へ通知し、72 時間応答がない方は運営スタッフが確認。ご本人・ご家族の LINE 画面と運営管理画面を並べて、時計を進めながら確かめられます。',
+    tags: ['LINE 自動配信', '再通知・家族通知', '72 時間監視', '運営管理画面'],
+    stack: ['Next.js', 'Vercel'],
+    accent: '#f26b2a',
+  },
+  {
+    id: 'floorplan-similarity-survey',
+    url: 'https://floorplan-similarity-survey.vercel.app/',
+    name: 'Floor Plan Similarity Study',
+    title: '間取り図の類似性評価アンケート',
+    summary: 'Prolific から来た参加者に間取り図の類似性を四択で答えてもらう学術研究用の Web 実験。問題 3,000 組の回答数を自動で均等化し、離脱時の再割当・管理画面・CSV 出力まで動くデモ。',
+    tags: ['Prolific 連携', '回答数の均等化', '離脱・再割当', 'CSV 出力'],
+    stack: ['Next.js', 'Vercel'],
+    accent: '#2456c9',
+  },
 ];
 
 /** ゲーム：現時点では掲載するデータがありません（タブには「データがありません」と表示されます） */

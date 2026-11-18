@@ -135,27 +135,27 @@ movie/
 | 株式会社吉武工務店 コーポレートサイト制作（`yoshitake-koumuten`） | `/watch/yoshitake-koumuten` | 5:31 | 2026/03/10 10:42〜 |
 | Né（ネ）オーベルジュ Web サイト制作（`ne-auberge`） | `/watch/ne-auberge` | 5:49 | 2026/04/22 15:36〜 |
 | 旅するように和菓子と出逢う makeshop クリエイターモード移行（`tabisuruwagashi`） | `/watch/tabisuruwagashi` | 5:14 | 2026/05/19 13:18〜 |
-| 日清食品グループ オンラインストア makeshop から Shopify への移行（`nissin-store`） | `/watch/nissin-store` | 7:40 | 2026/06/09 10:12〜 |
+| 日清食品グループ オンラインストア makeshop から Shopify への移行（`nissin-store`） | `/watch/nissin-store` | 7:39 | 2026/06/09 10:12〜 |
 | GREEN BASE テーマ選定とメタフィールドによる商品ページのカスタマイズ（`green-base`） | `/watch/green-base` | 6:14 | 2026/07/07 13:40〜 |
-| SANYO ONLINE STORE 既存ストアの機能改善（ブランド横断の絞り込み・店舗在庫 / OMO・表示速度）（`sanyo-online-store`） | `/watch/sanyo-online-store` | 7:30 | 2026/08/04 09:55〜 |
+| SANYO ONLINE STORE 既存ストアの機能改善（ブランド横断の絞り込み・店舗在庫 / OMO・表示速度）（`sanyo-online-store`） | `/watch/sanyo-online-store` | 7:28 | 2026/08/04 09:55〜 |
 | Soup Stock Tokyo 公式オンラインショップ 倉庫・店舗の在庫連携（`soup-stock-tokyo`） | `/watch/soup-stock-tokyo` | 5:41 | 2026/08/25 15:41〜（途中で 16:01 へカット） |
 | KANADEMONO for BUSINESS 法人向け見積もり・お問い合わせ機能の開発（`kanademono-business`） | `/watch/kanademono-business` | 8:59 | 2026/09/15 10:30〜 |
 | Kanro POCKeT Shopify と業務システムの連携（`kanro-pocket`） | `/watch/kanro-pocket` | 6:46 | 2026/10/06 11:20〜 |
-| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:25 | 2026/10/27 10:18〜 |
-| クルーズ株式会社 WordPress コーポレートサイトの新規制作（`wp-crooz`） | `/watch/wp-crooz` | 6:21 | 2026/10/28 10:39〜 |
-| 整体りびるど 既存 WordPress サイトのリニューアル（`wp-ribuild-renewal`） | `/watch/wp-ribuild-renewal` | 7:41 | 2026/10/29 13:32〜 |
-| はらいろ整骨院・へいわじま整骨院 WordPress 既存ページの修正（`wp-seikotsuin-fixes`） | `/watch/wp-seikotsuin-fixes` | 5:32 | 2026/10/30 14:06〜（途中でカット） |
+| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:27 | 2026/10/27 10:18〜 |
+| クルーズ株式会社 WordPress コーポレートサイトの新規制作（`wp-crooz`） | `/watch/wp-crooz` | 6:22 | 2026/10/28 10:39〜 |
+| 整体りびるど 既存 WordPress サイトのリニューアル（`wp-ribuild-renewal`） | `/watch/wp-ribuild-renewal` | 7:43 | 2026/10/29 13:32〜 |
+| はらいろ整骨院・へいわじま整骨院 WordPress 既存ページの修正（`wp-seikotsuin-fixes`） | `/watch/wp-seikotsuin-fixes` | 5:31 | 2026/10/30 14:06〜（途中でカット） |
 | Stand by Beauty Clinic 12-1月限定キャンペーンのランディングページ制作（`wp-stand-by-lp`） | `/watch/wp-stand-by-lp` | 6:17 | 2026/11/02 13:30〜（途中でカット） |
-| 仁秀 NINSHU WooCommerce による EC サイト構築（`wp-ninshu-woocommerce`） | `/watch/wp-ninshu-woocommerce` | 9:05 | 2026/11/04 10:05〜 |
-| 京橋ウェルネスクリニック・かとう歯科 お問い合わせフォームの構築（`wp-clinic-contact-form`） | `/watch/wp-clinic-contact-form` | 6:08 | 2026/11/05 14:10〜（途中でカット） |
-| クックパッド株式会社 WordPress おしらせ（ブログ・オウンドメディア）の構築（`wp-cookpad-media`） | `/watch/wp-cookpad-media` | 7:13 | 2026/11/06 13:12〜（途中でカット） |
+| 仁秀 NINSHU WooCommerce による EC サイト構築（`wp-ninshu-woocommerce`） | `/watch/wp-ninshu-woocommerce` | 9:06 | 2026/11/04 10:05〜 |
+| 京橋ウェルネスクリニック・かとう歯科 お問い合わせフォームの構築（`wp-clinic-contact-form`） | `/watch/wp-clinic-contact-form` | 6:13 | 2026/11/05 14:10〜（途中でカット） |
+| クックパッド株式会社 WordPress おしらせ（ブログ・オウンドメディア）の構築（`wp-cookpad-media`） | `/watch/wp-cookpad-media` | 7:16 | 2026/11/06 13:12〜（途中でカット） |
 | カイロライン三鷹整体院 WordPress サイトの SEO 対策・検索順位改善（`wp-chiroline-seo`） | `/watch/wp-chiroline-seo` | 5:06 | 2026/11/09 13:20〜 |
-| GMOアリーナさいたま WordPress マルチサイトのサーバー移転・新ドメイン移行準備（`wp-saitama-arena-migration`） | `/watch/wp-saitama-arena-migration` | 7:07 | 2026/11/10 22:04〜（途中でカット） |
-| 福岡正信自然農園 WordPress 会員制サイト・ログイン機能（`wp-f-masanobu-members`） | `/watch/wp-f-masanobu-members` | 5:44 | 2026/11/11 13:20〜 |
-| アジアンリトリート WordPress 予約システムの導入（`wp-asianretreat-booking`） | `/watch/wp-asianretreat-booking` | 5:21 | 2026/11/12 10:12〜（途中でカット） |
-| GMOアリーナさいたま WordPress 独自プラグイン開発（催事管理システムとのイベント連携）（`wp-saitama-arena-plugin`） | `/watch/wp-saitama-arena-plugin` | 8:09 | 2026/11/13 10:31〜（途中でカット） |
+| GMOアリーナさいたま WordPress マルチサイトのサーバー移転・新ドメイン移行準備（`wp-saitama-arena-migration`） | `/watch/wp-saitama-arena-migration` | 7:08 | 2026/11/10 22:04〜（途中でカット） |
+| 福岡正信自然農園 WordPress 会員制サイト・ログイン機能（`wp-f-masanobu-members`） | `/watch/wp-f-masanobu-members` | 5:47 | 2026/11/11 13:20〜 |
+| アジアンリトリート WordPress 予約システムの導入（`wp-asianretreat-booking`） | `/watch/wp-asianretreat-booking` | 5:31 | 2026/11/12 10:12〜（途中でカット） |
+| GMOアリーナさいたま WordPress 独自プラグイン開発（催事管理システムとのイベント連携）（`wp-saitama-arena-plugin`） | `/watch/wp-saitama-arena-plugin` | 8:10 | 2026/11/13 10:31〜（途中でカット） |
 
-合計 22 本・約 144 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
+合計 22 本・約 145 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
 
 ### Shopify の動画（6 本）
 
@@ -205,6 +205,8 @@ movie/
 | デモ | FixView Browser（Android 自動化向けブラウザ（Web デモ）） | https://android-automation-browser.vercel.app/ |
 | デモ | PitchLab（投手のためのオンライン指導アプリ） | https://pitch-lab-app.vercel.app/ |
 | デモ | ポイガチャ（ポイ活 × オリパ風 Web ガチャ） | https://gacha-point-platform.vercel.app/ |
+| デモ | 今日も元気だねット（LINE 安否確認サービス） | https://genki-connect.vercel.app/ |
+| デモ | Floor Plan Similarity Study（間取り図の類似性評価アンケート） | https://floorplan-similarity-survey.vercel.app/ |
 
 
 ## 画面の環境（全動画共通）
