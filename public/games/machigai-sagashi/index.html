@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>まちがい日和 ― 和の風景の間違い探し</title>
+  <meta name="description" content="夏祭りの縁日・商店街・お正月の和室・海の家・温泉宿・桜の公園。ふたつの絵を見くらべて、ちがうところを探す間違い探し。遊ぶたびに間違いが変わります。">
+  <meta name="theme-color" content="#f6efe2">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- タイトル -->
+  <section id="title" class="screen">
+    <div class="t-bg" aria-hidden="true"></div>
+    <div class="t-wrap">
+      <div class="t-hero">
+        <div class="t-visual"><img src="img/key-visual.webp" alt="" draggable="false"></div>
+        <div class="t-brand">
+          <p class="kicker">和の風景の間違い探し</p>
+          <h1 class="logo">まちがい<span>日和</span></h1>
+          <p class="sub">ふたつの絵を見くらべて、ちがうところを見つけよう。遊ぶたびに間違いの場所が変わります。</p>
+          <div class="seg" id="seg" role="radiogroup" aria-label="むずかしさ"></div>
+          <button class="gk-btn primary lg tour-btn" id="tourBtn" type="button">6 つの景色をめぐる</button>
+          <p class="tour-best" id="tourBest"></p>
+        </div>
+      </div>
+      <div class="t-stages">
+        <h2 class="t-h2">景色をえらぶ</h2>
+        <div class="stages" id="stages"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- プレイ -->
+  <section id="play" class="screen" hidden>
+    <header class="bar">
+      <button class="back" id="backBtn" type="button" aria-label="タイトルへ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="bar-title"><b id="sName">夏祭りの縁日</b><small id="sSub">その 1 / 6</small></div>
+    </header>
+    <div class="status">
+      <div class="dots" id="dots" aria-label="見つけた数"></div>
+      <span class="timer" id="timer">0:00</span>
+      <button class="hint-btn" id="hintBtn" type="button" aria-label="ヒント"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg><span>ヒント</span></button>
+    </div>
+    <div class="pics" id="pics">
+      <div class="pic" id="picA"><div class="tag">もとの絵</div><div class="spot"></div></div>
+      <div class="pic" id="picB"><div class="tag">ちがう絵</div><div class="spot"></div></div>
+    </div>
+    <div class="fx" id="fx" aria-hidden="true"></div>
+  </section>
+
+  <!-- ステージクリア -->
+  <div class="over" id="clear" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+      <img class="c-deco" src="img/clear-deco.webp" alt="" draggable="false">
+      <p class="c-kicker" id="cKicker">夏祭りの縁日</p>
+      <h2 class="c-title" id="cTitle">ぜんぶ見つけた！</h2>
+      <div class="stars" id="cStars"></div>
+      <dl class="c-stats"><div><dt>タイム</dt><dd id="cTime">0:00</dd></div><div><dt>ベスト</dt><dd id="cBest">0:00</dd></div><div><dt>おてつき</dt><dd id="cMiss">0</dd></div></dl>
+      <ul class="c-list" id="cList"></ul>
+      <div class="c-act" id="cAct"></div>
+    </div>
+  </div>
+
+  <!-- めぐりの結果 -->
+  <div class="over" id="final" hidden>
+    <div class="card final-card" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+      <img class="f-pic" src="img/result-cat.webp" alt="" draggable="false">
+      <p class="c-kicker" id="fKicker">6 つの景色をめぐりました</p>
+      <h2 class="c-title" id="fTitle">おつかれさまでした</h2>
+      <div class="stars" id="fStars"></div>
+      <dl class="c-stats"><div><dt>合計タイム</dt><dd id="fTime">0:00</dd></div><div><dt>星</dt><dd id="fStarN">0 / 18</dd></div><div><dt>ベスト</dt><dd id="fBest">0:00</dd></div></dl>
+      <ol class="f-list" id="fList"></ol>
+      <div class="c-act"><button class="gk-btn" id="fTitleBtn" type="button">タイトルへ</button><button class="gk-btn primary" id="fAgain" type="button">もう一度めぐる</button></div>
+    </div>
+  </div>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="scenes.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

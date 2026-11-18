@@ -1,6 +1,6 @@
 # Process Portfolio — 制作過程の動画ポートフォリオ（Next.js）
 
-制作の一部始終を録画した「制作プロセス動画」と、制作実績・公開中のデモをまとめたポートフォリオです。
+制作の一部始終を録画した「制作プロセス動画」と、制作実績・公開中のデモ・ブラウザで遊べるゲームをまとめたポートフォリオです。
 Next.js（App Router・TypeScript）で作っています。
 
 ```
@@ -15,6 +15,7 @@ npm start          ビルドしたものを http://localhost:3000 で配信
 | 一覧 | `/` | ヒーロー・WHY VIDEO・制作の記録（タブ：特別 / 一般 / デモ / ゲーム）。`/#general` のようにタブを指定できます |
 | 再生 | `/watch/<id>` | 動画のプレーヤー。`?t=秒` `&autoplay=1` `&captions=0`。登録にない id は一覧の「特別」へ戻ります |
 | 動画の本体 | `/videos/<id>/index.html` | 1920×1080 の動画のページ（再生ページの中に表示）。`public/videos/<id>/index.html` をブラウザで直接開いても再生できます（録画用。サーバー不要） |
+| ゲーム | `/games/<id>/index.html` | ゲームタブのゲーム（静的な HTML / JavaScript。一覧のライブプレビューの中でも遊べます。Next.js は `public/` のフォルダーの URL で index.html を返さないので、URL は index.html まで） |
 
 以前の静的版の URL（`index.html`・`watch.html?v=<id>`）は、新しい URL へ転送されます（`next.config.ts`）。
 
@@ -48,11 +49,14 @@ movie/
 │   └── image-size.ts             WebP の縦横サイズ（ビルド時に読む）
 ├── public/                       そのまま配信するファイル
 │   ├── videos/<id>/              動画のページ本体（index.html・js・css・assets）
+│   ├── games/<id>/               ゲームのページ（index.html・js・css・icon.svg・images.json・img/）
 │   ├── shared/                   動画のページの共通部品（時計・ポインター・IME・Windows 11・VS Code・アイコン・ファビコン・ロゴ）
 │   │   ├── kit/                  Shopify と WordPress の動画の共通部品（エディタ・ターミナル・ブラウザ・管理画面・ストアの表示）
-│   │   └── wordpress/            WordPress の本物の画面（取り込んだもの）の表示（wp-frame.js・wp.css）
+│   │   ├── wordpress/            WordPress の本物の画面（取り込んだもの）の表示（wp-frame.js・wp.css）
+│   │   └── games/                ゲームの共通部品（kit.js：保存・効果音と BGM の合成・画面合わせ・ダイアログ／kit.css）
 │   └── thumbs/                   動画のサムネイル（videos/<id>.webp）・サイトのプレビュー画像（sites/<id>-pc|full|sp.webp）
 ├── docs/videos/<id>.md           各動画の説明（内容・本物と再現の区別・録画の手順）
+├── docs/games/                   ゲームの作り方（README.md）・各ゲームの説明（<id>.md）・画像の生成プロンプト（prompts/<id>.md）
 ├── tools/                        撮影・測定・確認のツール（下表）
 │   ├── wp/playground.js          WordPress の本物の管理画面の取り込み（WordPress Playground）
 │   └── snapshots/<id>/           その動画専用の取り込みスクリプト（と確認用の test/）
@@ -69,7 +73,9 @@ movie/
 | --- | --- |
 | 動画を追加 | ① `public/videos/<id>/` に動画のページを作る ② `content/videos.ts` にエントリーを追加 ③ `npm run timeline -- <id>`（長さ・チャプター時刻・サムネイル）④ `npm run verify -- <id>`・`npm run check -- <id>`・`npm run pointer -- <id>` |
 | 台本を変更 | `npm run timeline -- <id>`（サムネイルの場面は `thumbAt`） |
-| サイト（一般・デモ・ゲーム）を追加 | `content/sites.ts` の `links` / `demos` / `games` にエントリーを追加 → `npm run capture -- <id>`（プレビュー画像・ファビコン） |
+| サイト（一般・デモ）を追加 | `content/sites.ts` の `links` / `demos` にエントリーを追加 → `npm run capture -- <id>`（プレビュー画像・ファビコン） |
+| ゲームを追加 | ① `public/games/<id>/` にゲームを作る（`docs/games/README.md`）② `npm run game-images -- <id>`・`npm run game-check -- <id>` ③ `content/sites.ts` の `games` に `url: '/games/<id>/index.html'` で追加 → `npm run capture -- <id>` |
+| ゲームの画像を差し替え | `docs/games/prompts/<id>.md` のプロンプトで生成 → `public/games/<id>/img/<name>.png` に保存 → `npm run game-images -- <id>` → `npm run capture -- <id>` |
 | タブの文言 | `content/tabs.ts` |
 
 一覧の並び順は画面上の日付（`recorded`）の新しい順で、自動で決まります。型は `lib/types.ts`。ツールも同じ `content/*.ts` を読みます（Node.js 22.18 以上は TypeScript をそのまま読み込めます）。
@@ -209,6 +215,35 @@ movie/
 | デモ | Floor Plan Similarity Study（間取り図の類似性評価アンケート） | https://floorplan-similarity-survey.vercel.app/ |
 
 
+### 掲載中のゲーム（ゲーム・20 本）
+
+日本で親しまれている遊びをもとにしたオリジナルのゲームです（作り方は [docs/games/README.md](docs/games/README.md)）。将棋・花札・麻雀・大富豪・百人一首・リバーシは伝統的なルールのまま、名前・キャラクター・絵・音楽・ステージはすべて新しく作りました。BGM・効果音は WebAudio で合成しています（音のファイルはありません）。
+
+ゲームの中の画像（キービジュアル・背景・人物・札の絵柄など、計 238 枚）は、いまはすべて **画像サンプル** です。画像ごとに向いている AI ツール（Midjourney・niji・ChatGPT・Gemini・Stable Diffusion・FLUX・Firefly・Ideogram・Recraft・Leonardo）を選び、そのツール用のプロンプトと、どのツールでも使える英文のプロンプトを [docs/games/prompts/](docs/games/prompts/README.md) に用意しています。生成した画像を `public/games/<id>/img/<name>.png` に保存して `npm run game-images -- <id>` を実行すると差し替わり、`npm run capture -- <id>` でカードのプレビューも撮り直せます。駒・牌・トランプ・弾など、遊ぶのに欠かせない絵はコードで描いているので、画像サンプルのままでも遊べます。
+
+| ゲーム | URL | 画像 | 資料 |
+| --- | --- | --- | --- |
+| 縁側将棋（本将棋 vs CPU（4 段階の強さ・駒落ち対応）） | `/games/shogi/index.html` | 7 枚 | [説明](docs/games/shogi.md)・[プロンプト](docs/games/prompts/shogi.md) |
+| 喫茶しろくろ（リバーシ（CPU 4 段階・ふたりで対局）） | `/games/reversi/index.html` | 6 枚 | [説明](docs/games/reversi.md)・[プロンプト](docs/games/prompts/reversi.md) |
+| 花暦こいこい（花札こいこい vs CPU） | `/games/hanafuda-koikoi/index.html` | 53 枚 | [説明](docs/games/hanafuda-koikoi.md)・[プロンプト](docs/games/prompts/hanafuda-koikoi.md) |
+| 番狂わせ大富豪（大富豪（大貧民）vs 3 CPU） | `/games/daifugo/index.html` | 11 枚 | [説明](docs/games/daifugo.md)・[プロンプト](docs/games/prompts/daifugo.md) |
+| みやび札（百人一首かるた ― CPU 対戦・ちらし取り・決まり字練習） | `/games/hyakunin-isshu/index.html` | 7 枚 | [説明](docs/games/hyakunin-isshu.md)・[プロンプト](docs/games/prompts/hyakunin-isshu.md) |
+| ことば花火（打って打ち上げるローマ字タイピング） | `/games/hanabi-typing/index.html` | 5 枚 | [説明](docs/games/hanabi-typing.md)・[プロンプト](docs/games/prompts/hanabi-typing.md) |
+| 筆まる漢字帖（熟語クロス・四字熟語・難読漢字の漢字パズル） | `/games/jukugo-puzzle/index.html` | 5 枚 | [説明](docs/games/jukugo-puzzle.md)・[プロンプト](docs/games/prompts/jukugo-puzzle.md) |
+| ナンプレ帖（9×9 の数字パズル ― 4 段階の難易度と今日の一問） | `/games/nanpure/index.html` | 4 枚 | [説明](docs/games/nanpure.md)・[プロンプト](docs/games/prompts/nanpure.md) |
+| ロジック絵巻（和のお絵かきロジック ― 5×5 から 20×20 まで 31 問） | `/games/oekaki-logic/index.html` | 4 枚 | [説明](docs/games/oekaki-logic.md)・[プロンプト](docs/games/prompts/oekaki-logic.md) |
+| まちがい日和（和の風景の間違い探し ― 6 つの景色） | `/games/machigai-sagashi/index.html` | 4 枚 | [説明](docs/games/machigai-sagashi.md)・[プロンプト](docs/games/prompts/machigai-sagashi.md) |
+| 花明かりの写真館（坂の町の写真館をめぐる、春のノベルゲーム） | `/games/sakura-novel/index.html` | 27 枚 | [説明](docs/games/sakura-novel.md)・[プロンプト](docs/games/prompts/sakura-novel.md) |
+| こしば日和（柴犬の子犬を育てる、リアルタイム育成ゲーム） | `/games/shiba-ikusei/index.html` | 14 枚 | [説明](docs/games/shiba-ikusei.md)・[プロンプト](docs/games/prompts/shiba-ikusei.md) |
+| 宵月麻雀（4人打ちリーチ麻雀 vs CPU） | `/games/mahjong/index.html` | 8 枚 | [説明](docs/games/mahjong.md)・[プロンプト](docs/games/prompts/mahjong.md) |
+| 千代紙飛行（折り鶴の縦スクロールシューティング） | `/games/orizuru-shooting/index.html` | 7 枚 | [説明](docs/games/orizuru-shooting.md)・[プロンプト](docs/games/prompts/orizuru-shooting.md) |
+| 宵宮ビート（祭り囃子の 4 レーン音楽ゲーム） | `/games/matsuri-rhythm/index.html` | 5 枚 | [説明](docs/games/matsuri-rhythm.md)・[プロンプト](docs/games/prompts/matsuri-rhythm.md) |
+| 夜空のアーチ（夏のナイターのホームラン競争） | `/games/homerun-derby/index.html` | 8 枚 | [説明](docs/games/homerun-derby.md)・[プロンプト](docs/games/prompts/homerun-derby.md) |
+| 和菓子ころりん（重箱の和菓子あわせパズル） | `/games/wagashi-merge/index.html` | 14 枚 | [説明](docs/games/wagashi-merge.md)・[プロンプト](docs/games/prompts/wagashi-merge.md) |
+| 宵祭り金魚すくい（夏の夜店の金魚すくい） | `/games/kingyo-sukui/index.html` | 12 枚 | [説明](docs/games/kingyo-sukui.md)・[プロンプト](docs/games/prompts/kingyo-sukui.md) |
+| クレーン横丁（2 ボタンのクレーンゲーム） | `/games/crane-game/index.html` | 12 枚 | [説明](docs/games/crane-game.md)・[プロンプト](docs/games/prompts/crane-game.md) |
+| 宵灯りのほこら（妖の里をめぐる、30 分の和風 RPG） | `/games/hokora-rpg/index.html` | 25 枚 | [説明](docs/games/hokora-rpg.md)・[プロンプト](docs/games/prompts/hokora-rpg.md) |
+
 ## 画面の環境（全動画共通）
 
 - **Windows 11**（ライトモード）。タスクバーは中央揃え、右側に IME（あ / A）・Wi-Fi・音量・時計（日付 2 段表示）・通知ベル。時計は動画の経過時間に合わせて進みます
@@ -275,7 +310,9 @@ movie/
 | `npm run check`（`-- <id>`） | 入力中の文字が画面に見えていない瞬間（字幕・キー表示の下、枠の外）がないかを確認します |
 | `npm run pointer`（`-- <id>`） | ポインターと問題箇所の枠を確認します：クリック・ポイントした位置が目標の要素の上か、画面の外・字幕の下でないか、表示されていない要素（閉じたメニュー・隠れたタブ・幅 0 の複製）へ向かっていないか、枠が出ているのに目標が画面にない瞬間がないか（`--scrolls` で、目標を見せるために自動でスクロールした箇所も一覧） |
 | `npm run snapshot -- <id>` | 動画の中に映る本番サイトを取り込み直し、画像を WebP に変換します（Shopify のストアは `tools/snapshot-store.js`、ほかは `tools/snapshots/<id>/update-snapshot.js`） |
-| `npm run capture`（`-- <id>`） | 一般・デモ・ゲームのサイトのプレビュー画像（PC・ページ全体・スマホ、WebP）とファビコンを撮影します |
+| `npm run capture`（`-- <id>`） | 一般・デモ・ゲームのサイトのプレビュー画像（PC・ページ全体・スマホ、WebP）とファビコンを撮影します（ゲームは `public/` をその場で配信して撮影） |
+| `npm run game-images`（`-- <id>`） | ゲームの画像：`images.json` の画像サンプルを描き、`img/` に保存した生成画像（PNG / JPEG / WebP）を指定のサイズの WebP にして差し替え（透過が必要な画像は単色の背景を切り抜き）、プロンプトのシート（`docs/games/prompts/`）を書き出します。`--samples` でサンプルを描き直し |
+| `npm run game-check`（`-- <id>`） | ゲームを PC（1440×900）とスマホ（390×844）の大きさで開き、エラー・読み込めないファイル・ページのスクロール・画像のサイズ・ゲームの自己テスト（`window.__gameSelfTest`）を確認します（`--out=<フォルダ>` でスクリーンショット） |
 | `npm run webp`（`-- <id>`） | 画像を WebP に変換して参照を書き換えます（`--dry` で確認だけ） |
 | `npm run favicons` | 各サービスの本物のファビコン・ロゴを取り直します |
 | `npm run lint` / `npm run typecheck` | ESLint / TypeScript の確認 |

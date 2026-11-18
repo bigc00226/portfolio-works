@@ -1,0 +1,308 @@
+{
+  "title": "和菓子ころりん",
+  "style": "やわらかな自然光で撮ったような和菓子の質感（もちもち・つやつや・粉砂糖）を、ほんの少し絵本のように可愛らしく。色は生成り・桜色・抹茶色・小豆色・飴色の落ち着いた和のパレット。木の重箱と畳の茶屋のぬくもり。文字・ロゴ・人物は入れない。お菓子の画像は真上から見た丸い形（ゲームの中で回転して表示されます）。",
+  "images": [
+    {
+      "name": "sweet-01",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#cdbcf8",
+        "#9883e2"
+      ],
+      "label": "金平糖",
+      "short": "金平糖",
+      "use": "重箱の中のお菓子（1 段目）・お品書き・つぎのお菓子",
+      "ja": "金平糖ひと粒（薄紫と桜色の、いぼいぼの星形の砂糖菓子。きらきらした砂糖の結晶）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a single konpeito sugar candy, a bumpy star-shaped sugar ball in pastel lavender and pale pink, sparkling sugar crystals, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a single konpeito sugar candy, a bumpy star-shaped sugar ball in pastel lavender and pale pink, sparkling sugar crystals. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "notes": "このセット（sweet-01〜11）の基準になる 1 枚。最初に作ります。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-02",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#4d3853",
+        "#1d1322"
+      ],
+      "label": "黒豆",
+      "short": "黒豆",
+      "use": "重箱の中のお菓子（2 段目）・お品書き・つぎのお菓子",
+      "ja": "つやつやの黒豆の甘煮ひと粒（黒紫で鏡のような照り、砂糖の粒が少し）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a single glossy sweet black soybean (kuromame), deep black-purple with a mirror-like shine and a few sugar crystals, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a single glossy sweet black soybean (kuromame), deep black-purple with a mirror-like shine and a few sugar crystals. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-03",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#f6d35f",
+        "#d49d1c"
+      ],
+      "label": "栗きんとん",
+      "short": "栗きんとん",
+      "use": "重箱の中のお菓子（3 段目）・お品書き・つぎのお菓子",
+      "ja": "茶巾しぼりの栗きんとん（黄金色、上に絞りのひだ）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round chakin-shibori kurikinton chestnut sweet, golden yellow mashed chestnut twisted closed with cloth-pleat marks on top, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round chakin-shibori kurikinton chestnut sweet, golden yellow mashed chestnut twisted closed with cloth-pleat marks on top. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-04",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#fbc2d4",
+        "#e8869f"
+      ],
+      "label": "桜餅",
+      "short": "桜餅",
+      "use": "重箱の中のお菓子（4 段目）・お品書き・つぎのお菓子",
+      "ja": "道明寺の桜餅（桃色のつぶつぶのお餅を、塩漬けの桜の葉で包んだもの）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round domyoji sakura mochi, pink grainy rice cake wrapped in a salted cherry leaf, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round domyoji sakura mochi, pink grainy rice cake wrapped in a salted cherry leaf. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-05",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#a3c66f",
+        "#5c8838"
+      ],
+      "label": "草餅",
+      "short": "草餅",
+      "use": "重箱の中のお菓子（5 段目）・お品書き・つぎのお菓子",
+      "ja": "よもぎの草餅（やわらかな緑色の丸いお餅、きな粉を少し）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round yomogi kusamochi, soft mugwort green rice cake dusted with a little kinako, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round yomogi kusamochi, soft mugwort green rice cake dusted with a little kinako. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-06",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#efd8aa",
+        "#c59c5d"
+      ],
+      "label": "最中",
+      "short": "最中",
+      "use": "重箱の中のお菓子（6 段目）・お品書き・つぎのお菓子",
+      "ja": "丸い最中（香ばしく焼いた皮に梅の花の型押し）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round monaka, crisp toasted wafer shell with an embossed plum blossom pattern, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round monaka, crisp toasted wafer shell with an embossed plum blossom pattern. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-07",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#bde7f2",
+        "#66b0cc"
+      ],
+      "label": "水まんじゅう",
+      "short": "水まんじゅう",
+      "use": "重箱の中のお菓子（7 段目）・お品書き・つぎのお菓子",
+      "ja": "水まんじゅう（透きとおった葛の中にこしあんが見える。小さな水滴）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round mizu manju, clear glossy kudzu jelly with smooth red bean paste visible inside, tiny water droplets, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round mizu manju, clear glossy kudzu jelly with smooth red bean paste visible inside, tiny water droplets. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-08",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#8f4450",
+        "#4b1d24"
+      ],
+      "label": "おはぎ",
+      "short": "おはぎ",
+      "use": "重箱の中のお菓子（8 段目）・お品書き・つぎのお菓子",
+      "ja": "おはぎ（ごはんをこしあんでくるんだ丸いお菓子、しっとりした質感）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a round ohagi, rice ball fully covered with smooth dark red bean paste, soft matte texture, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a round ohagi, rice ball fully covered with smooth dark red bean paste, soft matte texture. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-09",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#e0934c",
+        "#97511d"
+      ],
+      "label": "どら焼き",
+      "short": "どら焼き",
+      "use": "重箱の中のお菓子（9 段目）・お品書き・つぎのお菓子",
+      "ja": "真上から見たどら焼き（きつね色の焼き目、ふちは明るい色）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a dorayaki seen from above, round fluffy pancake with an evenly browned golden-brown top and a lighter rim, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a dorayaki seen from above, round fluffy pancake with an evenly browned golden-brown top and a lighter rim. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-10",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#fdfaf3",
+        "#d9cfbd"
+      ],
+      "label": "大福",
+      "short": "大福",
+      "use": "重箱の中のお菓子（10 段目）・お品書き・つぎのお菓子",
+      "ja": "大福（白い粉をまとった、ふっくらした丸いお餅）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a big round white daifuku mochi dusted with fine potato starch, soft and plump, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a big round white daifuku mochi dusted with fine potato starch, soft and plump. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "sweet-11",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#fff8e4",
+        "#f39a2c"
+      ],
+      "label": "鏡餅",
+      "short": "鏡餅",
+      "use": "重箱の中のお菓子（11 段目）・お品書き・つぎのお菓子",
+      "ja": "真上から見た鏡餅（白い丸餅が二段、上に葉つきの橙）。真上から見た丸い形が、正方形の画面いっぱいに収まるように。",
+      "tool": "leonardo",
+      "prompt": "Top-down view of a kagami mochi seen from directly above, two stacked white round rice cakes with a small bitter orange (daidai) with a leaf on top, centered, perfectly round silhouette filling the square frame edge to edge with a tiny margin, cute Japanese wagashi confectionery game asset, soft natural daylight, gentle shading on the object only, appetizing realistic texture with a slight storybook charm, clean crisp edges, isolated, no plate, no table, no text, transparent background",
+      "negative": "text, letters, logo, plate, dish, table, chopsticks, hands, multiple objects, cropped, cut off, side view, harsh shadow, cast shadow on background",
+      "generic": "A single Japanese sweet viewed from directly above: a kagami mochi seen from directly above, two stacked white round rice cakes with a small bitter orange (daidai) with a leaf on top. Centered, round silhouette filling a square image with a very small margin, soft daylight, appetizing texture with a slight storybook charm, isolated on a plain white background, no plate, no text.",
+      "ref": "sweet-01",
+      "notes": "sweet-01 を Style Reference（Image Guidance）に添付して、光と質感をそろえます。Leonardo.Ai: Phoenix・1024×1024・Transparency をオン。ゲームでは丸い当たり判定に合わせて回転するので、真上から見た丸い形で画面いっぱいに（余白は 4% ほど）。"
+    },
+    {
+      "name": "tea",
+      "w": 256,
+      "h": 256,
+      "kind": "item",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#9fd07a",
+        "#3f6b2c"
+      ],
+      "label": "お茶",
+      "short": "お茶",
+      "use": "「お茶」ボタンの絵（お菓子をひとつ取りのぞく）",
+      "ja": "少し上から見た湯呑みの緑茶（鮮やかな若草色、ふちにほのかな湯気）。ほぼ丸いシルエット。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A small round Japanese teacup (yunomi) filled with bright fresh green tea, seen from above at a slight angle so the silhouette is almost a circle, a soft wisp of steam, warm cream glazed ceramic with a simple brush stroke, soft natural light, cute game item icon style with realistic texture. The cup fills the frame with a small margin. No text, no saucer, no background.",
+      "negative": "text, saucer, table, hands, background scenery",
+      "generic": "A small round Japanese teacup of bright green tea seen from above at a slight angle, a little steam, cream glazed ceramic, cute game item, almost circular silhouette filling a square image, isolated on a plain white background, no text.",
+      "notes": "ゲームでは丸いボタンの中に小さく表示します。透過 PNG で出せない場合は白い無地の背景で（自動で切り抜きます）。"
+    },
+    {
+      "name": "bg",
+      "w": 1600,
+      "h": 1200,
+      "kind": "bg",
+      "alpha": false,
+      "colors": [
+        "#6b4a30",
+        "#2a1a10"
+      ],
+      "label": "背景：夕方の茶屋の座敷",
+      "short": "茶屋の座敷",
+      "use": "プレイ画面の背景（重箱のうしろに暗くして表示）",
+      "ja": "夕方の静かな茶屋の座敷。畳、障子越しのやわらかな西日、低い木の机、奥にぼんやり床の間。中央には重箱が重なるので落ち着いた余白に。人物なし。",
+      "tool": "midjourney",
+      "prompt": "interior of a quiet traditional Japanese tea house in the late afternoon, tatami floor, shoji screens glowing with warm low sunlight, a low wooden table, a tokonoma alcove softly out of focus, calm empty center space, warm amber cream and deep brown palette, gentle painterly realism, shallow depth of field, cozy and nostalgic, no people, no text --ar 4:3 --v 7 --style raw",
+      "negative": "people, text, signage, logo, modern furniture",
+      "generic": "A calm traditional Japanese tea house room in late afternoon light: tatami floor, glowing shoji screens, a low wooden table, a softly blurred alcove, warm amber and brown colours, painterly realism, shallow depth of field, an empty calm centre, no people, no text. Aspect ratio 4:3.",
+      "notes": "ゲームでは暗く重ねて表示し、中央に重箱が来ます。スマホの縦長では左右が切れるので、大事なものは中央付近に。"
+    },
+    {
+      "name": "key",
+      "w": 1600,
+      "h": 900,
+      "kind": "key",
+      "alpha": false,
+      "colors": [
+        "#f2c7a0",
+        "#7a3b2c"
+      ],
+      "label": "キービジュアル：重箱に転がる和菓子",
+      "short": "キービジュアル",
+      "use": "タイトル画面の背景",
+      "ja": "黒漆の重箱に、桜餅・大福・最中・どら焼き・金平糖などの和菓子がころころと転がり込む楽しい瞬間。桜の花びらが舞い、奥に障子のやわらかな光。中央にタイトルの文字を重ねるので、中央はすっきりと。",
+      "tool": "ideogram",
+      "prompt": "A joyful key visual of colorful Japanese wagashi sweets tumbling and bouncing into an open black lacquered jubako box with gold trim: sakura mochi, white daifuku, monaka, dorayaki, green kusamochi, golden kurikinton and pastel konpeito, a few cherry blossom petals floating, warm shoji light in the background, soft cinematic lighting, playful dynamic composition with calm space in the center, appetizing and cute, wide 16:9, absolutely no text, no letters, no logo",
+      "negative": "text, letters, title, logo, watermark, people, hands",
+      "generic": "Colorful Japanese sweets (sakura mochi, daifuku, monaka, dorayaki, kusamochi, konpeito) tumbling into an open black lacquered jubako box with gold trim, cherry blossom petals floating, warm shoji light behind, playful dynamic composition with calm space in the centre, appetizing and cute, 16:9, no text.",
+      "notes": "Ideogram: 縦横比 16:9、Magic Prompt はオフ（文字が入らないように）。タイトルの文字は HTML で重ねるので、画像には文字を入れません。"
+    }
+  ]
+}

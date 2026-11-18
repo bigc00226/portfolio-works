@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>千代紙飛行 ― 折り鶴の縦スクロールシューティング</title>
+  <meta name="description" content="一羽の折り鶴になって紙の国の空を飛ぶ、弾幕系の縦スクロールシューティング。三つの幕と主との戦い、グレイズと倍率、紙吹雪のボム。PC とスマホで遊べます。">
+  <meta name="theme-color" content="#1c1a26">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="wrap">
+    <header id="topbar" class="bar">
+      <div class="tb-col"><span class="lbl">得点</span><b class="num" data-hud="score">0</b></div>
+      <div class="tb-col"><span class="lbl">最高</span><b class="num sm" data-hud="hi">0</b></div>
+      <div class="tb-col tb-icons"><span class="icons" data-hud="lives"></span><span class="icons" data-hud="bombs"></span></div>
+    </header>
+    <aside id="panelL" class="panel">
+      <div class="brand"><span class="brand-ja">千代紙飛行</span><span class="brand-sub">折り鶴の縦スクロールシューティング</span></div>
+      <div class="stat"><span class="lbl">最高得点</span><b class="num" data-hud="hi">0</b></div>
+      <div class="stat big"><span class="lbl">得点</span><b class="num" data-hud="score">0</b></div>
+      <div class="stat"><span class="lbl">難易度</span><b data-hud="diff">ふつう</b></div>
+      <div class="stat"><span class="lbl">いまの幕</span><b data-hud="stage">第一幕</b></div>
+    </aside>
+    <main id="field">
+      <canvas id="cv" aria-label="ゲーム画面"></canvas>
+      <div id="bosscard" aria-hidden="true">
+        <div class="bc-img"><img alt=""></div>
+        <div class="bc-text"><small></small><strong></strong><span></span></div>
+      </div>
+    </main>
+    <aside id="panelR" class="panel">
+      <div class="stat"><span class="lbl">残機</span><span class="icons" data-hud="lives"></span></div>
+      <div class="stat"><span class="lbl">紙吹雪（ボム）</span><span class="icons" data-hud="bombs"></span></div>
+      <div class="stat"><span class="lbl">パワー</span><b class="num" data-hud="power">1.00</b><span class="pbar"><i></i></span></div>
+      <div class="stat2">
+        <div><span class="lbl">グレイズ</span><b class="num" data-hud="graze">0</b></div>
+        <div><span class="lbl">倍率</span><b class="num" data-hud="mult">×1.00</b></div>
+      </div>
+      <div class="side-btns"><button class="gk-btn bombBtn" type="button">紙吹雪</button><button class="gk-btn ghost pauseBtn" type="button">一時停止</button></div>
+      <p class="keys"><kbd>矢印</kbd> 移動　<kbd>Z</kbd> ショット　<kbd>X</kbd> 紙吹雪<br><kbd>Shift</kbd> 低速　<kbd>Esc</kbd> 一時停止</p>
+    </aside>
+    <footer id="botbar" class="bar">
+      <div class="bb-info">
+        <div class="bb-pow"><span class="lbl">パワー</span><b class="num" data-hud="power">1.00</b><span class="pbar"><i></i></span></div>
+        <div><span class="lbl">倍率</span><b class="num" data-hud="mult">×1.00</b></div>
+        <div><span class="lbl">グレイズ</span><b class="num" data-hud="graze">0</b></div>
+      </div>
+      <div class="bb-btns">
+        <button class="tbtn focusBtn" type="button">低速</button>
+        <button class="tbtn bomb bombBtn" type="button">紙吹雪</button>
+      </div>
+    </footer>
+  </div>
+
+  <section id="title" class="screen">
+    <div class="t-bg" aria-hidden="true"></div>
+    <div class="t-inner">
+      <p class="t-kicker">折り鶴の縦スクロールシューティング</p>
+      <h1 class="t-logo">千代紙飛行</h1>
+      <p class="t-lead">紙の国の空へ。一羽の折り鶴が、三つの幕を翔けぬける。</p>
+      <div class="t-diff" role="group" aria-label="難易度">
+        <button class="diff" data-d="easy" type="button"><b>かんたん</b><small></small></button>
+        <button class="diff" data-d="normal" type="button"><b>ふつう</b><small></small></button>
+        <button class="diff" data-d="hard" type="button"><b>むずかしい</b><small></small></button>
+      </div>
+      <div class="t-actions">
+        <button id="titleHelp" class="gk-btn" type="button">遊び方</button>
+        <button id="startBtn" class="gk-btn primary lg" type="button">出発する</button>
+      </div>
+      <label class="t-opt"><input type="checkbox" id="optAuto"> 自動連射（Z を押さなくても撃ち続けます）</label>
+      <p class="t-keys pc-only">矢印キー / WASD 移動・Z ショット・X 紙吹雪・Shift 低速・Esc 一時停止</p>
+      <p class="t-keys touch-only">画面のどこでもなぞって移動（指を置くと自動で連射）。紙吹雪と低速は下のボタンで。</p>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="r-card">
+      <p class="r-kicker" id="rKicker"></p>
+      <h2 class="r-title" id="rTitle"></h2>
+      <div class="r-score"><span>得点</span><b id="rScore">0</b><em id="rNew" hidden>自己ベスト更新！</em></div>
+      <dl class="r-stats">
+        <div><dt>この難易度の最高</dt><dd id="rBest"></dd></div>
+        <div><dt>撃ち落とした数</dt><dd id="rKills"></dd></div>
+        <div><dt>グレイズ</dt><dd id="rGraze"></dd></div>
+        <div><dt>最大倍率</dt><dd id="rMult"></dd></div>
+        <div><dt>被弾 ／ 紙吹雪</dt><dd id="rMiss"></dd></div>
+      </dl>
+      <div class="r-actions"><button id="toTitleBtn" class="gk-btn" type="button">タイトルへ</button><button id="retryBtn" class="gk-btn primary" type="button">もう一度</button></div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="art.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

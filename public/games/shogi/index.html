@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>縁側将棋 ― 本将棋 vs CPU</title>
+  <meta name="description" content="夕涼みの縁側で指す本将棋。4 人の対局相手（入門〜上級）、平手と駒落ち、待った・ヒント・棋譜つき。">
+  <meta name="theme-color" content="#2a1b10">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <main class="table" id="table">
+      <canvas id="cv" aria-label="将棋盤"></canvas>
+      <div id="bubble" class="bubble" aria-live="polite"></div>
+      <div id="stamp" class="stamp" aria-hidden="true"></div>
+    </main>
+    <aside id="side">
+      <section id="kifu-wrap" aria-label="棋譜">
+        <div class="kifu-head"><b>棋譜</b><span id="kifu-hc"></span><button type="button" class="gk-btn sm ghost" id="btn-copy">コピー</button></div>
+        <ol id="kifu"></ol>
+      </section>
+      <div id="ctrl" class="ctrl">
+        <button type="button" class="gk-btn" id="btn-undo" title="待った（Z）">待った</button>
+        <button type="button" class="gk-btn" id="btn-hint" title="ヒント（H）">ヒント</button>
+        <button type="button" class="gk-btn kifu-toggle" id="btn-kifu">棋譜</button>
+        <button type="button" class="gk-btn" id="btn-resign">投了</button>
+      </div>
+      <div id="ctrl-review" class="ctrl" hidden>
+        <button type="button" class="gk-btn" id="btn-prev" title="1 手戻る（←）">◀ 戻る</button>
+        <button type="button" class="gk-btn" id="btn-next" title="1 手進む（→）">進む ▶</button>
+        <button type="button" class="gk-btn kifu-toggle" id="btn-kifu2">棋譜</button>
+        <button type="button" class="gk-btn primary" id="btn-again">もう一局</button>
+      </div>
+    </aside>
+  </div>
+
+  <section id="title" aria-label="タイトル">
+    <img class="furin" src="img/item-furin.webp" alt="" draggable="false">
+    <div class="title-inner">
+      <header class="logo">
+        <p class="logo-sub">本将棋 vs CPU</p>
+        <h1>縁側将棋</h1>
+        <p class="logo-catch">夕涼みの縁側で、一局いかがですか。</p>
+      </header>
+      <div class="setup">
+        <h2>対局相手</h2>
+        <div class="opps" id="opps"></div>
+        <h2>手合い</h2>
+        <div class="chips" id="hc"></div>
+        <h2 id="side-h">手番</h2>
+        <div class="chips" id="sides"></div>
+        <div class="actions">
+          <button type="button" class="gk-btn" id="btn-resume" hidden>続きから</button>
+          <button type="button" class="gk-btn primary lg" id="btn-start">対局開始</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="rules.js"></script>
+  <script src="ai.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

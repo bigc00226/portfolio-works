@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ロジック絵巻 ― 和のお絵かきロジック</title>
+  <meta name="description" content="数字を手がかりにマスを塗ると、富士山・招き猫・だるま・提灯など和の絵が浮かびあがる。5×5 から 20×20 まで 31 問のお絵かきロジック。">
+  <meta name="theme-color" content="#f4ecdc">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="paper" aria-hidden="true"></div>
+
+  <!-- タイトル・問題の一覧 -->
+  <section id="title" class="screen">
+    <div class="t-side">
+      <div class="t-visual"><img src="img/key-visual.webp" alt="" draggable="false"></div>
+      <div class="t-brand">
+        <p class="kicker">和のお絵かきロジック</p>
+        <h1 class="logo">ロジック<span>絵巻</span></h1>
+        <p class="sub">数字を手がかりにマスを塗ると、和の絵が浮かびあがります。</p>
+        <div class="t-meta"><span class="t-count" id="tCount">完成 0 / 31</span>
+          <button class="gk-btn sm primary" id="galleryBtn" type="button">絵巻をひらく</button>
+          <button class="gk-btn sm" id="settingsBtn" type="button">設定</button></div>
+      </div>
+    </div>
+    <div class="t-list">
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <!-- プレイ -->
+  <section id="play" class="screen" hidden>
+    <header class="bar">
+      <button class="back" id="backBtn" type="button" aria-label="一覧へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="bar-title"><b id="pTitle">10×10 ・ No.3</b><small id="pSub"></small></div>
+      <span class="timer" id="timer">0:00</span>
+    </header>
+    <div class="stage" id="stage"><canvas id="cv" aria-label="お絵かきロジックの盤面"></canvas></div>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="hintbox" id="hintBox" hidden>
+      <p class="hint-name">ヒント</p>
+      <p class="hint-text" id="hintText"></p>
+      <div class="hint-act"><button class="gk-btn sm" id="hintClose" type="button">閉じる</button><button class="gk-btn sm primary" id="hintApply" type="button">反映する</button></div>
+    </div>
+  </section>
+
+  <!-- 絵巻（ギャラリー） -->
+  <section id="gallery" class="screen" hidden>
+    <header class="g-head">
+      <button class="back" id="gBack" type="button" aria-label="一覧へ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div><h2>絵巻</h2><p id="gCount">完成した絵 0 / 31</p></div>
+      <img class="g-kumo" src="img/deco-kumo.webp" alt="" draggable="false">
+    </header>
+    <div class="g-scroll" id="gScroll"></div>
+  </section>
+
+  <!-- 完成 -->
+  <div class="result" id="result" hidden>
+    <div class="r-card" role="dialog" aria-modal="true" aria-labelledby="rName">
+      <img class="r-kumo" src="img/deco-kumo.webp" alt="" draggable="false">
+      <p class="r-kicker" id="rKicker">10×10 ・ No.3</p>
+      <h2 class="r-name" id="rName">富士山</h2>
+      <dl class="r-stats">
+        <div><dt>タイム</dt><dd id="rTime">0:00</dd></div>
+        <div><dt>ベスト</dt><dd id="rBest">0:00</dd></div>
+        <div><dt>ヒント</dt><dd id="rHint">0</dd></div>
+      </dl>
+      <p class="r-note" id="rNote"></p>
+      <div class="r-act"><button class="gk-btn" id="rList" type="button">一覧へ</button><button class="gk-btn" id="rGallery" type="button">絵巻を見る</button><button class="gk-btn primary" id="rNext" type="button">次の問題</button></div>
+    </div>
+  </div>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="logic.js"></script>
+  <script src="puzzles.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

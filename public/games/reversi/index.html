@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>喫茶しろくろ ― リバーシ</title>
+  <meta name="description" content="昭和レトロの純喫茶で、常連たちとリバーシ。4 人の対局相手（入門〜上級）と、ふたりで対局。待った・ヒント・石差の記録つき。">
+  <meta name="theme-color" content="#24170f">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <section class="pcard" id="card-top" aria-live="polite"></section>
+    <main id="wrap"><canvas id="cv" aria-label="リバーシの盤"></canvas><div id="stamp" class="stamp" aria-hidden="true"></div><div id="bubble" class="bubble"></div></main>
+    <section class="pcard" id="card-bottom" aria-live="polite"></section>
+    <nav id="ctrl" class="ctrl">
+      <button type="button" class="gk-btn" id="btn-undo" title="待った（Z）">待った</button>
+      <button type="button" class="gk-btn" id="btn-hint" title="ヒント（H）">ヒント</button>
+      <button type="button" class="gk-btn" id="btn-restart">最初から</button>
+    </nav>
+  </div>
+
+  <section id="title" aria-label="タイトル">
+    <div class="title-inner">
+      <header class="logo">
+        <p class="logo-sub">純喫茶のリバーシ</p>
+        <h1><span>喫茶</span><em class="w">しろ</em><em class="k">くろ</em></h1>
+        <p class="logo-catch">コーヒー一杯ぶんの、白と黒の勝負。</p>
+      </header>
+      <div class="setup">
+        <h2>あそびかた</h2>
+        <div class="chips" id="modes">
+          <button type="button" class="chip" data-mode="cpu">CPU と対局</button>
+          <button type="button" class="chip" data-mode="pvp">ふたりで対局</button>
+        </div>
+        <div id="cpu-opts">
+          <h2>対局相手</h2>
+          <div class="opps" id="opps"></div>
+          <h2>あなたの石</h2>
+          <div class="chips" id="colors">
+            <button type="button" class="chip" data-color="1">黒（先手）</button>
+            <button type="button" class="chip" data-color="2">白（後手）</button>
+            <button type="button" class="chip" data-color="0">おまかせ</button>
+          </div>
+        </div>
+        <p id="pvp-note" class="note" hidden>1 台の画面を交代で使って、黒と白で対局します。</p>
+        <div class="actions">
+          <button type="button" class="gk-btn" id="btn-resume" hidden>続きから</button>
+          <button type="button" class="gk-btn primary lg" id="btn-start">対局開始</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="rules.js"></script>
+  <script src="ai.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

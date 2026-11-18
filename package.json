@@ -18,7 +18,9 @@
     "capture": "node tools/capture-sites.js",
     "snapshot": "node tools/snapshot.js",
     "webp": "node tools/webp.js",
-    "favicons": "node tools/favicons.js"
+    "favicons": "node tools/favicons.js",
+    "game-images": "node tools/game-images.js",
+    "game-check": "node tools/check-game.js"
   },
   "dependencies": {
     "next": "^16.4.6",

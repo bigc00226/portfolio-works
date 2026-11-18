@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ナンプレ帖 ― 9×9 の数字パズル</title>
+  <meta name="description" content="縦・横・ブロックに 1〜9 をひとつずつ。答えがひとつだけの問題をその場で作る、4 段階の難易度と今日の一問、解き方を教えてくれるヒント付きのナンプレ（ナンバープレース）。">
+  <meta name="theme-color" content="#f3ede0">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="washi" aria-hidden="true"></div>
+
+  <!-- タイトル -->
+  <section id="title" class="screen">
+    <div class="t-visual"><img src="img/key-visual.webp" alt="" draggable="false"></div>
+    <div class="t-main">
+      <header class="t-head">
+        <div>
+          <p class="t-kicker">九マスの数字パズル</p>
+          <h1 class="t-logo">ナンプレ<span>帖</span></h1>
+          <p class="t-sub">縦・横・ブロックに、1〜9 をひとつずつ。</p>
+        </div>
+        <div class="seal" id="seal" title="段位"><b id="sealRank">見習い</b><small>段位</small></div>
+      </header>
+      <button class="daily" id="dailyBtn" type="button">
+        <span class="daily-mark" aria-hidden="true"><b id="dailyDay">18</b><small id="dailyMon">11月</small></span>
+        <span class="daily-text"><b>今日の一問</b><small id="dailyInfo">毎日ひとつ、みんな同じ問題</small></span>
+        <span class="daily-go" aria-hidden="true">›</span>
+      </button>
+      <div class="levels" id="levels"></div>
+      <div class="t-foot">
+        <button class="gk-btn primary" id="resumeBtn" type="button" hidden>つづきから</button>
+        <button class="gk-btn" id="statsBtn" type="button">記録</button>
+        <button class="gk-btn" id="settingsBtn" type="button">設定</button>
+      </div>
+      <p class="t-rank-note" id="rankNote"></p>
+    </div>
+  </section>
+
+  <!-- 対局（プレイ） -->
+  <section id="play" class="screen" hidden>
+    <header class="bar">
+      <button class="back" id="backBtn" type="button" aria-label="タイトルへ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="bar-title"><span class="lv-dot" id="lvDot"></span><b id="levelName">ふつう</b><small id="dailyTag"></small></div>
+    </header>
+    <div class="main port" id="main">
+      <div class="info" id="info">
+        <span class="timer" id="timer" aria-label="経過時間">0:00</span>
+        <span class="miss" id="miss">ミス 0</span>
+        <button class="pause" id="pauseBtn" type="button" aria-label="一時停止"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="3.6" height="14" rx="1.2" fill="currentColor"/><rect x="13.9" y="5" width="3.6" height="14" rx="1.2" fill="currentColor"/></svg></button>
+      </div>
+      <div class="board-wrap" id="boardWrap">
+        <div class="board" id="board" role="grid" aria-label="ナンプレの盤面"></div>
+        <svg class="lines" id="lines" viewBox="0 0 9 9" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="pause-cover" id="pauseCover" hidden>
+          <img src="img/pause-tea.webp" alt="" draggable="false">
+          <p>ひと休み</p>
+          <small>時計は止まっています</small>
+          <button class="gk-btn primary" id="resumePlay" type="button">再開する</button>
+        </div>
+      </div>
+      <div class="tools" id="tools"></div>
+      <div class="pad" id="pad"></div>
+      <div class="hintbox" id="hintBox" hidden>
+        <p class="hint-name" id="hintName"></p>
+        <p class="hint-text" id="hintText"></p>
+        <div class="hint-act"><button class="gk-btn sm" id="hintClose" type="button">閉じる</button><button class="gk-btn sm primary" id="hintApply" type="button">数字を入れる</button></div>
+      </div>
+    </div>
+    <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+  </section>
+
+  <!-- 結果 -->
+  <div class="result" id="result" hidden>
+    <div class="r-card" role="dialog" aria-modal="true" aria-labelledby="rTitle">
+      <div class="r-pic"><img src="img/clear-illust.webp" alt="" draggable="false"><span class="r-stamp" id="rStamp" hidden>新記録</span></div>
+      <div class="r-body">
+        <p class="r-kicker" id="rKicker">かんたん</p>
+        <h2 class="r-title" id="rTitle">お見事！</h2>
+        <dl class="r-stats">
+          <div><dt>タイム</dt><dd id="rTime">0:00</dd></div>
+          <div><dt>ミス</dt><dd id="rMiss">0</dd></div>
+          <div><dt>ヒント</dt><dd id="rHint">0</dd></div>
+        </dl>
+        <p class="r-note" id="rNote"></p>
+        <div class="r-act"><button class="gk-btn" id="rTitleBtn" type="button">タイトルへ</button><button class="gk-btn primary" id="rNext" type="button">次の問題へ</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" id="loading" hidden><div class="spin" aria-hidden="true"></div><p id="loadingText">問題を作っています…</p></div>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="sudoku.js"></script>
+  <script src="bank.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

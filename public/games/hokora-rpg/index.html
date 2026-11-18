@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>宵灯りのほこら ― 妖の里をめぐる和風 RPG</title>
+  <meta name="description" content="消えた山の灯「宵灯」をともし直すため、祠守見習いのコハルが仲間と妖の森・洞・祠をめぐる、20〜40 分の和風コマンドバトル RPG。">
+  <meta name="theme-color" content="#14122a">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar"><span class="tb-mark" aria-hidden="true"></span><span class="tb-title">宵灯りのほこら</span><span id="area"></span></header>
+    <main id="stage">
+      <canvas id="cv" aria-label="ゲーム画面"></canvas>
+      <div id="title" hidden>
+        <p class="pre">和風フォークロア RPG</p>
+        <h1>宵灯りのほこら</h1>
+        <p class="sub">― 灯ノ里と、消えた山の灯 ―</p>
+      </div>
+    </main>
+    <div id="pad" aria-hidden="true">
+      <div id="dpad"><i class="u"></i><i class="d"></i><i class="l"></i><i class="r"></i><b></b></div>
+      <div class="ab"><button id="btnB" type="button" tabindex="-1"><span>B</span><small>もどる</small></button><button id="btnA" type="button" tabindex="-1"><span>A</span><small>決定</small></button></div>
+    </div>
+  </div>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="data.js"></script>
+  <script src="maps.js"></script>
+  <script src="gfx.js"></script>
+  <script src="audio.js"></script>
+  <script src="engine.js"></script>
+  <script src="battle.js"></script>
+  <script src="story.js"></script>
+</body>
+</html>

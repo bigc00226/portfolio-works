@@ -1,0 +1,80 @@
+/* 宵灯りのほこら — page layout: the game screen (canvas) and, on touch screens, a top bar and a virtual pad */
+:root {
+  --gk-accent: #d0783a;
+  --gk-accent-ink: #fff;
+  --gk-paper: #07060c;
+  --gk-ink: #231c16;
+  --pad-h: clamp(176px, 32vh, 270px);
+  --side-w: clamp(118px, 17vw, 168px);
+}
+html.gk body { background: #07060c; color: #f4efe2; }
+#app { position: fixed; inset: 0; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% 120%, #2a1c22 0%, #07060c 60%); }
+#stage { position: relative; flex: 1 1 auto; min-height: 0; }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; }
+#topbar { display: none; }
+#pad { display: none; }
+
+/* title (the name is HTML text; the picture behind it is drawn on the canvas) */
+#title { position: absolute; left: 0; right: 0; top: 13%; text-align: center; pointer-events: none; animation: title-in 1.4s ease both; }
+#title[hidden] { display: none; }
+#title h1 {
+  margin: 0; font-family: var(--gk-serif); font-weight: 800; letter-spacing: .16em; padding-left: .16em;
+  font-size: clamp(30px, 7.4vmin, 78px); line-height: 1.15; color: #fff4dc;
+  text-shadow: 0 0 22px rgba(255, 168, 86, .75), 0 0 4px rgba(255, 200, 140, .7), 0 3px 0 rgba(20, 10, 10, .6);
+}
+#title .pre { margin: 0 0 .5em; font: 700 clamp(10px, 1.7vmin, 15px)/1 var(--gk-sans); letter-spacing: .4em; color: #e8c88a; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+#title .sub { margin: .7em 0 0; font: 600 clamp(11px, 2vmin, 18px)/1.4 var(--gk-serif); letter-spacing: .2em; color: #f2e2c4; text-shadow: 0 1px 4px rgba(0, 0, 0, .9); }
+@keyframes title-in { from { opacity: 0; transform: translateY(8px); filter: blur(4px); } }
+
+/* touch screens: top bar (portrait) + pad */
+html.gk-touch #topbar {
+  display: flex; align-items: center; gap: 8px; flex: 0 0 auto; height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 150px 0 14px;
+  background: linear-gradient(#17152c, #0e0d1c); border-bottom: 1px solid rgba(214, 178, 98, .35);
+  font: 700 14px/1 var(--gk-serif); letter-spacing: .08em; color: #f6ead0; white-space: nowrap; overflow: hidden;
+}
+html.gk-touch .tb-mark { width: 10px; height: 14px; border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%; background: radial-gradient(circle at 50% 70%, #ffe2a0, #ff9a3a 60%, #c8502a); box-shadow: 0 0 10px #ff9a3a; flex: 0 0 auto; }
+html.gk-touch #area { font: 600 12px/1 var(--gk-sans); color: #d6b262; overflow: hidden; text-overflow: ellipsis; }
+html.gk-touch #area:not(:empty)::before { content: '｜'; color: rgba(214, 178, 98, .5); margin-right: 4px; }
+html.gk-touch #pad {
+  display: flex; flex: 0 0 auto; height: calc(var(--pad-h) + env(safe-area-inset-bottom)); padding: 0 max(20px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(20px, env(safe-area-inset-left));
+  align-items: center; justify-content: space-between;
+  background: linear-gradient(#100f1f, #0b0a16); border-top: 1px solid rgba(214, 178, 98, .3);
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+#dpad { position: relative; width: min(42vw, 156px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02) 70%); border: 1px solid rgba(214, 178, 98, .28); touch-action: none; }
+#dpad i { position: absolute; width: 34%; height: 34%; background: #27243f; border: 1px solid rgba(214, 178, 98, .45); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .08), 0 3px 0 rgba(0, 0, 0, .4); }
+#dpad i::after { content: ''; position: absolute; left: 50%; top: 50%; width: 0; height: 0; border: 7px solid transparent; transform: translate(-50%, -50%); }
+#dpad .u { left: 33%; top: 3%; border-radius: 8px 8px 2px 2px; }
+#dpad .u::after { border-bottom-color: #e8c88a; margin-top: -3px; }
+#dpad .d { left: 33%; bottom: 3%; border-radius: 2px 2px 8px 8px; }
+#dpad .d::after { border-top-color: #e8c88a; margin-top: 3px; }
+#dpad .l { left: 3%; top: 33%; border-radius: 8px 2px 2px 8px; }
+#dpad .l::after { border-right-color: #e8c88a; margin-left: -3px; }
+#dpad .r { right: 3%; top: 33%; border-radius: 2px 8px 8px 2px; }
+#dpad .r::after { border-left-color: #e8c88a; margin-left: 3px; }
+#dpad b { position: absolute; left: 33%; top: 33%; width: 34%; height: 34%; background: #27243f; }
+#dpad[data-dir="up"] .u, #dpad[data-dir="down"] .d, #dpad[data-dir="left"] .l, #dpad[data-dir="right"] .r { background: #4a3a2a; box-shadow: inset 0 0 12px rgba(255, 170, 80, .5); }
+.ab { display: flex; gap: 16px; align-items: flex-end; }
+.ab button {
+  display: grid; place-items: center; align-content: center; gap: 2px; border-radius: 50%; padding: 0; cursor: pointer; touch-action: none;
+  color: #fff4dc; border: 1px solid rgba(214, 178, 98, .6); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .12), 0 4px 0 rgba(0, 0, 0, .45);
+  transition: transform .06s;
+}
+.ab button span { font: 800 22px/1 var(--gk-sans); }
+.ab button small { font: 700 9px/1 var(--gk-sans); letter-spacing: .05em; opacity: .85; }
+#btnA { width: min(21vw, 78px); height: min(21vw, 78px); background: radial-gradient(circle at 40% 35%, #e0884a, #a8482a); margin-bottom: 26px; }
+#btnB { width: min(17vw, 62px); height: min(17vw, 62px); background: radial-gradient(circle at 40% 35%, #4a4870, #2a2848); }
+.ab button.on { transform: translateY(2px) scale(.95); filter: brightness(1.2); }
+
+/* touch + landscape: no top bar; the pad sits on both sides of the game screen */
+@media (orientation: landscape) {
+  html.gk-touch #topbar { display: none; }
+  html.gk-touch #stage { margin: 0 var(--side-w); }
+  html.gk-touch #pad { position: absolute; inset: 0; height: auto; padding: 0 10px max(14px, env(safe-area-inset-bottom)); background: none; border: 0; align-items: flex-end; pointer-events: none; }
+  html.gk-touch #dpad, html.gk-touch .ab { pointer-events: auto; }
+  html.gk-touch #dpad { width: min(calc(var(--side-w) - 14px), 40vh); }
+  html.gk-touch .ab { flex-direction: column-reverse; align-items: center; gap: 10px; width: calc(var(--side-w) - 20px); }
+  html.gk-touch #btnA { margin-bottom: 0; width: min(19vh, 76px); height: min(19vh, 76px); }
+  html.gk-touch #btnB { width: min(15vh, 60px); height: min(15vh, 60px); }
+}
+@media (prefers-reduced-motion: reduce) { #title { animation: none; } }

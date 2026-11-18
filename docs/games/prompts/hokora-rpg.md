@@ -1,0 +1,766 @@
+# 宵灯りのほこら ― 画像の生成プロンプト
+
+ゲーム: `public/games/hokora-rpg/`（25 枚中 0 枚が生成済み、25 枚が画像サンプル）。このファイルは `npm run game-images` が `public/games/hokora-rpg/images.json` から書き出します（直接編集しないでください）。
+
+## 全体のアートディレクション
+
+和風フォークロアの、あたたかい絵本のような手描き調。宵（夕暮れ〜夜）の藍色と、灯（ともしび）の橙色の対比が基調。輪郭はやわらかく、水彩と墨のにじみ、紙の質感。妖（あやかし）は「こわかわいい」オリジナルの姿で、既存の作品のキャラクターや妖怪画の模写にはしない。人物はアニメ調だが落ち着いた色。画像の中に文字・ロゴ・署名・透かしは入れない。
+
+## 差し替えの手順
+
+1. 下のプロンプトを、画像ごとの「おすすめのツール」（または「ほかのツール用」の英文を好きなツール）に入力して生成します。
+2. できた画像を `public/games/hokora-rpg/img/<ファイル名>.png`（.jpg / .webp も可・サイズは自由）として保存します。
+3. `npm run game-images -- hokora-rpg` を実行すると、指定のサイズに合わせて WebP に変換し、画像サンプルと置き換えます（透過が必要な画像は、単色の背景を自動で切り抜きます）。
+4. ゲームのカードのプレビュー画像も撮り直すときは `npm run capture -- hokora-rpg`。
+
+## 画像の一覧
+
+| | ファイル | サイズ | 種類 | 用途 | おすすめのツール |
+|---|---|---|---|---|---|
+| ⬜ | [`img/key.webp`](#key) | 1600×900 | キービジュアル | タイトル画面の背景（横長の画面） | niji・journey（Midjourney の `--niji 6`） |
+| ⬜ | [`img/title-bg.webp`](#title-bg) | 1080×1350 | 背景 | タイトル画面の背景（縦長のスマホ・タブレット） | Midjourney（v7） |
+| ⬜ | [`img/cg-ending.webp`](#cg-ending) | 1600×900 | イベント絵 | エンディングとスタッフロールの背景 | niji・journey（Midjourney の `--niji 6`） |
+| ⬜ | [`img/bg-field.webp`](#bg-field) | 1280×800 | 背景 | 野原・里での戦闘の背景 | Midjourney（v7） |
+| ⬜ | [`img/bg-forest.webp`](#bg-forest) | 1280×800 | 背景 | 宵ノ森での戦闘の背景 | Midjourney（v7） |
+| ⬜ | [`img/bg-cave.webp`](#bg-cave) | 1280×800 | 背景 | 鳴き岩の洞での戦闘の背景 | Midjourney（v7） |
+| ⬜ | [`img/bg-shrine.webp`](#bg-shrine) | 1280×800 | 背景 | 奥ノ祠での戦闘の背景 | Midjourney（v7） |
+| ⬜ | [`img/face-koharu.webp`](#face-koharu) | 512×512（透過） | 人物 | 会話の顔・メニュー・戦闘の仲間の欄 | niji・journey（Midjourney の `--niji 6`） |
+| ⬜ | [`img/face-koharu-2.webp`](#face-koharu-2) | 512×512（透過） | 人物 | 会話の顔（おどろいたとき・決意のとき） | Gemini（画像生成 / Imagen・Nano Banana） |
+| ⬜ | [`img/face-genta.webp`](#face-genta) | 512×512（透過） | 人物 | 会話の顔・メニュー・戦闘の仲間の欄 | niji・journey（Midjourney の `--niji 6`） |
+| ⬜ | [`img/face-genta-2.webp`](#face-genta-2) | 512×512（透過） | 人物 | 会話の顔（戦いの前・気合いを入れるとき） | Gemini（画像生成 / Imagen・Nano Banana） |
+| ⬜ | [`img/face-suzu.webp`](#face-suzu) | 512×512（透過） | 人物 | 会話の顔・メニュー・戦闘の仲間の欄 | niji・journey（Midjourney の `--niji 6`） |
+| ⬜ | [`img/face-suzu-2.webp`](#face-suzu-2) | 512×512（透過） | 人物 | 会話の顔（こわがるとき・必死なとき） | Gemini（画像生成 / Imagen・Nano Banana） |
+| ⬜ | [`img/m-nezumi.webp`](#m-nezumi) | 512×512（透過） | スプライト | 戦闘の敵（野原・森） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-kakashi.webp`](#m-kakashi) | 512×512（透過） | スプライト | 戦闘の敵（野原・森） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-hozuki.webp`](#m-hozuki) | 512×512（透過） | スプライト | 戦闘の敵（野原・森） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-kokedaruma.webp`](#m-kokedaruma) | 512×512（透過） | スプライト | 戦闘の敵（森・洞） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-kasamaru.webp`](#m-kasamaru) | 512×512（透過） | スプライト | 戦闘の敵（森） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-iwagani.webp`](#m-iwagani) | 512×512（透過） | スプライト | 戦闘の敵（洞） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-kazetsuzumi.webp`](#m-kazetsuzumi) | 512×512（透過） | スプライト | 戦闘の敵（洞・祠） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-yamikoma.webp`](#m-yamikoma) | 512×512（透過） | スプライト | 戦闘の敵（奥ノ祠） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/m-kagedoro.webp`](#m-kagedoro) | 512×512（透過） | スプライト | 戦闘の敵（奥ノ祠・影灯籠） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/b-nejiregashi.webp`](#b-nejiregashi) | 768×768（透過） | スプライト | ボス戦（宵ノ森の主） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/b-hanzaki.webp`](#b-hanzaki) | 768×768（透過） | スプライト | ボス戦（鳴き岩の洞の主） | ChatGPT（画像生成 / GPT Image） |
+| ⬜ | [`img/b-yoigurai.webp`](#b-yoigurai) | 768×768（透過） | スプライト | 最後のボス戦 | ChatGPT（画像生成 / GPT Image） |
+
+⬜ = 画像サンプルのまま　✅ = 生成した画像に差し替え済み
+
+<a id="key"></a>
+
+## キービジュアル：山道の三人と消えた祠
+
+- ファイル: `public/games/hokora-rpg/img/key.webp`（1600×900px）
+- 用途: タイトル画面の背景（横長の画面）
+- 内容: 夕暮れの山道の石段で、主人公の三人（コハル・ゲンタ・スズ）が、灯の消えた山頂の小さな祠を見上げている。手前に石灯籠、ふもとには里の灯がぽつぽつ。上の中央はタイトル文字を重ねるので空（藍色のグラデーションと一番星）をすっきり空けておく。
+- おすすめのツール: [niji・journey（Midjourney の `--niji 6`）](https://nijijourney.com/) ― サイズ: `--ar 2:3` などの縦横比パラメーター
+- メモ: 人物の見た目は face-koharu / face-genta / face-suzu と同じにします（先に顔の画像を作り、niji の --cref で参照すると揃えやすいです）。上の中央 1/3 はタイトルが重なります。
+
+**niji・journey（Midjourney の `--niji 6`）用のプロンプト**
+
+```text
+three young travelers seen from behind and side on a mossy stone stairway of a mountain path at dusk, looking up at a small dark wooden shrine on the summit whose sacred light has gone out, a 16-year-old girl with a black bob haircut and a small flame-shaped hairpin wearing a white kimono top, indigo haori jacket and orange obi holding a purification wand with white paper streamers, a sturdy 18-year-old woodcutter boy with spiky brown hair, white headband, green work clothes and an axe on his shoulder, a tiny floating spirit girl with long silver-white hair, pale gold kimono and a brass bell on a red cord in her hair, glowing stone lanterns on the stairs, village lights far below, deep indigo sky fading to orange at the horizon, first evening star, empty calm sky in the upper center, warm lantern glow, Japanese folklore picture-book mood, soft watercolor and ink texture, cinematic wide composition --niji 6 --ar 16:9 --no text, letters, logo, watermark
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, logo, watermark, signature, extra fingers, modern buildings, cars, existing game characters
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Anime-style key visual, 16:9. Three young travelers on a mossy stone stairway of a mountain path at dusk look up at a small dark shrine on the summit whose light has gone out: a 16-year-old girl (black bob hair, flame-shaped hairpin, white kimono top, indigo haori, orange obi, purification wand with paper streamers), a sturdy 18-year-old woodcutter (spiky brown hair, white headband, green work clothes, axe on shoulder) and a tiny floating spirit girl (long silver-white hair, pale gold kimono, brass bell on a red cord). Glowing stone lanterns, village lights below, indigo sky with an orange horizon, empty sky in the upper center for a title. Soft watercolor and ink, Japanese folklore picture-book mood. No text.
+```
+
+<a id="title-bg"></a>
+
+## タイトル背景：宵の里と奥山（縦長）
+
+- ファイル: `public/games/hokora-rpg/img/title-bg.webp`（1080×1350px）
+- 用途: タイトル画面の背景（縦長のスマホ・タブレット）
+- 内容: 縦長の構図。手前に瓦屋根の小さな里と灯のともった家々、奥にそびえる山、その頂にぽつんと小さな祠（灯は消えて暗い）。空は藍色から夕焼けの橙へのグラデーション、星がまたたく。上の 1/3 はタイトル文字を重ねるので空を広く。人物はいない。
+- おすすめのツール: [Midjourney（v7）](https://www.midjourney.com/) ― サイズ: `--ar 16:9` などの縦横比パラメーターで指定（解像度はアップスケールで調整）
+- メモ: タイトル文字は画面の上 13〜35% あたりに重なります。key と同じ時間帯・色合いにそろえます。
+
+**Midjourney（v7）用のプロンプト**
+
+```text
+vertical landscape of a small Japanese mountain village at dusk, tiled roofs and paper lanterns glowing warm orange in the foreground, rice terraces, a tall forested mountain behind with a tiny dark shrine at its summit whose light has gone out, a thin path of stone lanterns winding up the slope, wide deep indigo sky with scattered stars fading into a soft orange horizon, the upper third is open sky, quiet and nostalgic, hand-painted watercolor and sumi ink picture-book illustration, paper texture, no people --ar 4:5 --v 7 --style raw --no text, letters, people, logo
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, people, logo, watermark, modern buildings, power lines
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Vertical 4:5 hand-painted watercolor and ink illustration: a small Japanese mountain village at dusk with tiled roofs and glowing paper lanterns in the foreground, a forested mountain behind with a tiny dark shrine at the summit (its light has gone out), stone lanterns along a path up the slope, wide indigo starry sky fading to orange at the horizon. The upper third is open sky. No people, no text.
+```
+
+<a id="cg-ending"></a>
+
+## エンディング：灯祭りの夜
+
+- ファイル: `public/games/hokora-rpg/img/cg-ending.webp`（1600×900px）
+- 用途: エンディングとスタッフロールの背景
+- 内容: 灯がよみがえった夜の里の灯祭り。たくさんの提灯と、輪になって踊る人々と、山から下りてきた小さな妖たち（提灯を下げたネズミ、ほおずきの火の玉、苔のだるま、傘のきのこ）。中央に三人（コハル・ゲンタ・スズ）と祖母ヨネが笑顔。遠くの山頂の祠に、あたたかな灯がともっている。
+- おすすめのツール: [niji・journey（Midjourney の `--niji 6`）](https://nijijourney.com/) ― サイズ: `--ar 2:3` などの縦横比パラメーター
+- 参照画像: [`img/key.webp`](#key) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: 三人の見た目は key・顔の画像と同じに。妖たちは m-nezumi / m-hozuki / m-kokedaruma / m-kasamaru と同じデザインにすると物語がつながります。スタッフロールの文字が中央に流れるので、中央は明るすぎないように。
+
+**niji・journey（Midjourney の `--niji 6`）用のプロンプト**
+
+```text
+joyful lantern festival at night in a small Japanese mountain village, rows of glowing red and orange paper lanterns, villagers dancing in a circle around a bonfire, small cute original folklore spirits joining the dance: a round mouse carrying a tiny lantern on its tail, a floating flame inside an orange hozuki husk, a mossy round stone creature, a mushroom with an umbrella-shaped cap, in the center a smiling girl with a black bob and flame hairpin in white kimono and indigo haori, a laughing woodcutter boy with a white headband, a tiny floating spirit girl with silver-white hair and a brass bell, and a kind old grandmother in a purple kimono, a warm light shining again from a small shrine on the distant mountain top, festive and heartwarming, watercolor and ink picture-book style --niji 6 --ar 16:9 --no text, letters, logo
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, logo, watermark, scary, gore, existing characters
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Anime-style 16:9 illustration of a joyful night lantern festival in a Japanese mountain village: rows of glowing paper lanterns, villagers dancing around a bonfire, cute original folklore spirits (a mouse with a lantern on its tail, a flame inside a hozuki husk, a mossy round stone creature, an umbrella-capped mushroom) joining in. In the center the three heroes (girl with black bob and flame hairpin, woodcutter with white headband, tiny floating silver-haired bell spirit) and a kind grandmother in purple. A warm light shines again from the shrine on the distant mountain. Watercolor picture-book style, no text.
+```
+
+<a id="bg-field"></a>
+
+## 戦闘背景：灯ノ野（野原）
+
+- ファイル: `public/games/hokora-rpg/img/bg-field.webp`（1280×800px）
+- 用途: 野原・里での戦闘の背景
+- 内容: なだらかな草原と、遠くの田んぼ・瓦屋根の里・青い山並み。午後の金色の光、ススキと野の花。手前は戦いの舞台になるので、平らで広く空けておく。人物・動物はいない。
+- おすすめのツール: [Midjourney（v7）](https://www.midjourney.com/) ― サイズ: `--ar 16:9` などの縦横比パラメーターで指定（解像度はアップスケールで調整）
+- メモ: 4 枚の戦闘背景（field / forest / cave / shrine）は同じツール・同じ構図（手前が平らな舞台、地平線は画面の 45% あたり）でそろえます。下 1/4 には仲間の欄が重なります。
+
+**Midjourney（v7）用のプロンプト**
+
+```text
+wide grassy meadow in the Japanese countryside in warm late-afternoon light, pampas grass and small wildflowers, distant rice paddies, a tiny village with tiled roofs, layered blue mountains, soft clouds, the foreground is a flat open grassy clearing with nothing on it, battle stage background for a role-playing game, painterly watercolor and ink, gentle colors, no people, no animals --ar 16:10 --v 7 --style raw --no text, people, animals, creatures
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, people, animals, creatures, buildings in the foreground
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+16:10 painterly watercolor background: a wide grassy meadow in the Japanese countryside in warm afternoon light, pampas grass, wildflowers, distant rice paddies, a small village with tiled roofs, layered blue mountains. The foreground is a flat, empty grassy clearing (a battle stage). No people, no creatures, no text.
+```
+
+<a id="bg-forest"></a>
+
+## 戦闘背景：宵ノ森
+
+- ファイル: `public/games/hokora-rpg/img/bg-forest.webp`（1280×800px）
+- 用途: 宵ノ森での戦闘の背景
+- 内容: 夕暮れの深い森。太い杉や樫、こけむした根、薄い霧、苔の生えた古い石灯籠、ホタルの小さな光。奥から差しこむ青白い光。手前は平らな苔の地面。
+- おすすめのツール: [Midjourney（v7）](https://www.midjourney.com/) ― サイズ: `--ar 16:9` などの縦横比パラメーターで指定（解像度はアップスケールで調整）
+- 参照画像: [`img/bg-field.webp`](#bg-field) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: bg-field と同じ構図・タッチで。
+
+**Midjourney（v7）用のプロンプト**
+
+```text
+deep mystical Japanese forest at dusk, huge cedar and oak trunks, mossy twisting roots, thin drifting mist, an old moss-covered stone lantern, tiny fireflies, pale blue light filtering from the back, the foreground is a flat open mossy clearing with nothing on it, battle stage background for a role-playing game, painterly watercolor and ink, quiet and slightly eerie, no people, no creatures --ar 16:10 --v 7 --style raw --no text, people, creatures
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, people, creatures, animals
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+16:10 painterly watercolor background of a deep mystical Japanese forest at dusk: huge cedar and oak trunks, mossy roots, thin mist, an old moss-covered stone lantern, tiny fireflies, pale blue light from the back. The foreground is a flat, empty mossy clearing (a battle stage). No people, no creatures, no text.
+```
+
+<a id="bg-cave"></a>
+
+## 戦闘背景：鳴き岩の洞
+
+- ファイル: `public/games/hokora-rpg/img/bg-cave.webp`（1280×800px）
+- 用途: 鳴き岩の洞での戦闘の背景
+- 内容: 山の中の大きな洞窟。静かな地底湖、天井から垂れる鍾乳石、岩肌に光る青緑の苔、ところどころに穴のあいた「鳴き岩」。冷たい青い光。手前は平らな岩の床。
+- おすすめのツール: [Midjourney（v7）](https://www.midjourney.com/) ― サイズ: `--ar 16:9` などの縦横比パラメーターで指定（解像度はアップスケールで調整）
+- 参照画像: [`img/bg-field.webp`](#bg-field) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: bg-field と同じ構図・タッチで。
+
+**Midjourney（v7）用のプロンプト**
+
+```text
+large cavern inside a mountain, a still underground lake reflecting the light, stalactites hanging from the ceiling, faintly glowing blue-green moss on the rock walls, strange rocks full of small holes that sing in the wind, cold blue light with a hint of teal, the foreground is a flat open rocky floor with nothing on it, battle stage background for a role-playing game, painterly watercolor and ink, no people, no creatures --ar 16:10 --v 7 --style raw --no text, people, creatures
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, people, creatures, torches, modern objects
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+16:10 painterly watercolor background of a large mountain cavern: a still underground lake, stalactites, faintly glowing blue-green moss, rocks full of small holes, cold blue light. The foreground is a flat, empty rocky floor (a battle stage). No people, no creatures, no text.
+```
+
+<a id="bg-shrine"></a>
+
+## 戦闘背景：奥ノ祠（夜）
+
+- ファイル: `public/games/hokora-rpg/img/bg-shrine.webp`（1280×800px）
+- 用途: 奥ノ祠での戦闘の背景
+- 内容: 山頂の古い祠の境内、夜。朱色の鳥居がいくつも奥へ続き、石灯籠には紫色の妖しい炎。空は深い藍色で、雲の切れ間に細い月。不気味だが美しい。手前は平らな石畳。
+- おすすめのツール: [Midjourney（v7）](https://www.midjourney.com/) ― サイズ: `--ar 16:9` などの縦横比パラメーターで指定（解像度はアップスケールで調整）
+- 参照画像: [`img/bg-field.webp`](#bg-field) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: bg-field と同じ構図・タッチで。最後のボス戦にも使います。
+
+**Midjourney（v7）用のプロンプト**
+
+```text
+precincts of an old mountain-top shrine at night, several vermilion torii gates receding into the darkness, stone lanterns burning with eerie violet flames, a small wooden shrine hall in the back with its light extinguished, deep indigo sky with a thin crescent moon between clouds, drifting dark mist, eerie but beautiful, the foreground is a flat open stone pavement with nothing on it, battle stage background for a role-playing game, painterly watercolor and ink, no people, no creatures --ar 16:10 --v 7 --style raw --no text, people, creatures
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, people, creatures, gore
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+16:10 painterly watercolor background of an old mountain-top shrine at night: vermilion torii gates receding into darkness, stone lanterns with eerie violet flames, a small shrine hall with its light out, indigo sky with a thin crescent moon, drifting dark mist. The foreground is a flat, empty stone pavement (a battle stage). No people, no creatures, no text.
+```
+
+<a id="face-koharu"></a>
+
+## コハル（ふだん・笑顔）
+
+- ファイル: `public/games/hokora-rpg/img/face-koharu.webp`（512×512px・背景は透過）
+- 用途: 会話の顔・メニュー・戦闘の仲間の欄
+- 内容: 主人公コハル。16 歳の祠守の見習い。黒髪のボブ、小さな炎の形の髪飾り、白い着物に藍色の羽織、橙色の帯。明るくまっすぐな笑顔。胸から上、正面やや斜め。
+- おすすめのツール: [niji・journey（Midjourney の `--niji 6`）](https://nijijourney.com/) ― サイズ: `--ar 2:3` などの縦横比パラメーター。透過: 透過はできないので、単色の背景で作って背景を切り抜きます（自動で切り抜きます）
+- メモ: 背景は単色（淡いミントグリーン）で作り、透過に切り抜きます。表情違い（face-koharu-2）はこの画像をもとに作ります。会話の窓では顔の上 6 割が四角く切り取られるので、頭が上で切れないように。
+
+**niji・journey（Midjourney の `--niji 6`）用のプロンプト**
+
+```text
+bust-up portrait of a 16-year-old Japanese girl, apprentice shrine keeper, short black bob hair, a small orange flame-shaped hairpin, white kimono top with an indigo haori jacket and an orange obi, bright honest smile, warm brown eyes, facing the viewer at a slight angle, chest-up framing, centered, soft cel shading with watercolor texture, plain flat pale mint green background --niji 6 --ar 1:1 --no text, letters, background details
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, background details, hands covering face, extra fingers
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Anime-style chest-up portrait of a 16-year-old Japanese girl, an apprentice shrine keeper: short black bob, small orange flame-shaped hairpin, white kimono top, indigo haori, orange obi, bright honest smile, slight 3/4 angle, centered. Plain flat pale mint green background (to be cut out). No text.
+```
+
+<a id="face-koharu-2"></a>
+
+## コハル（おどろき・真剣）
+
+- ファイル: `public/games/hokora-rpg/img/face-koharu-2.webp`（512×512px・背景は透過）
+- 用途: 会話の顔（おどろいたとき・決意のとき）
+- 内容: face-koharu と同じコハル・同じ服・同じ構図で、表情だけを「目を見開いた真剣な顔（おどろき・決意）」にしたもの。
+- おすすめのツール: [Gemini（画像生成 / Imagen・Nano Banana）](https://gemini.google.com/) ― サイズ: 縦横比を文章で指示（16:9 など）。透過: 透過はできないので、単色の背景で作ります（自動で切り抜きます）。同じキャラクターの表情違いは、元の画像を添付して「この人物の表情だけを変えて」と頼むと揃います
+- 参照画像: [`img/face-koharu.webp`](#face-koharu) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: Gemini に face-koharu.png を添付して編集させると、同じ人物のまま表情だけ変えられます。
+
+**Gemini（画像生成 / Imagen・Nano Banana）用のプロンプト**
+
+```text
+添付した画像（face-koharu）の人物をもとに、同じ少女・同じ髪型と髪飾り・同じ服・同じ構図・同じ単色の背景のまま、表情だけを変えてください。新しい表情：目を大きく見開き、眉を少し上げた、真剣で決意のこもった顔（驚きと決意が混ざった表情）。口は小さく開ける。正方形（1:1）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+別人の顔、服や髪型の変更、背景の変更、文字
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Using the attached portrait (face-koharu) as the base, keep the same girl, hairstyle, hairpin, outfit, framing and plain background, and change only the expression: wide-open eyes, slightly raised brows, a serious, determined look mixed with surprise, mouth slightly open. Square 1:1. No text.
+```
+
+<a id="face-genta"></a>
+
+## ゲンタ（ふだん・笑顔）
+
+- ファイル: `public/games/hokora-rpg/img/face-genta.webp`（512×512px・背景は透過）
+- 用途: 会話の顔・メニュー・戦闘の仲間の欄
+- 内容: 仲間のゲンタ。18 歳の木こり。日焼けした肌、つんつんした茶色の髪、白い鉢巻、緑の作業着。気のいい、にかっとした笑顔。肩に斧の柄が少し見える。胸から上。
+- おすすめのツール: [niji・journey（Midjourney の `--niji 6`）](https://nijijourney.com/) ― サイズ: `--ar 2:3` などの縦横比パラメーター。透過: 透過はできないので、単色の背景で作って背景を切り抜きます（自動で切り抜きます）
+- 参照画像: [`img/face-koharu.webp`](#face-koharu) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: face-koharu と同じ niji のスタイル・同じ構図（胸から上・中央）でそろえます。背景は単色（淡いピンク）。
+
+**niji・journey（Midjourney の `--niji 6`）用のプロンプト**
+
+```text
+bust-up portrait of an 18-year-old Japanese woodcutter boy, tanned skin, spiky brown hair, white cloth headband, green work kimono with rolled sleeves, broad shoulders, the wooden handle of an axe resting on his shoulder, big friendly grin, facing the viewer at a slight angle, chest-up framing, centered, soft cel shading with watercolor texture, plain flat pale pink background --niji 6 --ar 1:1 --no text, letters, background details
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, background details, extra fingers, weapons pointed at viewer
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Anime-style chest-up portrait of an 18-year-old Japanese woodcutter: tanned skin, spiky brown hair, white headband, green work kimono with rolled sleeves, axe handle on his shoulder, big friendly grin, slight 3/4 angle, centered. Plain flat pale pink background (to be cut out). No text.
+```
+
+<a id="face-genta-2"></a>
+
+## ゲンタ（気合い・怒り）
+
+- ファイル: `public/games/hokora-rpg/img/face-genta-2.webp`（512×512px・背景は透過）
+- 用途: 会話の顔（戦いの前・気合いを入れるとき）
+- 内容: face-genta と同じゲンタ・同じ服・同じ構図で、表情だけを「歯を見せて気合いを入れた、勇ましい顔」にしたもの。
+- おすすめのツール: [Gemini（画像生成 / Imagen・Nano Banana）](https://gemini.google.com/) ― サイズ: 縦横比を文章で指示（16:9 など）。透過: 透過はできないので、単色の背景で作ります（自動で切り抜きます）。同じキャラクターの表情違いは、元の画像を添付して「この人物の表情だけを変えて」と頼むと揃います
+- 参照画像: [`img/face-genta.webp`](#face-genta) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: Gemini に face-genta.png を添付して編集します。
+
+**Gemini（画像生成 / Imagen・Nano Banana）用のプロンプト**
+
+```text
+添付した画像（face-genta）の人物をもとに、同じ青年・同じ髪型と鉢巻・同じ服・同じ構図・同じ単色の背景のまま、表情だけを変えてください。新しい表情：眉をつり上げ、歯を見せて気合いを入れた勇ましい顔（少し汗をかいている）。正方形（1:1）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+別人の顔、服や髪型の変更、背景の変更、文字
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Using the attached portrait (face-genta) as the base, keep the same young man, hairstyle, headband, outfit, framing and plain background, and change only the expression: raised brows, teeth showing, a fired-up, brave face with a little sweat. Square 1:1. No text.
+```
+
+<a id="face-suzu"></a>
+
+## スズ（ふだん・ほほえみ）
+
+- ファイル: `public/games/hokora-rpg/img/face-suzu.webp`（512×512px・背景は透過）
+- 用途: 会話の顔・メニュー・戦闘の仲間の欄
+- 内容: 仲間のスズ。祠の古い鈴に宿る付喪神の少女（見た目は 10 歳くらい）。銀白色の長い髪、赤い組紐で結んだ真鍮の鈴の髪飾り、淡い金色の着物。少し人見知りな、やさしいほほえみ。体のまわりにかすかな光の粒。胸から上。
+- おすすめのツール: [niji・journey（Midjourney の `--niji 6`）](https://nijijourney.com/) ― サイズ: `--ar 2:3` などの縦横比パラメーター。透過: 透過はできないので、単色の背景で作って背景を切り抜きます（自動で切り抜きます）
+- 参照画像: [`img/face-koharu.webp`](#face-koharu) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: face-koharu と同じ niji のスタイル・構図で。背景は単色（淡い空色）。
+
+**niji・journey（Midjourney の `--niji 6`）用のプロンプト**
+
+```text
+bust-up portrait of a small spirit girl who looks about ten years old, born from an old shrine bell, long silver-white hair, a brass bell tied with a red braided cord as a hair ornament, pale gold kimono with a subtle bell pattern, gentle shy smile, large pale amber eyes, faint sparkles of light around her, facing the viewer at a slight angle, chest-up framing, centered, soft cel shading with watercolor texture, plain flat pale sky blue background --niji 6 --ar 1:1 --no text, letters, background details
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+text, letters, background details, animal ears, wings
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Anime-style chest-up portrait of a small spirit girl (looks about ten) born from an old shrine bell: long silver-white hair, a brass bell on a red braided cord as a hair ornament, pale gold kimono with a subtle bell pattern, gentle shy smile, pale amber eyes, faint sparkles around her, slight 3/4 angle, centered. Plain flat pale sky blue background (to be cut out). No text.
+```
+
+<a id="face-suzu-2"></a>
+
+## スズ（不安・涙ぐむ）
+
+- ファイル: `public/games/hokora-rpg/img/face-suzu-2.webp`（512×512px・背景は透過）
+- 用途: 会話の顔（こわがるとき・必死なとき）
+- 内容: face-suzu と同じスズ・同じ服・同じ構図で、表情だけを「眉を下げて涙ぐんだ、不安そうな顔（でも必死に訴えている）」にしたもの。
+- おすすめのツール: [Gemini（画像生成 / Imagen・Nano Banana）](https://gemini.google.com/) ― サイズ: 縦横比を文章で指示（16:9 など）。透過: 透過はできないので、単色の背景で作ります（自動で切り抜きます）。同じキャラクターの表情違いは、元の画像を添付して「この人物の表情だけを変えて」と頼むと揃います
+- 参照画像: [`img/face-suzu.webp`](#face-suzu) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: Gemini に face-suzu.png を添付して編集します。
+
+**Gemini（画像生成 / Imagen・Nano Banana）用のプロンプト**
+
+```text
+添付した画像（face-suzu）の人物をもとに、同じ少女・同じ銀白色の髪と鈴の髪飾り・同じ服・同じ構図・同じ単色の背景のまま、表情だけを変えてください。新しい表情：眉を下げ、目に涙をためた不安そうな顔。それでも何かを必死に訴えるように、口を少し開ける。正方形（1:1）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+別人の顔、服や髪型の変更、背景の変更、文字
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Using the attached portrait (face-suzu) as the base, keep the same spirit girl, silver-white hair, bell ornament, outfit, framing and plain background, and change only the expression: lowered brows, teary eyes, anxious but earnestly pleading, mouth slightly open. Square 1:1. No text.
+```
+
+<a id="m-nezumi"></a>
+
+## 敵：ちょうちんねずみ
+
+- ファイル: `public/games/hokora-rpg/img/m-nezumi.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（野原・森）
+- 内容: 丸っこい野ネズミの妖。くるりと巻いたしっぽの先に、小さな紙の提灯をぶらさげている（ほんのり光る）。いたずらっぽい目。こわかわいい。全身。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- メモ: 敵 12 体（m-* と b-*）は、絵柄がそろうように同じツール（ChatGPT）で、同じ会話の中で続けて作ります。1 体目ができたら「この絵柄のまま、次の妖を」と頼むと揃います。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+オリジナルの妖（日本の民話風のモンスター）を 1 体描いてください。名前は「ちょうちんねずみ」。丸っこい茶色の野ネズミで、くるりと巻いたしっぽの先に小さな紙の提灯をぶらさげていて、提灯がほんのり橙色に光っている。いたずらっぽい目、小さな前歯。こわかわいい雰囲気。全身、正面やや斜め、画面の中央に大きく。やわらかい水彩と墨の手描き風、くっきりしたシルエット。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景、既存のキャラクターに似せること
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Original Japanese-folklore-style monster, full body, centered: a round brown field mouse holding a tiny glowing paper lantern hanging from its curled tail, mischievous eyes, small front teeth, cute but eerie. Soft watercolor-and-ink hand-drawn style with a clean silhouette. Transparent background PNG, square. No text.
+```
+
+<a id="m-kakashi"></a>
+
+## 敵：かかしぼう
+
+- ファイル: `public/games/hokora-rpg/img/m-kakashi.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（野原・森）
+- 内容: 一本足でぴょんぴょん歩く案山子の妖。破れた菅笠、わらの蓑、布の顔に墨でかいたゆがんだ笑顔、竹の腕。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「かかしぼう」。一本の木の足でぴょんぴょん跳ねて歩く案山子。破れた菅笠、わらの蓑、布の顔に墨で描いたゆがんだ笑顔、竹の腕。少しこわいけれどユーモラス。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a scarecrow that hops on a single wooden leg, torn sedge hat, straw raincoat, cloth face with a crooked ink-drawn grin, bamboo arms. A little scary but funny. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-hozuki"></a>
+
+## 敵：ほおずき火
+
+- ファイル: `public/games/hokora-rpg/img/m-hozuki.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（野原・森）
+- 内容: 半透明の橙色のほおずきの袋の中に、小さな火の玉が入って宙に浮かぶ妖。火の玉には目と口があり、袋のすきまから煙がたなびく。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「ほおずき火」。半透明の橙色のほおずきの袋（実を包むがく）の中に小さな火の玉が入っていて、ふわふわ宙に浮かんでいる。火の玉には小さな目と口があり、袋のすきまから細い煙がたなびく。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a little floating fireball with eyes and a mouth inside a translucent orange hozuki (Chinese lantern plant) husk, thin smoke trailing from the gaps. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-kokedaruma"></a>
+
+## 敵：こけだるま
+
+- ファイル: `public/games/hokora-rpg/img/m-kokedaruma.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（森・洞）
+- 内容: 苔と小さなシダにおおわれた、丸い石の起き上がり小法師のような妖。眠そうでいかめしい目、小さな石の手。どっしり重そう。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「こけだるま」。苔と小さなシダにびっしりおおわれた、丸くてどっしりした石の起き上がり人形のような妖。眠そうでいかめしい目、小さな石の手、背中から小さな草が生えている。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a round heavy stone tumbler-doll creature covered in moss and tiny ferns, sleepy stern eyes, small stone hands, grass sprouting from its back. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-kasamaru"></a>
+
+## 敵：かさまる
+
+- ファイル: `public/games/hokora-rpg/img/m-kasamaru.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（森）
+- 内容: かさが古い番傘の形をしたきのこの妖。短い足でちょこちょこ歩き、かさの下から紫色に光る胞子をまき散らす。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「かさまる」。かさが古い和紙の番傘の形をしたきのこで、骨組みが少し見えている。短い足でちょこちょこ歩き、かさの下から紫色に光る胞子をふわふわまき散らしている。とぼけた顔。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a mushroom whose cap is shaped like an old oiled-paper umbrella with visible ribs, short legs, scattering glowing purple spores, a goofy face. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-iwagani"></a>
+
+## 敵：いわがに
+
+- ファイル: `public/games/hokora-rpg/img/m-iwagani.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（洞）
+- 内容: 甲羅がごつごつした岩そのものになっているカニの妖。地衣類が生え、ハサミは割れた岩のように大きい。とても硬そう。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「いわがに」。甲羅がごつごつした灰色の岩そのものになっているカニで、岩には地衣類や小さな苔が生えている。ハサミは割れた岩のように大きくて重そう。小さな目が二つ。全身、正面やや斜め、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a crab whose shell is a craggy grey boulder with lichen and moss, huge pincers like split rocks, two small eyes. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-kazetsuzumi"></a>
+
+## 敵：かぜつづみ
+
+- ファイル: `public/games/hokora-rpg/img/m-kazetsuzumi.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（洞・祠）
+- 内容: 古い小鼓に宿った付喪神。砂時計形の胴に朱色の紐、鼓の皮が口になっている。まわりに風の渦をまとって宙に浮かぶ。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「かぜつづみ」。古い小鼓（砂時計の形をした和楽器の太鼓）に宿った付喪神。胴は黒漆に金の模様、朱色の紐でしばられていて、鼓の皮の面が大きな口になっている。まわりに風の渦をまとってふわりと浮かぶ。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a spirit living in an old hourglass-shaped Japanese hand drum (tsuzumi): black lacquer body with gold patterns, vermilion cords, the drumhead forms a big mouth, floating inside swirling wind. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-yamikoma"></a>
+
+## 敵：やみこま
+
+- ファイル: `public/games/hokora-rpg/img/m-yamikoma.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（奥ノ祠）
+- 内容: 影に染まってしまった狛犬の妖。ひびの入った石の体から黒い煙のたてがみが立ちのぼり、目が紫色に光る。低くうなっている。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「やみこま」。影に染まってしまった、神社を守る石の獅子犬（狛犬）のような妖。ひびの入った黒っぽい石の体、黒い煙のようなたてがみが立ちのぼり、目は紫色に光っている。前かがみで低くうなっている。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, a shrine guardian lion-dog statue corrupted by shadow: cracked dark stone body, a mane of black smoke, glowing violet eyes, crouching and growling. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="m-kagedoro"></a>
+
+## 敵：かげどうろう
+
+- ファイル: `public/games/hokora-rpg/img/m-kagedoro.webp`（512×512px・背景は透過）
+- 用途: 戦闘の敵（奥ノ祠・影灯籠）
+- 内容: 短い石の足で歩き出した石灯籠の妖。火袋の窓の奥で紫黒色の炎がゆらめき、その炎が目のように見える。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、オリジナルの妖をもう 1 体描いてください。名前は「かげどうろう」。短い石の足で歩き出した古い石灯籠。火をともす窓の奥で、紫と黒の妖しい炎がゆらめいていて、その炎が二つの目のように見える。笠の部分には苔。全身、画面の中央に大きく。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: an original folklore monster, an old stone lantern walking on short stone legs, an eerie purple-black flame flickering inside its light window that looks like two eyes, moss on its roof. Full body, centered. Transparent background PNG, square. No text.
+```
+
+<a id="b-nejiregashi"></a>
+
+## 主：ねじれ樫（森のボス）
+
+- ファイル: `public/games/hokora-rpg/img/b-nejiregashi.webp`（768×768px・背景は透過）
+- 用途: ボス戦（宵ノ森の主）
+- 内容: 濁ってしまった樫の老木の精。ねじれた太い幹に、うろでできた顔と赤く光る目。根が腕のように動き、枝には黒ずんだ葉。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、ボスの妖を 1 体描いてください。名前は「ねじれ樫」。心が濁ってしまった樫の老木の精。らせん状にねじれた太い幹に、木のうろでできた顔があり、目が赤く光っている。根が何本も腕のように持ち上がり、枝には黒ずんだ葉がざわざわと茂る。大きく威圧的だが、どこか悲しげ。全身、画面いっぱいに中央。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: a boss monster, the spirit of an old oak gone wild: a spiral-twisted thick trunk with a face formed by knotholes and glowing red eyes, roots rising like arms, darkened rustling leaves. Big and intimidating but a little sad. Full body, centered, filling the frame. Transparent background PNG, square. No text.
+```
+
+<a id="b-hanzaki"></a>
+
+## 主：はんざき大主（洞のボス）
+
+- ファイル: `public/games/hokora-rpg/img/b-hanzaki.webp`（768×768px・背景は透過）
+- 用途: ボス戦（鳴き岩の洞の主）
+- 内容: 地底湖の主である巨大なオオサンショウウオの妖。苔むしたまだら模様の皮、小さく賢そうな目、のどの奥がぼうっと光っている（飲みこんだ火種石）。体から水がしたたる。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、ボスの妖を 1 体描いてください。名前は「はんざき大主」。地底湖に住む、とても大きくて古いオオサンショウウオの主。苔むした茶灰色のまだら模様の皮、小さく賢そうな目、大きな口。のどの奥が橙色にぼうっと光っている（飲みこんだ不思議な石）。体から水がしたたる。正面やや斜め、全身、画面いっぱいに中央。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: a boss monster, a gigantic ancient giant salamander lord of an underground lake: mossy mottled brown-grey skin, small wise eyes, wide mouth, an orange glow deep in its throat (a magic stone it swallowed), water dripping from its body. Full body, centered, filling the frame. Transparent background PNG, square. No text.
+```
+
+<a id="b-yoigurai"></a>
+
+## 主：宵喰らい（最後のボス）
+
+- ファイル: `public/games/hokora-rpg/img/b-yoigurai.webp`（768×768px・背景は透過）
+- 用途: 最後のボス戦
+- 内容: 灯を喰らう、夜の霧でできた背の高い影の妖。顔には三日月のような白い口だけがあり、体じゅうに琥珀色と紫色の小さな光（喰らった灯）が目のように散らばる。すそは霧の触手になってほどけている。おそろしいが、どこかさびしげ。
+- おすすめのツール: [ChatGPT（画像生成 / GPT Image）](https://chatgpt.com/) ― サイズ: 「横長 1536×1024」「正方形 1024×1024」「縦長 1024×1536」から近いものを指示。透過: 「背景を透明にした PNG で」と指示すると透過 PNG で出せます
+- 参照画像: [`img/m-nezumi.webp`](#m-nezumi) を先に作り、それを参照画像として添付すると、絵柄・人物がそろいます
+- メモ: m-nezumi と同じ会話・同じ絵柄で。暗い色の妖なので、切り抜きのために背景は必ず透明（または白）で。
+
+**ChatGPT（画像生成 / GPT Image）用のプロンプト**
+
+```text
+同じ絵柄で、最後のボスの妖を 1 体描いてください。名前は「宵喰らい」。灯を喰らう、夜の霧でできた背の高い影の妖。顔の部分には三日月のような白い口だけがあり、体じゅうに琥珀色と紫色の小さな光（喰らった灯）が目のように散らばっている。体のすそは霧の触手になってほどけている。おそろしいが、どこかさびしげ。全身、画面いっぱいに中央。背景を透明にした PNG（正方形 1024×1024）。文字は入れないでください。
+```
+
+**ネガティブプロンプト（入れたくないもの）**
+
+```text
+文字、背景、血
+```
+
+**ほかのツール用（共通の英文プロンプト）**
+
+```text
+Same style: the final boss, a tall shadow creature made of night mist that devours lights: its face is only a pale crescent-shaped mouth, many small amber and violet lights (the lights it ate) scattered over its body like eyes, the hem dissolving into misty tendrils. Frightening but lonely. Full body, centered, filling the frame. Transparent background PNG, square. No text.
+```

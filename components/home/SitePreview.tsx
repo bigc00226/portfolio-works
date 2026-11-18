@@ -10,6 +10,9 @@ import { Close, Ext, Lock, Monitor, Next, Phone, Prev, Reload } from './icons';
 type Dev = 'pc' | 'sp';
 const SIZE: Record<Dev, [number, number, number]> = { pc: [1440, 900, 0], sp: [390, 844, 12] };
 const NOTE = '実際のサイトをそのまま表示しています。自由に操作してお試しください。';
+const GAME_NOTE = 'ゲームをそのまま遊べます。音が出ます（ゲームの右上のボタンで消音できます）。';
+/** the games of the ゲーム tab are pages of this site (/games/<id>/) */
+const isGame = (url: string) => url.startsWith('/games/');
 
 export type SitePreviewHandle = { open: (list: SiteCard[], i: number, dev?: Dev) => void };
 
@@ -78,7 +81,11 @@ export const SitePreview = forwardRef<SitePreviewHandle>(function SitePreview(_,
         <div className={`pv-device${state?.dev === 'sp' ? ' sp' : ''}${loaded ? ' loaded' : ''}`} ref={device}>
           {s && (
             <iframe key={`${s.id}-${load}`} src={s.url} title="サイトのライブプレビュー" allow="fullscreen; clipboard-write" referrerPolicy="strict-origin-when-cross-origin"
-              onLoad={() => setTimeout(() => setLoaded(true), 250)} />
+              onLoad={(e) => {
+                setTimeout(() => setLoaded(true), 250);
+                // a game takes the keyboard right away (same origin)
+                if (isGame(s.url)) { const w = e.currentTarget.contentWindow; setTimeout(() => w?.focus(), 300); }
+              }} />
           )}
           {s && state && <Image className="pv-ph" src={paths.siteShot(s.id, state.dev)} alt="" fill sizes="(max-width: 760px) 100vw, 1440px" />}
           <div className="pv-load"><span className="spin" />読み込み中…</div>
@@ -86,7 +93,7 @@ export const SitePreview = forwardRef<SitePreviewHandle>(function SitePreview(_,
       </div>
       <div className="pv-foot">
         <button type="button" hidden={!state || state.list.length < 2} onClick={() => step(-1)}><Prev /><span>{nameAt(-1)}</span></button>
-        <span className="note">{s?.note || NOTE}</span>
+        <span className="note">{s?.note || (s && isGame(s.url) ? GAME_NOTE : NOTE)}</span>
         <button type="button" hidden={!state || state.list.length < 2} onClick={() => step(1)}><span>{nameAt(1)}</span><Next /></button>
       </div>
     </dialog>

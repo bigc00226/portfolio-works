@@ -1,0 +1,263 @@
+{
+  "title": "宵祭り金魚すくい",
+  "style": "夏祭りの夜。提灯と裸電球のあたたかい橙色の光と、群青色の夜空・水の青の対比。やさしく郷愁のある雰囲気で、絵は水彩風の手描きのタッチ（背景は少し写実寄り、人物はアニメ調、図鑑の金魚は博物画風の水彩）。文字・ロゴ・実在の店名や商標は入れない。",
+  "images": [
+    {
+      "name": "bg",
+      "w": 1600,
+      "h": 1000,
+      "kind": "bg",
+      "alpha": false,
+      "colors": [
+        "#2b3a6b",
+        "#0e1530"
+      ],
+      "label": "背景：夏祭りの夜店",
+      "short": "夜店",
+      "use": "プレイ画面の背景（水槽のまわりに暗くして表示）",
+      "ja": "夏祭りの夜の金魚すくいの屋台。赤と白の紅白幕、ずらりと吊るした提灯、木の台、奥にぼんやりした屋台の明かりと人の気配（人物ははっきり描かない）。中央は水槽を重ねるので暗めで静かに。",
+      "tool": "midjourney",
+      "prompt": "a goldfish scooping stall at a Japanese summer night festival, rows of glowing red and white paper lanterns, red and white striped curtain, simple wooden counter, warm bulb light against a deep indigo night sky, blurred festival stalls in the distance with bokeh, nostalgic and dreamy, painterly realism, darker calm center area, no people in focus, no text, no signage --ar 16:10 --v 7 --style raw",
+      "negative": "text, letters, signage, logo, brand names, people in focus, faces",
+      "generic": "A goldfish scooping stall at a Japanese summer night festival: glowing red and white paper lanterns, a red and white striped curtain, a wooden counter, warm light against a deep indigo sky, blurred stalls and bokeh in the distance, nostalgic painterly realism, a darker calm centre, no people in focus, no text. Aspect ratio 16:10.",
+      "notes": "ゲームでは暗く重ねて、中央に水槽を描きます。提灯など明るいものは上と左右に。"
+    },
+    {
+      "name": "key",
+      "w": 1600,
+      "h": 900,
+      "kind": "key",
+      "alpha": false,
+      "colors": [
+        "#ff9a4a",
+        "#1a2550"
+      ],
+      "label": "キービジュアル：提灯の灯りと金魚",
+      "short": "キービジュアル",
+      "use": "タイトル画面の背景",
+      "ja": "水色の金魚すくいの水槽を真上から少し斜めに見た写真風の絵。赤い金魚と黒い出目金が泳ぎ、水面に提灯の橙色の光がゆらめく。手前にポイ（紙を張った輪）がひとつ浮かぶ。中央にタイトルを重ねるので、中央は明るすぎずすっきりと。",
+      "tool": "firefly",
+      "prompt": "Photograph of a shallow light blue goldfish scooping tub at a Japanese summer night festival, seen from above at a slight angle, many small red goldfish and a few black telescope-eye goldfish swimming, warm orange reflections of paper lanterns rippling on the water surface, a single paper scoop (poi) with a pink plastic rim resting at the edge, shallow depth of field, magical nostalgic summer night mood, calm space in the center, no text",
+      "negative": "text, letters, logo, hands, people, watermark",
+      "generic": "A shallow light-blue goldfish scooping tub at a Japanese summer night festival, seen from above at a slight angle: small red goldfish and a few black telescope-eye goldfish, orange lantern reflections rippling on the water, a paper scoop with a pink rim at the edge, shallow depth of field, nostalgic summer night, calm centre, no text. 16:9.",
+      "notes": "Adobe Firefly: コンテンツの種類「写真」、縦横比 16:9。タイトルの文字は HTML で重ねるので入れません。"
+    },
+    {
+      "name": "keeper",
+      "w": 480,
+      "h": 600,
+      "kind": "portrait",
+      "alpha": true,
+      "shape": "figure",
+      "colors": [
+        "#3d5a8a",
+        "#1d2c55"
+      ],
+      "label": "屋台のおじさん（ふつう）",
+      "short": "おじさん",
+      "use": "左のパネル（スマホは上の丸い窓）でひと言をしゃべる・結果画面",
+      "ja": "金魚すくいの屋台のおじさん。50 代くらい、日焼けした笑顔、ねじり鉢巻き、紺の法被（はっぴ）、首に手ぬぐい。胸から上、正面やや斜め、にっこり笑っている。アニメ調。",
+      "tool": "niji",
+      "prompt": "friendly Japanese summer festival stall keeper, man in his fifties, tanned cheerful face, warm big smile, twisted towel headband (hachimaki), navy blue happi coat, a small towel around the neck, bust-up portrait, facing slightly to the side, anime style, soft cel shading, warm lantern rim light, plain flat light gray background, no text --niji 6 --ar 4:5",
+      "negative": "text, logo, brand marks, background scenery, hands covering face",
+      "generic": "A friendly Japanese summer festival stall keeper in his fifties: tanned cheerful face, big warm smile, twisted towel headband, navy happi coat, a small towel around the neck. Bust-up portrait, anime style with soft cel shading, warm lantern rim light, on a plain flat light gray background, no text. Portrait 4:5.",
+      "notes": "表情違い（keeper-wow）の元になる 1 枚。背景は無地のグレーにして、自動で切り抜きます。頭から胸までが入るように（スマホでは上の 8 割を丸く切り抜いて顔を見せます）。"
+    },
+    {
+      "name": "keeper-wow",
+      "w": 480,
+      "h": 600,
+      "kind": "portrait",
+      "alpha": true,
+      "shape": "figure",
+      "colors": [
+        "#ffb347",
+        "#1d2c55"
+      ],
+      "label": "屋台のおじさん（びっくり・感心）",
+      "short": "おじさん驚き",
+      "use": "めずらしい金魚・何匹もすくったとき・結果がよいとき",
+      "ja": "keeper と同じおじさんが、目を丸くして口を開け、感心して驚いている表情（片手でおでこを押さえるなど）。服装・髪型・構図は keeper と同じ。",
+      "tool": "gemini",
+      "ref": "keeper",
+      "prompt": "Using the attached picture of the festival stall keeper, keep exactly the same man, the same clothes (twisted towel headband, navy happi coat, towel around the neck), the same anime style, framing and plain light gray background. Change only his expression to amazed and impressed: eyes wide open, eyebrows raised, mouth open in a delighted \"wow\", one hand touching his forehead. Portrait 4:5, no text.",
+      "generic": "The same friendly festival stall keeper as the reference (headband, navy happi coat, towel), same anime style and framing, now amazed and impressed: wide eyes, raised eyebrows, open mouth, one hand on the forehead. Plain light gray background, portrait 4:5, no text.",
+      "notes": "Gemini に keeper の画像を添付して「表情だけを変えて」と頼むと、人物がそろいます。"
+    },
+    {
+      "name": "fish-wakin",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#ff8a4a",
+        "#d9330c"
+      ],
+      "label": "図鑑：和金",
+      "short": "和金",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "和金（フナに近い細身の体、短い二股の尾びれ、明るい赤橙色）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a wakin goldfish: slim streamlined body like a small carp, short forked tail, bright red-orange scales, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a wakin goldfish: slim streamlined body like a small carp, short forked tail, bright red-orange scales: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "図鑑のセット（fish-*）の基準になる 1 枚。Recraft で「Digital illustration → Hand-drawn / Watercolor」系のスタイルを選び、できたらスタイルとして保存します。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。"
+    },
+    {
+      "name": "fish-ryukin",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#ff8a6a",
+        "#c4261a"
+      ],
+      "label": "図鑑：琉金",
+      "short": "琉金",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "琉金（背の高い丸く短い体、長くひらひらした二重の尾びれ、紅白の模様）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a ryukin goldfish: short deep rounded body with a high back, long flowing double veil tail, red and white pattern, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a ryukin goldfish: short deep rounded body with a high back, long flowing double veil tail, red and white pattern: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-demekin",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#ff8a5a",
+        "#b9301b"
+      ],
+      "label": "図鑑：出目金",
+      "short": "出目金",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "出目金（丸い体、左右に大きく飛び出した目、二重の尾びれ、赤橙色）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a red telescope-eye goldfish (demekin): round body, large protruding eyes on both sides, flowing double tail, red-orange, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a red telescope-eye goldfish (demekin): round body, large protruding eyes on both sides, flowing double tail, red-orange: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-kurodeme",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#5a5560",
+        "#121015"
+      ],
+      "label": "図鑑：黒出目金",
+      "short": "黒出目金",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "黒出目金（ビロードのような真っ黒な体、大きく飛び出した目、二重の尾びれ）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a black telescope-eye goldfish (kuro demekin): velvety solid black body, large protruding eyes, flowing double tail, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a black telescope-eye goldfish (kuro demekin): velvety solid black body, large protruding eyes, flowing double tail: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-comet",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#ff8a4a",
+        "#d22c08"
+      ],
+      "label": "図鑑：コメット",
+      "short": "コメット",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "コメット（細長い体、吹き流しのように長い一枚の尾びれ、鮮やかな赤橙色）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a comet goldfish: slender body and a very long deeply forked single tail like a streamer, vivid red-orange, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a comet goldfish: slender body and a very long deeply forked single tail like a streamer, vivid red-orange: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-shubunkin",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#b4c6d4",
+        "#7d93a8"
+      ],
+      "label": "図鑑：朱文金",
+      "short": "朱文金",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "朱文金（細身の体に、青灰・赤・白・黒のまだら模様、長い尾びれ）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a shubunkin goldfish: slim body with calico pattern of blue-gray, red, white and black speckles, long single tail, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a shubunkin goldfish: slim body with calico pattern of blue-gray, red, white and black speckles, long single tail: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-ranchu",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#ff9a5a",
+        "#c4401a"
+      ],
+      "label": "図鑑：らんちゅう",
+      "short": "らんちゅう",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "らんちゅう（背びれのない卵形の太った体、頭にこぶ、短い二重の尾びれ、橙赤色）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a ranchu goldfish: plump egg-shaped body with no dorsal fin, bumpy raspberry-like hood growth on the head, short double tail, orange-red, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a ranchu goldfish: plump egg-shaped body with no dorsal fin, bumpy raspberry-like hood growth on the head, short double tail, orange-red: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    },
+    {
+      "name": "fish-tancho",
+      "w": 400,
+      "h": 300,
+      "kind": "card",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#fbf8f2",
+        "#d8d1c6"
+      ],
+      "label": "図鑑：丹頂",
+      "short": "丹頂",
+      "use": "金魚図鑑の絵（タイトル・結果画面の「図鑑」）",
+      "ja": "丹頂（真っ白な体とひれ、頭のてっぺんにだけ丸い赤い模様、二重の尾びれ）。横から見た全身、博物画のような水彩の図鑑の絵。",
+      "tool": "recraft",
+      "prompt": "Natural history field guide illustration of a tancho goldfish: pure pearly white body and fins with a single round bright red cap on top of the head, flowing double tail, full body side view facing left, delicate hand-painted watercolor with fine ink outlines, accurate fins and scales, soft shading, centered with a small margin, isolated on a plain white background, no text, no labels",
+      "negative": "text, labels, letters, frame, water background, multiple fish",
+      "generic": "A field guide watercolor illustration of a tancho goldfish: pure pearly white body and fins with a single round bright red cap on top of the head, flowing double tail: full body side view facing left, fine ink outlines, accurate fins and scales, soft shading, centred, isolated on a plain white background, no text.",
+      "notes": "fish-wakin と同じ Recraft のスタイル（保存したスタイル）で作ると、図鑑の絵柄がそろいます。生成後に「Remove background」で透過にします（白い背景のままでも自動で切り抜きます）。横長 4:3。",
+      "ref": "fish-wakin"
+    }
+  ]
+}

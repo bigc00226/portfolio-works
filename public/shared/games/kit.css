@@ -1,0 +1,121 @@
+/*
+ * Game kit styles — shared by the games of the ゲーム tab. Each game sets its own colours with
+ *   :root { --gk-accent: …; --gk-accent-ink: …; --gk-paper: …; --gk-ink: …; }
+ * --gk-ink is also the text colour of the kit's light modals: a dark game sets its own body text colour instead of a light --gk-ink.
+ * Fonts are the system's Japanese fonts (no web fonts): --gk-sans (gothic) and --gk-serif (mincho).
+ */
+:root {
+  --gk-accent: #d9472b;
+  --gk-accent-ink: #fff;
+  --gk-paper: #fbf7ef;
+  --gk-ink: #231c16;
+  --gk-muted: #6f655a;
+  --gk-line: rgba(35, 28, 22, .14);
+  --gk-radius: 14px;
+  --gk-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", YuGothic, Meiryo, "Noto Sans JP", system-ui, sans-serif;
+  --gk-serif: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "BIZ UDPMincho", serif;
+  --gk-round: "Hiragino Maru Gothic ProN", "M PLUS Rounded 1c", "Kosugi Maru", var(--gk-sans);
+  --gk-mono: ui-monospace, "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+html.gk { -webkit-text-size-adjust: 100%; }
+html.gk body {
+  font-family: var(--gk-sans);
+  color: var(--gk-ink);
+  background: var(--gk-paper);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+html.gk canvas { display: block; }
+/* the hidden attribute wins over display rules such as .gk-btn { display: inline-flex } */
+html.gk [hidden] { display: none !important; }
+:where(html.gk) button { font: inherit; color: inherit; }
+html.gk :focus-visible { outline: 3px solid color-mix(in srgb, var(--gk-accent) 70%, white); outline-offset: 2px; }
+
+/* buttons */
+.gk-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .45em;
+  min-height: 44px; padding: 0 20px; border-radius: 999px;
+  border: 1px solid var(--gk-line); background: #fff; color: var(--gk-ink);
+  font: 700 15px/1 var(--gk-sans); letter-spacing: .04em; cursor: pointer;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .04), 0 6px 16px -10px rgba(0, 0, 0, .35);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, opacity .12s;
+}
+.gk-btn:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(0, 0, 0, .04), 0 10px 20px -10px rgba(0, 0, 0, .4); }
+.gk-btn:active { transform: translateY(1px) scale(.98); }
+.gk-btn.primary { background: var(--gk-accent); border-color: transparent; color: var(--gk-accent-ink); }
+.gk-btn.ghost { background: transparent; box-shadow: none; }
+.gk-btn.sm { min-height: 34px; padding: 0 14px; font-size: 13px; }
+.gk-btn.lg { min-height: 54px; padding: 0 30px; font-size: 18px; }
+.gk-btn:disabled { opacity: .45; pointer-events: none; }
+
+/* the round buttons at the top right (menu / help / sound) */
+.gk-hud {
+  position: fixed; z-index: 60; display: flex; gap: 8px;
+  top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right));
+}
+.gk-hud-btn {
+  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; padding: 0; cursor: pointer;
+  color: #fff; background: rgba(20, 16, 12, .42); border: 1px solid rgba(255, 255, 255, .28);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background .15s, transform .12s;
+}
+.gk-hud-btn:hover { background: rgba(20, 16, 12, .6); }
+.gk-hud-btn:active { transform: scale(.94); }
+.gk-hud-btn svg { width: 20px; height: 20px; }
+.gk-hud.light .gk-hud-btn { color: var(--gk-ink); background: rgba(255, 255, 255, .7); border-color: var(--gk-line); }
+
+/* modal */
+.gk-modal-back {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px;
+  background: rgba(16, 12, 8, .48); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  animation: gk-fade .18s ease both;
+}
+.gk-modal-back.out { animation: gk-fade-out .18s ease both; }
+.gk-modal {
+  width: min(460px, 100%); max-height: calc(100% - 24px); display: flex; flex-direction: column;
+  background: #fffdf9; color: var(--gk-ink); border-radius: 18px; padding: 24px 24px 20px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 0, 0, .05);
+  animation: gk-pop .26s cubic-bezier(.2, 1.3, .4, 1) both;
+}
+.gk-modal.wide { width: min(640px, 100%); }
+.gk-modal-title { margin: 0 0 12px; font: 800 21px/1.35 var(--gk-sans); letter-spacing: .02em; }
+.gk-modal-body { overflow: auto; font-size: 15px; line-height: 1.75; color: #3d342b; user-select: text; -webkit-user-select: text; }
+.gk-modal-body p { margin: 0 0 .8em; }
+.gk-modal-body h3 { margin: 1.2em 0 .4em; font-size: 15px; color: var(--gk-ink); }
+.gk-modal-body ul, .gk-modal-body ol { margin: 0 0 .8em; padding-left: 1.3em; }
+.gk-modal-body kbd {
+  display: inline-block; min-width: 1.8em; padding: 1px 6px; border-radius: 6px; text-align: center;
+  font: 600 12px/1.6 var(--gk-mono); background: #f1ebe2; border: 1px solid #ddd2c4; border-bottom-width: 2px;
+}
+.gk-modal-body table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.gk-modal-body th, .gk-modal-body td { padding: 6px 8px; border-bottom: 1px solid var(--gk-line); text-align: left; vertical-align: top; }
+.gk-modal-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+.gk-modal-actions .gk-btn { flex: 0 1 auto; }
+@media (max-width: 480px) {
+  .gk-modal { padding: 20px 18px 16px; }
+  .gk-modal-actions .gk-btn { flex: 1 1 auto; }
+}
+
+/* toast */
+.gk-toast {
+  position: fixed; z-index: 120; left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  padding: 11px 18px; border-radius: 999px; background: rgba(24, 19, 14, .88); color: #fff;
+  font: 700 14px/1.4 var(--gk-sans); letter-spacing: .03em; white-space: nowrap; max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis;
+  transition: opacity .2s, transform .25s cubic-bezier(.2, 1.3, .4, 1);
+}
+.gk-toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+@keyframes gk-fade { from { opacity: 0; } }
+@keyframes gk-fade-out { to { opacity: 0; } }
+@keyframes gk-pop { from { opacity: 0; transform: translateY(14px) scale(.96); } }
+@media (prefers-reduced-motion: reduce) {
+  .gk-modal, .gk-modal-back, .gk-toast { animation: none !important; transition: none !important; }
+}

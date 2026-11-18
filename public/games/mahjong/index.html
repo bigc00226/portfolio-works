@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>宵月麻雀 ― 4人打ちリーチ麻雀 vs CPU</title>
+  <meta name="description" content="宵月亭の常連 3 人と囲む 4 人打ちリーチ麻雀。全役・符計算・赤ドラ・裏ドラ・フリテンまで本格ルールで、PC でもスマホでも遊べます。">
+  <meta name="theme-color" content="#0b141c">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="cv" aria-label="麻雀卓"></canvas>
+    <div id="actions" class="actions" hidden></div>
+
+    <section id="title" class="title-screen" aria-label="タイトル">
+      <div class="kv" aria-hidden="true"></div>
+      <div class="title-box">
+        <p class="eyebrow">4人打ちリーチ麻雀</p>
+        <h1 class="logo"><span class="moon">宵月</span>麻雀</h1>
+        <p class="lead">宵月亭の常連 3 人と囲む、夜の一局。</p>
+        <ul class="rivals" id="rivals"></ul>
+        <div class="title-opts">
+          <div class="seg" data-key="length" role="group" aria-label="対局の長さ">
+            <button type="button" data-v="tonpuu">東風戦</button><button type="button" data-v="hanchan">半荘戦</button>
+          </div>
+          <div class="seg" data-key="level" role="group" aria-label="CPU の強さ">
+            <button type="button" data-v="0">やさしい</button><button type="button" data-v="1">ふつう</button><button type="button" data-v="2">つよい</button>
+          </div>
+        </div>
+        <button type="button" class="gk-btn primary lg start" id="btn-start">対局開始</button>
+        <div class="title-links">
+          <button type="button" id="btn-rules">ルール設定</button>
+          <button type="button" id="btn-records">成績</button>
+          <button type="button" id="btn-howto">遊び方・役一覧</button>
+        </div>
+        <p class="title-rec" id="title-rec"></p>
+      </div>
+    </section>
+
+    <section id="result" class="overlay" hidden aria-live="polite"></section>
+    <section id="final" class="overlay" hidden aria-live="polite"></section>
+  </div>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="rules.js"></script>
+  <script src="engine.js"></script>
+  <script src="ai.js"></script>
+  <script src="tiles.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

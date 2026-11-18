@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>花暦こいこい ― 花札こいこい vs CPU</title>
+  <meta name="description" content="四季の花札 48 枚で役をそろえる「こいこい」。こいこいか勝負か、駆け引きを楽しむ CPU 対戦。3・6・12 か月勝負、3 人の対戦相手、ローカルルールの切り替え付き。">
+  <meta name="theme-color" content="#2a0f0c">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <canvas id="table" aria-label="花札の卓"></canvas>
+
+    <section id="title" class="screen" aria-labelledby="titleName">
+      <div class="kv" aria-hidden="true"><img src="img/key-visual.webp" alt=""></div>
+      <div class="title-inner">
+        <header class="logo">
+          <p class="kicker">花札こいこい ・ CPU 対戦</p>
+          <h1 id="titleName">花暦<span>こいこい</span></h1>
+          <p class="sub">四季の札で役をつくり、<br class="sp">「こいこい」か「勝負」かを見きわめる。</p>
+        </header>
+        <div class="panel">
+          <div class="row">
+            <h2>対戦相手</h2>
+            <div class="opps" id="opps" role="radiogroup" aria-label="対戦相手"></div>
+          </div>
+          <div class="row row-inline">
+            <h2>勝負の長さ</h2>
+            <div class="seg" id="months" role="radiogroup" aria-label="月数"></div>
+          </div>
+          <div class="actions">
+            <button type="button" class="gk-btn" id="btnRules">ルール設定</button>
+            <button type="button" class="gk-btn primary lg" id="btnStart">対局をはじめる</button>
+          </div>
+          <p class="rec" id="recLine"></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="ov" id="yakuOv" hidden>
+      <div class="sheet yaku-sheet" role="dialog" aria-modal="true" aria-labelledby="yWho">
+        <p class="ov-kicker" id="yWho">あなたの役</p>
+        <ol class="yaku-list" id="yList"></ol>
+        <p class="yaku-total"><span>役の合計</span><b id="yTotal">0</b><span>点</span></p>
+        <p class="yaku-note" id="yNote"></p>
+        <div class="yaku-actions" id="yActions">
+          <button type="button" class="gk-btn lg koi" id="btnKoi">こいこい<small>続けて点を伸ばす</small></button>
+          <button type="button" class="gk-btn lg primary" id="btnShobu">勝負<small>ここで上がる</small></button>
+        </div>
+        <p class="yaku-stamp" id="yStamp" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="ov" id="monthOv" hidden>
+      <div class="sheet res-sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+        <p class="ov-kicker" id="mKicker">1か月目</p>
+        <h2 id="mTitle">あなたの勝ち</h2>
+        <div id="mBody"></div>
+        <div class="score-wrap"><table class="score" id="mTable"></table></div>
+        <div class="res-actions"><button type="button" class="gk-btn primary lg" id="btnNext">次の月へ</button></div>
+      </div>
+    </div>
+
+    <div class="ov" id="finalOv" hidden>
+      <div class="sheet res-sheet final" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+        <p class="ov-kicker" id="fKicker">6か月勝負 ・ 結果</p>
+        <h2 id="fTitle">勝ち</h2>
+        <p class="final-pts" id="fPts"></p>
+        <div class="score-wrap"><table class="score" id="fTable"></table></div>
+        <p class="final-rec" id="fRec"></p>
+        <div class="res-actions">
+          <button type="button" class="gk-btn" id="btnToTitle">タイトルへ</button>
+          <button type="button" class="gk-btn primary lg" id="btnAgain">もう一度</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="rules.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

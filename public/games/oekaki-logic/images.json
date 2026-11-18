@@ -1,0 +1,82 @@
+{
+  "title": "ロジック絵巻",
+  "style": "生成りの和紙・墨色・朱を基調にした、落ち着いた和の世界。「小さな四角が集まって絵になる」モザイク・升目の楽しさを感じさせる。人物は出さない。画面の中に文字・数字・家紋・ロゴを入れない（数字や題名はゲームの HTML / canvas で描くため）。",
+  "images": [
+    {
+      "name": "key-visual",
+      "w": 1200,
+      "h": 900,
+      "kind": "key",
+      "colors": [
+        "#e8d9bd",
+        "#c8452f"
+      ],
+      "label": "キービジュアル：升目でできた絵巻",
+      "short": "キービジュアル",
+      "use": "タイトル画面（PC は左の大きな絵、スマホは左上の小さな絵。中央付近が切り抜かれます）",
+      "ja": "低い文机の上に広げられた絵巻。絵巻の紙には、小さな色の四角（升目）が集まって、富士山・赤い太陽・鶴・桜が描かれている。墨と筆、小皿の絵の具。上からのやわらかな光。文字は入れない。",
+      "tool": "midjourney",
+      "prompt": "an unrolled Japanese handscroll on a low wooden desk, the scroll paper painted as a mosaic of small square colour tiles forming Mount Fuji, a red rising sun, a flying crane and cherry blossoms, an ink brush and small dishes of mineral pigments beside it, soft overhead daylight, warm cream, vermilion and ink-black palette, calm still life, top-down three-quarter view, crisp detail --ar 4:3 --v 7 --style raw --no text, letters, numbers, calligraphy, seal stamps, logos, people",
+      "generic": "Still life of an unrolled Japanese handscroll on a low wooden desk. The scroll paper shows a mosaic of small square colour tiles that together form Mount Fuji, a red rising sun, a flying crane and cherry blossoms. An ink brush and small dishes of pigment lie beside it. Soft daylight, warm cream, vermilion and ink-black colours. No text, letters, numbers, seals or people. Landscape 4:3.",
+      "notes": "モザイクの四角が大きめにはっきり見えるものを選ぶと、ゲームの内容が伝わります。スマホでは中央の正方形に近い部分が使われます。"
+    },
+    {
+      "name": "bg-paper",
+      "w": 1600,
+      "h": 1000,
+      "kind": "bg",
+      "colors": [
+        "#f4ecdc",
+        "#d9c7a5"
+      ],
+      "label": "背景：生成りの紙と木の机",
+      "short": "背景",
+      "use": "一覧・プレイ画面の背景（50% の濃さで重ねます）",
+      "ja": "生成りの和紙を敷いた木の机を真上から写した、明るくやわらかい写真風の背景。端のほうにうっすら木目。中央は無地に近く、物は置かない。",
+      "tool": "firefly",
+      "prompt": "Top-down photo of a sheet of warm cream handmade washi paper laid on a light wooden desk, wood grain visible only near the edges, soft diffused daylight, very low contrast, minimal, empty centre, no objects",
+      "negative": "text, letters, numbers, objects, hands, shadows of people, strong vignette, stains",
+      "generic": "A top-down photograph of warm cream handmade Japanese paper on a light wooden desk, with wood grain only at the edges. Soft diffused daylight, very low contrast, empty centre, no objects, no text. Landscape 16:10.",
+      "notes": "Firefly の「写真」スタイル・縦横比 16:10 程度。盤面の数字が読みにくくならないよう、明るく淡いものを。"
+    },
+    {
+      "name": "gallery-bg",
+      "w": 1600,
+      "h": 900,
+      "kind": "bg",
+      "colors": [
+        "#cdb48c",
+        "#5b4630"
+      ],
+      "label": "背景：絵を飾る床の間",
+      "short": "床の間",
+      "use": "「絵巻」（完成した絵のギャラリー）の背景（明るい色を重ねます）",
+      "ja": "何も飾られていない、明るい和室の床の間の壁。土壁の質感、床柱、やわらかな横からの光。絵を並べて飾る前の、静かで広い余白。",
+      "tool": "gemini",
+      "prompt": "Create a wide 16:9 image of an empty tokonoma alcove in a bright traditional Japanese room: a plain warm clay plaster wall with soft texture, a polished wooden alcove post on one side, tatami edge at the bottom, gentle side light from a paper screen. The wall should be mostly empty and calm, like a gallery wall waiting for pictures. No hanging scroll, no text, no people.",
+      "generic": "Wide 16:9 interior: an empty tokonoma alcove in a bright Japanese room — plain warm clay wall, a polished wooden post at one side, tatami edge at the bottom, soft side light. Mostly empty wall space. No hanging scroll, no text, no people.",
+      "notes": "壁の部分に完成した絵の額が並ぶので、中央は無地に近いものを選んでください。"
+    },
+    {
+      "name": "deco-kumo",
+      "w": 800,
+      "h": 240,
+      "kind": "ui",
+      "alpha": true,
+      "shape": "ellipse",
+      "fit": "contain",
+      "colors": [
+        "#e9c46a",
+        "#c99a2e"
+      ],
+      "label": "飾り：金のすやり霞（雲）",
+      "short": "金雲",
+      "use": "完成画面のカードの上と、絵巻の見出しの飾り（透過）",
+      "ja": "絵巻や屏風に描かれる、横に長くたなびく金色の雲（すやり霞）。フラットなベクター風で、金の濃淡 2〜3 色。背景は透明。",
+      "tool": "recraft",
+      "prompt": "flat vector ornament of long horizontal golden clouds in traditional Japanese suyari-gasumi style, layered bands of mist with rounded ends, two or three shades of gold, clean edges, wide 10:3 composition, isolated on a transparent background, no text",
+      "generic": "A flat vector ornament of long, horizontal golden clouds in the Japanese 'suyari-gasumi' style: layered bands of mist with rounded ends in two or three shades of gold, clean edges, wide 10:3 composition, isolated on a plain white (or transparent) background, no text.",
+      "notes": "Recraft の Vector illustration スタイルで生成し、背景を削除して PNG で保存。左右対称に近い形が使いやすいです。"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>宵宮ビート ― 祭り囃子の 4 レーン音楽ゲーム</title>
+  <meta name="description" content="夜店の灯りの下、祭り囃子に合わせて落ちてくる提灯をたたく 4 レーンの音楽ゲーム。オリジナル曲 3 曲 × 3 難易度、ロングノーツ、タイミング計測つき。PC とスマホで遊べます。">
+  <meta name="theme-color" content="#120e22">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="cv" aria-label="演奏画面"></canvas>
+  <div id="hud">
+    <div class="h-prog"><i id="hProg"></i></div>
+    <div class="h-song"><b id="hTitle"></b><span id="hDiff"></span></div>
+    <div class="h-score"><span>得点</span><b id="hScore">0</b></div>
+  </div>
+
+  <section id="select" class="screen">
+    <div class="s-bg" aria-hidden="true"></div>
+    <div class="s-inner">
+      <header class="s-head">
+        <p class="s-kicker">祭り囃子の 4 レーン音楽ゲーム</p>
+        <h1 class="s-logo">宵宮ビート</h1>
+      </header>
+      <div id="songList" class="s-list"></div>
+      <footer class="s-foot">
+        <button id="helpBtn" class="gk-btn" type="button">遊び方</button>
+        <button id="setBtn" class="gk-btn" type="button">設定・タイミング調整</button>
+        <span class="s-hint">ジャケットを押すと試聴できます</span>
+      </footer>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="r-card">
+      <div class="omikuji">
+        <small>宵宮みくじ</small>
+        <b id="rRank">大吉</b>
+        <span id="rRankNote"></span>
+      </div>
+      <div class="r-main">
+        <p class="r-song" id="rSong"></p>
+        <div class="r-score"><b id="rScore">0</b><em id="rNew" hidden>自己ベスト！</em></div>
+        <div class="r-badges"><span id="rFC" class="badge" hidden>フルコンボ</span><span id="rAP" class="badge gold" hidden>全極</span></div>
+        <ul class="r-judges">
+          <li class="j0"><span>極</span><b id="rj0">0</b></li>
+          <li class="j1"><span>優</span><b id="rj1">0</b></li>
+          <li class="j2"><span>良</span><b id="rj2">0</b></li>
+          <li class="j3"><span>可</span><b id="rj3">0</b></li>
+          <li class="j4"><span>失</span><b id="rj4">0</b></li>
+        </ul>
+        <p class="r-combo">最大コンボ <b id="rCombo">0</b>　<small id="rFS"></small></p>
+        <div class="r-actions"><button id="rBack" class="gk-btn" type="button">曲選びへ</button><button id="rRetry" class="gk-btn primary" type="button">もう一度</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="calib" class="screen">
+    <div class="c-card">
+      <h2>タイミングを測る</h2>
+      <p id="cMsg"></p>
+      <button class="c-drum" id="cDrum" type="button" aria-label="たたく"><span id="cCount"></span></button>
+      <p class="c-result" id="cResult" aria-live="polite"></p>
+      <div class="c-actions">
+        <button id="cClose" class="gk-btn ghost" type="button">閉じる</button>
+        <button id="cRetry" class="gk-btn" type="button">もう一度</button>
+        <button id="cApply" class="gk-btn primary" type="button" disabled>この値にする</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="songs.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

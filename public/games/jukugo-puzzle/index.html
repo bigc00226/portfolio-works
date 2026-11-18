@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>筆まる漢字帖 ― 熟語クロス・四字熟語・難読漢字</title>
+  <meta name="description" content="真ん中に入る漢字で四つの熟語を完成させる「熟語クロス」、四字熟語の穴埋め、魚・野菜・動物・地名・食べ物の難読漢字。毎日変わる「今日の10問」も。">
+  <meta name="theme-color" content="#f3ead6">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <section class="screen on" id="sc-title" aria-label="タイトル">
+      <div class="ti-bg"></div>
+      <div class="ti-wrap">
+        <div class="ti-head">
+          <p class="ti-kicker">漢字パズル</p>
+          <h1 class="ti-name">筆まる<span>漢字帖</span></h1>
+          <p class="ti-sub">熟語をつなぐ一文字を、筆まるといっしょに探そう。</p>
+        </div>
+        <button class="daily" id="btn-daily" type="button">
+          <b>今日の10問</b>
+          <small id="daily-info">毎日かわる 10 問（クロス・四字熟語・難読漢字）</small>
+        </button>
+        <div class="ti-menu">
+          <button class="mbtn" data-mode="cross" type="button"><b>熟語クロス</b><small>真ん中の一字で四つの熟語に</small><i id="rec-cross"></i></button>
+          <button class="mbtn" data-mode="yoji" type="button"><b>四字熟語</b><small>空いた一字を埋める</small><i id="rec-yoji"></i></button>
+          <button class="mbtn" data-mode="nandoku" type="button"><b>難読漢字</b><small>魚・野菜・動物・地名…</small><i id="rec-nandoku"></i></button>
+        </div>
+      </div>
+      <img class="ti-mascot" src="img/mascot-normal.webp" alt="筆の精の筆まる">
+    </section>
+
+    <section class="screen" id="sc-quiz" aria-label="問題">
+      <header class="qz-top">
+        <span class="qz-mode" id="qz-mode"></span>
+        <span class="qz-step" id="qz-step"></span>
+        <span class="qz-num"><small>得点</small><b id="qz-score">0</b></span>
+        <span class="qz-num"><small>連続</small><b id="qz-streak">0</b></span>
+        <span class="qz-num"><small>時間</small><b id="qz-time">0.0</b></span>
+      </header>
+      <div class="qz-body">
+        <div class="qz-q">
+          <p class="qz-prompt" id="qz-prompt"></p>
+          <div class="qz-area" id="qz-area"></div>
+        </div>
+        <div class="qz-a">
+          <div class="qz-opts" id="qz-opts"></div>
+          <div class="qz-exp" id="qz-exp" hidden>
+            <div class="ex-top">
+              <img class="ex-mascot" id="ex-mascot" src="img/mascot-happy.webp" alt="">
+              <div class="ex-bubble"><b id="ex-res"></b><span id="ex-say"></span></div>
+            </div>
+            <div class="ex-body" id="ex-body"></div>
+            <button class="gk-btn primary" id="btn-next" type="button">次へ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "title": "ナンプレ帖",
+  "style": "和紙と藍を基調にした、静かで清潔感のある和のトーン。色は生成り（クリーム）・藍・墨色に、朱と桜色を少しだけ。人物は出さない。画面の中に文字・数字・記号を入れない（数字はゲームの HTML で描くため）。やわらかな自然光と、大きめの余白。",
+  "images": [
+    {
+      "name": "key-visual",
+      "w": 1200, "h": 900,
+      "kind": "key",
+      "colors": ["#e9e0cd", "#2f4f86"],
+      "label": "キービジュアル：朝の文机と和紙",
+      "short": "キービジュアル",
+      "use": "タイトル画面（PC は左の大きな絵、スマホは上の帯。中央付近が切り抜かれて表示されます）",
+      "ja": "朝の光が障子ごしに差しこむ和室の文机。和紙の束、硯と筆、湯のみのお茶。障子の桟の影が、ナンプレのマス目のような格子になって机に落ちている。藍と生成りの落ち着いた色。文字や数字は入れない。",
+      "tool": "midjourney",
+      "prompt": "a quiet Japanese study corner in the morning, low wooden writing desk with a stack of handmade washi paper, an inkstone and a calligraphy brush, a small ceramic cup of green tea, soft sunlight through a shoji screen casting a neat grid of window-frame shadows across the desk, indigo and warm cream palette, calm minimal composition with generous empty space, gentle film grain, still life, no people --ar 4:3 --v 7 --style raw --no text, letters, numbers, writing, calligraphy characters, watermark, people",
+      "generic": "A calm still life of a Japanese study corner in the morning: a low wooden desk with handmade washi paper, an inkstone, a brush and a cup of green tea. Sunlight through a shoji screen casts a neat grid of shadows over the desk. Indigo and warm cream colours, minimal composition with plenty of empty space, soft natural light. No people, no text, no letters, no numbers. Landscape 4:3.",
+      "notes": "紙の上に文字が出たら Vary (Region) で消してください。スマホでは中央が横長に切り抜かれるので、主役（湯のみと格子の影）は中央に。"
+    },
+    {
+      "name": "bg-washi",
+      "w": 1024, "h": 1024,
+      "kind": "tile",
+      "colors": ["#f3ede0", "#e2d6bf"],
+      "label": "背景：和紙のテクスチャ（タイル）",
+      "short": "和紙",
+      "use": "ページ全体の背景（640px のタイルとして敷き詰め、32% の濃さで重ねます）",
+      "ja": "手すきの和紙を真上からスキャンしたような、継ぎ目なく並べられるテクスチャ。生成り色で、楮（こうぞ）の繊維がうっすら見える程度。影・折り目・しみはなし。",
+      "tool": "leonardo",
+      "prompt": "seamless tileable texture of handmade Japanese washi paper, warm cream colour, faint kozo fibres and soft uneven pulp, very low contrast, flat even lighting, top-down scan, no objects",
+      "negative": "text, letters, numbers, shadows, vignette, folds, creases, stains, border, frame, pattern, objects",
+      "generic": "A seamless, tileable texture of handmade Japanese washi paper scanned from directly above: warm cream colour, faint long paper fibres, soft uneven pulp, very low contrast and perfectly even lighting. No shadows, folds, stains, borders or text. Square 1:1.",
+      "notes": "Leonardo の「Tiling」をオンにして 1024×1024 で生成。コントラストが強いと数字が読みにくくなるので、できるだけ淡いものを選んでください。"
+    },
+    {
+      "name": "clear-illust",
+      "w": 960, "h": 540,
+      "kind": "cg",
+      "colors": ["#f1c98a", "#6a4a8c"],
+      "label": "クリアの絵：夕暮れの縁側",
+      "short": "クリアの絵",
+      "use": "問題を解いたときの結果カードの上部（16:9）",
+      "ja": "一問解き終えたあとの、ほっとする夕暮れの縁側。障子を開けた和室から小さな庭が見え、紅葉の木と石灯籠。縁側には湯のみと、閉じた帳面と筆。人物はいない。あたたかい夕日の色。",
+      "tool": "niji",
+      "prompt": "anime background art, a wooden engawa veranda of a traditional Japanese house at golden sunset, open shoji doors, a small garden with a maple tree and a stone lantern, a cup of tea and a closed notebook with a brush resting on the veranda floor, warm peaceful mood, soft glowing light, gentle clouds, detailed scenery, no characters --niji 6 --ar 16:9 --no text, letters, numbers, people",
+      "generic": "Anime-style background painting of a traditional Japanese wooden veranda (engawa) at golden sunset: open shoji doors, a small garden with a maple tree and a stone lantern, a cup of tea and a closed notebook with a brush on the veranda floor. Warm, peaceful, softly glowing light. No characters, no text. Landscape 16:9.",
+      "notes": "結果カードの右下に「新記録」の判が重なるので、右下は落ち着いた色に。"
+    },
+    {
+      "name": "pause-tea",
+      "w": 512, "h": 512,
+      "kind": "item",
+      "alpha": true,
+      "shape": "round",
+      "colors": ["#7fa36b", "#f2b8c6"],
+      "label": "一時停止の絵：お茶と和菓子",
+      "short": "お茶",
+      "use": "一時停止中に盤面の上に表示（透過）",
+      "ja": "湯のみに入った緑茶と、小皿にのった桜色の練り切り（和菓子）ひとつ。やさしい水彩風のフラットなイラスト。背景は透明。",
+      "tool": "chatgpt",
+      "prompt": "Create one illustration: a cup of Japanese green tea in a simple ceramic yunomi cup with a soft indigo glaze, and beside it a small plate holding one pink-and-white flower-shaped wagashi sweet. Gentle watercolour-like flat illustration, cream, indigo and soft pink colours, seen from a slight angle, centred with a little margin. Transparent background PNG, square 1024×1024. No text, no letters, no table, no drop shadow on the background.",
+      "generic": "A single centred illustration of a cup of Japanese green tea in an indigo-glazed ceramic cup, with a small plate holding one pink flower-shaped wagashi sweet beside it. Soft watercolour-like flat style in cream, indigo and pink. Plain white background (to be cut out), square 1:1, no text.",
+      "notes": "透過 PNG が出せない場合は、白の無地の背景で作ってください（自動で切り抜きます）。"
+    }
+  ]
+}

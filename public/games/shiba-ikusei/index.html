@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>こしば日和 ― 柴犬の子犬を育てる</title>
+  <meta name="description" content="現実の時間に合わせて育つ、柴犬の子犬との毎日。ごはん・なでる・ボールあそび・さんぽ・おふろ・しつけ。子犬から成犬まで、日記とアルバムに思い出が残る育成ゲーム。">
+  <meta name="theme-color" content="#f6e7cc">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="at-title">
+  <div id="app">
+    <aside id="side-l" class="panel">
+      <div class="pcard">
+        <div class="pimg"><img class="js-portrait" alt="" draggable="false"></div>
+        <h2 class="js-name"></h2>
+        <p class="js-age"></p>
+        <p class="js-trait"></p>
+      </div>
+      <div class="bars"></div>
+      <div class="links ls-only">
+        <button type="button" data-link="shop">🛒 ショップ</button><button type="button" data-link="diary">📔 日記</button>
+        <button type="button" data-link="album">📷 アルバム</button><button type="button" data-link="rec">🏅 きろく</button>
+      </div>
+    </aside>
+    <header id="top">
+      <div class="row1"><img class="js-portrait mini" alt="" draggable="false"><div class="who"><b class="js-name"></b><small class="js-age"></small></div></div>
+      <div class="bars mini"></div>
+      <div class="links">
+        <button type="button" data-link="shop">🛒 ショップ</button><button type="button" data-link="diary">📔 日記</button>
+        <button type="button" data-link="album">📷 アルバム</button><button type="button" data-link="rec">🏅 きろく</button>
+        <span class="pts"><b class="js-pts">0</b> pt</span>
+      </div>
+    </header>
+    <main id="stage">
+      <canvas id="cv" aria-label="へや"></canvas>
+      <div id="clock"></div>
+      <div id="hud"></div>
+      <div id="prompt" hidden></div>
+    </main>
+    <nav id="actions" aria-label="お世話"></nav>
+    <aside id="side-r" class="panel">
+      <p class="wallet">もっているポイント<b><span class="js-pts">0</span> pt</b></p>
+      <div class="links">
+        <button type="button" data-link="shop">🛒 ショップ</button><button type="button" data-link="diary">📔 日記</button>
+        <button type="button" data-link="album">📷 アルバム</button><button type="button" data-link="rec">🏅 きろく</button>
+      </div>
+      <h3>さいきんの日記</h3>
+      <ol id="diaryMini"></ol>
+    </aside>
+    <div id="title" hidden>
+      <img class="tbg" src="img/key-visual.webp" alt="" draggable="false">
+      <div class="tshade"></div>
+      <div class="tbox">
+        <p class="tsub">柴犬の子犬と、毎日いっしょに。</p>
+        <h1>こしば<span>日和</span></h1>
+        <p class="tlead">現実の時間で育つ、子犬との暮らし</p>
+        <canvas id="tdog" aria-hidden="true"></canvas>
+        <div class="tbtns">
+          <button type="button" class="gk-btn lg primary" id="tCont" hidden></button>
+          <button type="button" class="gk-btn lg" id="tNew">はじめる</button>
+        </div>
+      </div>
+    </div>
+    <div id="loading">よみこみ中…</div>
+  </div>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="dog.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

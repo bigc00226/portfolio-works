@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>和菓子ころりん ― 重箱の和菓子あわせパズル</title>
+  <meta name="description" content="同じ和菓子をくっつけると、ひとつ大きなお菓子に。重箱に落として合わせる、物理演算の落ち物パズル。めざすは鏡餅。">
+  <meta name="theme-color" content="#4a2c1a">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="cv" aria-label="重箱のゲーム画面"></canvas>
+
+  <section id="title" class="screen show" aria-label="タイトル">
+    <div class="kv" aria-hidden="true"></div>
+    <div class="title-card">
+      <p class="eyebrow">重箱の和菓子あわせパズル</p>
+      <h1>和菓子ころりん</h1>
+      <p class="lead">同じお菓子をくっつけると、ひとつ大きな和菓子に。<br>めざすは、いちばん上の<b>鏡餅</b>。</p>
+      <div class="modes">
+        <button type="button" class="gk-btn primary lg" data-mode="free">じっくり<small>時間無制限</small></button>
+        <button type="button" class="gk-btn lg" data-mode="timed">三分勝負<small>3 分のハイスコア</small></button>
+      </div>
+      <p class="records" id="records"></p>
+      <div class="dex" id="dex" aria-label="お品書き（作ったことのあるお菓子）"></div>
+      <button type="button" class="gk-btn ghost sm" id="btnHelp">遊び方</button>
+    </div>
+  </section>
+
+  <section id="result" class="screen" aria-label="結果">
+    <div class="result-card">
+      <p class="eyebrow" id="rMode">じっくり</p>
+      <h2 id="rHead">おしまい</h2>
+      <p class="r-score"><span id="rScore">0</span><small>点</small></p>
+      <p class="r-new" id="rNew">ベスト更新！</p>
+      <div class="r-top"><img id="rTopImg" alt=""><div><small>いちばん大きなお菓子</small><b id="rTopName">—</b></div></div>
+      <dl class="r-stats">
+        <div><dt>合わせた回数</dt><dd id="rMerges">0</dd></div>
+        <div><dt>最大れんさ</dt><dd id="rChain">0</dd></div>
+        <div><dt>ご注文</dt><dd id="rOrders">0</dd></div>
+        <div><dt>ベスト</dt><dd id="rBest">0</dd></div>
+      </dl>
+      <div class="r-actions">
+        <button type="button" class="gk-btn primary lg" id="rAgain">もう一度</button>
+        <button type="button" class="gk-btn lg" id="rTitle">タイトルへ</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="physics.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

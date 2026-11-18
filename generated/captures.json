@@ -35,5 +35,85 @@
   "floorplan-similarity-survey": {
     "date": "2026-11-18",
     "icon": "floorplan-similarity-survey-icon.svg"
+  },
+  "shogi": {
+    "date": "2026-11-18",
+    "icon": "shogi-icon.svg"
+  },
+  "reversi": {
+    "date": "2026-11-18",
+    "icon": "reversi-icon.svg"
+  },
+  "hanafuda-koikoi": {
+    "date": "2026-11-18",
+    "icon": "hanafuda-koikoi-icon.svg"
+  },
+  "daifugo": {
+    "date": "2026-11-18",
+    "icon": "daifugo-icon.svg"
+  },
+  "hyakunin-isshu": {
+    "date": "2026-11-18",
+    "icon": "hyakunin-isshu-icon.svg"
+  },
+  "hanabi-typing": {
+    "date": "2026-11-18",
+    "icon": "hanabi-typing-icon.svg"
+  },
+  "jukugo-puzzle": {
+    "date": "2026-11-18",
+    "icon": "jukugo-puzzle-icon.svg"
+  },
+  "nanpure": {
+    "date": "2026-11-18",
+    "icon": "nanpure-icon.svg"
+  },
+  "oekaki-logic": {
+    "date": "2026-11-18",
+    "icon": "oekaki-logic-icon.svg"
+  },
+  "machigai-sagashi": {
+    "date": "2026-11-18",
+    "icon": "machigai-sagashi-icon.svg"
+  },
+  "sakura-novel": {
+    "date": "2026-11-18",
+    "icon": "sakura-novel-icon.svg"
+  },
+  "shiba-ikusei": {
+    "date": "2026-11-18",
+    "icon": "shiba-ikusei-icon.svg"
+  },
+  "mahjong": {
+    "date": "2026-11-18",
+    "icon": "mahjong-icon.svg"
+  },
+  "orizuru-shooting": {
+    "date": "2026-11-18",
+    "icon": "orizuru-shooting-icon.svg"
+  },
+  "matsuri-rhythm": {
+    "date": "2026-11-18",
+    "icon": "matsuri-rhythm-icon.svg"
+  },
+  "homerun-derby": {
+    "date": "2026-11-18",
+    "icon": "homerun-derby-icon.svg"
+  },
+  "wagashi-merge": {
+    "date": "2026-11-18",
+    "icon": "wagashi-merge-icon.svg"
+  },
+  "kingyo-sukui": {
+    "date": "2026-11-18",
+    "icon": "kingyo-sukui-icon.svg"
+  },
+  "crane-game": {
+    "date": "2026-11-18",
+    "icon": "crane-game-icon.svg"
+  },
+  "hokora-rpg": {
+    "date": "2026-11-18",
+    "icon": "hokora-rpg-icon.svg"
   }
 }

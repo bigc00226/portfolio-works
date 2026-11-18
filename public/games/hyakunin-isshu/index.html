@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>みやび札 ― 百人一首かるた</title>
+  <meta name="description" content="小倉百人一首の 100 首で遊ぶかるた。CPU との対戦（競技かるた風）、ちらし取りのタイムアタック、決まり字の練習、百首一覧。読み上げは文字と音声で。">
+  <meta name="theme-color" content="#24432f">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <!-- タイトル -->
+    <section class="screen on" id="sc-title" aria-label="タイトル">
+      <div class="ti-bg"></div>
+      <div class="ti-inner">
+        <p class="ti-kicker">小倉百人一首かるた</p>
+        <h1 class="ti-name"><span>みやび</span><span>札</span></h1>
+        <p class="ti-sub">百首の歌を聞き分けて、一枚でも早く。</p>
+        <div class="ti-menu">
+          <button class="mbtn main" data-go="vs"><b>対戦</b><small>CPU と競技かるた風に</small></button>
+          <button class="mbtn" data-go="chirashi"><b>ちらし取り</b><small>ひとりでタイムアタック</small></button>
+          <button class="mbtn" data-go="practice"><b>決まり字練習</b><small>覚えるまでくり返す</small></button>
+          <button class="mbtn" data-go="list"><b>百首一覧</b><small>歌と歌人を調べる</small></button>
+        </div>
+        <p class="ti-rec" id="ti-rec"></p>
+        <button class="gk-btn sm ghost ti-set" id="ti-set" type="button">読み上げの設定</button>
+      </div>
+    </section>
+
+    <!-- 対戦 / ちらし取り（共通の盤面） -->
+    <section class="screen" id="sc-match" aria-label="対戦">
+      <header class="mt-top">
+        <div class="mt-opp">
+          <img class="mt-ava" id="mt-ava" alt="">
+          <div><b id="mt-oname">相手</b><span id="mt-ocount" class="cnt"></span></div>
+        </div>
+        <div class="mt-prog" id="mt-prog"></div>
+      </header>
+      <div class="mt-field" id="mt-field">
+        <div class="side cpu" id="side-cpu" aria-label="相手の陣"></div>
+        <div class="reader" id="reader">
+          <img class="rd-ava" id="rd-ava" alt="読手">
+          <div class="rd-body">
+            <div class="rd-kami" id="rd-kami" aria-live="off"></div>
+            <div class="rd-shimo" id="rd-shimo"></div>
+          </div>
+          <div class="rd-state" id="rd-state"></div>
+        </div>
+        <div class="side me" id="side-me" aria-label="自分の陣"></div>
+      </div>
+      <footer class="mt-bot">
+        <span><b>あなた</b><span id="mt-mcount" class="cnt"></span></span>
+        <span id="mt-faults" class="faults"></span>
+        <button class="gk-btn sm ghost" id="mt-voice" type="button">声</button>
+      </footer>
+    </section>
+
+    <!-- 決まり字練習 -->
+    <section class="screen" id="sc-practice" aria-label="決まり字練習">
+      <header class="pr-top">
+        <span id="pr-step"></span>
+        <span id="pr-streak"></span>
+        <span id="pr-master"></span>
+      </header>
+      <div class="pr-q" id="pr-q">
+        <p class="pr-hint" id="pr-hint"></p>
+        <p class="pr-text" id="pr-text"></p>
+      </div>
+      <div class="pr-ans" id="pr-ans"></div>
+      <div class="pr-exp" id="pr-exp" hidden></div>
+    </section>
+
+    <!-- 百首一覧 -->
+    <section class="screen" id="sc-list" aria-label="百首一覧">
+      <header class="ls-top">
+        <button class="gk-btn sm" id="ls-back" type="button">← 戻る</button>
+        <input id="ls-q" type="search" placeholder="歌・歌人・読み・番号で探す" autocomplete="off" enterkeyhint="search">
+      </header>
+      <div class="ls-chips" id="ls-chips"></div>
+      <ol class="ls-list" id="ls-list"></ol>
+    </section>
+  </main>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="poems.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

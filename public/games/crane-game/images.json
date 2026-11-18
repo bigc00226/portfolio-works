@@ -1,0 +1,262 @@
+{
+  "title": "クレーン横丁",
+  "style": "ゲームセンターの楽しい明るさ。パステルピンク・ミント・レモン色に、ネオンの紫を差し色に。景品のぬいぐるみはすべてこのゲームのオリジナルキャラクター（既存のキャラクターに似せない）で、丸くてもちもち、刺しゅうのシンプルな顔、やわらかい起毛の質感。箱の絵は文字のない、楽しいパッケージ風のイラスト。文字・ロゴ・実在のブランドは入れない。",
+  "images": [
+    {
+      "name": "p-usa",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#fff4f4",
+        "#f3b8c8"
+      ],
+      "label": "もちうさ",
+      "short": "もちうさ",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「もちうさ」：白くて丸いうさぎ（短いたれ耳、ピンクのほっぺ）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round white bunny with short floppy ears and pink cheeks. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round white bunny with short floppy ears and pink cheeks. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "ぬいぐるみのセット（p-*）の基準になる 1 枚。最初に作ります。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。"
+    },
+    {
+      "name": "p-neko",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#ffd29a",
+        "#e8893a"
+      ],
+      "label": "ころねこ",
+      "short": "ころねこ",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「ころねこ」：丸いオレンジのトラねこ（小さな三角の耳、くるんとしたしっぽ）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round orange tabby cat with tiny triangle ears and a curled tail. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round orange tabby cat with tiny triangle ears and a curled tail. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "p-usa を添付して「同じシリーズのぬいぐるみとして、同じ質感・光・刺しゅうの顔で」と頼むと、そろいます。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。",
+      "ref": "p-usa"
+    },
+    {
+      "name": "p-shiba",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#f6c48a",
+        "#c97b3a"
+      ],
+      "label": "まめしば",
+      "short": "まめしば",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「まめしば」：丸い柴犬ふうの子犬（クリーム色の口もと、ぴんと立った耳）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round little shiba-style dog with cream muzzle and perky ears. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round little shiba-style dog with cream muzzle and perky ears. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "p-usa を添付して「同じシリーズのぬいぐるみとして、同じ質感・光・刺しゅうの顔で」と頼むと、そろいます。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。",
+      "ref": "p-usa"
+    },
+    {
+      "name": "p-pen",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#8da0c2",
+        "#2f3d5c"
+      ],
+      "label": "ぺんたろう",
+      "short": "ぺんたろう",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「ぺんたろう」：丸い紺色のペンギン（白いおなか、小さな黄色いくちばし）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round navy penguin with a white belly and a small yellow beak. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round navy penguin with a white belly and a small yellow beak. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "p-usa を添付して「同じシリーズのぬいぐるみとして、同じ質感・光・刺しゅうの顔で」と頼むと、そろいます。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。",
+      "ref": "p-usa"
+    },
+    {
+      "name": "p-hiyo",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#fff1a0",
+        "#f2c230"
+      ],
+      "label": "ひよこまる",
+      "short": "ひよこまる",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「ひよこまる」：丸いふわふわの黄色いひよこ（頭にちょこんと毛）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round fluffy yellow chick with a tiny tuft on its head. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round fluffy yellow chick with a tiny tuft on its head. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "p-usa を添付して「同じシリーズのぬいぐるみとして、同じ質感・光・刺しゅうの顔で」と頼むと、そろいます。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。",
+      "ref": "p-usa"
+    },
+    {
+      "name": "p-kuma",
+      "w": 256,
+      "h": 256,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "circle",
+      "colors": [
+        "#c99a6e",
+        "#7a4f2e"
+      ],
+      "label": "くまだんご",
+      "short": "くまだんご",
+      "use": "ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示）",
+      "ja": "オリジナルのまんまるぬいぐるみ「くまだんご」：丸い茶色の子ぐま（ベージュの鼻先、小さな丸い耳）。正面向きで、丸いシルエットが正方形いっぱいに。",
+      "tool": "chatgpt",
+      "prompt": "Create a transparent background PNG, square 1024×1024. A cute original round plush toy character: a round brown bear cub with a beige snout and small round ears. Almost perfectly round mochi-like body, simple embroidered face with small dot eyes, soft fleece texture with visible fibers, gentle studio lighting, front view, centered and filling the frame with a small margin. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor, shadow on background",
+      "generic": "A cute original round plush toy: a round brown bear cub with a beige snout and small round ears. Mochi-like round body, simple embroidered face, soft fleece texture, front view, centred, filling a square image, isolated on a plain white background, no text, original design.",
+      "notes": "p-usa を添付して「同じシリーズのぬいぐるみとして、同じ質感・光・刺しゅうの顔で」と頼むと、そろいます。ゲームでは丸い当たり判定に重ねて表示するので、丸いシルエットで画面いっぱいに。",
+      "ref": "p-usa"
+    },
+    {
+      "name": "p-azarashi",
+      "w": 384,
+      "h": 192,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#eef2f8",
+        "#9fb0c4"
+      ],
+      "label": "ねそべりアザラシ",
+      "short": "ねそべりアザラシ",
+      "use": "ぬいぐるみの山の細長い景品（向きに合わせて回転して表示）",
+      "ja": "オリジナルの細長いぬいぐるみ「ねそべりアザラシ」：寝そべった細長いアザラシの赤ちゃん（淡いグレーにやわらかな斑点、頭は左）。横長 2:1 の画面いっぱいに、真横に寝そべった姿。",
+      "tool": "chatgpt",
+      "ref": "p-usa",
+      "prompt": "Create a transparent background PNG, wide 1536×768 (2:1). A cute original plush toy: a long lying-down baby seal plush, pale gray with soft spots, stretched out sideways with its head on the left. Same series and the same soft fleece texture, embroidered simple face and lighting as the attached round plush. Seen from the front, the long body lies horizontally and fills the frame edge to edge. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor",
+      "generic": "A cute original long plush toy: a long lying-down baby seal plush, pale gray with soft spots, stretched out sideways with its head on the left. Soft fleece, simple embroidered face, lying horizontally and filling a 2:1 image, isolated on a plain white background, no text.",
+      "notes": "ゲームでは体の向きに合わせて回転させて描きます。頭を左、体を水平に、横長いっぱいに。"
+    },
+    {
+      "name": "p-dachs",
+      "w": 384,
+      "h": 192,
+      "kind": "sprite",
+      "alpha": true,
+      "shape": "ellipse",
+      "colors": [
+        "#e6a868",
+        "#a35f28"
+      ],
+      "label": "のびーるダックス",
+      "short": "のびーるダックス",
+      "use": "ぬいぐるみの山の細長い景品（向きに合わせて回転して表示）",
+      "ja": "オリジナルの細長いぬいぐるみ「のびーるダックス」：寝そべった細長いダックスフント（キャラメル色、たれ耳、頭は左）。横長 2:1 の画面いっぱいに、真横に寝そべった姿。",
+      "tool": "chatgpt",
+      "ref": "p-usa",
+      "prompt": "Create a transparent background PNG, wide 1536×768 (2:1). A cute original plush toy: a long dachshund plush lying flat, caramel brown with floppy ears, stretched out sideways with its head on the left. Same series and the same soft fleece texture, embroidered simple face and lighting as the attached round plush. Seen from the front, the long body lies horizontally and fills the frame edge to edge. Original design, not resembling any existing character or brand. No text, no tags, no background.",
+      "negative": "text, logo, brand tag, existing character, background, floor",
+      "generic": "A cute original long plush toy: a long dachshund plush lying flat, caramel brown with floppy ears, stretched out sideways with its head on the left. Soft fleece, simple embroidered face, lying horizontally and filling a 2:1 image, isolated on a plain white background, no text.",
+      "notes": "ゲームでは体の向きに合わせて回転させて描きます。頭を左、体を水平に、横長いっぱいに。"
+    },
+    {
+      "name": "box-snack",
+      "w": 350,
+      "h": 140,
+      "kind": "card",
+      "alpha": false,
+      "colors": [
+        "#ffcf5a",
+        "#e2622b"
+      ],
+      "label": "箱の絵：おかしの大箱",
+      "short": "おかしの箱",
+      "use": "橋渡しの景品の箱の正面・景品棚",
+      "ja": "大きなお菓子の詰め合わせの箱の正面のパッケージ絵。キャンディ・クッキー・チョコ・グミが楽しくはじける構図、オレンジと黄色。文字なし。",
+      "tool": "recraft",
+      "prompt": "Flat vector package illustration for the front of a big assorted sweets box: colorful candies, cookies, chocolate pieces and gummies bursting out joyfully from the center, radiating stripes, bright orange and lemon yellow palette with pink accents, playful arcade prize style, clean shapes, fills the whole wide 5:2 frame, no text, no letters, no logo",
+      "negative": "text, letters, logo, brand names, barcode",
+      "generic": "A flat vector package illustration for the front of a sweets box: candies, cookies, chocolate and gummies bursting from the centre over radiating stripes, orange and yellow with pink accents, playful, filling a 5:2 frame, no text.",
+      "notes": "Recraft: Vector illustration、縦横比 5:2。箱の正面（横長）にそのまま貼ります。文字は入れません。"
+    },
+    {
+      "name": "box-robo",
+      "w": 350,
+      "h": 140,
+      "kind": "card",
+      "alpha": false,
+      "colors": [
+        "#8fd3ff",
+        "#3a6fd8"
+      ],
+      "label": "箱の絵：ロボットのおもちゃ",
+      "short": "ロボの箱",
+      "use": "橋渡しの景品の箱の正面・景品棚",
+      "ja": "オリジナルのかわいいブリキ風ロボットのおもちゃの箱の正面のパッケージ絵。青と水色、星とギア。文字なし。",
+      "tool": "recraft",
+      "ref": "box-snack",
+      "prompt": "Flat vector package illustration for the front of a toy box: a cute original retro tin-toy robot with round eyes and antenna waving, stars, gears and a starburst behind it, sky blue and cobalt palette with yellow accents, playful arcade prize style, same flat style as the attached sweets box art, fills the whole wide 5:2 frame, no text, no letters, no logo",
+      "negative": "text, letters, logo, existing robot characters, brand names",
+      "generic": "A flat vector package illustration for a toy box front: a cute original retro tin robot waving, stars and gears behind it, blue palette with yellow accents, playful, filling a 5:2 frame, no text.",
+      "notes": "box-snack と同じ Recraft のスタイルで。縦横比 5:2。"
+    },
+    {
+      "name": "bg",
+      "w": 1600,
+      "h": 1000,
+      "kind": "bg",
+      "alpha": false,
+      "colors": [
+        "#3b2160",
+        "#140c24"
+      ],
+      "label": "背景：夜のゲームセンター",
+      "short": "ゲームセンター",
+      "use": "プレイ画面の背景（機械のまわりに暗くして表示）",
+      "ja": "にぎやかなゲームセンターの店内。クレーンゲームの機械がずらりと並び、ネオンのピンクと水色の光、床に反射。手前の中央は機械を重ねるのでぼかして暗めに。人物なし、文字・ロゴなし。",
+      "tool": "midjourney",
+      "prompt": "interior of a cozy Japanese arcade at night, rows of colorful claw crane machines glowing with pink and cyan neon light, glossy floor reflections, soft bokeh, dreamy pastel and neon purple palette, blurred and darker in the center, no people, no text, no logos, no signage --ar 16:10 --v 7 --style raw",
+      "negative": "text, letters, logo, signage, people, brand names",
+      "generic": "A cozy Japanese arcade at night: rows of claw crane machines glowing with pink and cyan neon, glossy floor reflections, soft bokeh, pastel and neon purple palette, blurred and darker in the centre, no people, no text. 16:10.",
+      "notes": "ゲームでは暗く重ね、中央に機械を描きます。"
+    },
+    {
+      "name": "key",
+      "w": 1600,
+      "h": 900,
+      "kind": "key",
+      "alpha": false,
+      "colors": [
+        "#ff8cc0",
+        "#3b2160"
+      ],
+      "label": "キービジュアル：ぬいぐるみの山とアーム",
+      "short": "キービジュアル",
+      "use": "タイトル画面の背景",
+      "ja": "ガラス越しに見たクレーンゲームの中。まんまるのオリジナルぬいぐるみ（うさぎ・ねこ・ペンギン・ひよこ・くま）がこんもり積まれ、上から金色のアームが下りてくる瞬間。パステルとネオンの光。中央にタイトルを重ねるので、中央は少し暗めにすっきりと。",
+      "tool": "niji",
+      "prompt": "view through the glass of a claw crane game machine, a soft mountain of cute round original plush toys (white bunny, orange cat, navy penguin, yellow chick, brown bear), a shiny golden claw descending from above, pastel pink and mint interior with neon purple glow, sparkles, joyful and dreamy, calm darker space in the center for a title, no text, no logos --niji 6 --ar 16:9",
+      "negative": "text, letters, logo, existing characters, people, hands",
+      "generic": "View through the glass of a claw crane machine: a soft mountain of cute round original plush toys (bunny, cat, penguin, chick, bear), a golden claw descending, pastel pink and mint interior with neon purple glow, sparkles, calm space in the centre, no text. 16:9, anime-like illustration.",
+      "notes": "タイトルの文字は HTML で重ねるので入れません。ぬいぐるみは p-* と似た雰囲気にすると、ゲームとつながります。"
+    }
+  ]
+}

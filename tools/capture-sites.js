@@ -6,13 +6,14 @@
  *        public/thumbs/sites/<id>-full.webp  (whole page at 1440 wide, cut at MAX_FULL px — scrolled on hover on the list page)
  *        public/thumbs/sites/<id>-sp.webp    (390×844 smartphone first view, 2x)
  *        public/thumbs/sites/<id>-icon.*     (the site's favicon — shown in the mock address bar)
+ * The games (url /games/<id>/index.html, pages of this site) are served from public/ on a local port for the capture.
  *        public/thumbs/sites/<id>-logo.svg   (only with `logoFrom`: the header's SVG mark — for sites whose favicon is a framework default)
  * and records the capture date and the icon / logo file names in generated/captures.json.
  * Needs Node 22.18+, Google Chrome and `npm install` in the project folder.
  */
 const fs = require('fs');
 const path = require('path');
-const { PUBLIC, CHROME, sites, readGenerated, writeGenerated, puppeteer, only, wait } = require('./lib');
+const { PUBLIC, CHROME, sites, readGenerated, writeGenerated, puppeteer, only, wait, serve } = require('./lib');
 
 const OUT = path.join(PUBLIC, 'thumbs', 'sites');
 const MAX_FULL = 3600;
@@ -64,6 +65,11 @@ async function saveLogo(page, site) {
   const list = only(all);
   const captures = readGenerated('captures');
   fs.mkdirSync(OUT, { recursive: true });
+  // the games (url /games/<id>/index.html) are pages of this site: served from public/ for the capture
+  const local = list.some((s) => s.url.startsWith('/')) ? await serve() : null;
+  const target = (s) => (s.url.startsWith('/') ? local.origin + s.url : s.url);
+  // a game redraws its canvas every frame, so the network never looks idle to Chrome: wait for 'load' (settle() waits after it)
+  const until = (s) => (s.url.startsWith('/') ? 'load' : 'networkidle2');
   const browser = await puppeteer().launch({ executablePath: CHROME, headless: 'new', args: ['--hide-scrollbars', '--lang=ja-JP'] });
   for (const s of list) {
     const prev = captures[s.id] || {};
@@ -71,7 +77,7 @@ async function saveLogo(page, site) {
     const pc = await browser.newPage();
     await pc.setExtraHTTPHeaders({ 'Accept-Language': 'ja-JP,ja;q=0.9' });
     await pc.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
-    await pc.goto(s.url, { waitUntil: 'networkidle2', timeout: 90000 });
+    await pc.goto(target(s), { waitUntil: until(s), timeout: 90000 });
     await settle(pc);
     await pc.screenshot({ path: path.join(OUT, `${s.id}-pc.webp`), type: 'webp', quality: 82 });
     const h = await pc.evaluate(() => document.documentElement.scrollHeight);
@@ -86,7 +92,7 @@ async function saveLogo(page, site) {
     await sp.setUserAgent(SP_UA);
     await sp.setExtraHTTPHeaders({ 'Accept-Language': 'ja-JP,ja;q=0.9' });
     await sp.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
-    await sp.goto(s.url, { waitUntil: 'networkidle2', timeout: 90000 });
+    await sp.goto(target(s), { waitUntil: until(s), timeout: 90000 });
     await settle(sp);
     await sp.screenshot({ path: path.join(OUT, `${s.id}-sp.webp`), type: 'webp', quality: 80 });
     await sp.close();
@@ -95,6 +101,7 @@ async function saveLogo(page, site) {
     console.log(`${s.id} (${s.registry}): page ${h}px${h > MAX_FULL ? ` (cut at ${MAX_FULL})` : ''}, icon ${icon || '—'}${logo ? `, logo ${logo}` : ''}`);
   }
   await browser.close();
+  if (local) await local.close();
   // keep only sites that are still in a registry, in registry order
   const out = {};
   for (const s of all) if (captures[s.id]) out[s.id] = captures[s.id];

@@ -1,0 +1,232 @@
+{
+  "title": "番狂わせ大富豪",
+  "style": "夜の昭和レトロな喫茶店で開かれる大富豪の卓。深い緑のフェルトとランプの琥珀色、差し色に金。人物はくっきりした線のアニメ調で、3 人とも同じ絵柄にそろえる。どの画像にも文字・ロゴ・実在の商標を入れない（トランプの札はゲームがコードで描きます）。",
+  "images": [
+    {
+      "name": "key-visual",
+      "w": 1600,
+      "h": 900,
+      "kind": "key",
+      "alpha": false,
+      "colors": [
+        "#1f6a52",
+        "#0a2a20"
+      ],
+      "label": "キービジュアル：夜の喫茶店の大富豪",
+      "short": "キービジュアル",
+      "use": "タイトル画面の背景（暗くして、上にタイトルの文字と設定を重ねます）",
+      "ja": "夜の昭和レトロな喫茶店。緑のフェルトを敷いたテーブルの上で、トランプが宙に舞い、ジョーカーと 2 が光る。ランプの暖かい光、窓の外は商店街のネオン。中央上にタイトルを置く暗い余白。人物は入れない",
+      "tool": "midjourney",
+      "prompt": "cinematic key visual of a cozy retro Japanese coffee shop at night, playing cards flying above a green felt table, a joker card and a few twos glowing with golden light, warm pendant lamp light, rain-streaked window with blurred shopping street neon outside, rich teal and amber palette, dramatic depth of field, empty dark space in the upper center, no people, no text --ar 16:9 --v 7 --style raw --no text, letters, logo, watermark",
+      "negative": "text, letters, numbers on signs, logo, watermark, people, faces, brand names",
+      "generic": "A cinematic 16:9 illustration with no text: a cozy retro Japanese coffee shop at night, playing cards flying over a green felt table, a joker and some twos glowing gold, warm lamp light, rainy window with blurred neon of a shopping street, teal and amber colours, dark empty space in the upper center for a title, no people.",
+      "notes": "トランプの絵柄の細部や看板の文字は崩れやすいので、文字が出たら `--no text` を強めるか、その部分をぼかしてください（タイトル画面では暗くして使います）。"
+    },
+    {
+      "name": "bg-table",
+      "w": 1600,
+      "h": 900,
+      "kind": "bg",
+      "alpha": false,
+      "colors": [
+        "#1f6a52",
+        "#0b2a20"
+      ],
+      "label": "背景：緑のフェルトの卓",
+      "short": "フェルト",
+      "use": "対局画面の背景（全面。上に札と情報を重ね、革命中は紫に色を変えて暗くします）",
+      "ja": "真上から見た深い緑のフェルトのカードテーブル。細かい繊維の質感、ほのかな光のむら、周辺は少し暗く、物は何も置かない",
+      "tool": "leonardo",
+      "prompt": "Seamless top-down texture of a deep green wool felt card table surface, fine fibre detail, very subtle light falloff toward the edges, soft overhead lamp glow in the middle, calm and even, nothing on the table, photorealistic material texture, 16:9",
+      "negative": "cards, chips, objects, text, logo, pattern print, wood frame, hands, harsh shadow",
+      "generic": "A photorealistic top-down texture of a plain deep green felt card table: fine fibres, a soft lamp glow in the middle and slightly darker edges, nothing on it, 16:9.",
+      "notes": "Leonardo.Ai の Phoenix などで、縦横比 16:9（1536×864 前後）で生成します。テクスチャとして使うので、模様や物のない、均一で落ち着いた布地が向いています。画面の比率によって中央付近が切り出されます。"
+    },
+    {
+      "name": "cpu-hayate-normal",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#e0782c",
+        "#4a2410"
+      ],
+      "label": "ハヤテ：ふつう",
+      "short": "ハヤテ・ふつう",
+      "use": "CPU「ハヤテ」の顔（ふつう）。卓の情報パネル（丸く切り抜き）と結果画面・タイトルの紹介",
+      "ja": "商店街の配達少年ハヤテ（速攻派）。つんつんの茶髪に後ろ向きのオレンジの帽子、紺のウインドブレーカー、頬にばんそうこう。ふつうの表情（自信のある穏やかな顔）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "niji",
+      "prompt": "anime style bust portrait, clean line art, soft cel shading, warm cafe lamp light, looking at the viewer, head and shoulders centered, plain solid dark background, an energetic 16-year-old delivery boy with spiky brown hair, an orange cap worn backwards, a navy windbreaker over a white T-shirt, bandage on his cheek, a confident relaxed expression, slight smile --niji 6 --ar 1:1 --no text",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of an energetic 16-year-old delivery boy with spiky brown hair, an orange cap worn backwards, a navy windbreaker over a white T-shirt, bandage on his cheek, a confident relaxed expression, slight smile. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "notes": "ハヤテの基準の絵です。最初に作り、「うれしい」「くやしい」はこの画像を Gemini に添付して表情だけを変えます。ゲームは丸く小さく切り抜くので、顔が中央に大きく入る構図にしてください。"
+    },
+    {
+      "name": "cpu-hayate-happy",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#e0782c",
+        "#4a2410"
+      ],
+      "label": "ハヤテ：うれしい",
+      "short": "ハヤテ・うれしい",
+      "use": "CPU「ハヤテ」の顔（うれしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "商店街の配達少年ハヤテ（速攻派）。つんつんの茶髪に後ろ向きのオレンジの帽子、紺のウインドブレーカー、頬にばんそうこう。うれしい表情（得意げな満面の笑み）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（ハヤテ）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「うれしい表情（得意げな満面の笑み）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a big happy grin, eyes bright, triumphant. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of an energetic 16-year-old delivery boy with spiky brown hair, an orange cap worn backwards, a navy windbreaker over a white T-shirt, bandage on his cheek, a big happy grin, eyes bright, triumphant. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-hayate-normal",
+      "notes": "基準の「cpu-hayate-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    },
+    {
+      "name": "cpu-hayate-angry",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#e0782c",
+        "#4a2410"
+      ],
+      "label": "ハヤテ：くやしい",
+      "short": "ハヤテ・くやしい",
+      "use": "CPU「ハヤテ」の顔（くやしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "商店街の配達少年ハヤテ（速攻派）。つんつんの茶髪に後ろ向きのオレンジの帽子、紺のウインドブレーカー、頬にばんそうこう。くやしい表情（歯を食いしばる、汗）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（ハヤテ）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「くやしい表情（歯を食いしばる、汗）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a frustrated, annoyed expression, gritted teeth, a drop of sweat. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of an energetic 16-year-old delivery boy with spiky brown hair, an orange cap worn backwards, a navy windbreaker over a white T-shirt, bandage on his cheek, a frustrated, annoyed expression, gritted teeth, a drop of sweat. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-hayate-normal",
+      "notes": "基準の「cpu-hayate-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    },
+    {
+      "name": "cpu-shion-normal",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#7a64c8",
+        "#251c45"
+      ],
+      "label": "シオン：ふつう",
+      "short": "シオン・ふつう",
+      "use": "CPU「シオン」の顔（ふつう）。卓の情報パネル（丸く切り抜き）と結果画面・タイトルの紹介",
+      "ja": "眼鏡の大学生シオン（慎重派）。低い位置でまとめた紫がかった長い黒髪、丸い銀縁眼鏡、ラベンダーのカーディガン。ふつうの表情（自信のある穏やかな顔）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "niji",
+      "prompt": "anime style bust portrait, clean line art, soft cel shading, warm cafe lamp light, looking at the viewer, head and shoulders centered, plain solid dark background, a calm university student woman with long dark purple hair in a low ponytail, round silver glasses, a lavender cardigan over a white blouse, a confident relaxed expression, slight smile --niji 6 --ar 1:1 --no text",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a calm university student woman with long dark purple hair in a low ponytail, round silver glasses, a lavender cardigan over a white blouse, a confident relaxed expression, slight smile. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "notes": "シオンの基準の絵です。最初に作り、「うれしい」「くやしい」はこの画像を Gemini に添付して表情だけを変えます。ゲームは丸く小さく切り抜くので、顔が中央に大きく入る構図にしてください。ハヤテと絵柄をそろえたいときは、ハヤテの画像を `--sref` に指定します。"
+    },
+    {
+      "name": "cpu-shion-happy",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#7a64c8",
+        "#251c45"
+      ],
+      "label": "シオン：うれしい",
+      "short": "シオン・うれしい",
+      "use": "CPU「シオン」の顔（うれしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "眼鏡の大学生シオン（慎重派）。低い位置でまとめた紫がかった長い黒髪、丸い銀縁眼鏡、ラベンダーのカーディガン。うれしい表情（得意げな満面の笑み）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（シオン）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「うれしい表情（得意げな満面の笑み）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a big happy grin, eyes bright, triumphant. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a calm university student woman with long dark purple hair in a low ponytail, round silver glasses, a lavender cardigan over a white blouse, a big happy grin, eyes bright, triumphant. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-shion-normal",
+      "notes": "基準の「cpu-shion-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    },
+    {
+      "name": "cpu-shion-angry",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#7a64c8",
+        "#251c45"
+      ],
+      "label": "シオン：くやしい",
+      "short": "シオン・くやしい",
+      "use": "CPU「シオン」の顔（くやしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "眼鏡の大学生シオン（慎重派）。低い位置でまとめた紫がかった長い黒髪、丸い銀縁眼鏡、ラベンダーのカーディガン。くやしい表情（歯を食いしばる、汗）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（シオン）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「くやしい表情（歯を食いしばる、汗）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a frustrated, annoyed expression, gritted teeth, a drop of sweat. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a calm university student woman with long dark purple hair in a low ponytail, round silver glasses, a lavender cardigan over a white blouse, a frustrated, annoyed expression, gritted teeth, a drop of sweat. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-shion-normal",
+      "notes": "基準の「cpu-shion-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    },
+    {
+      "name": "cpu-gonzo-normal",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#3f9a6b",
+        "#14301f"
+      ],
+      "label": "ゴンゾウ：ふつう",
+      "short": "ゴンゾウ・ふつう",
+      "use": "CPU「ゴンゾウ」の顔（ふつう）。卓の情報パネル（丸く切り抜き）と結果画面・タイトルの紹介",
+      "ja": "喫茶店のマスター・ゴンゾウ（一発逆転派）。太い黒ひげ、短い白髪まじりの髪、白いシャツに深緑のエプロン、肩にタオル。ふつうの表情（自信のある穏やかな顔）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "niji",
+      "prompt": "anime style bust portrait, clean line art, soft cel shading, warm cafe lamp light, looking at the viewer, head and shoulders centered, plain solid dark background, a big jovial coffee shop master in his fifties with a thick black moustache and short grey hair, a dark green apron over a white shirt with rolled sleeves, a towel on his shoulder, a confident relaxed expression, slight smile --niji 6 --ar 1:1 --no text",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a big jovial coffee shop master in his fifties with a thick black moustache and short grey hair, a dark green apron over a white shirt with rolled sleeves, a towel on his shoulder, a confident relaxed expression, slight smile. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "notes": "ゴンゾウの基準の絵です。最初に作り、「うれしい」「くやしい」はこの画像を Gemini に添付して表情だけを変えます。ゲームは丸く小さく切り抜くので、顔が中央に大きく入る構図にしてください。ハヤテと絵柄をそろえたいときは、ハヤテの画像を `--sref` に指定します。"
+    },
+    {
+      "name": "cpu-gonzo-happy",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#3f9a6b",
+        "#14301f"
+      ],
+      "label": "ゴンゾウ：うれしい",
+      "short": "ゴンゾウ・うれしい",
+      "use": "CPU「ゴンゾウ」の顔（うれしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "喫茶店のマスター・ゴンゾウ（一発逆転派）。太い黒ひげ、短い白髪まじりの髪、白いシャツに深緑のエプロン、肩にタオル。うれしい表情（得意げな満面の笑み）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（ゴンゾウ）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「うれしい表情（得意げな満面の笑み）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a big happy grin, eyes bright, triumphant. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a big jovial coffee shop master in his fifties with a thick black moustache and short grey hair, a dark green apron over a white shirt with rolled sleeves, a towel on his shoulder, a big happy grin, eyes bright, triumphant. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-gonzo-normal",
+      "notes": "基準の「cpu-gonzo-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    },
+    {
+      "name": "cpu-gonzo-angry",
+      "w": 512,
+      "h": 512,
+      "kind": "portrait",
+      "alpha": false,
+      "colors": [
+        "#3f9a6b",
+        "#14301f"
+      ],
+      "label": "ゴンゾウ：くやしい",
+      "short": "ゴンゾウ・くやしい",
+      "use": "CPU「ゴンゾウ」の顔（くやしい）。卓の情報パネル（丸く切り抜き）と結果画面",
+      "ja": "喫茶店のマスター・ゴンゾウ（一発逆転派）。太い黒ひげ、短い白髪まじりの髪、白いシャツに深緑のエプロン、肩にタオル。くやしい表情（歯を食いしばる、汗）。アニメ調のバストアップ、顔が中央、無地の暗い背景",
+      "tool": "gemini",
+      "prompt": "添付した画像の人物（ゴンゾウ）と同じキャラクター・同じ服装・同じ絵柄・同じ構図と背景のまま、表情だけを「くやしい表情（歯を食いしばる、汗）」に変えてください。正方形（1:1）、文字は入れないでください。 / Keep the attached character exactly the same (same face, hair, outfit, art style, framing and plain dark background) and change only the expression to: a frustrated, annoyed expression, gritted teeth, a drop of sweat. Square 1:1, no text.",
+      "negative": "text, letters, watermark, signature, extra people, hands covering face, cropped head",
+      "generic": "An anime-style head-and-shoulders portrait (square 1:1) of a big jovial coffee shop master in his fifties with a thick black moustache and short grey hair, a dark green apron over a white shirt with rolled sleeves, a towel on his shoulder, a frustrated, annoyed expression, gritted teeth, a drop of sweat. Clean line art, soft cel shading, warm cafe lamp light, facing the viewer, face centered, plain solid dark background. No text.",
+      "ref": "cpu-gonzo-normal",
+      "notes": "基準の「cpu-gonzo-normal」を Gemini に添付し、表情だけを変える編集として頼むと、同じ人物のまま差分が作れます。顔の位置と大きさがずれないようにしてください。"
+    }
+  ]
+}

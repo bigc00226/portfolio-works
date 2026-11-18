@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>クレーン横丁 ― 2 ボタンのクレーンゲーム</title>
+  <meta name="description" content="① で右へ、② で奥へ。ぬいぐるみの山と橋渡しの 2 台で遊べる、2 ボタンのクレーンゲーム。景品棚に集めよう。">
+  <meta name="theme-color" content="#2a1840">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="cv" aria-label="クレーンゲームの機械"></canvas>
+
+  <div id="panel" class="panel" aria-label="操作パネル">
+    <div class="p-info">
+      <div class="credit"><small>のこり</small><b id="credit">0</b><small>回</small></div>
+      <div class="wallet"><small>おさいふ</small><b id="wallet">1,000</b><small>円</small></div>
+    </div>
+    <div class="p-coins">
+      <button type="button" class="coin" id="c100"><b>100円</b><small>1 回</small></button>
+      <button type="button" class="coin" id="c500"><b>500円</b><small>6 回</small></button>
+      <button type="button" class="coin refill" id="refill"><b>両替機</b><small>+1,000円</small></button>
+    </div>
+    <div class="p-btns">
+      <button type="button" class="big b1" id="b1" aria-label="ボタン1 右へ"><b>1</b><span>右へ →</span></button>
+      <button type="button" class="big b2" id="b2" aria-label="ボタン2 奥へ"><b>2</b><span>奥へ ↑</span></button>
+    </div>
+    <div class="p-tools">
+      <button type="button" class="tool" id="cam">横から見る</button>
+      <button type="button" class="tool" id="shelfBtn">景品棚</button>
+      <button type="button" class="tool" id="quit">やめる</button>
+    </div>
+  </div>
+
+  <section id="title" class="screen show" aria-label="タイトル">
+    <div class="kv" aria-hidden="true"></div>
+    <div class="title-card">
+      <p class="eyebrow">2 ボタンのクレーンゲーム</p>
+      <h1>クレーン横丁</h1>
+      <p class="lead">① で右へ、② で奥へ。ボタンは 1 回ずつ、押している間だけ動きます。</p>
+      <div class="machines">
+        <button type="button" class="machine" data-machine="pile"><b>ぬいぐるみの山</b><small>つかんで、持ち上げて、取り出し口へ</small></button>
+        <button type="button" class="machine" data-machine="bridge"><b>橋渡し</b><small>2 本の棒の上の箱を、押して傾けて落とす</small></button>
+      </div>
+      <div class="arms" role="radiogroup" aria-label="アームの強さ">
+        <span>アームの強さ</span>
+        <label><input type="radio" name="arm" value="0.85"> 強め</label>
+        <label><input type="radio" name="arm" value="0.65" checked> ふつう</label>
+        <label><input type="radio" name="arm" value="0.47"> 本格</label>
+      </div>
+      <p class="records" id="records"></p>
+      <div class="row">
+        <button type="button" class="gk-btn sm" id="tShelf">景品棚</button>
+        <button type="button" class="gk-btn sm ghost" id="btnHelp">遊び方</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen" aria-label="結果">
+    <div class="result-card">
+      <p class="eyebrow" id="rMachine">ぬいぐるみの山</p>
+      <h2 id="rHead">今日の成果</h2>
+      <div class="r-prizes" id="rPrizes"></div>
+      <dl class="r-stats">
+        <div><dt>遊んだ回数</dt><dd id="rPlays">0</dd></div>
+        <div><dt>使ったお金</dt><dd id="rSpent">0円</dd></div>
+        <div><dt>1 個あたり</dt><dd id="rPer">—</dd></div>
+      </dl>
+      <p class="r-note" id="rNote"></p>
+      <div class="r-actions">
+        <button type="button" class="gk-btn primary" id="rAgain">続けて遊ぶ</button>
+        <button type="button" class="gk-btn" id="rShelf">景品棚</button>
+        <button type="button" class="gk-btn" id="rTitle">機械をえらぶ</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="physics.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

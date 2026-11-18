@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>宵祭り金魚すくい ― 夏の夜店のポイ勝負</title>
+  <meta name="description" content="夏祭りの夜店で金魚すくい。濡れるほど弱くなるポイで、そっとすくってお椀へ。8 種類の金魚と金魚図鑑、屋台のおじさんのひと言つき。">
+  <meta name="theme-color" content="#14213d">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="cv" aria-label="金魚すくいの水槽"></canvas>
+
+  <section id="title" class="screen show" aria-label="タイトル">
+    <div class="kv" aria-hidden="true"></div>
+    <div class="title-card">
+      <p class="eyebrow">夏の夜店</p>
+      <h1>宵祭り<span>金魚すくい</span></h1>
+      <p class="lead">ポイは 3 枚、時間は 90 秒。紙が破れる前に、そっとすくってお椀へ。</p>
+      <p class="pick">ポイをえらんでください</p>
+      <div class="grades">
+        <button type="button" class="gk-btn lg" data-grade="4"><b>4号</b><small>厚い紙・やさしい</small></button>
+        <button type="button" class="gk-btn lg primary" data-grade="5"><b>5号</b><small>ふつう・得点 1.3 倍</small></button>
+        <button type="button" class="gk-btn lg" data-grade="6"><b>6号</b><small>薄い紙・得点 1.7 倍</small></button>
+      </div>
+      <p class="records" id="records"></p>
+      <div class="row">
+        <button type="button" class="gk-btn sm" id="btnDex">金魚図鑑</button>
+        <button type="button" class="gk-btn sm ghost" id="btnHelp">遊び方</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen" aria-label="結果">
+    <div class="result-card">
+      <div class="r-head">
+        <img id="rKeeper" src="img/keeper.webp" alt="屋台のおじさん">
+        <p class="r-say" id="rSay">また来なよ！</p>
+      </div>
+      <p class="eyebrow" id="rGrade">5号のポイ</p>
+      <p class="r-count"><span id="rCount">0</span><small>匹</small></p>
+      <p class="r-score"><span id="rScore">0</span> 点 <em id="rNew">ベスト更新！</em></p>
+      <div class="r-list" id="rList"></div>
+      <div class="r-actions">
+        <button type="button" class="gk-btn primary" id="rAgain">もう一回</button>
+        <button type="button" class="gk-btn" id="rDex">図鑑</button>
+        <button type="button" class="gk-btn" id="rTitle">ポイをえらぶ</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="fish.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

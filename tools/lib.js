@@ -121,8 +121,39 @@ async function openAt(browser, id, sec, { captions = false } = {}) {
   return page;
 }
 
+/**
+ * A static file server for public/ on 127.0.0.1 (a free port) — for pages that need http:// rather than file://
+ * (the games of content/sites.ts, whose url is a path like /games/<id>/). Resolves to { origin, close() }.
+ */
+const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
+  '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif', '.ico': 'image/x-icon', '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.txt': 'text/plain; charset=utf-8' };
+function serve(root = PUBLIC) {
+  const http = require('http');
+  const server = http.createServer((req, res) => {
+    let p;
+    try { p = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch (e) { res.writeHead(400); res.end(); return; }
+    let f = path.join(root, p);
+    if (!f.startsWith(root)) { res.writeHead(403); res.end(); return; }
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) {
+      if (!p.endsWith('/')) { res.writeHead(301, { Location: p + '/' }); res.end(); return; }
+      f = path.join(f, 'index.html');
+    }
+    fs.readFile(f, (err, buf) => {
+      if (err) { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('not found'); return; }
+      res.writeHead(200, { 'Content-Type': MIME[path.extname(f).toLowerCase()] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+      res.end(buf);
+    });
+  });
+  return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve({ origin: `http://127.0.0.1:${server.address().port}`, close: () => new Promise((r) => server.close(r)) })));
+}
+
+/** the games of the ゲーム tab: content/sites.ts `games` (their url is /games/<id>/) */
+const games = () => (require(path.join(ROOT, 'content', 'sites.ts')).games || []);
+const gameDir = (id) => path.join(PUBLIC, 'games', id);
+
 const launch = (args = []) => puppeteer().launch({ executablePath: CHROME, headless: 'new', protocolTimeout: 900000, args: ['--window-size=1920,1080', '--hide-scrollbars', ...args] });
 const fileUrl = (p) => pathToFileURL(p).href;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-module.exports = { ROOT, PUBLIC, GENERATED, CHROME, videos, videoDir, videoPage, videoThumb, shortAssetPath, sites, readGenerated, writeGenerated, puppeteer, launch, only, option, openVideo, runToEnd, openAt, fileUrl, wait };
+module.exports = { ROOT, PUBLIC, GENERATED, CHROME, videos, videoDir, videoPage, videoThumb, shortAssetPath, sites, games, gameDir, serve, readGenerated, writeGenerated, puppeteer, launch, only, option, openVideo, runToEnd, openAt, fileUrl, wait };

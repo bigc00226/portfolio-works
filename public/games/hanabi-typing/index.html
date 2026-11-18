@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ことば花火 ― 打って打ち上げるタイピング</title>
+  <meta name="description" content="言葉を打つたびに夜空へ花火が上がるローマ字タイピング。30〜120 秒の 4 つの時間と 3 つの難しさ、菊・牡丹・柳・千輪・スターマイン、花火の名前の段位。スマホは画面のキーボードで。">
+  <meta name="theme-color" content="#0b1026">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="bg"></div>
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <canvas id="fx" aria-hidden="true"></canvas>
+
+    <!-- タイトル -->
+    <section id="title" class="layer on" aria-label="タイトル">
+      <div class="ti-card">
+        <p class="ti-kicker">打って、打ち上げる。</p>
+        <h1 class="ti-name">ことば<span>花火</span></h1>
+        <p class="ti-sub">言葉を一つ打ち終えるたびに、夜空へ花火がひらきます。</p>
+        <div class="ti-opt"><span>時間</span><div class="seg" id="seg-time"></div></div>
+        <div class="ti-opt"><span>難しさ</span><div class="seg" id="seg-diff"></div></div>
+        <p class="ti-best" id="ti-best"></p>
+        <button class="gk-btn primary lg" id="btn-start" type="button">打ち上げ開始</button>
+        <p class="ti-note" id="ti-note">半角英数のローマ字で入力します（<kbd>Enter</kbd> で開始）</p>
+      </div>
+      <img class="mascot ti-mascot" src="img/mascot-normal.webp" alt="花火師見習いのひばな">
+    </section>
+
+    <!-- プレイ -->
+    <section id="play" class="layer" aria-label="プレイ">
+      <header class="hud">
+        <div class="hud-time"><b id="h-time">60</b><small>秒</small><i id="h-bar"></i></div>
+        <div class="hud-num"><small>スコア</small><b id="h-score">0</b></div>
+        <div class="hud-num"><small>コンボ</small><b id="h-combo">0</b></div>
+      </header>
+      <div class="count" id="count"></div>
+      <img class="mascot pl-mascot" id="pl-mascot" src="img/mascot-normal.webp" alt="">
+      <div class="panel" id="panel">
+        <div class="w-disp" id="w-disp"></div>
+        <div class="w-kana" id="w-kana"></div>
+        <div class="w-roma" id="w-roma"></div>
+        <button class="kb-toggle" id="kb-toggle" type="button" title="画面のキーボード">キー</button>
+      </div>
+      <div class="kb" id="kb" aria-label="画面のキーボード"></div>
+    </section>
+
+    <!-- 結果 -->
+    <section id="result" class="layer" aria-label="結果">
+      <div class="rs-card">
+        <p class="rs-kicker" id="rs-mode"></p>
+        <p class="rs-rank"><span id="rs-rank"></span><small>級</small></p>
+        <p class="rs-comment" id="rs-comment"></p>
+        <div class="rs-stats" id="rs-stats"></div>
+        <p class="rs-best" id="rs-best"></p>
+        <div class="rs-btns">
+          <button class="gk-btn ghost" id="btn-title" type="button">タイトルへ</button>
+          <button class="gk-btn primary" id="btn-again" type="button">もう一度</button>
+        </div>
+      </div>
+      <img class="mascot rs-mascot" id="rs-mascot" src="img/mascot-cheer.webp" alt="">
+    </section>
+  </div>
+  <script src="../../shared/games/kit.js"></script>
+  <script src="romaji.js"></script>
+  <script src="words.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -26,4 +26,5 @@ export const jdate = (d: string | null | undefined) => {
   return m ? `${+m[1]}年${+m[2]}月${+m[3]}日` : '';
 };
 
-export const host = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+/** the address shown on the cards: without https:// and the trailing / (or /index.html — the games of this site) */
+export const host = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/(index\.html)?$/, '');

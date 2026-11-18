@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>夜空のアーチ ― 夏のナイターのホームラン競争</title>
+  <meta name="description" content="夏の夜のナイター球場で、個性のある投手たちとホームラン競争。6 つの球種、タイミングとミートで決まる打球、外野へ切り替わる打球の追跡と飛距離。PC とスマホで遊べます。">
+  <meta name="theme-color" content="#0b1230">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../shared/games/kit.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="cv" aria-label="球場"></canvas>
+
+  <div id="hud">
+    <div class="h-box">
+      <div class="h-p"><b id="hPitcher"></b><span id="hNick"></span></div>
+      <div class="h-hr"><span>ホームラン</span><b id="hHR">0</b><em id="hHRlbl"></em></div>
+      <div class="h-balls"><span id="hBalls"></span><small id="hBallsLbl"></small></div>
+    </div>
+  </div>
+  <div id="touch">
+    <div id="pad" aria-label="ねらう"><span>ここをなぞって<br>カーソルを動かす</span></div>
+    <button id="swingBtn" type="button">スイング</button>
+  </div>
+
+  <section id="title" class="screen">
+    <div class="t-bg" aria-hidden="true"></div>
+    <div class="t-inner">
+      <p class="t-kicker">夏のナイターのホームラン競争</p>
+      <h1 class="t-logo">夜空のアーチ</h1>
+      <p class="t-lead">投手は 5 人。ストレートに、曲がる球、落ちる球。<br>夏の夜空へ、大きなアーチを描こう。</p>
+      <div class="t-btns">
+        <button id="btnStage" class="gk-btn primary lg" type="button">投手と勝負</button>
+        <button id="btnEndless" class="gk-btn lg" type="button">エンドレス</button>
+      </div>
+      <div class="t-rec" id="tRec"></div>
+      <button id="btnHelp" class="gk-btn ghost sm" type="button">遊び方</button>
+    </div>
+  </section>
+
+  <section id="stages" class="screen">
+    <div class="st-inner">
+      <header class="st-head"><h2>投手を選ぶ</h2><p>10 球のうち、目標の本数のホームランを打てば勝ち。勝つと次の投手と勝負できます。</p></header>
+      <div id="stageList" class="st-list"></div>
+      <button id="stBack" class="gk-btn" type="button">タイトルへ</button>
+    </div>
+  </section>
+
+  <section id="intro" class="screen">
+    <div class="i-card">
+      <div class="i-img"><img id="iImg" alt=""></div>
+      <div class="i-body">
+        <p class="i-no" id="iNo"></p>
+        <h2 class="i-name" id="iName"></h2>
+        <p class="i-nick" id="iNick"></p>
+        <ul class="i-mix" id="iMix"></ul>
+        <p class="i-target" id="iTarget"></p>
+        <div class="i-actions"><button id="iBack" class="gk-btn" type="button">戻る</button><button id="iGo" class="gk-btn primary lg" type="button">勝負！</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="r-card">
+      <p class="r-sub" id="rSub"></p>
+      <h2 class="r-title" id="rTitle"></h2>
+      <div class="r-nums">
+        <div><span>ホームラン</span><b id="rHR">0</b><em>本</em></div>
+        <div><span>最長飛距離</span><b id="rLong" class="sm">―</b></div>
+      </div>
+      <p class="r-new" id="rNew" hidden>自己ベスト更新！</p>
+      <div class="r-log" id="rLog"></div>
+      <p class="r-msg" id="rMsg"></p>
+      <div class="r-actions">
+        <button id="rMenu" class="gk-btn" type="button">投手を選ぶ</button>
+        <button id="rRetry" class="gk-btn" type="button">もう一度</button>
+        <button id="rNext" class="gk-btn primary" type="button" hidden>次の投手へ</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../shared/games/kit.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
