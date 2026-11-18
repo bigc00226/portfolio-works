@@ -281,7 +281,8 @@
     await clickUi(tr.querySelector('.row-title'), { kind: 'hand', after: 60 });
     await wpScreen('edit-price', { ms: 1000 });
     const toggle = WP.els('button, [role="button"]').find((b) => /メタボックス/.test(b.textContent + (b.getAttribute('aria-label') || '')));
-    if (toggle) await clickUi(toggle, { kind: 'hand', after: 60 });
+    // (the bar spans the editor; its label 「メタボックス」 is at the left — the middle would be under the caption)
+    if (toggle) await clickUi(toggle, { kind: 'hand', ax: 0.035, after: 60 });
     await wpScreen('edit-price-meta', { loading: false, after: 400 });
     await wpType('pageDesc', JA.PRICE, { kps: 13, ax: 0.05, ay: 0.25 });
     await clickUi(WP.el('.editor-post-publish-button, .editor-header__settings .is-primary'), { kind: 'hand', after: 60 });
@@ -426,6 +427,9 @@
     Caption.set('投稿 › カテゴリー：スラッグが日本語のまま（URL が /column/category/%e3%82%bb… と長い）、説明も空');
     await Win.switchTo('browser');
     await Browser.clickTab('wp');
+    // the block editor hides the admin menu: its back button returns to the list of pages first
+    const back = WP.el('.editor-header__back-button a');
+    if (back && back.getBoundingClientRect().width) { await clickUi(back, { kind: 'hand', after: 60 }); await wpScreen('pages'); }
     await hoverUi(WP.el('#menu-posts > a'), { hold: 250 });
     WP.el('#menu-posts').classList.add('opensub');
     await wait(250);

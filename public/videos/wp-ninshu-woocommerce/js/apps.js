@@ -75,8 +75,11 @@
       const li = WP.el(top);
       if (!li) return;
       const sub = href && li.querySelector(`.wp-submenu a[href*="${href}"]`);
-      if (sub && !li.classList.contains('wp-menu-open')) await hoverUi(li.querySelector('a.menu-top') || li, { hold: 500 });
+      // a closed flyout waits at top: -1000em; WordPress' menu script opens it on hover with .opensub
+      const fly = sub && !li.classList.contains('wp-menu-open');
+      if (fly) { await hoverUi(li.querySelector('a.menu-top') || li, { hold: 250 }); li.classList.add('opensub'); await wait(250); }
       await clickUi(sub || li.querySelector('a.menu-top') || li, { after: 60 });
+      if (fly) li.classList.remove('opensub');
     },
   };
 

@@ -790,6 +790,7 @@
     await hoverUi('#gaMid', { kind: 'arrow', hold: 400 });
     Issue.show($('#gaMid'), 'GA4 の測定 ID：G-MEEEN9DKT1');
     await hold(1800);
+    Issue.hide();
     await Browser.clickTab('ta');
     await hoverUi('#taMain', { hold: 300 });
     Issue.show($('#taMain'), 'タグ ID：G-MEEN9DKT1（E が 1 つ足りない）');

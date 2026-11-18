@@ -376,6 +376,8 @@
   scene('sp', async () => {
     Caption.step(4);
     Caption.set('スマートフォン表示：DevTools のデバイスモード（幅 390px）でトップページを確認');
+    // (VS Code is in front after the last scene: the browser first)
+    await Win.switchTo('browser');
     await Browser.typeUrl('localhost:8888');
     await devPage('home', '/', { after: 300 });
     await Keycap.show(['F12'], 500);
@@ -501,6 +503,13 @@
         const file = `ribuild.jp-20261029-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-7k2qxm.wpress`;
         Caption.fixed('バックアップを保存（.wpress）：テーマの入れ替えで問題が出ても、この時点に戻せる');
         await Browser.download(file, AI_SIZE(), { hold: 2600 });
+        // the export dialog stays over the screen until it is closed (閉じる): closed before going on in the menu
+        const close = WP.el('.ai1wm-modal-container .ai1wm-button-red');
+        if (close) {
+          await clickUi(close, { kind: 'hand', after: 60 });
+          WP.els('.ai1wm-overlay, .ai1wm-modal-container').forEach((e) => { e.style.display = 'none'; });
+          await wait(300);
+        }
       }
       await wait(600);
     }

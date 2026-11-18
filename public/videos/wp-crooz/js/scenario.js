@@ -67,6 +67,8 @@
     const x = screenRect(r1.querySelector('.lc')), y = screenRect(r2.querySelector('.lc'));
     return { left: x.left, top: x.top, width: Math.min(x.width, w), height: y.bottom - x.top };
   };
+  // Contact Form 7 has a second (hidden) save button in the form: the one on screen is in the ステータス box
+  const cf7Save = () => WP.els('#wpcf7-admin-form-element [name="wpcf7-save"]').find((b) => b.getBoundingClientRect().width > 0);
   const R = (el, pad = 0) => () => { const e = typeof el === 'function' ? el() : typeof el === 'string' ? WP.el(el) : el; if (!e) return null; const r = screenRect(e); return { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 }; };
   /** an element of the device-mode page, clipped to the device screen (the page scrolls inside it) */
   const spRect = (fn) => () => {
@@ -361,7 +363,8 @@
     await hoverUi($('#brOmni'), { ax: 0.22, hold: 2400 });
     // 固定ページ一覧 → クイック編集
     await Browser.clickTab('wp');
-    await clickUi(WP.el('#menu-pages > a'), { kind: 'hand', after: 60 });
+    // (the block editor hides the admin menu: its back button goes to the list of pages)
+    await clickUi(WP.el('.editor-header__back-button a') || WP.el('#menu-pages > a'), { kind: 'hand', after: 60 });
     await wpScreen('pages');
     const tr = WP.el(`#post-${WD.overview.id}`);
     await hoverUi(tr.querySelector('.row-title'), { hold: 500 });
@@ -464,7 +467,7 @@
     await wpType('title', [JA['お問い合わせ（'], { direct: 'IR' }, JA['）']], { kps: 11 });
     await boxPaste('form', F.CF7_FORM(true));
     await wait(400);
-    await clickUi(WP.el('#wpcf7-admin-form-element [name="wpcf7-save"]'), { kind: 'hand', after: 60 });
+    await clickUi(cf7Save(), { kind: 'hand', after: 60 });
     await wpScreen('cf7-error', { ms: 800 });
     mark('cf7-error');
     Caption.issue('設定エラー', 'フォームタブで 1 件の設定エラー：保存はされたが、このままでは使えない');
@@ -504,7 +507,7 @@
     await wpType('subject', [{ direct: '[_site_title] ' }, JA['お問い合わせ（'], { direct: '[user_surname] [user_name] ' }, JA['様）']], { kps: 15, selectAll: true });
     await boxPaste('body', F.CF7_MAIL.body);
     await wait(300);
-    await clickUi(WP.el('#wpcf7-admin-form-element [name="wpcf7-save"]'), { kind: 'hand', after: 60 });
+    await clickUi(cf7Save(), { kind: 'hand', after: 60 });
     await wpScreen('cf7-saved', { ms: 800 });
     Caption.fixed('保存：設定エラーはなくなった（フォーム・メールとも）');
     Issue.ok(R('#message, .notice-success, .updated', 2), 'コンタクトフォームを保存しました（エラーなし）');

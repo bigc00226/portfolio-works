@@ -732,6 +732,7 @@
     Caption.issue('表示されない', 'カードの価格（3,452万円〜 など）が 1 件も表示されていない');
     Issue.show(priceBox, '価格が表示されない');
     await hold(3200);
+    Issue.hide();
     // diagnose: the field name in ACF
     await Browser.clickTab('wp');
     Browser.loading('wp', true);

@@ -571,7 +571,8 @@
     Issue.hide();
     await Store.scroll(320, 1600);
     await wait(900);
-    await hoverUi(Store.doc.querySelector('.ProductForm__AddToCart, [class*="AddToCart"], button[type="submit"]') || Store.doc.body, { kind: 'hand', hold: 900 });
+    // the product's own 「カートに入れる」 (a list of selectors matches in page order: the header's icon buttons come first)
+    await hoverUi(Store.doc.querySelector('.ProductForm__AddToCart') || Store.doc.querySelector('[class*="AddToCart"]') || Store.doc.body, { kind: 'hand', hold: 900 });
     Cursor.kind('arrow');
     // the top page
     Caption.set('トップページ');

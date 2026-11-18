@@ -67,7 +67,7 @@ movie/
 
 | やりたいこと | 手順 |
 | --- | --- |
-| 動画を追加 | ① `public/videos/<id>/` に動画のページを作る ② `content/videos.ts` にエントリーを追加 ③ `npm run timeline -- <id>`（長さ・チャプター時刻・サムネイル）④ `npm run verify -- <id>`・`npm run check -- <id>` |
+| 動画を追加 | ① `public/videos/<id>/` に動画のページを作る ② `content/videos.ts` にエントリーを追加 ③ `npm run timeline -- <id>`（長さ・チャプター時刻・サムネイル）④ `npm run verify -- <id>`・`npm run check -- <id>`・`npm run pointer -- <id>` |
 | 台本を変更 | `npm run timeline -- <id>`（サムネイルの場面は `thumbAt`） |
 | サイト（一般・デモ・ゲーム）を追加 | `content/sites.ts` の `links` / `demos` / `games` にエントリーを追加 → `npm run capture -- <id>`（プレビュー画像・ファビコン） |
 | タブの文言 | `content/tabs.ts` |
@@ -271,18 +271,31 @@ movie/
 | `npm run timeline`（`-- <id>` で 1 本だけ） | 全編を高速再生して長さ・チャプター時刻を測り（`generated/timeline.json`）、サムネイル（`public/thumbs/videos/<id>.webp`、`thumbAt` 秒の場面）を撮影します |
 | `npm run verify`（`-- <id>` で 1 本だけ） | 全編を高速再生して、スクリプトのエラー・読み込めないファイル（画像のパスの誤りなど）・入力した文字の食い違いを報告します。`--shots=12,95 --out=<フォルダ>` でその秒のスクリーンショットも撮ります |
 | `npm run check`（`-- <id>`） | 入力中の文字が画面に見えていない瞬間（字幕・キー表示の下、枠の外）がないかを確認します |
+| `npm run pointer`（`-- <id>`） | ポインターと問題箇所の枠を確認します：クリック・ポイントした位置が目標の要素の上か、画面の外・字幕の下でないか、表示されていない要素（閉じたメニュー・隠れたタブ・幅 0 の複製）へ向かっていないか、枠が出ているのに目標が画面にない瞬間がないか（`--scrolls` で、目標を見せるために自動でスクロールした箇所も一覧） |
 | `npm run snapshot -- <id>` | 動画の中に映る本番サイトを取り込み直し、画像を WebP に変換します（Shopify のストアは `tools/snapshot-store.js`、ほかは `tools/snapshots/<id>/update-snapshot.js`） |
 | `npm run capture`（`-- <id>`） | 一般・デモ・ゲームのサイトのプレビュー画像（PC・ページ全体・スマホ、WebP）とファビコンを撮影します |
 | `npm run webp`（`-- <id>`） | 画像を WebP に変換して参照を書き換えます（`--dry` で確認だけ） |
 | `npm run favicons` | 各サービスの本物のファビコン・ロゴを取り直します |
 | `npm run lint` / `npm run typecheck` | ESLint / TypeScript の確認 |
 
+### ポインターと問題箇所の枠（`public/shared/engine.js`）
+
+- 位置はすべて動画のページ自身の画面（1920 × 1080）の座標です（`Demo.screenRect`）。動画のページは再生ページの中では同じオリジンの iframe なので、iframe をさかのぼるのは動画のページまで（それより上へ行くと、再生ページの縮小・中央寄せの座標になり、ポインターと枠がずれます）
+- `clickUi` / `hoverUi` / `moveToEl` は、目標が見えていなければ先にスクロールします（ページ・スクロールする枠・WordPress の管理バーの下・タスクバーの下。コードエディターの行は `Kit.Code` が自分でスクロール：`Demo.revealers`）
+- 問題箇所の枠（`Issue.show` / `Issue.ok`）は、目標の見えている部分を囲みます。目標が画面にない間（別のタブ・スクロールで外れた）は描きません
+- 台本を書くときの注意：
+  - 同じ要素の非表示の複製がよくある（スマホ用の価格・注文ステータスなど）：見えている方を選ぶ
+  - セレクターを並べた `querySelector('a, b')` はページ内の順で最初の要素を返す
+  - WordPress の閉じたサブメニューは `top: -1000em`：ホバーのあと `opensub` を付ける
+  - ブロックエディターでは管理メニューが隠れている：戻るボタンかアドレスバーで移動する
+  - ダイアログは閉じてから、その後ろをクリックする
+
 ### Shopify の動画を増やすとき
 
 1. 既存の Shopify の動画（例：`public/videos/nissin-store/`）を参考に `public/videos/<id>/` を作る（`index.html` は共通のまま、`js/config.js` に工程・ストア・取り込むページを書く）
 2. `npm run snapshot -- <id>`（`config.js` の `snapshot` を読んでストアを取り込み、WebP に変換）
 3. `js/scenario.js` に台本を書く（管理画面は `Kit.Admin` と `Kit.H`、コードは `Kit.Code` / `Kit.Term`、ストアは `Kit.Store`、日本語入力は `Kit.codeScript` / `Kit.typeInput`）
-4. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`
+4. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`、`npm run pointer -- <id>`
 
 ### WordPress の動画を増やすとき
 
@@ -290,7 +303,7 @@ movie/
 2. `tools/snapshots/<id>/capture-wp.js` を書いて実行：`tools/wp/playground.js` で本物の WordPress（日本語）を起動し、サイトの公開データ・wordpress.org のプラグイン（`cap.translations()` で日本語化）を入れ、動画の操作を実際に行って画面を取り込む → `js/wp-snapshot.js` と `assets/wp/`。続けて `node tools/webp.js <id>`
 3. 公開中のサイトは `npm run snapshot -- <id>`（`config.js` の `snapshot`）
 4. `js/scenario.js` に台本を書く（WordPress の画面は `WP.show(key)`、入力は `Demo.typeInto(WP.typeInto(name), …)`、PHP は `Kit.Code` がハイライト。WordPress のコーディング規約どおりタブでインデント）
-5. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`
+5. `content/videos.ts` にエントリーを足して `npm run timeline -- <id>`、`npm run verify -- <id>`、`npm run check -- <id>`、`npm run pointer -- <id>`
 
 ## Next.js への移行（2026-11-17）
 

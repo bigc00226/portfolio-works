@@ -185,7 +185,8 @@
     Issue.hide();
     // the rewrite rules: 設定 › パーマリンク → 変更を保存
     Caption.set('設定 › パーマリンク：「変更を保存」で、/news・/news/{スラッグ} のリライトルールを登録し直す');
-    await adminMenu('#menu-settings', 'options-permalink.php');
+    // (the block editor hides the admin menu: straight to the settings screen by its address)
+    await Browser.typeUrl('localhost:8888/wp-admin/options-permalink.php');
     await wpScreen('permalink', { ms: 600 });
     await WP.scroll(WP.el('#submit'), 900);
     await clickUi(WP.el('#submit'), { kind: 'hand', after: 60 });
@@ -571,7 +572,8 @@
     await wait(1200);
     await Store.scrollToEl(Store.doc.querySelector('.list_news'), 200, 1300);
     await wait(900);
-    const ext = Store.doc.querySelector('.list_news li.n a[target="_blank"]');
+    // (the page keeps hidden copies of the list for its other layouts: the link on screen)
+    const ext = [...Store.doc.querySelectorAll('.list_news li.n a[target="_blank"]')].find((x) => x.getBoundingClientRect().width > 0);
     if (ext) await hoverLink(ext, LIVE, 1300);
     unhover();
     await Store.scroll(0, 800);

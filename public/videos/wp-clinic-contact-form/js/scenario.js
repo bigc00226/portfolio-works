@@ -158,7 +158,13 @@
     await wait(300);
     // お問い合わせ → コンタクトフォームを追加
     await Win.switchTo('browser');
-    await clickUi(W('#toplevel_page_wpcf7 > a') || W('#adminmenu'), { after: 60 });
+    // お問い合わせ（#toplevel_page_wpcf7-dashboard）› コンタクトフォーム: the flyout opens on hover (.opensub)
+    const cf7 = W('[id^="toplevel_page_wpcf7"]');
+    await hoverUi(cf7.querySelector('a.menu-top') || cf7.querySelector('a'), { hold: 250 });
+    cf7.classList.add('opensub');
+    await wait(250);
+    await clickUi(cf7.querySelector('.wp-submenu a[href$="page=wpcf7"]') || cf7.querySelector('a'), { kind: 'hand', after: 60 });
+    cf7.classList.remove('opensub');
     await show('cf7-list', 700);
     Caption.set('「コンタクトフォーム 1」は有効化で入るサンプル。新しくフォームを作る');
     const sample = W('.row-title');
@@ -370,7 +376,8 @@
   scene('recaptcha', async () => {
     Caption.step(6);
     Caption.set('スパム対策：公開サイトと同じ reCAPTCHA v3 を Contact Form 7 のインテグレーションで');
-    await clickUi(W('#toplevel_page_wpcf7 a[href*="wpcf7-integration"]') || W('#toplevel_page_wpcf7 > a'), { after: 60 });
+    // (Contact Form 7 6.x: the menu is #toplevel_page_wpcf7-dashboard)
+    await clickUi(W('[id^="toplevel_page_wpcf7"] a[href*="wpcf7-integration"]') || W('[id^="toplevel_page_wpcf7"] > a'), { kind: 'hand', after: 60 });
     await show('integ', 800);
     const card = W('#recaptcha') || byText('.card', /reCAPTCHA/);
     if (card) await hoverUi(card, { hold: 1100 });

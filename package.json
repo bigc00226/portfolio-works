@@ -14,6 +14,7 @@
     "timeline": "node tools/timeline.js",
     "verify": "node tools/verify-video.js",
     "check": "node tools/check-hidden-input.js",
+    "pointer": "node tools/check-pointer.js",
     "capture": "node tools/capture-sites.js",
     "snapshot": "node tools/snapshot.js",
     "webp": "node tools/webp.js",

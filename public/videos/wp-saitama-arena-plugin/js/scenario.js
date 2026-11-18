@@ -613,8 +613,11 @@
     await Code.type(tabScript(b4.good.split('\n')), { kps: 20 });
     await Code.save();
     check(ADMIN, at(3, ADMIN), 'admin.php phpcs');
+    // (the editor is down at the second fix: back up to the first one, then down again)
+    await Code.reveal(l1 - 1, 500);
     Issue.ok(linesRect(l1 - 1, l1, 1100), 'wp_unslash → sanitize_key（表示だけなので nonce は不要）');
     await wait(2600);
+    await Code.reveal(e2, 500);
     Issue.ok(linesRect(e2, e2, 1100), 'esc_attr / esc_html');
     await wait(2200);
     Issue.hide();

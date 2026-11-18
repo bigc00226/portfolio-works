@@ -123,7 +123,9 @@
   }
   /** F5 in the active site tab */
   async function reloadSite(tab, states) {
-    await Browser.reload(async () => { await loadSite(tab, { states }); }, { key: 'F5' });
+    // F5 keeps the scroll position (as Chrome does): what was being looked at stays on screen
+    const y = Store.win(device).scrollY;
+    await Browser.reload(async () => { await loadSite(tab, { states }); Store.win(device).scrollTo(0, y); }, { key: 'F5' });
   }
   /** switching tabs: the store page shows the other site (scroll position kept per tab) */
   async function toTab(id) {

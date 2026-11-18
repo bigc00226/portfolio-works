@@ -628,7 +628,8 @@ KANADEMONO for BUSINESS の法人会員登録が完了しました。
     await readHold(2200);
     Issue.hide();
     await Browser.clickTab('mail');
-    await clickUi('.wm-tools [data-back]', { after: 80 });
+    // (the inbox list is on screen already: only an open mail has the back arrow)
+    if ($('.wm-tools [data-back]')) await clickUi('.wm-tools [data-back]', { after: 80 });
     Mail.render({});
     await wait(300);
     await clickUi('.wm-row[data-mail="1"]', { after: 80 });

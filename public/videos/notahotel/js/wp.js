@@ -24,7 +24,9 @@
     'yuami-thumnail-v': 'png', rusutsu_thumnail: 'jpg', tokyo_thumnail: 'jpg', 'nature-within-thumnail_326_400': 'png' };
   const H = S.houses.map((h, i) => {
     const type = /EXCLUSIVE/i.test(h.price) || h.href.startsWith('/exclusive') ? 'exclusive' : /キャンセル待ち/.test(h.price) ? 'waitlist' : 'on_sale';
-    const base = decodeURIComponent(h.img.split('/').pop()).replace(/__[0-9a-f]{8}/, '').replace(/\.[a-z]+$/, '');
+    // (the local copy's name: <original>__<hash>.webp, shortened by tools/lib.js shortAssetPath: <start>-<hash>.webp)
+    let base = decodeURIComponent(h.img.split('/').pop()).replace(/\.[a-z]+$/, '').replace(/__.*$/, '');
+    if (!ORIG_EXT[base]) { const stem = base.replace(/-[0-9a-f]{10}$/, ''); base = Object.keys(ORIG_EXT).find((k) => k.startsWith(stem)) || base; }
     return { ...h, type, order: i, file: `${base}.${ORIG_EXT[base] || 'png'}` };
   });
   const TYPE_LABEL = { on_sale: '販売中', exclusive: 'EXCLUSIVE', waitlist: 'キャンセル待ち' };

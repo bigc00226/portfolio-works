@@ -272,7 +272,9 @@
     if (test) { await say('テスト決済も、接続した後に Stripe のテストモードで行う（API キーはここには入力しない）'); await hoverUi(test, { hold: 1500 }); }
     // bank transfer
     await say('銀行振込：オフラインでの支払い → 直接銀行振込 → 有効にして振込先の口座を登録');
-    await clickUi(WP.el('.woocommerce-settings-payments__back-button') || button(/^Stripe$/, 'button, a'), { after: 80 });
+    // the Stripe screen's back link (← 支払いへ戻る, a plain <a> with that label)
+    const back = WP.el('.woocommerce-settings-payments__back-button') || WP.els('a').find((x) => /^支払いへ戻る$/.test((x.getAttribute('aria-label') || x.textContent).trim()));
+    await clickUi(back || button(/^Stripe$/, 'button, a'), { kind: 'hand', after: 80 });
     await show('payments', 500);
     await clickUi(textEl('h2, h3, span, div', /^オフラインでの支払いを受け取る$/), { after: 80 });
     await show('offline', 800);
@@ -429,6 +431,9 @@
     if (p2) { Caption.fixed(`ペアの価格 ¥${ZEN[6].toLocaleString()} を入れて更新 →「禅」も ¥${ZEN[5].toLocaleString()} – ¥${ZEN[6].toLocaleString()}`); Issue.ok(R(p2, 4), '単品 / ペアの価格'); await readHold(2400); Issue.hide(); }
   });
 
+  /** the status label of an order row (each row has two: a hidden one for the narrow layout, and the column's) */
+  const statusMark = (tr) => [...tr.querySelectorAll('mark.order-status')].find((m) => m.getBoundingClientRect().width > 0) || tr;
+
   /* 6 — orders: the status 「発送済み」 */
   scene('orders', async () => {
     Caption.step(6);
@@ -436,7 +441,7 @@
     await NS.menu('#toplevel_page_woocommerce', 'page=wc-orders');
     await show('orders', 900);
     const hold = row(/保留中/);
-    if (hold) await hoverUi(hold.querySelector('mark.order-status') || hold, { hold: 1600 });
+    if (hold) await hoverUi(statusMark(hold), { hold: 1600 });
     // the plugin: the status 「発送済み」
     await say('発送したら「発送済み」に（標準にないステータスなので、ショップのプラグインで追加する）');
     await Win.switchTo('code');
@@ -511,7 +516,7 @@
     await NS.menu('#toplevel_page_woocommerce', 'page=wc-orders');
     await show('orders-final', 800);
     const shipped = row(/発送済み/);
-    if (shipped) await hoverUi(shipped.querySelector('mark.order-status') || shipped, { hold: 1800 });
+    if (shipped) await hoverUi(statusMark(shipped), { hold: 1800 });
   });
 
   /* 7 — the live shop */

@@ -75,6 +75,8 @@
     const h0 = performance.now();
     return Promise.resolve(p).finally(() => {
       Clock.holds--;
+      // (a frame loaded while seeking: no transitions in it either)
+      if (Clock.ff) frameTurbo(document, true);
       if (DEBUG) console.log('[stage] hold', Math.round(performance.now() - h0), 'ms at', Math.round(Clock.t), 'started', Clock.started);
       // let the waiting script go on to its next pause first, then carry on seeking
       if (!Clock.holds && Clock.ff) setTimeout(() => settle().then(pump), 0);
@@ -171,9 +173,29 @@
     const c = document.getElementById('ffCover');
     if (c) c.classList.toggle('show', on);
   }
+  /**
+   * While seeking, CSS transitions / animations are off (the clock jumps: a transition running in real time would be
+   * caught half way). The video page does that with .stage-turbo; the pages shown in its iframes (captured sites,
+   * WordPress screens) get the same rule here — else a panel sliding open in a frame is measured where it started,
+   * and the pointer goes somewhere else than in normal playback.
+   */
+  const TURBO_CSS = '*,*::before,*::after{transition:none!important;animation-duration:0s!important;animation-delay:0s!important}';
+  function frameTurbo(doc, on, depth = 0) {
+    if (depth > 4 || !doc) return;
+    doc.querySelectorAll('iframe').forEach((f) => {
+      let d = null;
+      try { d = f.contentDocument; } catch (e) { return; }
+      if (!d || !d.documentElement) return;
+      let s = d.getElementById('__stageTurbo');
+      if (on && !s) { s = d.createElement('style'); s.id = '__stageTurbo'; s.textContent = TURBO_CSS; (d.head || d.documentElement).appendChild(s); }
+      else if (!on && s) s.remove();
+      frameTurbo(d, on, depth + 1);
+    });
+  }
   function setTurbo(on) {
     Clock.ff = on;
     html.classList.toggle('stage-turbo', on);
+    frameTurbo(document, on);
     S.seeking = on;
     cover(on);
     post();

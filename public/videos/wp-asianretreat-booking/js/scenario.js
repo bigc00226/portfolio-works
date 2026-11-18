@@ -53,6 +53,15 @@
   /** the paid plan of Booking Package, once subscribed in scene 5 (RECONSTRUCTED look: js/apps.js AR.unlock) */
   let PAID = null;
   const LAST = {};
+  /** Booking Package's editor dialog and its backdrop */
+  const EDITOR = '#editPanelForSchedule, #blockPanel';
+  /** closes the editor dialog with its × (after 保存 it stays open over the screen) */
+  async function closeEditor() {
+    const x = WP.el('#media_modal_close_for_schedule');
+    if (x && x.getBoundingClientRect().width) await click(x);
+    WP.els(EDITOR).forEach((e) => { e.style.display = 'none'; });
+    await wait(300);
+  }
   async function toTab(id) {
     await Browser.clickTab(id);
     if (LAST[id]) { await WP.show(LAST[id]); if (PAID && id === 'wp') AR.unlock(WP.doc(LAST[id]), PAID); if (LAST[id] === 'front-times-fixed') AR.prepSlots(WP.doc()); }
@@ -61,6 +70,8 @@
     const tab = o.tab || 'wp';
     if (o.loading !== false) { Browser.loading(tab, true); await wait(o.ms || 450); }
     await WP.show(key);
+    // Booking Package's editor dialog: as captured, or closed (a list screen captured with the dialog still open)
+    WP.els(EDITOR, key).forEach((e) => { e.style.display = o.noEditor ? 'none' : ''; });
     LAST[o.tab || 'wp'] = key;
     if (PAID && !/^(front|page|plugin|dashboard)/.test(key)) AR.unlock(WP.doc(key), PAID);
     Browser.nav(tab, { title: o.title || WP.title(key), url: o.url || WP.url(key), page: 'wp' });
@@ -262,11 +273,14 @@
     await wpScreen('sched-day-set-filled', { loading: false, after: 300 });
     const times = WP.els('input[type="time"]');
     for (const t of times.slice(0, 2)) { await hover(t, 700); }
-    const iv = WP.els('select').find((s) => [...s.options].some((o) => o.value === '30'));
+    // (the page has hidden selects too — the 1〜31 days of the delete form contain a 30 as well): the one in the dialog
+    const iv = WP.els('select').find((s) => s.getBoundingClientRect().width > 0 && [...s.options].some((o) => o.value === '30' && /分/.test(o.textContent)));
     if (iv) { await hover(iv, 800); Issue.ok(R(iv, 4), '30分'); await wait(1300); Issue.hide(); }
     await click(byText('button', /^適用$/));
     await wpScreen('sched-day-filled', { loading: false, after: 400 });
-    Issue.ok(R(WP.el('table') || WP.el('body'), -2), '10:00〜20:00 の 21 枠');
+    // the time-slot table of the day (the first table of the page is a hidden one)
+    const slotTable = WP.els('table').filter((t) => t.getBoundingClientRect().height > 0).sort((a, b) => b.querySelectorAll('tr').length - a.querySelectorAll('tr').length)[0];
+    Issue.ok(R(slotTable || WP.el('body'), -2), '10:00〜20:00 の 21 枠');
     await wait(2000);
     Issue.hide();
     await click(byText('button', /^保存$/));
@@ -304,7 +318,7 @@
     Issue.hide();
     // the notification e-mails
     Caption.set('通知 › 新規：予約が入ったときのメール。お客様向けと管理者（お店）向けを日本語に');
-    await bpTab('emailLink', 'mail-list-new');
+    await bpTab('emailLink', 'mail-list-new', { noEditor: true });
     await click(byText('#emailPanel th, #emailPanel td, #emailPanel div', /^新規$/));
     await wpScreen('mail-new', { loading: false, after: 300 });
     const help = WP.els('*').find((e) => e.children.length === 0 && /\[address\]/.test(e.textContent));
@@ -331,6 +345,7 @@
     await boxPaste('abody', F.MAIL.adminBody);
     await click(byText('button', /^保存$/));
     await wait(800);
+    await closeEditor();
   });
 
   /* 5 — online payment */
@@ -491,10 +506,13 @@
     Issue.hide();
     // the fix: the admin template + [address]
     await toTab('wp');
-    await bpMenu('booking-package_schedule_page', 'cal-list', { ms: 500 });
+    // (the tab still shows the page in the block editor, which hides the admin menu: the calendars by their address)
+    await Browser.typeUrl('asianretreat.jp/wp-admin/admin.php?page=booking-package_schedule_page');
+    await wpScreen('cal-list', { ms: 500 });
     await click(WP.els('#calendar_list_table tr')[1]);
-    await click(WP.el('#emailLink'));
-    await wait(300);
+    await wpScreen('sched-month', { loading: false, after: 300 });
+    await bpTab('emailLink', 'mail-list-new', { noEditor: true });
+    await click(byText('#emailPanel th, #emailPanel td, #emailPanel div', /^新規$/));
     await wpScreen('mail-new', { loading: false, after: 600 });
     await click(byText('*', /^管理者向け$/));
     await wpScreen('mail-new-admin', { loading: false, after: 300 });
@@ -504,6 +522,7 @@
     await wpType('abody', [{ direct: '\n\n' }, ...JA.visitTag], { kps: 11, base: body ? body.textContent : '' });
     await click(byText('button', /^保存$/));
     await wait(600);
+    await closeEditor();
     skip('11:26');
     Mail.add({ from: 'アジアンリトリート', addr: 'asianretreat.jp@gmail.com', to: 'asianretreat.jp@gmail.com', subject: AR.mailText(tpl.adminSubject || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00' }), snippet: 'WEB予約が入りました。', text: AR.mailText(tpl.adminBodyFixed || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00', services: 'もみほぐし 60分', totalAmount: '¥9,900' }), time: '11:26', label: 'WEB予約' });
     await Browser.clickTab('mail');
@@ -533,6 +552,7 @@
     await toTab('wp');
     await bpMenu('booking-package_schedule_page', 'cal-list', { ms: 500 });
     await click(WP.els('#calendar_list_table tr')[1]);
+    await wpScreen('sched-month', { loading: false, after: 300 });
     await bpTab('settingLink', 'cal-prep');
     Caption.set('カレンダーの設定 › 準備時間：30分（予約の前後）');
     PAID.prep = true;

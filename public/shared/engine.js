@@ -101,17 +101,25 @@
   const realWait = (ms) => wait(ms);
 
   /* ----------------------------------------------------------- geometry (main page + iframes) */
-  /** viewport rect of any element, also inside (scaled) iframes */
+  /**
+   * Rect of any element in this page's viewport (the video's 1920 × 1080 screen), also inside (scaled) iframes.
+   * Climbs the iframes up to this page's own window and no further: in the player the video page is itself an iframe
+   * of the same origin, and going on up would give coordinates of the player's (scaled, centred) window — the pointer
+   * and the issue frames would then land off target.
+   */
   function screenRect(el) {
     const r = el.getBoundingClientRect();
     let x = r.left, y = r.top, w = r.width, h = r.height;
     let win = el.ownerDocument.defaultView;
-    while (win && win.frameElement) {
+    while (win && win !== window && win.frameElement) {
       const fe = win.frameElement;
       const fr = fe.getBoundingClientRect();
       const sx = fe.offsetWidth ? fr.width / fe.offsetWidth : 1;
       const sy = fe.offsetHeight ? fr.height / fe.offsetHeight : 1;
-      x = fr.left + x * sx; y = fr.top + y * sy; w *= sx; h *= sy;
+      // the frame's document starts inside its border and padding
+      const cs = fe.ownerDocument.defaultView.getComputedStyle(fe);
+      const ox = fe.clientLeft + (parseFloat(cs.paddingLeft) || 0), oy = fe.clientTop + (parseFloat(cs.paddingTop) || 0);
+      x = fr.left + (ox + x) * sx; y = fr.top + (oy + y) * sy; w *= sx; h *= sy;
       win = fe.ownerDocument.defaultView;
     }
     return { left: x, top: y, width: w, height: h, right: x + w, bottom: y + h };
@@ -119,6 +127,133 @@
   function pointOf(el, ax = 0.5, ay = 0.5) {
     const r = el.getBoundingClientRect ? screenRect(el) : el;
     return [r.left + r.width * ax, r.top + r.height * ay];
+  }
+  /** maps a rect of `win`'s viewport into its frame element's document (scale, border and padding of the frame) */
+  function toParent(win, x0, y0, x1, y1) {
+    const fe = win.frameElement;
+    const fr = fe.getBoundingClientRect();
+    const sx = fe.offsetWidth ? fr.width / fe.offsetWidth : 1;
+    const sy = fe.offsetHeight ? fr.height / fe.offsetHeight : 1;
+    const cs = fe.ownerDocument.defaultView.getComputedStyle(fe);
+    const ox = fe.clientLeft + (parseFloat(cs.paddingLeft) || 0), oy = fe.clientTop + (parseFloat(cs.paddingTop) || 0);
+    return [fr.left + (ox + x0) * sx, fr.top + (oy + y0) * sy, fr.left + (ox + x1) * sx, fr.top + (oy + y1) * sy];
+  }
+  /** the parent element, also out of a shadow root (DevTools-like widgets render into one) */
+  const up = (a) => a.parentElement || (a.parentNode && a.parentNode.host) || null;
+  /** WordPress' admin bar stays at the top of its page (position: fixed): what scrolls under it is hidden — its bottom, 0 if none */
+  function topBar(doc, el) {
+    const bar = doc.getElementById && doc.getElementById('wpadminbar');
+    if (!bar || (el && bar.contains(el))) return 0;
+    if (doc.defaultView.getComputedStyle(bar).position !== 'fixed') return 0;
+    const r = bar.getBoundingClientRect();
+    return r.top <= 1 && r.height ? r.bottom : 0;
+  }
+  /** the top of the taskbar: it lies over every window (and so over anything that reaches below it) */
+  function taskbarTop(el) {
+    const tb = document.getElementById('taskbar');
+    if (!tb || (el && el.ownerDocument === document && tb.contains(el))) return innerHeight;
+    const t = tb.getBoundingClientRect();
+    return t.height && t.top > innerHeight / 2 ? t.top : innerHeight;
+  }
+  /**
+   * The part of an element that can be seen, in this page's viewport: clipped by every box with overflow ≠ visible
+   * and every iframe it sits in (up to this page), by the screen and by the taskbar.
+   */
+  function visibleRect(el) {
+    const r = el.getBoundingClientRect();
+    let x0 = r.left, y0 = r.top, x1 = r.right, y1 = r.bottom;
+    let node = el, win = el.ownerDocument.defaultView;
+    for (;;) {
+      const d = win.document;
+      // a position: fixed box is not clipped by the boxes around it
+      let fixed = node.nodeType === 1 && win.getComputedStyle(node).position === 'fixed';
+      for (let a = up(node); a && a !== d.body && a !== d.documentElement; a = up(a)) {
+        const cs = win.getComputedStyle(a);
+        if (!fixed) {
+          const ar = a.getBoundingClientRect();
+          if (cs.overflowX !== 'visible') { x0 = Math.max(x0, ar.left + a.clientLeft); x1 = Math.min(x1, ar.left + a.clientLeft + a.clientWidth); }
+          if (cs.overflowY !== 'visible') { y0 = Math.max(y0, ar.top + a.clientTop); y1 = Math.min(y1, ar.top + a.clientTop + a.clientHeight); }
+        }
+        if (cs.position === 'fixed') fixed = true;
+      }
+      x0 = Math.max(x0, 0); y0 = Math.max(y0, fixed ? 0 : topBar(d, el)); x1 = Math.min(x1, win.innerWidth); y1 = Math.min(y1, win.innerHeight);
+      if (win === window || !win.frameElement) break;
+      [x0, y0, x1, y1] = toParent(win, x0, y0, x1, y1);
+      node = win.frameElement; win = node.ownerDocument.defaultView;
+    }
+    y1 = Math.min(y1, taskbarTop(el));
+    return { left: x0, top: y0, right: x1, bottom: y1, width: Math.max(0, x1 - x0), height: Math.max(0, y1 - y0) };
+  }
+  /** is the element laid out at all (not display: none, not in a hidden frame)? */
+  const laidOut = (el) => { const r = el.getBoundingClientRect(); return r.width >= 1 || r.height >= 1; };
+  /**
+   * Apps that draw only part of their content (the code editor's rows) bring an element into view themselves:
+   * fn(el, o) → Promise of the element to aim at now (a redrawn one), or nothing.
+   */
+  const revealers = [];
+  /**
+   * Before the pointer goes to an element that is out of sight (above / below the visible part of its page or of a
+   * scrolling panel, under WordPress' admin bar or under the taskbar), it is brought into view — as a person scrolls
+   * before clicking. Nothing happens when the point to aim at is visible already. → the element to aim at.
+   */
+  async function reveal(el, o = {}) {
+    if (o.reveal === false || !el || !el.getBoundingClientRect) return el;
+    for (const fn of revealers) { const n = await fn(el, o); if (n && n !== el) el = n; }
+    await scrollReveal(el, o);
+    return el;
+  }
+  async function scrollReveal(el, o = {}) {
+    if (!laidOut(el)) return;
+    const ax = o.ax != null ? o.ax : 0.5, ay = o.ay != null ? o.ay : 0.5;
+    for (let pass = 0; pass < 3; pass++) {
+      const s = screenRect(el), v = visibleRect(el);
+      const px = s.left + s.width * ax + (o.dx || 0), py = s.top + s.height * ay + (o.dy || 0);
+      if (px >= v.left + 1 && px <= v.right - 1 && py >= v.top + 1 && py <= v.bottom - 1) return;
+      // the nearest box that scrolls and does not show the point; else the page of the frame the element is in
+      let doc = el.ownerDocument, node = el, scroller = null;
+      while (!scroller && doc) {
+        const win = doc.defaultView;
+        for (let a = up(node); a && a !== doc.body && a !== doc.documentElement; a = up(a)) {
+          const cs = win.getComputedStyle(a);
+          if (/(auto|scroll)/.test(cs.overflowY) && a.scrollHeight > a.clientHeight + 1) {
+            const sr = visibleRect(a);
+            if (sr.height > 20 && (py < sr.top + 1 || py > sr.bottom - 1)) { scroller = { el: a, view: sr, win }; break; }
+          }
+        }
+        if (scroller) break;
+        const se = doc.scrollingElement || doc.documentElement;
+        if (se.scrollHeight > win.innerHeight + 1) {
+          // the part of this page's viewport that is on screen
+          let view = { top: 0, bottom: innerHeight };
+          if (win !== window && win.frameElement) { const fv = visibleRect(win.frameElement); view = { top: fv.top, bottom: fv.bottom }; } else view.bottom = taskbarTop();
+          // (nothing can be seen under the page's fixed admin bar; being fixed, its own rect is where it is on screen)
+          if (topBar(doc, el)) view.top = Math.max(view.top, screenRect(doc.getElementById('wpadminbar')).bottom);
+          if (view.bottom - view.top > 40 && (py < view.top + 1 || py > view.bottom - 1)) { scroller = { el: se, view, win, page: true }; break; }
+        }
+        if (win === window || !win.frameElement) break;
+        node = win.frameElement; doc = node.ownerDocument;
+      }
+      if (!scroller) return;
+      // as little as needed: the point comes in by a margin from the edge it was beyond (a tall element: its top
+      // a little below the visible top)
+      const vh = scroller.view.bottom - scroller.view.top;
+      const margin = clamp(vh * 0.25, 60, 220);
+      const want = s.height * 0.8 > vh ? scroller.view.top + 40 + (py - s.top)
+        : py > scroller.view.bottom - 1 ? Math.max(scroller.view.bottom - margin, scroller.view.top + vh * 0.4)
+          : Math.min(scroller.view.top + margin, scroller.view.top + vh * 0.6);
+      // screen px → px of the scroller's own document (its frames may be scaled)
+      const de = scroller.win.document.documentElement;
+      const lw = de.getBoundingClientRect().width;
+      const scale = lw ? screenRect(de).width / lw : 1;
+      const se = scroller.el;
+      const from = se.scrollTop, max = se.scrollHeight - se.clientHeight;
+      const to = clamp(from + (py - want) / scale, 0, max);
+      if (Math.abs(to - from) < 2) return;
+      const ms = clamp(260 + Math.abs(to - from) * scale * 0.3, 320, 950);
+      if (window.__demoLog) window.__demoLog('reveal', el, Math.round(from), Math.round(to));
+      await tween(ms, (e) => { se.scrollTop = from + (to - from) * e; }, Ease.inOut);
+      await wait(120);
+    }
   }
 
   /* ----------------------------------------------------------------- cursor */
@@ -151,10 +286,11 @@
      * small overshoot that is corrected back onto the target.
      */
     async moveTo(x, y, o = {}) {
-      if (!o.keepHover) UI.unhover();
       const sx = this.x, sy = this.y, dx = x - sx, dy = y - sy;
       const dist = Math.hypot(dx, dy);
+      // (a pointer that does not move keeps what it hovers)
       if (dist < 0.5) return;
+      if (!o.keepHover) UI.unhover();
       const free = o.ms == null && !o.onMove && !o.easing;
       const ms = o.ms != null ? o.ms : clamp(200 + dist * 0.32, 240, 760) * (0.88 + Math.random() * 0.24);
       const nx = -dy / dist, ny = dx / dist;
@@ -196,14 +332,33 @@
     setTimeout(() => r.remove(), 650);
   }
   async function moveToEl(el, o = {}) {
+    if (el.getBoundingClientRect && !laidOut(el)) console.warn('[demo] pointer target is not on screen (not laid out)', el);
+    el = (await reveal(el, o)) || el;
     const [x, y] = pointOf(el, o.ax != null ? o.ax : 0.5, o.ay != null ? o.ay : 0.5);
-    await Cursor.moveTo(x + (o.dx || 0), y + (o.dy || 0), o);
+    const tx = x + (o.dx || 0), ty = y + (o.dy || 0);
+    // a move inside one element of a page in a frame (from a list row's title to its row actions): that element stays
+    // hovered on the way, as under a real pointer — WordPress' row actions, shown only while the row is hovered,
+    // would otherwise vanish while the pointer goes to them
+    let keep = false;
+    const h = UI.hovered;
+    if (el.ownerDocument && el.ownerDocument !== document && h && h !== el && h.ownerDocument === el.ownerDocument) {
+      let c = h;
+      while (c && !c.contains(el)) c = c.parentElement;
+      const d = el.ownerDocument;
+      if (c && c !== d.body && c !== d.documentElement) {
+        const r = screenRect(c);
+        const inR = (px, py) => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+        if (inR(Cursor.x, Cursor.y) && inR(tx, ty)) { UI.hover(c); keep = true; }
+      }
+    }
+    await Cursor.moveTo(tx, ty, keep ? { ...o, keepHover: true } : o);
+    return el;
   }
   async function clickUi(target, o = {}) {
-    const el = typeof target === 'string' ? $(target) : target;
+    let el = typeof target === 'string' ? $(target) : target;
     if (!el) { console.warn('[demo] click target missing', target); return; }
     Cursor.kind(o.kind || 'arrow');
-    await moveToEl(el, o);
+    el = (await moveToEl(el, o)) || el;
     UI.hover(el);
     await wait(o.pause != null ? o.pause : 90);
     if (el.classList && el.ownerDocument === document) el.classList.add('is-pressed');
@@ -212,10 +367,10 @@
     if (o.after != null) await wait(o.after);
   }
   async function hoverUi(target, o = {}) {
-    const el = typeof target === 'string' ? $(target) : target;
+    let el = typeof target === 'string' ? $(target) : target;
     if (!el) return;
     if (o.kind) Cursor.kind(o.kind);
-    await moveToEl(el, o);
+    el = (await moveToEl(el, o)) || el;
     UI.hover(el);
     if (o.hold) await wait(o.hold);
   }
@@ -290,16 +445,36 @@
       if (!this.fn) { this.fn = () => this.place(); frameFns.add(this.fn); }
       this.place();
     },
+    /**
+     * The frame goes round the part of the target that is on screen: clipped by the panels / frames / windows it is in
+     * and by the taskbar (a function target gives a rect: clipped by the screen and the taskbar). While nothing of the
+     * target can be seen (not laid out, scrolled away) the frame is not drawn — rather than standing in a corner.
+     */
     place() {
       if (!this.target) return;
       const pad = this.o.pad != null ? this.o.pad : 6;
-      let r = typeof this.target === 'function' ? this.target() : screenRect(this.target);
-      if (!r) return;
+      let r = null;
+      try {
+        if (typeof this.target === 'function') {
+          const f = this.target();
+          if (f && f.getBoundingClientRect) r = laidOut(f) ? visibleRect(f) : null;
+          else if (f && f.width >= 1 && f.height >= 1) {
+            const right = f.right != null ? f.right : f.left + f.width, bottom = f.bottom != null ? f.bottom : f.top + f.height;
+            const x0 = Math.max(f.left, 0), y0 = Math.max(f.top, 0), x1 = Math.min(right, innerWidth), y1 = Math.min(bottom, taskbarTop());
+            r = { left: x0, top: y0, width: x1 - x0, height: y1 - y0 };
+          }
+        } else if (this.target.isConnected && laidOut(this.target)) r = visibleRect(this.target);
+      } catch (e) { r = null; }
       const b = $('#issueBox');
+      const on = !!r && r.width >= 2 && r.height >= 2;
+      b.style.visibility = on ? '' : 'hidden';
+      if (!on) return;
       b.style.left = r.left - pad + 'px';
       b.style.top = r.top - pad + 'px';
       b.style.width = r.width + pad * 2 + 'px';
       b.style.height = r.height + pad * 2 + 'px';
+      // no room for the label above the frame (the target is at the top of the screen): it goes below
+      b.classList.toggle('below', !!this.o.below || r.top - pad < 34);
     },
     hide() {
       $('#issueBox').classList.remove('show', 'ok');
@@ -682,7 +857,7 @@
   window.Demo = {
     $, $$, clamp, esc, Ease, icon, hydrateIcons,
     Clock, wait, kw, tween, realWait, twoFrames, frameFns,
-    screenRect, pointOf, UI, Cursor, ripple, moveToEl, clickUi, hoverUi,
+    screenRect, visibleRect, pointOf, reveal, revealers, UI, Cursor, ripple, moveToEl, clickUi, hoverUi,
     Win, Caption, Issue, Keycap, Notif, Ghost,
     KeyStrip, Ime, romajiToKana, predictFor, scriptText, typeInto, fieldTarget, frameTextTarget,
     hasLocalFont, minchoAlias, preloadFontText,

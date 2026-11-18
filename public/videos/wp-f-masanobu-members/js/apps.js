@@ -136,6 +136,15 @@
         p.innerHTML = t.innerHTML;
         p.classList.add('demo-wholesale');
       });
+      // the theme shows the price in its own block (dd.cart__blockInfoPrice; the p.price above is hidden by its CSS):
+      // the group price there as well — B2BKing filters the product's price, which that block prints
+      const group = (t.textContent.match(/[d,]+/) || [])[0];
+      if (group) doc.querySelectorAll('.cart__blockInfoPrice').forEach((dd) => {
+        if (!/1,620/.test(dd.textContent)) return;
+        dd.__orig = dd.__orig || dd.innerHTML;
+        dd.innerHTML = dd.__orig.replace(/1,620/g, group);
+        dd.classList.add('demo-wholesale');
+      });
       const login = doc.querySelector('.cm-hnew__infoOtherLink.is-login .target__txt');
       if (login) { login.__orig = login.__orig || login.textContent; login.textContent = 'マイページ'; }
     },

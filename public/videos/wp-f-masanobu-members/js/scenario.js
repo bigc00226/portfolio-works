@@ -94,6 +94,7 @@
   async function wpScreen(key, o = {}) {
     if (o.loading !== false) { Browser.loading('wp', true); await wait(o.ms || 450); }
     await WP.show(key);
+    if (o.top) WP.doc(key).defaultView.scrollTo(0, 0);   // a newly loaded page opens at the top
     blurWp(key);
     Browser.nav('wp', { title: WP.title(key), url: o.url || WP.url(key), page: 'wp' });
     if (o.loading !== false) Browser.loading('wp', false);
@@ -420,9 +421,9 @@
     await Browser.clickTab('dev');
     await Browser.typeUrl('localhost:8888/product/iyokanmarmalade/');
     await devPage('product', '/product/iyokanmarmalade/', { states: ['wholesalePrice'], after: 500 });
-    await Store.scrollToEl(visible(Store.doc, 'p.price.demo-wholesale'), 360, 1000);
+    await Store.scrollToEl(visible(Store.doc, '.demo-wholesale'), 360, 1000);
     Caption.fixed('卸会員でログインしていると、伊予柑マーマレードは卸価格 ¥1,458（一般は ¥1,620）');
-    Issue.ok(SR(() => visible(Store.doc, 'p.price.demo-wholesale'), 6), '卸価格');
+    Issue.ok(SR(() => visible(Store.doc, '.demo-wholesale'), 6), '卸価格');
     await wait(2500);
     Issue.hide();
     await Browser.typeUrl('localhost:8888/account/member-status/');
@@ -513,7 +514,8 @@
     // the role on the user screen
     Caption.set('ユーザー › 会員の編集：権限グループに「卸会員」を追加（Members で複数の権限グループを持てる）');
     await Browser.clickTab('wp');
-    await adminMenu('#menu-users');
+    // (the tab still shows the block editor, which hides the admin menu: the users screen by its address)
+    await Browser.typeUrl('localhost:8888/wp-admin/users.php');
     await wpScreen('users', { ms: 500 });
     const row = WP.el(`#user-${WD.member.id}`);
     await clickUi(row ? row.querySelector('.row-title, strong a') : WP.el('.row-title'), { kind: 'hand', after: 60 });
@@ -522,7 +524,8 @@
     if (rc) await tick(rc, true);
     await WP.scroll(WP.el('#submit'), 1100);
     await clickUi(WP.el('#submit'), { kind: 'hand', after: 60 });
-    await wpScreen('user-roles-saved', { ms: 800 });
+    // (saving redirects to a newly loaded page: it opens at the top, where the notice is)
+    await wpScreen('user-roles-saved', { ms: 800, top: true });
     Issue.ok(R('#message, .notice-success, .updated', 2), 'ユーザーを更新しました');
     await wait(1300);
     Issue.hide();

@@ -63,7 +63,9 @@
   const side = (doc, open, anim) => {
     const e = doc.getElementById('fixbtn');
     if (!e) return;
-    if (anim) e.style.setProperty('transition', 'transform .4s ease-out', 'important');
+    // (not while seeking: the clock jumps, the slide would be caught half way and the pointer aim at the closed tab)
+    if (anim && !(window.Stage && window.Stage.Clock.ff)) e.style.setProperty('transition', 'transform .4s ease-out', 'important');
+    else e.style.removeProperty('transition');
     e.className = 'fixed ' + (open ? 'on' : 'off');
   };
   ST.hSide = { on(doc) { side(doc, false); }, off() {} };

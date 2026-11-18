@@ -1276,6 +1276,22 @@
 
   window.addEventListener('resize', () => { Store.fit(); TE.fit(); });
 
+  /*
+   * The editor draws only the rows that fit above its panel (a row further down may still be in the page, under the
+   * terminal). When the pointer is to go to such a row, the editor scrolls to it first — as a person scrolls the
+   * editor before pointing at a line. The rows are drawn anew: the pointer aims at the new one.
+   */
+  if (D.revealers) D.revealers.push(async (el) => {
+    const box = $('#vsLines');
+    const line = el.closest && el.closest('.vs-line');
+    if (!line || !box || !box.contains(line) || !Code.active) return null;
+    const i = +line.dataset.l;
+    const rows = Code.rows();
+    if (i >= Math.ceil(Code.top) && i <= Math.floor(Code.top) + rows - 2) return null;
+    await Code.scrollTo(Math.max(0, i - Math.floor(rows / 3)), 600);
+    return Code.lineEl(i) || el;
+  });
+
   /* ====================================================================== runner */
   const readHold = (ms) => wait(ms * Math.max(1, Clock.speed));
   /** the title card scene */

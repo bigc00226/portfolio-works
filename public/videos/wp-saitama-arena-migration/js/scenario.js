@@ -354,6 +354,7 @@
     Issue.show(termFind('ERROR 2002', 1, 1000), 'localhost に MySQL がない');
     await wait(3500);
     const at = Code.find("define( 'DB_HOST', 'localhost' );").line;
+    await Code.reveal(at, 500);
     Issue.show(linesRect(at, at, 520), "DB_HOST 'localhost'");
     await wait(2700);
     Issue.hide();

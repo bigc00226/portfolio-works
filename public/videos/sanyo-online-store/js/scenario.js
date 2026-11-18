@@ -415,6 +415,12 @@
     Store.device(false);
   });
 
+  /**
+   * The Performance score: in the DevTools report the categories' gauges (.lh-category) are the other three; the score
+   * sits in the scores header, and in the sticky header once the report is scrolled down.
+   */
+  const perfGauge = () => [LH.q('.lh-sticky-header .lh-gauge__wrapper'), LH.q('.lh-scores-header .lh-gauge__wrapper')].find((e) => e && D.visibleRect(e).height > 4) || LH.q('.lh-scores-header .lh-gauge__wrapper');
+
   /* 4 — product page speed */
   scene('speed', async () => {
     Caption.step(4);
@@ -425,7 +431,7 @@
     await wait(400);
     await lighthouse('before');
     Caption.issue('遅い', 'パフォーマンス 38：画像に width / height がなくレイアウトがずれ、使っていないアプリのスクリプトも読み込んでいる');
-    await hoverUi(LH.q('.lh-category .lh-gauge__wrapper'), { hold: 900 });
+    await hoverUi(perfGauge(), { hold: 900 });
     await LH.scrollTo(LH.q('.lh-audit-group--metrics'), 74, 800);
     Issue.show(LH.audit('cumulative-layout-shift'), 'レイアウトのずれ', { below: true });
     await wait(1500);
@@ -498,12 +504,12 @@
     Caption.set('1 枚目の画像だけ eager にして、もう一度計測');
     await lighthouse('fixed');
     Caption.fixed('1 枚目だけ eager（それ以外は lazy）に：パフォーマンス 38 → 86、LCP 2.4 秒・CLS 0.02');
-    await hoverUi(LH.q('.lh-category .lh-gauge__wrapper'), { hold: 900 });
+    await hoverUi(perfGauge(), { hold: 900 });
     await LH.scrollTo(LH.q('.lh-audit-group--metrics'), 74, 800);
     Issue.ok(LH.q('.lh-audit-group--metrics .lh-metrics-container'), 'LCP 2.4 秒・CLS 0.02');
     await readHold(2800);
-    await hoverUi(LH.q('.lh-sticky-header .lh-gauge__wrapper'), { hold: 1200 });
     Issue.hide();
+    await hoverUi(perfGauge(), { hold: 1200 });
     await Keycap.show(['F12'], 500);
     await DevTools.open(false);
     LH.close();
