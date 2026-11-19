@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'soup-stock-tokyo',
   title: 'Soup Stock Tokyo 公式オンラインショップ — 在庫連携（倉庫・店舗 ⇄ Shopify）デモ',
-  start: '2026-08-25T15:41',   // the first scheduled run watched live is the one of 15:45
+  start: '2026-11-07T15:41',   // the first scheduled run watched live is the one of 15:45
   steps: ['在庫連携の設計', 'ロケーション設定', '同期スクリプト', 'エラー処理・再試行', '定期実行', '在庫・ストア表示の確認'],
   intro: {
     kicker: 'Shopify × 倉庫・店舗の在庫連携',

@@ -5,7 +5,7 @@
 window.VIDEO = {
   id: 'sanyo-online-store',
   title: 'SANYO ONLINE STORE — 既存ストアの機能改善（ブランド横断・OMO）デモ',
-  start: '2026-08-04T09:55',
+  start: '2026-11-05T09:55',
   steps: ['現状分析', 'ブランド横断の絞り込み', '店舗在庫の表示（OMO）', 'パフォーマンス改善'],
   intro: {
     kicker: 'Shopify Plus — 既存ストアの機能改善',

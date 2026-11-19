@@ -55,8 +55,8 @@
   const V = {
     themes(o = {}) {
       const live = o.flowLive ? 'Flow' : 'Dawn';
-      const lib = o.flow === false ? [] : [o.flowLive ? { n: 'Dawn', v: '15.0.0', d: '前回のライブテーマ' } : { n: 'Flow', v: '39.9.1', d: o.edited ? '最終保存：7月7日 15:12' : '試用版・テーマストアから追加' }];
-      const card = (t, isLive) => `<div class="gb-th${isLive ? ' live' : ''}" data-th="${esc(t)}"><div class="gb-th-img">${wire(THEMES.find((x) => x.name === t), false)}</div><div class="gb-th-b"><b>${esc(t)}</b>${isLive ? H.badge('ライブ', 'ok') : ''}<p class="sa-mute">${isLive ? (o.flowLive ? '7月7日 15:40 に公開' : '現在ストアに表示中') : ''}</p></div><div class="gb-th-a">${H.btn('…')}${H.btn('カスタマイズ', { pri: isLive })}</div></div>`;
+      const lib = o.flow === false ? [] : [o.flowLive ? { n: 'Dawn', v: '15.0.0', d: '前回のライブテーマ' } : { n: 'Flow', v: '39.9.1', d: o.edited ? '最終保存：11月4日 15:12' : '試用版・テーマストアから追加' }];
+      const card = (t, isLive) => `<div class="gb-th${isLive ? ' live' : ''}" data-th="${esc(t)}"><div class="gb-th-img">${wire(THEMES.find((x) => x.name === t), false)}</div><div class="gb-th-b"><b>${esc(t)}</b>${isLive ? H.badge('ライブ', 'ok') : ''}<p class="sa-mute">${isLive ? (o.flowLive ? '11月4日 15:40 に公開' : '現在ストアに表示中') : ''}</p></div><div class="gb-th-a">${H.btn('…')}${H.btn('カスタマイズ', { pri: isLive })}</div></div>`;
       return H.page({ title: 'テーマ', actions: [H.btn('テーマストアを見る', { icon: 'external' })] },
         H.card('現在のテーマ', card(live, true)) +
         H.card('テーマライブラリ', lib.length ? lib.map((t) => `<div class="gb-lib" data-lib="${esc(t.n)}">${H.thumb('', { bg: '#e9efe6' })}<div><b>${esc(t.n)}</b> <span class="sa-mute">${t.v}</span><div class="sa-mute">${esc(t.d)}</div></div><span class="sp"></span>${o.flowLive ? '' : H.btn('公開', { id: 'libPublish' })}${H.btn('カスタマイズ', { id: 'libCustomize' })}</div>`).join('') : '<p class="sa-mute">テーマライブラリにテーマはありません。</p>', { id: 'libCard' }));
@@ -95,7 +95,7 @@
     },
     entries(list) {
       return H.page({ title: '植物', back: true, actions: [H.btn('エントリを追加', { pri: true, id: 'enAdd' })] },
-        H.card('', list.length ? H.table([['', 'ck'], '表示名', '日当たり', '更新日'], list.map((e) => [H.ck(), `<b>${esc(e.name)}</b>`, `<span class="sa-mute">${esc(e.hiatari.slice(0, 26))}…</span>`, '7月7日'])) : `<div class="sa-empty big"><div class="sa-empty-art">${K.ic('cube')}</div><h3>植物のエントリを追加しましょう</h3><p>植物ごとに育て方を 1 件ずつ登録し、商品から参照します。</p></div>`, { flush: true }));
+        H.card('', list.length ? H.table([['', 'ck'], '表示名', '日当たり', '更新日'], list.map((e) => [H.ck(), `<b>${esc(e.name)}</b>`, `<span class="sa-mute">${esc(e.hiatari.slice(0, 26))}…</span>`, '11月4日'])) : `<div class="sa-empty big"><div class="sa-empty-art">${K.ic('cube')}</div><h3>植物のエントリを追加しましょう</h3><p>植物ごとに育て方を 1 件ずつ登録し、商品から参照します。</p></div>`, { flush: true }));
     },
     entry(vals = {}) {
       const f = (name, key, o = {}) => `<div class="sa-f" data-f="${key}"><label>${esc(name)}</label><div class="sa-in${o.ta ? ' ta' : ''}" id="en_${key}"><span class="v">${esc(vals[key] || '')}</span></div>${o.hint ? `<div class="hint">${o.hint}</div>` : ''}</div>`;

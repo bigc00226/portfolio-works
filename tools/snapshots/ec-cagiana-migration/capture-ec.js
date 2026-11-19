@@ -120,7 +120,7 @@ function oldUrls() {
 (async () => {
   for (const f of ['backup-1.tar.gz', 'backup-2.tar.gz']) if (!fs.existsSync(path.join(WORK, f))) throw new Error('run capture-ec3.js first: ' + f);
   const ec3Magic = fs.readFileSync(path.join(EC3, 'app/config/eccube/config.yml'), 'utf8').match(/auth_magic: (\S+)/)[1];
-  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-10-14', time: '13:24', shots: SHOTS, merge: true, assets: 'assets/ec' });
+  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-11', time: '13:24', shots: SHOTS, merge: true, assets: 'assets/ec' });
   const { page } = cap;
   const D = cap.data;
   const inst = cap.instance;

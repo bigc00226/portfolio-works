@@ -5,7 +5,7 @@
 window.VIDEO = {
   id: 'wp-seikotsuin-fixes',
   title: 'はらいろ整骨院・へいわじま整骨院 — WordPress 既存ページの修正 デモ',
-  start: '2026-10-30T14:06',
+  start: '2026-11-13T14:06',
   open: 'code', active: 'code',
   pins: 'explorer edge chrome:browser vscode:code',
   steps: ['依頼の確認', 'メニュー・予約リンクの追加', 'フッター・説明文の修正', '診療時間の修正', 'スマホ表示の調整'],

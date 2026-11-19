@@ -10,7 +10,7 @@
 import Image from 'next/image';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { VideoEntry } from '@/lib/registry';
-import { paths, fmtTime, jdate } from '@/lib/paths';
+import { paths, fmtTime } from '@/lib/paths';
 import { VideoCard } from './VideoCard';
 import { Close, Play, PlayGlyph } from './icons';
 
@@ -150,7 +150,7 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
   );
 }
 
-/* everything about one video: the thumbnail (plays it), tool / date / length, title, client, the full summary, tags,
+/* everything about one video (no date): the thumbnail (plays it), tools / number of steps, title, client, the full summary, tags,
    the chapter bar and list (each chapter starts the player there) */
 function Detail({ v, cat }: { v: VideoEntry; cat: Cat }) {
   const [hl, setHl] = useState<number | null>(null);
@@ -167,7 +167,6 @@ function Detail({ v, cat }: { v: VideoEntry; cat: Cat }) {
       <div className="vd-text">
         <div className="meta-line">
           <span className="tool">{v.tool}</span>
-          {jdate(v.recorded) && <><span className="sep" /><span>{jdate(v.recorded)}</span></>}
           {ch.length > 0 && <><span className="sep" /><span>{ch.length} 工程</span></>}
         </div>
         <h4 id="vd-title">{v.title}</h4>

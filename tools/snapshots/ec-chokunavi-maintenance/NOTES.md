@@ -1,6 +1,6 @@
 # ec-chokunavi-maintenance — 作業メモ（再開用）
 
-販促品直ナビ（www.chokunavi.shop、EC-CUBE 4、敷島産業株式会社）サーバー・セキュリティ・保守の動画。recorded 2026-11-17（タスクバーの日付）。
+販促品直ナビ（www.chokunavi.shop、EC-CUBE 4、敷島産業株式会社）サーバー・セキュリティ・保守の動画。recorded 2026-11-15（タスクバーの日付）。
 
 ## 調査（公開ページのみ。2026-11-18）
 
@@ -10,7 +10,7 @@
     → フロントのテンプレートは 4.1 がもと。本体の版は外からはわからない
   - `Set-Cookie: maintenance_token=deleted`（MaintenanceListener、4.1 以降）、`eccube=…; secure; HttpOnly; SameSite=none`
   - HSTS max-age=15724800（ingress-nginx の既定値と同じ）・X-Frame-Options・X-XSS-Protection・nosniff。Server ヘッダーなし、CSP なし
-  - 証明書：GlobalSign GCC R46 AlphaSSL CA 2025、CN www.chokunavi.shop、2026-11-13〜2026-12-17、TLS 1.3
+  - 証明書：GlobalSign GCC R46 AlphaSSL CA 2025、CN www.chokunavi.shop、2026-11-11〜2026-12-17、TLS 1.3
   - chokunavi.shop（www なし）は DNS がない（ENOTFOUND）
 - EC-CUBE 4.3.1-p1（2026-03-04）＝ 2段階認証の **MFA バイパス** の修正（compare 4.3.1...4.3.1-p1：TwoFactorAuthController / Listener / Service）。
   同日に 4.2.3-p2・4.1.2-p5 も

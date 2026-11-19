@@ -66,9 +66,9 @@
     this.kpis([['実行（24 時間）', 128], ['成功', 128, 'ok'], ['失敗', 0], ['次の実行', '11:30']]);
     const J = (n, s, last, res, d) => `<tr><td><b>${esc(n)}</b></td><td><code>${esc(s)}</code></td><td>${esc(last)}</td><td>${res === '—' ? '<span class="sa-mute">—</span>' : `<span class="mon-st s2">OK</span> ${esc(res)}`}</td><td class="num">${esc(d)}</td></tr>`;
     $('#monCard').innerHTML = `<table class="mon-tbl" id="monTbl"><thead><tr><th>ジョブ</th><th>スケジュール</th><th>最終実行</th><th>結果</th><th>所要時間</th></tr></thead><tbody>
-      ${J('在庫取り込み（WMS → Shopify）', '*/15 * * * *', '2026/10/06 11:15', `${F.STOCK.length} SKU・更新 ${F.CHANGED.length} 件`, '0.9 s')}
-      ${J('出荷実績の反映（WMS → Shopify）', '*/10 * * * *', '2026/10/06 11:20', '発送済み 3 件', '1.4 s')}
-      ${J('会員ランク・ポイント（会員基盤 → Shopify）', '0 5 * * *', '2026/10/06 05:00', '1,284 件', '38.2 s')}
+      ${J('在庫取り込み（WMS → Shopify）', '*/15 * * * *', '2026/11/12 11:15', `${F.STOCK.length} SKU・更新 ${F.CHANGED.length} 件`, '0.9 s')}
+      ${J('出荷実績の反映（WMS → Shopify）', '*/10 * * * *', '2026/11/12 11:20', '発送済み 3 件', '1.4 s')}
+      ${J('会員ランク・ポイント（会員基盤 → Shopify）', '0 5 * * *', '2026/11/12 05:00', '1,284 件', '38.2 s')}
       ${J('受注 CSV の再送（デッドレター）', '手動', '—', '—', '—')}</tbody></table>`;
   };
   MON.dlqView = function (items) {

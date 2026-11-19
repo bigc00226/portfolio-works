@@ -6,7 +6,7 @@
 window.VIDEO = {
   id: 'ec-chokunavi-maintenance',
   title: '販促品直ナビ — EC-CUBE 4 サーバー・セキュリティ・保守 デモ',
-  start: '2026-11-17T10:02',
+  start: '2026-11-15T10:02',
   open: 'code', active: 'code',
   steps: ['依頼・外からの確認', '健康診断（EC-CUBE）', 'セキュリティチェック', '管理画面の防御', '設定とファイル', 'バックアップと復元テスト', 'パッチ適用（4.3.1-p1）', '本番へ反映・報告'],
   intro: {

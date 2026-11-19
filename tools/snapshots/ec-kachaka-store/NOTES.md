@@ -1,6 +1,6 @@
 # ec-kachaka-store — working notes (for resuming)
 
-Video: kachaka Online Store (store.kachaka.life) — EC-CUBE 4 design renewal (Twig). recorded 2026-09-10.
+Video: kachaka Online Store (store.kachaka.life) — EC-CUBE 4 design renewal (Twig). recorded 2026-11-07.
 
 ## Files
 - public/videos/ec-kachaka-store/: index.html, js/config.js (steps, snapshot of the live store), js/files.js (the theme:

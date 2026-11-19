@@ -54,7 +54,7 @@ const products = SHOP.products.filter((p) => !SKIP.includes(p.id)).map((p, i) =>
 });
 const parentOf = Object.fromEntries(SHOP.categories.map((c) => [c.id, c.parent]));
 const cats = SHOP.categories.filter((c) => !c.parent || SUBS.includes(c.id));
-const NEWS = SHOP.news.filter((n) => n.date && n.date < '2026-10-01').slice(0, 3).map((n) => ({ ...n, body: n.body.split('\n').filter((l) => l.trim() && !/TEL|FAX|奈良市|南京終町/.test(l)).slice(0, 6).join('\n') }));
+const NEWS = SHOP.news.filter((n) => n.date && n.date < '2026-11-10').slice(0, 3).map((n) => ({ ...n, body: n.body.split('\n').filter((l) => l.trim() && !/TEL|FAX|奈良市|南京終町/.test(l)).slice(0, 6).join('\n') }));
 const LAW = SHOP.law.filter(([k]) => !/代表/.test(k)).map(([k, v]) => [k, v.replace(/\n{2,}/g, '\n')]);
 const EXISTING = [
   { ...A.existing, invoice: false },
@@ -185,7 +185,7 @@ function logLines(dir, re, n = 3) {
 }
 
 (async () => {
-  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-10-01', time: '10:20', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-10', time: '10:20', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
   const nav = async (fn, ready = 'body', arg2) => { await Promise.all([page.waitForNavigation({ waitUntil: 'load', timeout: 600000 }), page.evaluate(fn, arg2)]); await cap.settle(ready); };

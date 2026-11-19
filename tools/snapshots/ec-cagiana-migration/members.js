@@ -44,10 +44,10 @@ const orders = [
 ];
 // before the switch-over: a new member and two orders (the 会員・受注のみ re-run brings them over)
 const later = {
-  members: [M(13, '見本', '涼', 'ミホン', 'リョウ', 1, 28, '6500011', '神戸市中央区', '1994-09-09', '2026-10-14')],
+  members: [M(13, '見本', '涼', 'ミホン', 'リョウ', 1, 28, '6500011', '神戸市中央区', '1994-09-09', '2026-11-11')],
   orders: [
-    O(17, 13, '2026-10-14 15:12', 1, '銀行振込', [{ product: 275, q: 1 }]),
-    O(18, 4, '2026-10-14 18:41', 1, '代金引換', [{ product: 184, q: 1 }, { product: 181, q: 1 }]),
+    O(17, 13, '2026-11-11 15:12', 1, '銀行振込', [{ product: 275, q: 1 }]),
+    O(18, 4, '2026-11-11 18:41', 1, '代金引換', [{ product: 184, q: 1 }, { product: 181, q: 1 }]),
   ],
 };
 module.exports = { PASS, members, orders, later };

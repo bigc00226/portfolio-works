@@ -1,6 +1,6 @@
 # ec-kuretake-btob — 作業メモ（再開用）
 
-呉竹 BtoBオンライン注文サイト（order.kuretake.co.jp、EC-CUBE 4）に BtoB 機能を組み込む動画。recorded 2026-10-01（タスクバーの日付）。
+呉竹 BtoBオンライン注文サイト（order.kuretake.co.jp、EC-CUBE 4）に BtoB 機能を組み込む動画。recorded 2026-11-10（タスクバーの日付）。
 
 ## 内容（決めたこと）
 

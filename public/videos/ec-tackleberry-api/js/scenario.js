@@ -333,8 +333,8 @@
     await Code.panel(false);
     addDirs([L('pos')], L('lib/util.mjs'));
     await say('POS の書き出し（店舗システム）：店頭で売れた 2 点と、取置を解除した 1 点。在庫数は店舗の実数');
-    await newLinkFile('pos/sales-20261021-1030.csv', F.DATAFILES[L('pos/sales-20261021-1030.csv')]);
-    await frameLines(L('pos/sales-20261021-1030.csv'), '店頭販売,0', '取置解除,1', '店頭販売 → 0・取置解除 → 1', { ms: 2600 });
+    await newLinkFile('pos/sales-20261114-1030.csv', F.DATAFILES[L('pos/sales-20261114-1030.csv')]);
+    await frameLines(L('pos/sales-20261114-1030.csv'), '店頭販売,0', '取置解除,1', '店頭販売 → 0・取置解除 → 1', { ms: 2600 });
     Issue.hide();
     await say('Mutation は .graphql に分けて、変数（商品コード・在庫数）で呼ぶ');
     const V1 = nl(SRC.stockV1).split('\n');
@@ -343,7 +343,7 @@
     await frameLines(L('link.mjs'), "if (cmd === 'stock')", 'process.exitCode = 1;', 'CSV の行ごとに updateProductStock', { ms: 2600 });
     Issue.hide();
     await panel(true);
-    await run('node link.mjs stock pos/sales-20261021-1030.csv', lines(DATAOUT.stock1, ['在庫 失敗']), { kps: 30 });
+    await run('node link.mjs stock pos/sales-20261114-1030.csv', lines(DATAOUT.stock1, ['在庫 失敗']), { kps: 30 });
     mark('stockError');
     Caption.issue('GraphQL のエラー', '3 行とも失敗：引数 stock_unlimited（Boolean!）は必須なのに渡していない');
     Issue.show(termFind('stock_unlimited', 1, 1500), 'Boolean! の必須引数');
@@ -367,7 +367,7 @@
     await Code.save();
     check(G, nl(SRC.files['graphql/update-stock.graphql']), 'update-stock fix');
     await panel(true);
-    await run('node link.mjs stock pos/sales-20261021-1030.csv', lines(DATAOUT.stock2, ['在庫 → 0']), { kps: 30 });
+    await run('node link.mjs stock pos/sales-20261114-1030.csv', lines(DATAOUT.stock2, ['在庫 → 0']), { kps: 30 });
     mark('stockOk');
     Issue.ok(termFind('在庫 ', 3, 1100), 'updateProductStock：0・0・1');
     await readHold(2800);
@@ -485,7 +485,7 @@
     await readHold(3400);
     Issue.hide();
     const HL = DATA.hookLog || {};
-    await run(`Get-Content ..\\..\\${(HL.file || 'var/log/prod/site-2026-10-21.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-10-21').replace(/\//g, '\\')} -Tail 100 | Select-String webhook`,
+    await run(`Get-Content ..\\..\\${(HL.file || 'var/log/prod/site-2026-11-14.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-11-14').replace(/\//g, '\\')} -Tail 100 | Select-String webhook`,
       ((HL.lines && HL.lines.length) ? HL.lines : ['401 Unauthorized']).map((l) => tone(l.replace(/\s*\[\]\s*$/, '').slice(0, 200))), { kps: 34 });
     Issue.show(termFind('401', 1, 1500), 'EC-CUBE 側のログ：通知は失敗（再送はない）');
     await readHold(3000);
@@ -520,7 +520,7 @@
     await Code.panel(false);
     const pk = Object.keys(DATA.picking || {})[0];
     if (pk) {
-      addDirs([L('outbox')], L('pos/sales-20261021-1030.csv'));
+      addDirs([L('outbox')], L('pos/sales-20261114-1030.csv'));
       Code.addFile(L('outbox/' + pk), nl(DATA.picking[pk]), { silent: true });
       Code.tree.splice(Code.tree.findIndex((n) => n.path === L('outbox')) + 1, 0, { path: L('outbox/' + pk), dir: false });
       Code.renderTree();
@@ -542,7 +542,7 @@
     W11.skipTo('11:40');
     await Win.switchTo('code');
     await say('店舗が発送：店舗システムの出荷実績（受注番号・出荷 ID・配送業者・お問い合わせ番号）');
-    await newLinkFile('pos/shipped-20261021-1140.csv', F.DATAFILES[L('pos/shipped-20261021-1140.csv')]);
+    await newLinkFile('pos/shipped-20261114-1140.csv', F.DATAFILES[L('pos/shipped-20261114-1140.csv')]);
     await newLinkFile('graphql/update-shipped.graphql', SRC.files['graphql/update-shipped.graphql'], { type: [1, 3], kps: 34 });
     await frameLines(L('graphql/update-shipped.graphql'), 'tracking_number: $tracking', 'is_send_mail: true', 'お問い合わせ番号・出荷完了メール', { ms: 2600 });
     Issue.hide();
@@ -560,7 +560,7 @@
     await Code.save();
     check(LM, S3, 'link stage 3');
     await panel(true);
-    await run('node link.mjs ship pos/shipped-20261021-1140.csv', lines(DATAOUT.ship, ['出荷']), { kps: 30 });
+    await run('node link.mjs ship pos/shipped-20261114-1140.csv', lines(DATAOUT.ship, ['出荷']), { kps: 30 });
     mark('ship');
     Issue.ok(termFind('出荷 受注', 1, 1400), 'updateShipped：出荷済み・メール送信');
     await readHold(2800);

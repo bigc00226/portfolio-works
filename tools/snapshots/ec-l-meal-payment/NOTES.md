@@ -1,6 +1,6 @@
 # ec-l-meal-payment — 作業メモ（再開用）
 
-ライフミール（l-meal.com、EC-CUBE 4）決済システムの動画。recorded 2026-09-24（タスクバーの日付）。
+ライフミール（l-meal.com、EC-CUBE 4）決済システムの動画。recorded 2026-11-09（タスクバーの日付）。
 
 ## 内容（決めたこと）
 

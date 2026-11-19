@@ -1,6 +1,6 @@
 # ec-tackleberry-api — 作業メモ（再開用）
 
-＠ベリーネット（b-net.tackleberry.co.jp、EC-CUBE 4、タックルベリー）外部システム連携の動画。recorded 2026-10-21（タスクバーの日付）。
+＠ベリーネット（b-net.tackleberry.co.jp、EC-CUBE 4、タックルベリー）外部システム連携の動画。recorded 2026-11-14（タスクバーの日付）。
 
 ## 調査（公開ページのみ）
 

@@ -12,7 +12,7 @@
  * description as the live site shows them — the description at first without the sentence the video adds.
  * Screens: wp-login.php, the dashboard, All in One SEO > 検索の外観 (before / after the description is changed).
  * Changed for the demo: the Playground address → https://harairo.com/wp (the preview line of All in One SEO →
- * https://harairo.com), the capture date → the video's (2026-10-30).
+ * https://harairo.com), the capture date → the video's (2026-11-13).
  */
 const fs = require('fs');
 const path = require('path');
@@ -60,7 +60,7 @@ async function php(cap, code, data) {
 }
 
 (async () => {
-  const cap = await WPC.start({ id: ID, site: LIVE + '/wp', date: '2026-10-30', time: '14:31', shots: SHOTS, serverPath: '/home/harairo/harairo.com/public_html/wp/wp-content/' });
+  const cap = await WPC.start({ id: ID, site: LIVE + '/wp', date: '2026-11-13', time: '14:31', shots: SHOTS, serverPath: '/home/harairo/harairo.com/public_html/wp/wp-content/' });
   const shot = await themeShot(cap.browser);
   await cap.boot(WPC.blueprint({
     title: '朝霞市 はらいろ整骨院', tagline: '',

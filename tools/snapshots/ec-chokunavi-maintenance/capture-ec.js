@@ -219,7 +219,7 @@ function logTails(dir, n = 12) {
   await new Promise((r) => stub.listen(0, '127.0.0.1', r));
   const STUB = `http://127.0.0.1:${stub.address().port}/info/security/receiver.php`;
 
-  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-17', time: '10:16', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-15', time: '10:16', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
   const I = (rel) => path.join(cap.instance, rel);
@@ -319,8 +319,8 @@ function logTails(dir, n = 12) {
       [OFFICE, 'admin', 'password'], ['203.0.113.77', 'admin', 'qwerty'], [OTHER, 'test', 'test'], [OFFICE, 'admin', 'password'], ['203.0.113.77', 'root', 'root'], [OTHER, 'admin', 'Admin2024'], [OFFICE, 'admin', 'password']];
     for (const [ip, u, p] of tries) { await xff(ip); await submitLogin(u, p); if (/\/admin\/?$|\/admin\/(?!login)/.test(url())) await cap.go(ADM + '/logout', 'body'); }
     await xff(null);
-    const when = ['2026-11-10 02:13:41', '2026-11-10 02:13:58', '2026-11-11 03:41:07', '2026-11-12 23:52:30', '2026-11-13 09:12:44', '2026-11-14 01:08:19',
-      '2026-11-15 04:27:51', '2026-11-16 09:05:12', '2026-11-16 22:47:03', '2026-11-17 03:31:26'];
+    const when = ['2026-11-08 02:13:41', '2026-11-08 02:13:58', '2026-11-09 03:41:07', '2026-11-10 23:52:30', '2026-11-11 09:12:44', '2026-11-12 01:08:19',
+      '2026-11-13 04:27:51', '2026-11-14 09:05:12', '2026-11-14 22:47:03', '2026-11-15 03:31:26'];
     D.history = await cap.php(String.raw`
       $rows = $em->getRepository(\Eccube\Entity\LoginHistory::class)->findBy([], ['id' => 'ASC']);
       $out = [];
@@ -472,14 +472,14 @@ function logTails(dir, n = 12) {
     fs.mkdirSync(I('var/backup'), { recursive: true });
     const SQL = (sql) => dbConsole({ command: 'dbal:run-sql', sql });
     D.count0 = show((await SQL("SELECT (SELECT COUNT(*) FROM dtb_product) AS products, (SELECT COUNT(*) FROM dtb_product_class) AS product_classes, (SELECT COUNT(*) FROM dtb_category) AS categories, (SELECT COUNT(*) FROM dtb_member) AS members, (SELECT COUNT(*) FROM dtb_plugin WHERE enabled = 1) AS plugins")).out);
-    D.vacuum = await SQL("VACUUM INTO '/srv/eccube/var/backup/eccube-20261117.db'");
+    D.vacuum = await SQL("VACUUM INTO '/srv/eccube/var/backup/eccube-20261115.db'");
     D.vacuum.out = show(D.vacuum.out);
-    const dbBak = I('var/backup/eccube-20261117.db');
+    const dbBak = I('var/backup/eccube-20261115.db');
     D.dbBak = { size: fs.statSync(dbBak).size, sha256: crypto.createHash('sha256').update(fs.readFileSync(dbBak)).digest('hex') };
-    const tarArgs = ['-czvf', 'var/backup/files-20261117.tar.gz', '.env', 'app/Customize', 'app/PluginData', 'app/template', 'html/upload', 'html/user_data'];
+    const tarArgs = ['-czvf', 'var/backup/files-20261115.tar.gz', '.env', 'app/Customize', 'app/PluginData', 'app/template', 'html/upload', 'html/user_data'];
     const tr = spawnSync('tar', tarArgs, { cwd: cap.instance, encoding: 'utf8' });
     D.tar = { code: tr.status, lines: (tr.stdout + tr.stderr).split(/\r?\n/).filter(Boolean) };
-    const tgz = I('var/backup/files-20261117.tar.gz');
+    const tgz = I('var/backup/files-20261115.tar.gz');
     D.tarBak = { size: fs.statSync(tgz).size, sha256: crypto.createHash('sha256').update(fs.readFileSync(tgz)).digest('hex') };
     log('backup', JSON.stringify(D.dbBak), JSON.stringify(D.tarBak), D.tar.lines.length, 'entries');
     // the staged loss: the database and the product pictures
@@ -491,7 +491,7 @@ function logTails(dir, n = 12) {
     log('lost: front', JSON.stringify(D.lostStatus));
     // the restore
     fs.copyFileSync(dbBak, I('var/eccube.db'));
-    const xr = spawnSync('tar', ['-xzvf', 'var/backup/files-20261117.tar.gz', 'html/upload'], { cwd: cap.instance, encoding: 'utf8' });
+    const xr = spawnSync('tar', ['-xzvf', 'var/backup/files-20261115.tar.gz', 'html/upload'], { cwd: cap.instance, encoding: 'utf8' });
     D.untar = { code: xr.status, lines: (xr.stdout + xr.stderr).split(/\r?\n/).filter(Boolean) };
     D.restoredPictures = fs.readdirSync(dest).length;
     D.cacheOut3 = show(await cacheClear());

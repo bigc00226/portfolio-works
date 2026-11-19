@@ -34,7 +34,7 @@
   ].join('\n');
 
   files['docs/request-2026-11.md'] = [
-    '# 帳票・CSV まわりの改修依頼（2026/11/13 業務チーム）',
+    '# 帳票・CSV まわりの改修依頼（2026/11/07 業務チーム）',
     '',
     '## 1. 納品書（PDF）',
     '',
@@ -69,5 +69,5 @@
   const FINAL_CSV = String(DATA.productCsv2 || '').replace(/\r\n/g, '\n').replace(/\n$/, '');
   const SHIP_CSV = String((DATA.shipCsv && DATA.shipCsv.text) || '').replace(/\r\n/g, '\n').replace(/\n$/, '');
 
-  window.FILES = { files, SRC, FINAL_CSV, SHIP_CSV, SHIP_FILE: 'docs/csv/shipping-plc-20261116.csv' };
+  window.FILES = { files, SRC, FINAL_CSV, SHIP_CSV, SHIP_FILE: 'docs/csv/shipping-plc-20261110.csv' };
 })();

@@ -24,7 +24,7 @@ const PATCHED = ['src/Eccube/Common/Constant.php', 'src/Eccube/Controller/Admin/
 const log = (...a) => console.log(`[${new Date().toLocaleTimeString('sv-SE')}]`, ...a);
 
 (async () => {
-  const cap = await ECC.start({ id: ID, version: 4, site: 'http://localhost:8080', date: '2026-11-17', time: '10:59', admin: ADM, merge: true, assets: 'assets/ec2', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 4, site: 'http://localhost:8080', date: '2026-11-15', time: '10:59', admin: ADM, merge: true, assets: 'assets/ec2', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
   const I = (rel) => path.join(cap.instance, rel);

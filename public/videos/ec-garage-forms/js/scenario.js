@@ -494,8 +494,8 @@
     const file = EC.el('input[name="csv_file"]');
     await clickUi(file, { kind: 'hand', ax: 0.08, after: 100 });
     await FileDialog.pick({ folder: ['PC', 'ローカル ディスク (C:)', 'work', 'garage-eccube', 'docs', 'csv'], files: [
-      { name: 'products-new-2026-11.csv', date: '2026/11/16 11:20', type: 'Microsoft Excel CSV ファイル', size: `${Math.max(1, Math.round(P[PC].length * 1.4 / 1024))} KB` },
-      { name: shipName.replace('contents', 'shipping-plc'), date: '2026/11/16 11:19', type: 'Microsoft Excel CSV ファイル', size: '3 KB' }], pick: 'products-new-2026-11.csv' });
+      { name: 'products-new-2026-11.csv', date: '2026/11/10 11:20', type: 'Microsoft Excel CSV ファイル', size: `${Math.max(1, Math.round(P[PC].length * 1.4 / 1024))} KB` },
+      { name: shipName.replace('contents', 'shipping-plc'), date: '2026/11/10 11:19', type: 'Microsoft Excel CSV ファイル', size: '3 KB' }], pick: 'products-new-2026-11.csv' });
     await clickUi(btn(/この内容で登録する/), { kind: 'hand', after: 60 });
     await ecScreen('upload-err', { ms: 1100 });
     mark('uploadErr');
@@ -523,7 +523,7 @@
     await ecScreen('upload');
     await clickUi(EC.el('input[name="csv_file"]'), { kind: 'hand', ax: 0.08, after: 100 });
     await FileDialog.pick({ folder: ['PC', 'ローカル ディスク (C:)', 'work', 'garage-eccube', 'docs', 'csv'], files: [
-      { name: 'products-new-2026-11.csv', date: '2026/11/16 11:27', type: 'Microsoft Excel CSV ファイル', size: `${Math.max(1, Math.round(P[PC].length * 1.4 / 1024))} KB` }], pick: 'products-new-2026-11.csv', look: 400 });
+      { name: 'products-new-2026-11.csv', date: '2026/11/10 11:27', type: 'Microsoft Excel CSV ファイル', size: `${Math.max(1, Math.round(P[PC].length * 1.4 / 1024))} KB` }], pick: 'products-new-2026-11.csv', look: 400 });
     await clickUi(btn(/この内容で登録する/), { kind: 'hand', after: 60 });
     await ecScreen('upload-done', { ms: 1400 });
     mark('uploadDone');

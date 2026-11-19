@@ -83,8 +83,8 @@
   const csv = (s) => String(s || '').replace(/\n$/, '');
   const DATAFILES = {
     [SL + 'data/ledger.csv']: csv(DATA.ledger),
-    [SL + 'pos/sales-20261021-1030.csv']: csv(DATA.sales),
-    [SL + 'pos/shipped-20261021-1140.csv']: csv(DATA.shipped),
+    [SL + 'pos/sales-20261114-1030.csv']: csv(DATA.sales),
+    [SL + 'pos/shipped-20261114-1140.csv']: csv(DATA.shipped),
   };
   const crontab = [
     '# store-link（店舗システムのサーバー /opt/store-link）',

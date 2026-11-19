@@ -56,7 +56,7 @@
         ${H.card('', `<p class="sa-mute" style="padding:12px 16px 0;margin:0">ストアのコレクションと検索結果に表示するフィルター（並び順もこのとおり）</p>` + H.table(['', 'ラベル', 'ソース', ''], rows, { id: 'sdTable', rowCls: (r, i) => (list[i].isNew ? 'new' : '') }), { flush: true })}</div>`;
     },
     sdSynonyms(groups) {
-      const rows = groups.map((g) => [`<b>${esc(g.terms)}</b>`, g.isNew ? H.badge('新規', 'info') : '<span class="sa-mute">2026/08/04</span>']);
+      const rows = groups.map((g) => [`<b>${esc(g.terms)}</b>`, g.isNew ? H.badge('新規', 'info') : '<span class="sa-mute">2026/11/05</span>']);
       return `<div class="sa-page"><div class="sd-head"><span class="sd-ic">${icon('search')}</span><h1>Search &amp; Discovery</h1><span class="acts" style="margin-left:auto;display:flex;gap:8px">${H.btn('シノニムグループを作成', { pri: true, id: 'synAdd' })}</span></div>
         <div class="sd-tabs"><span>フィルター</span><span class="on">シノニム</span><span>レコメンド</span><span>ブースト</span><span>設定</span></div>
         ${H.card('', groups.length ? `<p class="sa-mute" style="padding:12px 16px 0;margin:0">同じグループの言葉は、ストアの検索で同じ意味として扱われます</p>` + H.table(['シノニムグループ', ''], rows, { id: 'synTable', rowCls: (r, i) => (groups[i].isNew ? 'new' : '') })
@@ -81,7 +81,7 @@
       const other = state === 'published' ? 'SANYO ONLINE STORE' : F.NEW_THEME;
       return H.page({ title: 'テーマ' },
         H.card('', `<div class="th-cur"><div class="th-shot" style="background-image:url('${esc(shot)}')"></div><div><p>${H.badge('ライブテーマ', 'ok')}</p><h2 style="font-size:16px;margin:6px 0">${esc(live)}</h2><p class="sa-mute">Dawn バージョン 7.0.1</p><div style="display:flex;gap:8px;margin-top:10px">${H.btn('…')}${H.btn('カスタマイズ', { pri: true })}</div></div></div>`) +
-        (state ? H.card('テーマライブラリ', `<div class="th-row" id="thNew"><span class="th-mini" style="background-image:url('${esc(shot)}')"></span><div><b>${esc(other)}</b><div class="sa-mute">${state === 'published' ? '2026/08/04 に追加' : 'Shopify CLI からアップロード · 2026/08/04'}</div></div><span class="sp"></span>${H.btn('…')}${state === 'published' ? '' : H.btn('公開', { id: 'thPublish' })}${H.btn('カスタマイズ')}</div>`, { flush: true }) : ''));
+        (state ? H.card('テーマライブラリ', `<div class="th-row" id="thNew"><span class="th-mini" style="background-image:url('${esc(shot)}')"></span><div><b>${esc(other)}</b><div class="sa-mute">${state === 'published' ? '2026/11/05 に追加' : 'Shopify CLI からアップロード · 2026/11/05'}</div></div><span class="sp"></span>${H.btn('…')}${state === 'published' ? '' : H.btn('公開', { id: 'thPublish' })}${H.btn('カスタマイズ')}</div>`, { flush: true }) : ''));
     },
   };
 

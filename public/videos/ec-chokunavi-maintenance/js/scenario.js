@@ -61,7 +61,7 @@
     const lines = OUT.head || ['HTTP/1.1 200 OK'];
     const dl = lines.find((l) => /^Date: /.test(l));
     const t0 = dl ? Date.parse(dl.slice(6)) : NaN;
-    const target = Date.parse('2026-11-17T01:04:12Z');
+    const target = Date.parse('2026-11-15T01:04:12Z');
     const shift = isNaN(t0) ? 0 : target - t0;
     const fmt = (ms, dash) => { const s = new Date(ms).toUTCString(); return dash ? s.replace(/^(\w+), (\d+) (\w+) (\d+)/, '$1, $2-$3-$4') : s; };
     return lines.map((l) => l
@@ -127,7 +127,7 @@
     await Browser.typeUrl(urlText);
     return CN.ec(o.tab || 'stg', key, { load: o.load || 1000, ...o });
   }
-  const ls = (size, name, time = '10:49', own = 'www-data www-data') => `-rw-r--r-- 1 ${own} ${String(size).padStart(8)} Nov 17 ${time} ${name}`;
+  const ls = (size, name, time = '10:49', own = 'www-data www-data') => `-rw-r--r-- 1 ${own} ${String(size).padStart(8)} Nov 15 ${time} ${name}`;
 
   /* ================================================================ scenes */
   const SCENES = [];
@@ -169,7 +169,7 @@
     Term.clear();
     await run('$t = [Net.Sockets.TcpClient]::new("www.chokunavi.shop", 443); $s = [Net.Security.SslStream]::new($t.GetStream()); $s.AuthenticateAsClient("www.chokunavi.shop"); [Security.Cryptography.X509Certificates.X509Certificate2]$s.RemoteCertificate | Format-List Subject, Issuer, NotBefore, NotAfter', [
       '', `Subject   : ${esc(dn(CERT.subject) || 'CN=www.chokunavi.shop')}`, `Issuer    : ${esc(dn(CERT.issuer) || 'CN=GlobalSign GCC R46 AlphaSSL CA 2025, O=GlobalSign nv-sa, C=BE')}`,
-      `NotBefore : ${CERT.valid_from ? jst(CERT.valid_from) : '2026/11/14 3:10:43'}`, `<span class="tw">NotAfter  : ${CERT.valid_to ? jst(CERT.valid_to) : '2026/12/17 10:07:07'}</span>`, ''], { kps: 60 });
+      `NotBefore : ${CERT.valid_from ? jst(CERT.valid_from) : '2026/11/12 3:10:43'}`, `<span class="tw">NotAfter  : ${CERT.valid_to ? jst(CERT.valid_to) : '2026/12/17 10:07:07'}</span>`, ''], { kps: 60 });
     await tframe('NotAfter', 1, '証明書の期限まで 30 日', { ms: 2600, issue: true });
     await run('Resolve-DnsName chokunavi.shop', ['<span class="terr">Resolve-DnsName : chokunavi.shop : DNS 名が存在しません</span>', '<span class="terr">発生場所 行:1 文字:1</span>'], { kps: 22 });
     await tframe('DNS 名が存在しません', 1, 'www なしのドメインは DNS がない（答えるのは www. だけ）', { ms: 2800, issue: true });
@@ -357,7 +357,7 @@
     await newFile('ops/php/99-chokunavi.ini', F.OPS['ops/php/99-chokunavi.ini']);
     await panel(true);
     Term.clear();
-    await run('ssh chokunavi-prod', ['Last login: Mon Nov 16 18:02:51 2026 from 203.0.113.24'], { kps: 18 });
+    await run('ssh chokunavi-prod', ['Last login: Sat Nov 14 18:02:51 2026 from 203.0.113.24'], { kps: 18 });
     Term.prompt = '[deploy@chokunavi-web01 ~]$ ';
     Term.render('<span class="caret"></span>');
     await run('php -v | head -1; httpd -v | head -1', ['PHP 8.3.27 (cli) (built: Oct 22 2026 12:04:51) (NTS gcc x86_64)', 'Server version: Apache/2.4.62 (AlmaLinux)'], { kps: 26 });
@@ -386,13 +386,13 @@
     await say('検証環境で「戻せるか」を確かめる：取る → 消す → 戻す → 件数を比べる（検証環境の DB は SQLite）');
     const SQLC = '"SELECT (SELECT COUNT(*) FROM dtb_product) AS products, (SELECT COUNT(*) FROM dtb_product_class) AS product_classes, (SELECT COUNT(*) FROM dtb_category) AS categories, (SELECT COUNT(*) FROM dtb_member) AS members, (SELECT COUNT(*) FROM dtb_plugin WHERE enabled = 1) AS plugins"';
     await run(DC + 'bin/console dbal:run-sql ' + SQLC, consoleOut(DATA.count0), { kps: 60 });
-    await run(DC + `bin/console dbal:run-sql "VACUUM INTO 'var/backup/eccube-20261117.db'"`, consoleOut(DATA.vacuum && DATA.vacuum.out || ' [OK] The query yielded an empty result set.'), { kps: 40 });
+    await run(DC + `bin/console dbal:run-sql "VACUUM INTO 'var/backup/eccube-20261115.db'"`, consoleOut(DATA.vacuum && DATA.vacuum.out || ' [OK] The query yielded an empty result set.'), { kps: 40 });
     const tarList = ((DATA.tar && DATA.tar.lines) || []).map((l) => l.replace(/^a /, ''));
-    await run(DC + 'tar -czvf var/backup/files-20261117.tar.gz .env app/Customize app/PluginData app/template html/upload html/user_data', [...tarList.slice(0, 6).map(esc), `… ${tarList.length} 件`], { kps: 40, gap: 30 });
+    await run(DC + 'tar -czvf var/backup/files-20261115.tar.gz .env app/Customize app/PluginData app/template html/upload html/user_data', [...tarList.slice(0, 6).map(esc), `… ${tarList.length} 件`], { kps: 40, gap: 30 });
     const db = DATA.dbBak || {}, tz = DATA.tarBak || {};
-    await run(DC + 'ls -l var/backup', [`total ${Math.ceil(((db.size || 0) + (tz.size || 0)) / 1024)}`, esc(ls(db.size || 0, 'eccube-20261117.db')), esc(ls(tz.size || 0, 'files-20261117.tar.gz'))], { kps: 34 });
+    await run(DC + 'ls -l var/backup', [`total ${Math.ceil(((db.size || 0) + (tz.size || 0)) / 1024)}`, esc(ls(db.size || 0, 'eccube-20261115.db')), esc(ls(tz.size || 0, 'files-20261115.tar.gz'))], { kps: 34 });
     mark('backupDone');
-    await tframe('eccube-20261117.db', 2, 'DB と画像・設定のバックアップ', { ms: 2000 });
+    await tframe('eccube-20261115.db', 2, 'DB と画像・設定のバックアップ', { ms: 2000 });
     Term.clear();
     Caption.set('わざと消す：DB と商品画像');
     await run(DC + 'sh -c "rm var/eccube.db html/upload/save_image/*"', [], { kps: 34 });
@@ -400,7 +400,7 @@
     await tframe('/products/list', 2, 'ショップが表示できない', { ms: 1600, issue: true });
     Caption.set('戻す：DB はバックアップのファイル、画像は tar から');
     const untar = ((DATA.untar && DATA.untar.lines) || []).map((l) => l.replace(/^x /, ''));
-    await run(DC + 'sh -c "cp var/backup/eccube-20261117.db var/eccube.db && tar -xzvf var/backup/files-20261117.tar.gz html/upload"', [...untar.slice(0, 4).map(esc), `… ${untar.length} 件`], { kps: 40, gap: 30 });
+    await run(DC + 'sh -c "cp var/backup/eccube-20261115.db var/eccube.db && tar -xzvf var/backup/files-20261115.tar.gz html/upload"', [...untar.slice(0, 4).map(esc), `… ${untar.length} 件`], { kps: 40, gap: 30 });
     await run(DC + 'bin/console cache:clear --no-warmup', cacheLines(DATA.cacheOut3), { kps: 34 });
     await run(DC + 'bin/console dbal:run-sql ' + SQLC, consoleOut(DATA.count1), { kps: 60 });
     await run(DC + 'bin/console dbal:run-sql "PRAGMA integrity_check"', consoleOut(DATA.integrity), { kps: 40 });
@@ -498,10 +498,10 @@
     Term.clear();
     await say('本番へ：同じ手順（管理画面でメンテナンスモード → バックアップ → パッチ → キャッシュ削除 → 確認 → 解除）');
     await run('git add patches ops && git commit -qm "EC-CUBE 4.3.1-p1・保守の設定" && git push -q', [], { kps: 34 });
-    await run('ssh chokunavi-prod', ['Last login: Tue Nov 17 10:40:12 2026 from 203.0.113.24'], { kps: 18 });
+    await run('ssh chokunavi-prod', ['Last login: Sun Nov 15 10:40:12 2026 from 203.0.113.24'], { kps: 18 });
     Term.prompt = '[deploy@chokunavi-web01 chokunavi]$ ';
     Term.render('<span class="caret"></span>');
-    await run('/opt/ops/backup.sh && ls -lh /backup/chokunavi | tail -2', ['-rw-------. 1 deploy deploy  41M Nov 17 11:21 db-20261117.sql.gz', '-rw-------. 1 deploy deploy 1.3G Nov 17 11:22 files-20261117.tar.gz'], { kps: 28 });
+    await run('/opt/ops/backup.sh && ls -lh /backup/chokunavi | tail -2', ['-rw-------. 1 deploy deploy  41M Nov 15 11:21 db-20261115.sql.gz', '-rw-------. 1 deploy deploy 1.3G Nov 15 11:22 files-20261115.tar.gz'], { kps: 28 });
     await run('git pull -q && git apply patches/eccube-4.3.1-p1.diff && sudo -u apache bin/console cache:clear --no-warmup', ['', CACHE_OK.replace('[OK]', '<span class="tg">[OK]</span>'), ''], { kps: 28 });
     await run('grep VERSION src/Eccube/Common/Constant.php && curl -sI https://www.chokunavi.shop/ | head -1', ["    public const VERSION = '4.3.1-p1';", tone('HTTP/1.1 200 OK')], { kps: 28 });
     await run('crontab ~/ops/crontab && sudo cp ~/ops/logrotate/chokunavi /etc/logrotate.d/ && crontab -l | grep -c ops', ['4'], { kps: 30 });

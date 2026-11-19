@@ -243,7 +243,7 @@ const sh = (args) => { const r = spawnSync(TAR, args, { encoding: 'utf8' }); if 
   }
 
   // ---------------------------------------------------------------- the screens
-  const cap = await ECC.start({ id: ID, version: 3, dir: EC3, assets: 'assets/ec3', site: 'http://localhost:8030', date: '2026-10-14', time: '10:12', shots: SHOTS, admin: '/admin' });
+  const cap = await ECC.start({ id: ID, version: 3, dir: EC3, assets: 'assets/ec3', site: 'http://localhost:8030', date: '2026-11-11', time: '10:12', shots: SHOTS, admin: '/admin' });
   const { page } = cap;
   const D = cap.data;
   D.ec3 = { counts: counts1, authMagic: fs.readFileSync(path.join(EC3, 'app/config/eccube/config.yml'), 'utf8').match(/auth_magic: (\S+)/)[1], version: '3.0.18-p7' };

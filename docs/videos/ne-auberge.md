@@ -116,7 +116,7 @@
 
 ## 画面の環境
 
-- Windows 11 のデスクトップ：Figma（デスクトップアプリ：ファイルのタブとウィンドウボタン）、VS Code、Chrome。タスクバーの時計は 2026/04/22 15:36 から進みます
+- Windows 11 のデスクトップ：Figma（デスクトップアプリ：ファイルのタブとウィンドウボタン）、VS Code、Chrome。タスクバーの時計は 2026/11/01 15:36 から進みます
   （開発サーバーのログの時刻も同じ時計）
 - VS Code は今の既定の見た目です（Dark Modern テーマ、VS Code 自身のアイコン codicon、Seti のファイルアイコン、ミニマップ。`public/shared/vscode.css` / `vscode.js`）。
   `.astro` は Seti にアイコンがないため、Seti の標準のファイルアイコンになります

@@ -168,7 +168,7 @@ if (!FRESH) {
 }
 
 (async () => {
-  const cap = await ECC.start({ id: 'ec-kachaka-store', version: 4, fresh: FRESH, site: 'http://localhost:8080', date: '2026-09-10', time: '10:24', shots: SHOTS });
+  const cap = await ECC.start({ id: 'ec-kachaka-store', version: 4, fresh: FRESH, site: 'http://localhost:8080', date: '2026-11-07', time: '10:24', shots: SHOTS });
   const { page } = cap;
   const W = (map) => cap.files(map);
   const front = async (rel, key, o = {}) => {

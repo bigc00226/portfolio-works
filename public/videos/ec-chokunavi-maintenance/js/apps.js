@@ -41,7 +41,7 @@
       // the security check's time (Y-m-d H:i:s — capture.js moves the date, not this time of day) → the video's clock
       // ログイン履歴: the capture's own login (capture.js sets today's times to 10:16) is the one just before this screen (10:09)
       if (/^\s*2026\/11\/17 10:16:\d\d\s*$/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/10:16:\d\d/, '10:09:52');
-      if (/前回確認日時: 2026-11-17 \d\d:\d\d:\d\d/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/2026-11-17 \d\d:\d\d:\d\d/, '2026-11-17 10:19:06');
+      if (/前回確認日時: 2026-11-15 \d\d:\d\d:\d\d/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/2026-11-15 \d\d:\d\d:\d\d/, '2026-11-15 10:19:06');
     }
     hits.forEach((e) => e && e.classList.add('pii'));
     doc.querySelectorAll('#qrcode, #qrcode img, #qrcode canvas').forEach((e) => e.classList.add('pii'));

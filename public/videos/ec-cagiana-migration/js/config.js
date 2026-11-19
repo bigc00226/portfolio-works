@@ -7,7 +7,7 @@
 window.VIDEO = {
   id: 'ec-cagiana-migration',
   title: 'CAGIANA《カジーナ》 — EC-CUBE 3 → 4 データ移行 デモ',
-  start: '2026-10-14T10:05',
+  start: '2026-11-11T10:05',
   open: 'code', active: 'code',
   steps: ['現状調査（EC-CUBE 3）', 'バックアップ', 'EC-CUBE 4.3 の準備', 'データ移行の実行', '件数・データの確認', '画像とテーマ', '旧 URL のリダイレクト', '本番切り替え'],
   intro: {

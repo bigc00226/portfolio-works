@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'green-base',
   title: 'GREEN BASE — Shopify テーマ選定・メタフィールドによるカスタマイズ デモ',
-  start: '2026-07-07T13:40',
+  start: '2026-11-04T13:40',
   steps: ['テーマ選定', 'メタオブジェクト定義', '商品データ入力', 'Liquid カスタマイズ', 'テーマエディタで接続', 'レスポンシブ確認'],
   intro: {
     kicker: 'Shopify テーマ × メタフィールド',

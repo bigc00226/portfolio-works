@@ -6,7 +6,7 @@
 window.VIDEO = {
   id: 'ec-garage-forms',
   title: 'Garage（ガラージ）— EC-CUBE 2 帳票・PDF・CSV のカスタマイズ デモ',
-  start: '2026-11-16T10:20',
+  start: '2026-11-10T10:20',
   open: 'code', active: 'code',
   steps: ['依頼・現状確認', '納品書のロゴと品番の列', '帳票の初期値・一括出力', '出荷指示 CSV', '商品の CSV 一括登録', '本番へ反映'],
   intro: {

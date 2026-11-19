@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'kanademono-business',
   title: 'KANADEMONO for BUSINESS — 法人向け見積もり・お問い合わせ機能 デモ',
-  start: '2026-09-15T10:30',
+  start: '2026-11-08T10:30',
   steps: ['要件整理', '法人会員登録フォーム', '会社・法人カタログ', 'カンタン見積もり', '下書き注文・請求書', '通知メール', '動作テスト'],
   intro: {
     kicker: 'Shopify Plus B2B',

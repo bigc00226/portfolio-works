@@ -474,7 +474,7 @@
     Caption.step(5);
     Caption.set('管理画面 › 下書き注文：見積もりは下書き注文として残り、営業担当が確認できる');
     await Browser.clickTab('adm');
-    await Admin.go('orders/drafts', V.drafts([{ name: '#D1024', date: '9月15日 13:58', total: F.TOTAL_B2B }, { name: '#D1023', date: '9月15日 13:55', total: F.TOTAL_RETAIL }]), { title: '下書き注文', path: '/draft_orders' });
+    await Admin.go('orders/drafts', V.drafts([{ name: '#D1024', date: '11月8日 13:58', total: F.TOTAL_B2B }, { name: '#D1023', date: '11月8日 13:55', total: F.TOTAL_RETAIL }]), { title: '下書き注文', path: '/draft_orders' });
     await wait(500);
     await hoverUi('#drTable tr[data-row="D1023"] td:nth-child(2)', { hold: 900 });
     await Admin.open($('#drTable tr[data-row="D1024"] td:nth-child(2) b'), V.draft({ b2b: true, name: '#D1024' }), { title: '#D1024', path: '/draft_orders/1189236719678' });
@@ -499,9 +499,9 @@
     Caption.set('お客様が請求書のリンクから注文 → 支払い期日つきの注文（請求書払い）が作られる');
     await Admin.go('orders', H.page({ title: '注文', actions: [H.btn('エクスポート'), H.btn('注文を作成', { pri: true })] },
       H.card('', H.table([['', 'ck'], '注文', '日付', '顧客', '支払い状況', 'フルフィルメント状況', ['合計', 'num']],
-        [[H.ck(), '<b>#1043</b>', '9月15日 14:09', `${K.ic('building')} ${esc(CO)}`, H.badge('支払い期日 10月15日', 'att', { dot: true }), H.badge('未発送', 'att', { dot: true }), yen(F.TOTAL_B2B)],
-          [H.ck(), '#1042', '9月15日 11:26', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('発送済み', '', { dot: true, full: true }), yen(64800)],
-          [H.ck(), '#1041', '9月15日 09:51', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('未発送', 'att', { dot: true }), yen(23500)]], { id: 'odTable' }), { flush: true })), { title: '注文', path: '/orders' });
+        [[H.ck(), '<b>#1043</b>', '11月8日 14:09', `${K.ic('building')} ${esc(CO)}`, H.badge('支払い期日 10月15日', 'att', { dot: true }), H.badge('未発送', 'att', { dot: true }), yen(F.TOTAL_B2B)],
+          [H.ck(), '#1042', '11月8日 11:26', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('発送済み', '', { dot: true, full: true }), yen(64800)],
+          [H.ck(), '#1041', '11月8日 09:51', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('未発送', 'att', { dot: true }), yen(23500)]], { id: 'odTable' }), { flush: true })), { title: '注文', path: '/orders' });
     await hoverUi('#odTable tbody tr:first-child td:nth-child(5)', { hold: 1200 });
     await Admin.open($('#odTable tbody tr:first-child td:nth-child(2) b'), V.order(), { title: '注文 #1043', path: '/orders/5873412345678' });
     Issue.ok($('#odPay'), '30日以内の請求書払い');

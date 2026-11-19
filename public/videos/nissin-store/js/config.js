@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'nissin-store',
   title: '日清食品グループ オンラインストア — makeshop → Shopify 移行 デモ',
-  start: '2026-06-09T10:12',
+  start: '2026-11-02T10:12',
   steps: ['データ書き出し', 'CSV 変換', '商品インポート', '顧客データ移行', 'URL リダイレクト', 'テーマ構築', 'ドメイン切り替え・公開'],
   intro: {
     kicker: 'makeshop → Shopify Plus',

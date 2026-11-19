@@ -253,7 +253,7 @@ function logLines(dir, re) {
 }
 
 (async () => {
-  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-09-02', time: '10:24', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-06', time: '10:24', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
   const stageFiles = async (stage) => {

@@ -55,7 +55,7 @@ export function Hero({ videos, stats, cats }: { videos: VideoEntry[]; stats: [st
       </div>
       <div className="container hero-in">
         <div className="hero-copy">
-          <p className="eyebrow rise" style={d(0)}><span className="rec"><i />REC</span>PROCESS PORTFOLIO</p>
+          <p className="eyebrow rise" style={d(0)}><span className="rec"><i />REC</span>TRUST PORTFOLIO</p>
           <h1>
             <span className="ln"><span style={d(0)}>仕上がりだけでなく、</span></span>
             <span className="ln"><span style={d(1)}>つくる<em>過程</em>まで。</span></span>

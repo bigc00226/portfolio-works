@@ -252,8 +252,8 @@
     Admin.closeSettings();
     await wait(300);
     await Win.switchTo('code');
-    Code.files['data/wms/zaiko_20261006_1115.csv'].enc = 'Shift JIS';
-    await Code.openFile('data/wms/zaiko_20261006_1115.csv', { top: 0 });
+    Code.files['data/wms/zaiko_20261112_1115.csv'].enc = 'Shift JIS';
+    await Code.openFile('data/wms/zaiko_20261112_1115.csv', { top: 0 });
     await hoverUi(Code.lineEl(0), { ax: 0.25, hold: 1400 });
     await hoverUi(Code.lineEl(2), { ax: 0.3, hold: 1000 });
     await Code.openFile('src/jobs/import-stock.js', { top: 0 });
@@ -282,8 +282,8 @@
     Caption.step(4);
     Caption.set('出荷：WMS の出荷実績（送り状番号）を受けて、注文を「発送済み」にする（fulfillmentCreate）');
     await Win.switchTo('code');
-    Code.files['data/wms/shukka_20261006_1130.csv'].enc = 'Shift JIS';
-    await Code.openFile('data/wms/shukka_20261006_1130.csv', { top: 0 });
+    Code.files['data/wms/shukka_20261112_1130.csv'].enc = 'Shift JIS';
+    await Code.openFile('data/wms/shukka_20261112_1130.csv', { top: 0 });
     await hoverUi(Code.lineEl(1), { ax: 0.3, hold: 1300 });
     await Code.openFile('src/jobs/import-shipments.js', { top: 0 });
     await hoverUi(Code.lineEl(11), { ax: 0.45, hold: 1300 });
@@ -523,7 +523,7 @@
     fontText: JSON.stringify(JA),
     async prepare() {
       const tree = [
-        ['data', 'dir', 1], ['data/webhooks', 'dir', 0], ['data/webhooks/orders-paid-1004.json'], ['data/wms', 'dir', 1], ['data/wms/shukka_20261006_1130.csv'], ['data/wms/zaiko_20261006_1115.csv'],
+        ['data', 'dir', 1], ['data/webhooks', 'dir', 0], ['data/webhooks/orders-paid-1004.json'], ['data/wms', 'dir', 1], ['data/wms/shukka_20261112_1130.csv'], ['data/wms/zaiko_20261112_1115.csv'],
         ['docs', 'dir', 1], ['docs/integration.md'],
         ['scripts', 'dir', 0], ['scripts/deploy.js'], ['scripts/replay.js'],
         ['src', 'dir', 1], ['src/jobs', 'dir', 1], ['src/jobs/import-shipments.js'], ['src/jobs/import-stock.js'], ['src/jobs/sync-members.js'],

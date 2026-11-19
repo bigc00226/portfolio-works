@@ -63,7 +63,7 @@
     ' <span class="tg">[OK]</span> Cache for the "prod" environment (debug=false) was successfully cleared.', ''], { kps: 30 });
   /** EC-CUBE's own log lines (captured), shortened to the screen */
   const logOut = (L, re) => ((L && L.lines) || []).filter((l) => !re || re.test(l)).map((l) => esc(l.replace(/\/srv\/eccube/g, '/var/www/html').replace(/\s*\[\]\s*$/, '').slice(0, 150)));
-  const logFile = (L) => ((L && L.file) || 'var/log/prod/site.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-09-24');
+  const logFile = (L) => ((L && L.file) || 'var/log/prod/site.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-11-09');
 
   /* ------------------------------------------------------------- frames */
   const R = (el, pad = 0) => () => { const e = typeof el === 'function' ? el() : typeof el === 'string' ? EC.el(el) : el; if (!e) return null; const r = screenRect(e); if (!r.width) return null; return { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 }; };

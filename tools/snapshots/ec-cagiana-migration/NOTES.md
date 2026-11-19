@@ -33,7 +33,7 @@ capture-ec3.js → capture-ec.js の順（ec-snapshot.js を EC-CUBE 3 で作り
 
 ## 状況（2026-11-18 22:30 完了）
 
-- [x] setup-ec3 / scrape / build-theme / capture-ec3 / capture-ec（移行 37・44・12・16 件、差分で受注 18・会員 13。当日分は 10/14 15:12・18:41）
+- [x] setup-ec3 / scrape / build-theme / capture-ec3 / capture-ec（移行 37・44・12・16 件、差分で受注 18・会員 13。当日分は 11/11 15:12・18:41）
 - [x] fix-frame-images.js（メニューのバナー画像 15 枚を公開中のショップから）。product_bgimg.png（インラインの背景画像）も同様に assets/ec/html/template/cagiana/img へ手で取得済み — 次に取り込み直すときは build-theme.js がバナーを theme/ に入れるので fix は不要のはず、背景画像だけ要確認
 - [x] webp・make-project-src、docs/videos/ec-cagiana-migration.md（8:47）、content/videos.ts（thumbAt 383 = テーマ cagiana の商品ページ）
 - [x] verify ✓（8:47）・check 0・pointer 0・timeline（サムネイル確認済み）

@@ -5,9 +5,9 @@ export function Footer({ note }: { note: string }) {
     <footer className="foot">
       <div className="container foot-in">
         <div>
-          <a className="brand" href="#top" aria-label="Process Portfolio トップ">
+          <a className="brand" href="#top" aria-label="Trust Portfolio トップ">
             <span className="brand-mark"><i /></span>
-            <span><b>Process Portfolio</b><small>制作過程の動画ポートフォリオ</small></span>
+            <span><b>Trust Portfolio</b><small>制作過程の動画ポートフォリオ</small></span>
           </a>
           <nav className="foot-nav" aria-label="ページ内">
             <a href="#why">動画で見せる理由</a>
@@ -26,7 +26,7 @@ export function Footer({ note }: { note: string }) {
           {note && <p>{note}</p>}
         </div>
         <div className="foot-copy">
-          <span>© {new Date().getFullYear()} Process Portfolio</span>
+          <span>© {new Date().getFullYear()} Trust Portfolio</span>
           <a className="to-top" href="#top">ページの先頭へ<Arrow /></a>
         </div>
       </div>

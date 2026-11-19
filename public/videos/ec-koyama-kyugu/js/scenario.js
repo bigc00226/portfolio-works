@@ -61,9 +61,9 @@
   const errLog = () => {
     const L = DATA.errorLog && DATA.errorLog.lines ? DATA.errorLog.lines : [];
     const line = L.find((l) => /CRITICAL|ERROR/.test(l)) || L[0] || '';
-    return line.replace(/\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?([+-]\d{2}:\d{2})?/, '2026-09-02T10:31:48.211+09:00').replace(/\/srv\/eccube/g, '/var/www/html');
+    return line.replace(/\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?([+-]\d{2}:\d{2})?/, '2026-11-06T10:31:48.211+09:00').replace(/\/srv\/eccube/g, '/var/www/html');
   };
-  const logFile = () => ((DATA.errorLog && DATA.errorLog.file) || 'var/log/prod/site.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-09-02');
+  const logFile = () => ((DATA.errorLog && DATA.errorLog.file) || 'var/log/prod/site.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-11-06');
 
   /* ------------------------------------------------------------- frames */
   const R = (el, pad = 0) => () => { const e = typeof el === 'function' ? el() : typeof el === 'string' ? EC.el(el) : el; if (!e) return null; const r = screenRect(e); return { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 }; };

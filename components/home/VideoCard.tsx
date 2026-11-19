@@ -1,9 +1,9 @@
-/* 特別: one video as a card — the thumbnail (platform, length, play on hover), the title and the tool / date.
+/* 特別: one video as a card — the thumbnail (platform, length, play on hover), the title and the tools (no date).
    The whole card links to the player. Everything else about the video (full summary, tags, chapters) opens beside the
    grid when the pointer rests on the card (VideoStage.tsx). */
 import Image from 'next/image';
 import type { VideoEntry } from '@/lib/registry';
-import { paths, fmtTime, jdate } from '@/lib/paths';
+import { paths, fmtTime } from '@/lib/paths';
 import { PlayGlyph } from './icons';
 
 export function VideoCard({ v, i, cat, on }: { v: VideoEntry; i: number; cat: { label: string; color: string }; on: boolean }) {
@@ -18,10 +18,7 @@ export function VideoCard({ v, i, cat, on }: { v: VideoEntry; i: number; cat: { 
       </span>
       <span className="vbody">
         <h4>{v.title}</h4>
-        <span className="vmeta">
-          <span className="tool">{v.tool}</span>
-          {jdate(v.recorded) && <><span className="sep" /><span>{jdate(v.recorded)}</span></>}
-        </span>
+        <span className="vmeta"><span className="tool">{v.tool}</span></span>
       </span>
     </a>
   );

@@ -44,7 +44,7 @@
 
   const q = (v) => { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v; };
   const STOCK_CSV = ['倉庫コード,品番,区分,商品名,引当可能数,出荷待ち,更新日時',
-    ...ITEMS.map((it) => [it.wh, wmsCode(it), it.kind, it.name, it.stock, it.committed, '2026/08/25 15:30'].map(q).join(','))].join('\n');
+    ...ITEMS.map((it) => [it.wh, wmsCode(it), it.kind, it.name, it.stock, it.committed, '2026/11/07 15:30'].map(q).join(','))].join('\n');
   const MISSING = ITEMS.filter((it) => wmsCode(it).length < 6);
 
   /* ------------------------------------------------------------------ project files */
@@ -177,7 +177,7 @@
     'import { VARIANTS, SET_QUANTITIES } from \'./queries.mjs\';',
     'import { LOCATIONS } from \'./locations.mjs\';',
     '',
-    'const file = process.argv.find((a) => a.endsWith(\'.csv\')) ?? \'data/wms/stock_20260825.csv\';',
+    'const file = process.argv.find((a) => a.endsWith(\'.csv\')) ?? \'data/wms/stock_20261107.csv\';',
     'const dryRun = process.argv.includes(\'--dry-run\');',
     'const rows = parse(fs.readFileSync(file, \'utf8\').replace(/^\\uFEFF/, \'\'));',
     'const INPUT = { name: \'available\', reason: \'correction\', referenceDocumentUri: `logistics://wms/${path.basename(file)}`, ignoreCompareQuantity: true };',

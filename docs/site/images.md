@@ -1,4 +1,4 @@
-# 一覧ページ（Process Portfolio） ― 画像の生成プロンプト
+# 一覧ページ（Trust Portfolio） ― 画像の生成プロンプト
 
 サイト: `public/site/`（7 枚中 0 枚が生成済み、7 枚が画像サンプル）。このファイルは `npm run game-images -- site` が `public/site/images.json` から書き出します（直接編集しないでください）。
 

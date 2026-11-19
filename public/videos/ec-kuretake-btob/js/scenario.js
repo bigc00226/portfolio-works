@@ -142,11 +142,11 @@
   const logOut = (L) => ((L && L.lines) || []).map((l) => {
     const d = window.Win11.now();
     const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-    const t = l.replace(/\/srv\/eccube/g, '/var/www/html').replace(/\d{4}-\d\d-\d\dT\d\d:\d\d/, '2026-10-01T' + hm).replace(/\.\d{6}\+09:00/, '+09:00')
+    const t = l.replace(/\/srv\/eccube/g, '/var/www/html').replace(/\d{4}-\d\d-\d\dT\d\d:\d\d/, '2026-11-10T' + hm).replace(/\.\d{6}\+09:00/, '+09:00')
       .replace(/ \[\w{8}\] \[\w{7}\] \[\d+\] \[Eccube\\Log\\Logger:log:\d+\]/, '').replace(/ \[(POST|GET), .*\]\s*$/, '').replace(/\s*\[\]\s*$/, '');
     return `<span class="tlog">${esc(t.slice(0, 200))}</span>`;
   });
-  const logFile = (L) => ((L && L.file) || 'var/log/prod/admin-2026-10-01.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-10-01');
+  const logFile = (L) => ((L && L.file) || 'var/log/prod/admin-2026-11-10.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-11-10');
 
   /* ------------------------------------------------------------- frames */
   const R = (el, pad = 0) => () => { const e = typeof el === 'function' ? el() : typeof el === 'string' ? EC.el(el) : el; if (!e) return null; const r = screenRect(e); if (!r.width) return null; return { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 }; };

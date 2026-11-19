@@ -1,5 +1,5 @@
 /*
- * Timeline: one maintenance session for two clinics' WordPress sites (fix requests of 2026/10/30) —
+ * Timeline: one maintenance session for two clinics' WordPress sites (fix requests of 2026/11/13) —
  * the requests → はらいろ整骨院: 施術メニュー 10 (酸素カプセル) + the green box's reservation link (front-page.php,
  * common/css/base.css; mistake: the new icon not uploaded) → the footer note (footer.php) + the search description
  * (All in One SEO in the real wp-admin) → へいわじま整骨院: the hours (footer.php) → smartphone width: the address line
@@ -585,7 +585,7 @@
   K.run({
     scenes: SCENES,
     warm: ['harairo', 'heiwajima', 'heiwajima-menu'],
-    fontText: JSON.stringify(JA) + P['requests/2026-10-30.md'] + WD.desc.after + Object.keys(URL).map(titleOf).join(''),
+    fontText: JSON.stringify(JA) + P['requests/2026-11-13.md'] + WD.desc.after + Object.keys(URL).map(titleOf).join(''),
     async prepare() {
       const H = 'harairo/', W = 'heiwajima/';
       const icons = Array.from({ length: 10 }, (_, i) => [`${H}common/images/menu/ico_menu_${String(i + 1).padStart(2, '0')}.svg`]);
@@ -596,12 +596,12 @@
         [H + 'footer.php'], [H + 'front-page.php'], [H + 'functions.php'], [H + 'header.php'], [H + 'index.php'], [H + 'page.php'], [H + 'style.css'],
         ['heiwajima', 'dir', 1], [W + 'images', 'dir', 0], [W + 'template-parts', 'dir', 0], [W + 'template-parts/footer-nav.php'], [W + 'template-parts/map.php'],
         [W + 'footer.php'], [W + 'front-page.php'], [W + 'functions.php'], [W + 'header.php'], [W + 'style.css'],
-        ['requests', 'dir', 1], ['requests/2026-10-30.md'],
+        ['requests', 'dir', 1], ['requests/2026-11-13.md'],
       ];
       Code.init(P, tree);
       Object.keys(P).filter((p) => /\.php$/.test(p)).forEach((p) => { Code.files[p].indent = '\t'; });
       Code.status[H + 'common/images/menu/ico_menu_10.svg'] = 'U';
-      Code.show('requests/2026-10-30.md', { top: 0 });
+      Code.show('requests/2026-11-13.md', { top: 0 });
       Code.renderTree();
       Code.gitBadge();
       Term.render('<span class="caret"></span>');

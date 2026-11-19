@@ -9,7 +9,7 @@ const noto = Noto_Sans_JP({ subsets: ['latin'], weight: ['400', '500', '700'], v
 const shippori = Shippori_Mincho_B1({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-shippori', display: 'swap', preload: false });
 
 export const metadata: Metadata = {
-  title: 'Process Portfolio ― 制作の過程を録画した、動画のポートフォリオ',
+  title: 'Trust Portfolio ― 制作の過程を録画した、動画のポートフォリオ',
   description: '制作実績を URL やスクリーンショットだけでなく、デザインから実装・確認・公開までの作業過程の録画でご紹介する動画ポートフォリオです。公開中のデモサイトとゲームもこのページで操作できます。',
 };
 

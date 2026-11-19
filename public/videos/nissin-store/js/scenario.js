@@ -72,7 +72,7 @@
   }
   /** an "open the file" dialog of the project folder */
   const DIR = (sub) => ['PC', 'Windows (C:)', 'dev', 'nissin-shopify-migration', ...sub];
-  const today = (hm) => `2026/06/09 ${hm}`;
+  const today = (hm) => `2026/11/02 ${hm}`;
   async function adminImport(o) {
     await clickUi(o.btn, { after: 80 });
     Admin.modal(o.body(false), { title: o.title, foot: o.foot(false) });
@@ -128,8 +128,8 @@
     await hoverUi('.ms-panel .ms-note b', { hold: 900 });
     await clickUi('#msDlBtn', { after: 80 });
     Browser.loading('ms', true); await wait(1100); Browser.loading('ms', false);
-    MS.hist('product_20260609.csv', F.ITEMS.length);
-    await Browser.download('product_20260609.csv', `${Math.round(F.PRODUCT_CSV.length * 1.45 / 1024)} KB`);
+    MS.hist('product_20261102.csv', F.ITEMS.length);
+    await Browser.download('product_20261102.csv', `${Math.round(F.PRODUCT_CSV.length * 1.45 / 1024)} KB`);
     Caption.set('会員データも書き出す（パスワードは暗号化されているため出力されない）');
     await clickUi('#msNavMdl', { after: 80 });
     Browser.nav('ms', { title: MS.title('会員アップロード・ダウンロード'), url: MS.URL + '/members/member-csv' });
@@ -138,7 +138,7 @@
     await hoverUi('.ms-panel .ms-note', { ax: 0.7, hold: 1800 });
     await clickUi('#msDlBtn', { after: 80 });
     Browser.loading('ms', true); await wait(1400); Browser.loading('ms', false);
-    await Browser.download('member_20260609.csv', '4.1 MB');
+    await Browser.download('member_20261102.csv', '4.1 MB');
     Caption.set('書き出した CSV はプロジェクトの data/makeshop/ に置き、Shopify の形式に変換する');
     await wait(1200);
   });
@@ -147,9 +147,9 @@
   scene('convert', async () => {
     Caption.step(2);
     await Win.switchTo('code', { state: 'max' });
-    Code.addFile('data/makeshop/product_20260609.csv', P['data/makeshop/product_20260609.csv']);
-    Code.addFile('data/makeshop/member_20260609.csv', P['data/makeshop/member_20260609.csv']);
-    await Code.openFile('data/makeshop/product_20260609.csv', { top: 0 });
+    Code.addFile('data/makeshop/product_20261102.csv', P['data/makeshop/product_20261102.csv']);
+    Code.addFile('data/makeshop/member_20261102.csv', P['data/makeshop/member_20261102.csv']);
+    await Code.openFile('data/makeshop/product_20261102.csv', { top: 0 });
     await wait(700);
     Caption.issue('文字化け', 'makeshop の CSV は Shift_JIS：VS Code が UTF-8 として開いたので日本語が読めない');
     Issue.show(linesRect(0, 4), '文字化け');
@@ -159,9 +159,9 @@
     await clickUi('#vsEnc', { after: 80 });
     await Code.quickPick([['エンコード付きで再度開く', ''], ['エンコード付きで保存', '']], 'エンコード付きで再度開く', { placeholder: 'アクションの選択' });
     await Code.quickPick([['UTF-8', 'utf8'], ['Japanese (Shift JIS)', 'shiftjis'], ['Japanese (EUC-JP)', 'eucjp'], ['UTF-16 LE', 'utf16le'], ['Western (Windows 1252)', 'windows1252']], 'Japanese (Shift JIS)', { placeholder: 'ファイルのエンコードの選択', look: 800 });
-    Code.files['data/makeshop/product_20260609.csv'].enc = 'Shift JIS';
-    Code.files['data/makeshop/member_20260609.csv'].enc = 'Shift JIS';
-    Code.setText('data/makeshop/product_20260609.csv', F.PRODUCT_CSV);
+    Code.files['data/makeshop/product_20261102.csv'].enc = 'Shift JIS';
+    Code.files['data/makeshop/member_20261102.csv'].enc = 'Shift JIS';
+    Code.setText('data/makeshop/product_20261102.csv', F.PRODUCT_CSV);
     $('#vsEnc').textContent = 'Shift JIS';
     await wait(700);
     Caption.set('makeshop は 1 商品 = 1 行：単品の価格・品番と、ケース入数・ケース販売価格が同じ行に並ぶ');

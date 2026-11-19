@@ -179,9 +179,9 @@
     await FileDialog.pick({ folder: ['PC', 'ローカル ディスク (C:)', 'dev', 'kachaka-store'], look: 900, files: [
       { name: 'app', date: '2026/09/08 18:22', type: 'ファイル フォルダー', size: '' },
       { name: 'html', date: '2026/09/08 18:22', type: 'ファイル フォルダー', size: '' },
-      { name: 'theme', date: '2026/09/10 ' + hm(), type: 'ファイル フォルダー', size: '' },
+      { name: 'theme', date: '2026/11/07 ' + hm(), type: 'ファイル フォルダー', size: '' },
       { name: '.env', date: '2026/09/08 18:20', type: 'ENV ファイル', size: '1 KB' },
-      { name: 'kachaka.zip', date: '2026/09/10 ' + hm(), type: '圧縮 (zip 形式) フォルダー', size: `${kb.toLocaleString()} KB` },
+      { name: 'kachaka.zip', date: '2026/11/07 ' + hm(), type: '圧縮 (zip 形式) フォルダー', size: `${kb.toLocaleString()} KB` },
       { name: 'README.md', date: '2026/09/09 17:05', type: 'Markdown ファイル', size: '2 KB' },
     ], pick: 'kachaka.zip' });
     if (inp) {
@@ -426,7 +426,7 @@
     Issue.hide();
     // the log
     await Win.switchTo('code');
-    const L = ED.errorLog || { file: 'var/log/prod/site-2026-09-10.log', line: '' };
+    const L = ED.errorLog || { file: 'var/log/prod/site-2026-11-07.log', line: '' };
     const d0 = window.Win11.now();
     let log = L.line.replace(/T\d\d:\d\d:\d\d/, 'T' + pad(d0.getHours()) + ':' + pad(d0.getMinutes()) + ':' + pad(d0.getSeconds()));
     const cut = log.indexOf(',"#0');

@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'kanro-pocket',
   title: 'Kanro POCKeT — Shopify と業務システムの連携 デモ',
-  start: '2026-10-06T11:20',
+  start: '2026-11-12T11:20',
   open: 'code', active: 'code',
   steps: ['連携の全体設計', '受注連携', '在庫取り込み', '出荷連携', '会員連携', '監視・リトライ'],
   intro: {

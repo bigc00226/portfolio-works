@@ -500,7 +500,7 @@
         await hoverUi(dl, { kind: 'hand', hold: 400 });
         await clickUi(dl, { kind: 'hand', after: 60 });
         const d = window.Win11.now();
-        const file = `ribuild.jp-20261029-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-7k2qxm.wpress`;
+        const file = `ribuild.jp-20261108-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-7k2qxm.wpress`;
         Caption.fixed('バックアップを保存（.wpress）：テーマの入れ替えで問題が出ても、この時点に戻せる');
         await Browser.download(file, AI_SIZE(), { hold: 2600 });
         // the export dialog stays over the screen until it is closed (閉じる): closed before going on in the menu
@@ -532,7 +532,7 @@
         { name: '.wp-env.json', date: '2026/10/27 10:15', type: 'JSON ファイル', size: '1 KB' },
         { name: 'package.json', date: '2026/10/27 10:15', type: 'JSON ファイル', size: '1 KB' },
         { name: 'README.md', date: '2026/10/28 17:40', type: 'Markdown ファイル', size: '1 KB' },
-        { name: 'rebuild.zip', date: '2026/10/29 ' + hm(), type: '圧縮 (zip 形式) フォルダー', size },
+        { name: 'rebuild.zip', date: '2026/11/08 ' + hm(), type: '圧縮 (zip 形式) フォルダー', size },
       ], pick: 'rebuild.zip' });
       const inp = WP.el('#themezip');
       const W = inp.ownerDocument.defaultView;

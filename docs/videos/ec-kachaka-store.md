@@ -2,7 +2,7 @@
 
 > 一覧ページ（`/`）と再生ページ（`/watch/ec-kachaka-store`）から、シークバー付きのプレーヤーで見られます（`npm run dev` で起動）。詳しくは `../../README.md`。
 > 動画のページ本体は `public/videos/ec-kachaka-store/`（`index.html` はブラウザで直接開いても再生できます）。
-> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、長さは約 7 分 44 秒、画面上の日付は 2026/09/10（10:06〜）です。
+> 画面は Windows 11（タスクバー・ポインター・IME）＋ VS Code ＋ Chrome で、長さは約 7 分 44 秒、画面上の日付は 2026/11/07（10:06〜）です。
 
 画面録画用のデモページです。家庭用ロボット「カチャカ」の公式オンラインストア（https://store.kachaka.life 、EC-CUBE 4）の
 **デザインリニューアル（Twig テンプレート）** を、開発環境の EC-CUBE で進めて本番へ反映するまでを再生します。

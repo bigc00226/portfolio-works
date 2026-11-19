@@ -6,7 +6,7 @@
 window.VIDEO = {
   id: 'ec-kuretake-btob',
   title: '呉竹 BtoBオンライン注文サイト — EC-CUBE 4 BtoB 機能の構築 デモ',
-  start: '2026-10-01T10:04',
+  start: '2026-11-10T10:04',
   open: 'code', active: 'code',
   steps: ['依頼・現状確認', '取引先情報（エンティティ拡張）', '会員登録の承認制', '取引先別の卸価格', '発注単位', '掛け払い（請求書払い）', '受注管理', '本番へ反映'],
   intro: {
@@ -24,7 +24,7 @@ window.VIDEO = {
     origin: 'https://order.kuretake.co.jp',
     pages: { home: '/', list: '/products/list?category_id=128', detail: '/products/detail/286', login: '/mypage/login', entry: '/features/new_customer' },
     views: ['pc'],
-    // the business calendar (Nov / Dec 2026) and the top's news (Oct / Nov 2026) are later than the video's date (2026-10-01)
+    // the business calendar (Nov / Dec 2026) and the top's news (Oct / Nov 2026) are later than the video's date (2026-11-10)
     remove: ['iframe', '.is-topCalendar', '.footerCalendarArea', '.ec-newsRole', '.topPage-tabArea-news'],
   },
 };

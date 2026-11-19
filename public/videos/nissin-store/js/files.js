@@ -116,7 +116,7 @@
     'import iconv from \'iconv-lite\';',
     'import { parse, stringify } from \'./lib/csv.mjs\';',
     '',
-    'const SRC = \'data/makeshop/product_20260609.csv\';',
+    'const SRC = \'data/makeshop/product_20261102.csv\';',
     'const OUT = \'data/shopify/products_shopify.csv\';',
     'const COLUMNS = [\'Handle\', \'Title\', \'Vendor\', \'Tags\', \'Published\', \'Status\', \'Option1 Name\', \'Option1 Value\',',
     '  \'Variant SKU\', \'Variant Price\', \'Variant Compare At Price\', \'Variant Inventory Tracker\', \'Variant Inventory Qty\',',
@@ -170,7 +170,7 @@
     'import { parse, stringify } from \'./lib/csv.mjs\';',
     'import { PREF, toE164 } from \'./lib/jp.mjs\';',
     '',
-    'const rows = parse(iconv.decode(fs.readFileSync(\'data/makeshop/member_20260609.csv\'), \'Shift_JIS\'));',
+    'const rows = parse(iconv.decode(fs.readFileSync(\'data/makeshop/member_20261102.csv\'), \'Shift_JIS\'));',
     'const COLUMNS = [\'First Name\', \'Last Name\', \'Email\', \'Accepts Email Marketing\', \'Phone\', \'Accepts SMS Marketing\',',
     '  \'Default Address Zip\', \'Default Address Province Code\', \'Default Address City\', \'Default Address Address1\', \'Tags\', \'Note\'];',
     '',
@@ -201,7 +201,7 @@
     'import { parse, stringify } from \'./lib/csv.mjs\';',
     'import CATEGORY_MAP from \'../data/category-map.json\' with { type: \'json\' };',
     '',
-    'const rows = parse(iconv.decode(fs.readFileSync(\'data/makeshop/product_20260609.csv\'), \'Shift_JIS\'));',
+    'const rows = parse(iconv.decode(fs.readFileSync(\'data/makeshop/product_20261102.csv\'), \'Shift_JIS\'));',
     'const out = [];',
     '',
   ];
@@ -242,8 +242,8 @@
     `/shopbrand/ct15/`, `/shopdetail/${TOP[3].sys}/`, `/view/item/${TOP[4].sys}`, `/shopdetail/${TOP[5].sys}/`,
   ];
   F['data/makeshop/top_pages.txt'] = TOP_PAGES.join('\n');
-  F['data/makeshop/product_20260609.csv'] = garble(PRODUCT_CSV);
-  F['data/makeshop/member_20260609.csv'] = garble('会員ID,姓,名,メールアドレス,電話番号,郵便番号,都道府県,市区町村,住所,会員グループ,メルマガ購読,登録日,退会');
+  F['data/makeshop/product_20261102.csv'] = garble(PRODUCT_CSV);
+  F['data/makeshop/member_20261102.csv'] = garble('会員ID,姓,名,メールアドレス,電話番号,郵便番号,都道府県,市区町村,住所,会員グループ,メルマガ購読,登録日,退会');
   F['data/shopify/.gitkeep'] = '';
 
   /* ------------------------------------------------------------------ theme (Prestige) */

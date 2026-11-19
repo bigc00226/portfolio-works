@@ -192,7 +192,7 @@
     Caption.step(3);
     Caption.set('WMS の在庫 CSV：倉庫コード（F01 冷凍 / D01 常温）・品番・区分・商品名・引当可能数');
     await Win.switchTo('code');
-    await Code.openFile('data/wms/stock_20260825.csv', { top: 0 });
+    await Code.openFile('data/wms/stock_20261107.csv', { top: 0 });
     await hoverUi(Code.lineEl(0), { ax: 0.25, hold: 1300 });
     await hoverUi(Code.lineEl(2), { ax: 0.2, hold: 1000 });
     Caption.set('Admin GraphQL API：在庫は inventorySetQuantities で、ロケーションごとの available をまとめて設定できる');
@@ -228,7 +228,7 @@
     await wait(3000);
     Issue.hide();
     // the CSV row and the store's SKU
-    await Code.openFile('data/wms/stock_20260825.csv');
+    await Code.openFile('data/wms/stock_20261107.csv');
     const row = Code.find(`,${F.wmsCode(F.MISSING[0])},`);
     Issue.show(linesRect(row.line, row.line), `品番 ${F.wmsCode(F.MISSING[0])}（Shopify の SKU は ${F.MISSING[0].sku}）`, { below: true });
     await wait(2400);
@@ -535,13 +535,13 @@
     async prepare() {
       const tree = [
         ['.github', 'dir', 1], ['.github/workflows', 'dir', 1], ['.github/workflows/inventory-sync.yml'],
-        ['data', 'dir', 1], ['data/wms', 'dir', 1], ['data/wms/README.md'], ['data/wms/stock_20260825.csv'],
+        ['data', 'dir', 1], ['data/wms', 'dir', 1], ['data/wms/README.md'], ['data/wms/stock_20261107.csv'],
         ['docs', 'dir', 1], ['docs/inventory-sync.md'],
         ['src', 'dir', 1], ['src/lib', 'dir', 0], ['src/lib/csv.mjs'], ['src/locations.mjs'], ['src/queries.mjs'], ['src/shopify.mjs'], ['src/sync-inventory.mjs'],
         ['.env.example'], ['.gitignore'], ['package.json'], ['README.md'],
       ];
-      Code.init({ ...P, 'data/wms/stock_20260825.csv': F.STOCK_CSV }, tree);
-      Code.files['data/wms/stock_20260825.csv'].enc = 'UTF-8 with BOM';
+      Code.init({ ...P, 'data/wms/stock_20261107.csv': F.STOCK_CSV }, tree);
+      Code.files['data/wms/stock_20261107.csv'].enc = 'UTF-8 with BOM';
       Code.show('README.md', { top: 0 });
       Term.render('<span class="caret"></span>');
       Browser.addTab({ id: 'adm', title: Admin.title('（単品）'), url: Admin.url('/products/7461237948603'), page: 'admin', fav: 'admin' });

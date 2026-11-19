@@ -6,7 +6,7 @@
 window.VIDEO = {
   id: 'ec-koyama-kyugu',
   title: '小山弓具 — EC-CUBE 4 既存 EC サイトの機能改修 デモ',
-  start: '2026-09-02T10:14',
+  start: '2026-11-06T10:14',
   open: 'code', active: 'code',
   steps: ['依頼・現状確認', '開発環境', '受注生産：エンティティ拡張', '管理画面：商品登録', '商品ページ：在庫・納期の表示', '送料無料の条件：PurchaseFlow', 'カートの表示・テスト注文', '本番へ反映'],
   intro: {

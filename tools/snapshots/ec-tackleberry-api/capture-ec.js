@@ -205,12 +205,12 @@ function retime(lines, base) {
   return lines.map((l) => l.replace(/(\d{4}-\d{2}-\d{2}T)?(\d{2}):(\d{2}):(\d{2})(\.\d+)?/, (all, d, h, m, s, frac) => {
     const t = +h * 3600 + +m * 60 + +s;
     if (t0 == null) t0 = t;
-    return (d ? '2026-10-21T' : '') + fmt(bh * 3600 + bm * 60 + (t - t0 + 86400) % 86400 + (t0 % 60)) + (frac || '');
+    return (d ? '2026-11-14T' : '') + fmt(bh * 3600 + bm * 60 + (t - t0 + 86400) % 86400 + (t0 % 60)) + (frac || '');
   }));
 }
 
 (async () => {
-  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-10-21', time: '10:08', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 4, fresh: true, site: 'http://localhost:8080', date: '2026-11-14', time: '10:08', shots: SHOTS });
   const { page } = cap;
   const D = cap.data;
   const show = (s) => String(s || '').replace(new RegExp(cap.origin.replace(/[.:/]/g, '\\$&'), 'g'), 'http://localhost:8080').replace(/127\.0\.0\.1:\d{4}/g, 'localhost:8080')
@@ -343,15 +343,15 @@ function retime(lines, base) {
 
     // ---------------------------------------------------------------- ch4: stock (POS → updateProductStock)
     const sales = ['日時,店舗,商品コード,区分,在庫数',
-      `2026-10-21 09:52:14,${store(SOLD[0])},${SOLD[0]},店頭販売,0`,
-      `2026-10-21 10:07:41,${store(SOLD[1])},${SOLD[1]},店頭販売,0`,
-      `2026-10-21 10:21:05,${store(HOLD)},${HOLD},取置解除,1`].join('\n') + '\n';
-    fs.writeFileSync(path.join(RUN, 'pos/sales-20261021-1030.csv'), sales);
+      `2026-11-14 09:52:14,${store(SOLD[0])},${SOLD[0]},店頭販売,0`,
+      `2026-11-14 10:07:41,${store(SOLD[1])},${SOLD[1]},店頭販売,0`,
+      `2026-11-14 10:21:05,${store(HOLD)},${HOLD},取置解除,1`].join('\n') + '\n';
+    fs.writeFileSync(path.join(RUN, 'pos/sales-20261114-1030.csv'), sales);
     D.sales = sales;
     D.stock0 = await stockOf([...SOLD, HOLD]);
-    D.stockRun1 = retime(show((await runLink(['stock', 'pos/sales-20261021-1030.csv'])).out).split('\n'), '10:31');
+    D.stockRun1 = retime(show((await runLink(['stock', 'pos/sales-20261114-1030.csv'])).out).split('\n'), '10:31');
     writeLink(1, true);
-    D.stockRun2 = retime(show((await runLink(['stock', 'pos/sales-20261021-1030.csv'])).out).split('\n'), '10:35');
+    D.stockRun2 = retime(show((await runLink(['stock', 'pos/sales-20261114-1030.csv'])).out).split('\n'), '10:35');
     D.stock1 = await stockOf([...SOLD, HOLD]);
     log('stock', JSON.stringify(D.stock0), '→', JSON.stringify(D.stock1));
     await cap.go('/admin/product', '.c-contentsArea');
@@ -420,9 +420,9 @@ function retime(lines, base) {
 
     // ---------------------------------------------------------------- ch6: ship (updateShipped)
     const shipped = ['受注番号,出荷ID,店舗,配送業者,お問い合わせ番号', `${D.orderB.no},${D.orderB.shipping},${store(ORDER_B)},ヤマト運輸,4419-6203-7751`].join('\n') + '\n';
-    fs.writeFileSync(path.join(RUN, 'pos/shipped-20261021-1140.csv'), shipped);
+    fs.writeFileSync(path.join(RUN, 'pos/shipped-20261114-1140.csv'), shipped);
     D.shipped = shipped;
-    D.shipRun = retime(show((await runLink(['ship', 'pos/shipped-20261021-1140.csv'])).out).split('\n'), '11:41');
+    D.shipRun = retime(show((await runLink(['ship', 'pos/shipped-20261114-1140.csv'])).out).split('\n'), '11:41');
     D.orderB2 = await cap.php("$o = $em->getRepository(\\Eccube\\Entity\\Order::class)->find($data); $s = $o->getShippings()->first(); return ['status' => $o->getOrderStatus()->getName(), 'tracking' => $s->getTrackingNumber(), 'shipped' => $s->getShippingDate() ? $s->getShippingDate()->format('c') : null, 'mails' => count($o->getMailHistories())];", D.orderB.id);
     log('order B after ship', JSON.stringify(D.orderB2));
     await cap.go('/admin/order', '.c-contentsArea');

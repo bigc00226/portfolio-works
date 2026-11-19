@@ -1,7 +1,7 @@
 {
   "name": "process-portfolio",
   "private": true,
-  "description": "Process Portfolio — 制作過程の動画ポートフォリオ（Next.js）。動画のページは public/videos/<id>/、一覧と再生ページは app/。",
+  "description": "Trust Portfolio — 制作過程の動画ポートフォリオ（Next.js）。動画のページは public/videos/<id>/、一覧と再生ページは app/。",
   "engines": {
     "node": ">=22.18"
   },

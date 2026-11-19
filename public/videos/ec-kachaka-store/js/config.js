@@ -4,7 +4,7 @@
 window.VIDEO = {
   id: 'ec-kachaka-store',
   title: 'kachaka Online Store — EC-CUBE 4 デザインリニューアル（Twig）デモ',
-  start: '2026-09-10T10:06',
+  start: '2026-11-07T10:06',
   steps: ['現状の確認', 'テンプレートの登録', 'ヘッダー・フッター', 'ブロック・レイアウト', 'トップ・商品ページ', 'スマートフォン表示', '本番への反映'],
   intro: {
     kicker: 'EC-CUBE 4 デザインリニューアル',

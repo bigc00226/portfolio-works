@@ -46,7 +46,7 @@
       const loc = H.table(['ロケーション', 'カタログ', '支払い条件', '配送先'], [['<b>本社</b>', o.catalog ? H.badge('法人卸 15%OFF', 'info') : '<span class="sa-mute">なし</span>', o.terms ? '30日以内（Net 30）' : '<span class="sa-mute">なし</span>', '<span class="pii">東京都渋谷区 ・・・</span>']], { id: 'coLoc' });
       return H.page({ title: name, back: true, badge: o.approved ? H.badge('承認済み', 'ok') : H.badge('承認待ち', 'att'), actions: [H.btn('その他の操作')] },
         `<div class="sa-grid"><div>
-          ${H.card('概要', H.kv([['会社名', o.blank ? '<span class="kb-blank">（空欄）</span>' : esc(CO)], ['メモ', '業種：IT・通信 / 時期：1か月以内'], ['顧客になった日', '2026年9月15日']]), { id: 'coSum' })}
+          ${H.card('概要', H.kv([['会社名', o.blank ? '<span class="kb-blank">（空欄）</span>' : esc(CO)], ['メモ', '業種：IT・通信 / 時期：1か月以内'], ['顧客になった日', '2026年11月8日']]), { id: 'coSum' })}
           ${H.card('ロケーション', loc + `<div style="margin-top:10px;display:flex;gap:8px">${H.btn('カタログを追加', { id: 'coAddCat', off: o.catalog })}${H.btn('支払い条件を編集', { id: 'coTerms' })}</div>`, { id: 'coLocCard' })}
           ${H.card('連絡先', H.table(['名前', 'メール', '役職', '権限'], [['山田 太郎', 'b2b+testlab@kanademono.design', '総務部', H.badge(o.role || '注文のみ', o.role ? 'info' : '')]], { id: 'coContacts' }))}
         </div><div>

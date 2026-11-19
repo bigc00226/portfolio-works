@@ -33,10 +33,10 @@
   /* ------------------------------------------------------------ orders (test orders of the demo) */
   const ORDER = (no, at, lines, ship) => ({ no, at, lines: lines.map(([sku, q]) => ({ ...by(sku), qty: q })), ship });
   const ORDERS = [
-    ORDER('#1001', '2026/10/06 10:42', [['00173', 2], ['02719', 3], ['06904', 1]], 'YMT'),
-    ORDER('#1002', '2026/10/06 10:58', [['00169', 2], ['00170', 2]], 'YMT'),
-    ORDER('#1003', '2026/10/06 11:05', [['06864', 1], ['06853', 1]], 'YMT'),
-    ORDER('#1004', '2026/10/06 11:31', [['06903', 2], ['02719', 1]], 'YMT'),
+    ORDER('#1001', '2026/11/12 10:42', [['00173', 2], ['02719', 3], ['06904', 1]], 'YMT'),
+    ORDER('#1002', '2026/11/12 10:58', [['00169', 2], ['00170', 2]], 'YMT'),
+    ORDER('#1003', '2026/11/12 11:05', [['06864', 1], ['06853', 1]], 'YMT'),
+    ORDER('#1004', '2026/11/12 11:31', [['06903', 2], ['02719', 1]], 'YMT'),
   ];
   ORDERS.forEach((o) => { o.sub = o.lines.reduce((s, l) => s + l.price * l.qty, 0); o.ship = 800; o.total = o.sub + o.ship; });
   const TRACK = { '#1001': '4567-8901-2345', '#1002': '4567-8901-2356', '#1003': '4567-8901-2367' };
@@ -316,8 +316,8 @@
   F['scripts/deploy.js'] = '// ステージングのコンテナにデプロイ（GitHub Actions と同じ手順）\n';
 
   /* ------------------------------------------------------------ WMS / 基幹 data */
-  F['data/wms/zaiko_20261006_1115.csv'] = ['商品コード,商品名,有効在庫,引当済,ロケーション', ...STOCK.map((s) => [s.sku, `"${s.title}"`, s.after, s.reserved, s.loc].join(','))].join('\n');
-  F['data/wms/shukka_20261006_1130.csv'] = ['受注番号,出荷日,運送会社,送り状番号,個口', ...ORDERS.slice(0, 3).map((o) => [o.no, '2026/10/06', 'YMT', TRACK[o.no], 1].join(','))].join('\n');
+  F['data/wms/zaiko_20261112_1115.csv'] = ['商品コード,商品名,有効在庫,引当済,ロケーション', ...STOCK.map((s) => [s.sku, `"${s.title}"`, s.after, s.reserved, s.loc].join(','))].join('\n');
+  F['data/wms/shukka_20261112_1130.csv'] = ['受注番号,出荷日,運送会社,送り状番号,個口', ...ORDERS.slice(0, 3).map((o) => [o.no, '2026/11/12', 'YMT', TRACK[o.no], 1].join(','))].join('\n');
   F['data/webhooks/orders-paid-1004.json'] = JSON.stringify({ headers: { 'Content-Type': 'application/json', 'X-Shopify-Topic': 'orders/paid', 'X-Shopify-Shop-Domain': 'kanroec.myshopify.com', 'X-Shopify-Event-Id': '9b2f6c1e-4d7a-4e0b-8a35-6f1c2d9e7b40', 'X-Shopify-Hmac-Sha256': 'k3Q…' }, body: '{"id":6481930518672,"name":"#1004", … }' }, null, 2);
   const kikanRow = (o, l, i) => [o.no.replace('#', 'KP'), i + 1, o.at.replace(/(\d+)\/(\d+)\/(\d+) (\d+:\d+)/, '$1/$2/$3 $4:12'), '7310984', l.sku, l.qty, l.price, i === 0 ? 800 : 0, 'shopify_payments'].join(',');
   const KIKAN = (o) => o.lines.map((l, i) => kikanRow(o, l, i));

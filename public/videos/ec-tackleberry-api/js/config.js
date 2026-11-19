@@ -6,7 +6,7 @@
 window.VIDEO = {
   id: 'ec-tackleberry-api',
   title: '＠ベリーネット — EC-CUBE 4 店舗システムとの連携（Web API・GraphQL）デモ',
-  start: '2026-10-21T10:06',
+  start: '2026-11-14T10:06',
   open: 'code', active: 'code',
   steps: ['依頼・現状確認', 'Web API プラグイン', 'API クライアントと認可', '店頭販売の在庫を反映', '注文を在庫店舗へ（WebHook）', '出荷完了を EC へ', 'トークン更新・定期実行', '本番へ反映'],
   intro: {

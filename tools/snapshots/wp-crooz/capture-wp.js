@@ -13,7 +13,7 @@
  * Form 7 searched / installed / activated through プラグインを追加, the form saved (WordPress' config validator reports
  * the reserved name "name"), fixed and saved again.
  * Changed for the demo (tools/wp/playground.js): the Playground address → http://localhost:8888, the capture date →
- * 2026-10-28 (the video's clock), the text boxes the video types into → look-alike boxes.
+ * 2026-11-07 (the video's clock), the text boxes the video types into → look-alike boxes.
  */
 const fs = require('fs');
 const path = require('path');
@@ -47,12 +47,12 @@ async function themeScreenshot() {
 
 /**
  * the capture's own clock where tools/wp/playground.js does not turn it into the video's (it rewrites dates written as
- * text, 「2026年11月18日 1:23 AM」 → 「2026年10月28日 10:41 AM」):
+ * text, 「2026年11月18日 1:23 AM」 → 「2026年11月7日 10:41 AM」):
  *   - the block editor works out times in the browser: the post-publish panel's 「今日 1:23 AM」 → 10:41 (as the
  *     固定ページ list shows for the same page); the contact page's 「最終編集21日前。」 (modified 2026-10-27 18:20) → as
- *     seen at about 10:45 on 2026-10-28
+ *     seen at about 10:45 on 2026-11-07
  *   - クイック編集's date fields (numbers in the list's hidden inline data and in the inputs / the month select) of the
- *     page published during the capture → 2026-10-28 10:41
+ *     page published during the capture → 2026-11-07 10:41
  * Also run on its own: node capture-wp.js --fix-clock
  */
 function fixClock(txt) {
@@ -64,7 +64,7 @@ function fixClock(txt) {
     const old = [];
     h = h.replace(/<div class="jj">(\d+)<\/div>(\s*)<div class="mm">(\d+)<\/div>(\s*)<div class="aa">(\d+)<\/div>(\s*)<div class="hh">(\d+)<\/div>(\s*)<div class="mn">(\d+)<\/div>(\s*)<div class="ss">(\d+)<\/div>/g,
       (m, jj, s1, mm, s2, aa, s3, hh, s4, mn, s5, ss) => {
-        if (`${aa}-${mm}-${jj}` <= '2026-10-28') return m;   // the pages made for the site (2026-10-27 18:20)
+        if (`${aa}-${mm}-${jj}` <= '2026-11-07') return m;   // the pages made for the site (2026-10-27 18:20)
         old.push({ jj, mm, hh, mn, ss });
         return `<div class="jj">28</div>${s1}<div class="mm">10</div>${s2}<div class="aa">2026</div>${s3}<div class="hh">10</div>${s4}<div class="mn">41</div>${s5}<div class="ss">00</div>`;
       });
@@ -90,7 +90,7 @@ if (process.argv[2] === '--fix-clock') {
   const png = await themeScreenshot();
   log('theme screenshot', (png.length / 1024).toFixed(0), 'KB');
 
-  const cap = await WPC.start({ id: ID, site: 'http://localhost:8888', date: '2026-10-28', time: '10:41', shots: SHOTS, serverPath: '/var/www/html/wp-content/' });
+  const cap = await WPC.start({ id: ID, site: 'http://localhost:8888', date: '2026-11-07', time: '10:41', shots: SHOTS, serverPath: '/var/www/html/wp-content/' });
   await cap.boot(WPC.blueprint({ title: 'クルーズ株式会社', tagline: '公式企業サイト', themes: ['twentytwentyfive'] }));
 
   // the theme "crooz" (as in the video), its screenshot

@@ -8,7 +8,7 @@
 // started fresh each run (tools/eccube/capture.js). Then, as the video does it:
 //   1. the shop's data: shop info and 特定商取引法 (from the live 特定商取引法 page), its categories, 25 products with their
 //      colours / 品番 / prices / images (data/garage.json), its delivery and payment methods (ご利用ガイド); 8 fictional
-//      customers and orders (2026/11/12–16)
+//      customers and orders (2026/11/06–16)
 //   2. 受注管理 and 帳票出力 → the default 納品書 PDF (EC-CUBE's own sample logo)
 //   3. the Garage logo (logo.png) + SC_Fpdf_Ex as first typed (js/garage-src.js fpdf(1)) → PDF: the table off the page;
 //      fpdf(2) → PDF with the 品番 column
@@ -55,14 +55,14 @@ const CUSTOMERS = [
 ];
 // payment / delivery ids as seeded below
 const ORDERS = [
-  { id: 120481, c: 2, date: '2026-11-12 10:42:18', status: 5, pay: 5, deliv: 2, ship: '2026-11-14', items: [['632-505', 2], ['666-988', 2]] },
-  { id: 120482, c: 6, date: '2026-11-13 08:15:51', status: 5, pay: 1, deliv: 1, ship: null, items: [['435-929', 1], ['439-102', 1]] },
-  { id: 120483, c: 3, date: '2026-11-13 14:27:03', status: 6, pay: 2, deliv: 2, ship: '2026-11-19', items: [['428-995', 1], ['648-889', 2]] },
-  { id: 120484, c: 4, date: '2026-11-14 11:03:44', status: 1, pay: 1, deliv: 1, ship: null, items: [['435-508', 4]] },
-  { id: 120485, c: 5, date: '2026-11-14 16:48:09', status: 2, pay: 2, deliv: 2, ship: '2026-11-25', items: [['698-488', 1], ['15-495', 6]] },
-  { id: 120486, c: 1, date: '2026-11-15 09:31:26', status: 1, pay: 5, deliv: 2, ship: '2026-11-20', items: [['797-047', 1], ['666-980', 4], ['436-962', 2]] },
-  { id: 120487, c: 7, date: '2026-11-15 21:12:37', status: 1, pay: 3, deliv: 1, ship: null, items: [['439-102', 1], ['435-930', 1]] },
-  { id: 120488, c: 8, date: '2026-11-16 08:52:10', status: 6, pay: 1, deliv: 2, ship: '2026-11-24', items: [['434-673', 1]] },
+  { id: 120481, c: 2, date: '2026-11-06 10:42:18', status: 5, pay: 5, deliv: 2, ship: '2026-11-08', items: [['632-505', 2], ['666-988', 2]] },
+  { id: 120482, c: 6, date: '2026-11-07 08:15:51', status: 5, pay: 1, deliv: 1, ship: null, items: [['435-929', 1], ['439-102', 1]] },
+  { id: 120483, c: 3, date: '2026-11-07 14:27:03', status: 6, pay: 2, deliv: 2, ship: '2026-11-19', items: [['428-995', 1], ['648-889', 2]] },
+  { id: 120484, c: 4, date: '2026-11-08 11:03:44', status: 1, pay: 1, deliv: 1, ship: null, items: [['435-508', 4]] },
+  { id: 120485, c: 5, date: '2026-11-08 16:48:09', status: 2, pay: 2, deliv: 2, ship: '2026-11-25', items: [['698-488', 1], ['15-495', 6]] },
+  { id: 120486, c: 1, date: '2026-11-09 09:31:26', status: 1, pay: 5, deliv: 2, ship: '2026-11-20', items: [['797-047', 1], ['666-980', 4], ['436-962', 2]] },
+  { id: 120487, c: 7, date: '2026-11-09 21:12:37', status: 1, pay: 3, deliv: 1, ship: null, items: [['439-102', 1], ['435-930', 1]] },
+  { id: 120488, c: 8, date: '2026-11-10 08:52:10', status: 6, pay: 1, deliv: 2, ship: '2026-11-24', items: [['434-673', 1]] },
 ];
 
 const SEED = String.raw`
@@ -75,7 +75,7 @@ foreach (['dtb_products', 'dtb_products_class', 'dtb_product_categories', 'dtb_c
 }
 $q->delete('dtb_classcategory', 'classcategory_id <> 0');
 $q->delete('dtb_class', 'class_id <> 0');
-$now = '2026-11-10 09:00:00';
+$now = '2026-11-04 09:00:00';
 $b = $data['base'];
 $b['update_date'] = $now;
 $q->update('dtb_baseinfo', $b, 'id = 1');
@@ -296,7 +296,7 @@ async function pdfViews(cap) {
 /* ------------------------------------------------------------------ run */
 (async () => {
   if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
-  const cap = await ECC.start({ id: ID, version: 2, fresh: true, site: 'http://localhost:8080', date: '2026-11-16', time: '10:24', shots: SHOTS });
+  const cap = await ECC.start({ id: ID, version: 2, fresh: true, site: 'http://localhost:8080', date: '2026-11-10', time: '10:24', shots: SHOTS });
   const D = cap.data;
   try {
     // images of the shop (as uploaded to html/upload/save_image), then the data

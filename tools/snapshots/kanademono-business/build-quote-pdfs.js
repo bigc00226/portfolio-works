@@ -69,7 +69,7 @@ function quoteHtml(q) {
   .tot .g { font-size: 11.5pt; font-weight: 700; border-bottom: 1.4pt solid #1f1f1f; }
   .note { margin-top: 18pt; font-size: 8pt; color: #555; line-height: 1.75; }
 </style></head><body>
-  <div class="head"><h1>御見積書</h1><div class="no">見積番号 ${esc(q.no)}<br>発行日 2026年9月15日<br>有効期限 2026年10月15日</div></div>
+  <div class="head"><h1>御見積書</h1><div class="no">見積番号 ${esc(q.no)}<br>発行日 2026年11月8日<br>有効期限 2026年10月15日</div></div>
   <div class="parties">
     <div class="to"><b>${esc(F.COMPANY)} 御中</b><span>ご担当：山田 太郎 様</span></div>
     <div class="from"><b>KANADEMONO for BUSINESS</b><br>株式会社KANADEMONO<br>b2b@kanademono.design</div>

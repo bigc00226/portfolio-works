@@ -16,7 +16,7 @@
 - **本物のもの**
   - ブラウザに出る新しいサイト（開発サイト `localhost:8888` と本番 `ribuild.jp`。トップページと「症状別のお悩み」、PC 幅 1920px / スマートフォン幅 390px）は、公開中のサイトの画面をそのまま取り込んだものです（`js/site-snapshot.js`・`assets/site/`）。
   - WordPress の管理画面とリニューアル前のサイトは、**すべて本物の WordPress 7.1 の画面** です（日本語。下の「WordPress の画面について」）。プラグインは公開サイトで使われているもの（Contact Form 7・Elementor・Custom Post Type UI・All-in-One WP Migration・Useful Blocks）を wordpress.org から入れ、翻訳も公式のものです。
-  - 管理画面に並ぶ固定ページ・投稿・カテゴリー・お知らせのタイトル・スラッグ・ID・日付は、公開サイトの REST API（`/wp-json/wp/v2/…`）から取ったものです（2026-10-29 12:00 までのもの）。症状別の 7 ページも公開サイトのページです。
+  - 管理画面に並ぶ固定ページ・投稿・カテゴリー・お知らせのタイトル・スラッグ・ID・日付は、公開サイトの REST API（`/wp-json/wp/v2/…`）から取ったものです（2026-11-08 12:00 までのもの）。症状別の 7 ページも公開サイトのページです。
   - 新テーマの `style.css` のヘッダー（Theme Name: 整体りびるど 公式サイト / Author: TONE / Description / Version）・`screenshot.png`・コンパイル済みの CSS・アイコン画像は公開サイトのテーマのファイルです。マークアップのクラス名（`p-header` `p-gnav` `p-contactBtn` `p-footer` …）、ブレークポイント（768px / 1030px）、電話番号・WEB予約の URL も公開サイトと同じです。
   - テーマの zip：動画のテーマのファイルを、この PC で実際に `Compress-Archive`（Windows PowerShell 5.1）と `tar -a -c -f` で圧縮したものです。zip の中のパス（`rebuild\assets\` / `rebuild/assets/`）とサイズ（821 KB / 824 KB）はその結果で、
     `Compress-Archive` の zip を WordPress にアップロードすると実際に「テーマに style.css スタイルシートがありません。」で失敗し、`tar` の zip はインストール・有効化できました（その画面を取り込んでいます）。

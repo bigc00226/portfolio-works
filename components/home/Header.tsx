@@ -20,9 +20,9 @@ export function Header() {
   return (
     <header className="top">
       <div className="container top-in">
-        <a className="brand" href="#top" aria-label="Process Portfolio トップ">
+        <a className="brand" href="#top" aria-label="Trust Portfolio トップ">
           <span className="brand-mark"><i /></span>
-          <span><b>Process Portfolio</b><small>制作過程の動画ポートフォリオ</small></span>
+          <span><b>Trust Portfolio</b><small>制作過程の動画ポートフォリオ</small></span>
         </a>
         <nav id="gnav" className={`gnav${open ? ' open' : ''}`} aria-label="ページ内" onClick={() => setOpen(false)}>
           {LINKS.map((l) => (

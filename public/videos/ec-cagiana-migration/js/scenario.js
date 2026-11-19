@@ -49,14 +49,14 @@
   const cacheClear = () => run(DC + 'bin/console cache:clear --no-warmup', ['', ' // Clearing the cache for the <span class="tc">prod</span> environment with debug <span class="tc">false</span>', '',
     ' <span class="tg">[OK]</span> Cache for the "prod" environment (debug=false) was successfully cleared.', ''], { kps: 30 });
   /** the tar listing (captured): the capture's date and time → the backup's */
-  const tarList = () => (DATA.backup1 && DATA.backup1.list ? DATA.backup1.list : []).map((l) => esc(l.replace(/\b(Nov|11月)\s+18\s+\d\d:\d\d/, 'Oct 14 10:45')));
+  const tarList = () => (DATA.backup1 && DATA.backup1.list ? DATA.backup1.list : []).map((l) => esc(l.replace(/\b(Nov|11月)\s+18\s+\d\d:\d\d/, 'Nov 11 10:45')));
   const tarPick = () => { const L = tarList(); const want = ['dtb_base_info', 'dtb_category.csv', 'dtb_customer.csv', 'dtb_order.csv', 'dtb_order_detail', 'dtb_product.csv', 'dtb_product_class', 'dtb_product_image', 'dtb_shipping.csv']; const out = L.filter((l) => want.some((w) => l.includes(w))); return [...out, esc(`… ${L.length} files`)]; };
   /** EC-CUBE 4's log line (captured): the capture's date → the video's */
   const errLog = () => {
     const L = DATA.errorLog && DATA.errorLog.lines ? DATA.errorLog.lines : [];
     const line = L.find((l) => /SQLSTATE/.test(l)) || L[0] || '';
     const m = /(SQLSTATE\[[^\]]+\]: [^"\\]*?(?:syntax error|error)[^"\\]*)/.exec(line);
-    return { file: ((DATA.errorLog && DATA.errorLog.file) || 'var/log/prod/admin.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-10-14'), text: m ? m[1] : 'SQLSTATE[HY000]: General error: 1 near "SET": syntax error' };
+    return { file: ((DATA.errorLog && DATA.errorLog.file) || 'var/log/prod/admin.log').replace(/\d{4}-\d{2}-\d{2}/, '2026-11-11'), text: m ? m[1] : 'SQLSTATE[HY000]: General error: 1 near "SET": syntax error' };
   };
   /** status codes (captured): [code, location, url] */
   const urlLines = (rows, onlyBad) => rows.filter((r) => !onlyBad || r[0] !== 200).map((r) => `<span class="${r[0] >= 400 ? 't404' : r[0] >= 300 ? 't3xx' : ''}">${r[0]}</span> ${esc(r[1] ? r[1] + ' ' : '')}${esc(r[2])}`);

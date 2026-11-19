@@ -4,7 +4,7 @@
  *
  *   node tools/snapshots/wp-ribuild-renewal/capture-wp.js [screenshot folder]   → node tools/webp.js wp-ribuild-renewal
  *
- * The WordPress is set up as the production site is on the day of the video (2026-10-29), before the renewal:
+ * The WordPress is set up as the production site is on the day of the video (2026-11-08), before the renewal:
  *   - WordPress (latest, Japanese), site title / tagline / site icon = ribuild.jp's own (REST API, the live favicon)
  *   - the old theme: Lightning (wordpress.org) with a header menu; the theme of the renewal "rebuild" is uploaded
  *     during the video (the files the video types: public/videos/wp-ribuild-renewal/js/files.js, with the live theme's
@@ -26,7 +26,7 @@ const ROOT = path.resolve(__dirname, '../../..');
 const DIR = path.join(ROOT, 'public/videos/wp-ribuild-renewal');
 const SHOTS = process.argv[2] || null;
 const LIVE = 'https://ribuild.jp';
-const DATE = '2026-10-29';
+const DATE = '2026-11-08';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36';
 const { log, wait } = WPC;
 
