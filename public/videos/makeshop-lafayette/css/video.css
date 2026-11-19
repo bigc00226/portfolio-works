@@ -1,0 +1,203 @@
+/* makeshop-lafayette: the makeshop byGMO shop admin (same look as the other makeshop videos) — a reconstruction with the
+   admin's own logo, icons, font stack and theme colours (js/makeshop-ui.js); the login page before it is the real one */
+#msLoginFrame { background: #fff; }
+.ms-adm { position: absolute; inset: 0; background: #f2f4f7; font-family: メイリオ, Meiryo, "ＭＳ ゴシック", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif; color: #10163d; }
+.ms-shell { position: absolute; inset: 0; display: flex; }
+.ms-side { width: 256px; flex: none; background: #fff; border-right: 1px solid #e6eaf0; display: flex; flex-direction: column; overflow: hidden; }
+.ms-brand { height: 60px; display: flex; align-items: center; gap: 9px; padding: 0 14px 0 18px; font-size: 14px; }
+.ms-brand-logo { display: block; height: 30px; width: auto; } /* the admin's own horizontal logo (assets/makeshop/ms-logo-typeA.svg) */
+.ms-collapse { margin-left: auto; color: #6f738a; display: grid; }
+.ms-collapse svg { width: 18px; height: 18px; }
+.ms-shop { padding: 6px 18px 14px; border-bottom: 1px solid #e6eaf0; }
+.ms-shop-name { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.ms-shop-name svg { width: 13px; height: 13px; color: #4558c4; }
+.ms-shop-id { font-size: 11.5px; color: #6f738a; margin-top: 3px; }
+.ms-grp { font-size: 11px; color: #6f738a; padding: 16px 18px 6px; }
+.ms-item { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px 0 18px; font-size: 13.5px; color: #10163d; margin: 0 8px; border-radius: 7px; }
+.ms-item svg { width: 17px; height: 17px; color: #6f738a; }
+.ms-item .chev { margin-left: auto; }
+.ms-item .chev svg { width: 14px; height: 14px; }
+.ms-item.on, .ms-item.is-hover { background: #f2f4fc; }
+.ms-item.open .chev { transform: rotate(180deg); }
+.ms-sub { display: none; padding: 2px 0 6px; }
+.ms-sub.open { display: block; }
+.ms-subitem { height: 32px; display: flex; align-items: center; white-space: nowrap; padding-left: 42px; font-size: 13px; color: #10163d; margin: 0 8px; border-radius: 6px; }
+.ms-subitem.on { background: #f2f4fc; color: #293576; font-weight: 700; box-shadow: inset 3px 0 #4558c4; }
+.ms-subitem.is-hover:not(.on) { background: #f4f5f8; }
+.ms-bottom { margin-top: auto; margin-bottom: 14px; }
+.ms-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ms-top { height: 56px; flex: none; background: #fff; border-bottom: 1px solid #e6eaf0; display: flex; align-items: center; padding: 0 22px; gap: 18px; font-size: 13px; color: #10163d; }
+.ms-crumb { display: flex; align-items: center; gap: 8px; color: #6f738a; }
+.ms-crumb .sl { color: #b6b8c4; }
+.ms-tl { display: inline-flex; align-items: center; gap: 6px; }
+.ms-tl svg { width: 16px; height: 16px; }
+.ms-view { display: none; flex: 1; min-height: 0; overflow: hidden; position: relative; }
+.ms-view.on { display: block; }
+.ms-h1 { font-size: 24px; margin: 30px 34px 18px; font-weight: 700; }
+.ms-home { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 0 34px; max-width: 1240px; }
+.ms-card { background: #fff; border: 1px solid #e6eaf0; border-radius: 10px; padding: 18px 22px; }
+.ms-card h3 { margin: 0 0 10px; font-size: 15px; }
+.ms-card p { margin: 6px 0; font-size: 13.5px; }
+.ms-card.ms-wide { grid-column: 1 / -1; }
+.ms-card b { color: #c2410c; }
+.ms-note { color: #6f738a; font-size: 13px !important; line-height: 1.7; }
+.ms-mute { color: #6f738a; }
+.ms-ph { height: 64px; border-radius: 6px; background: repeating-linear-gradient(90deg, #f3f4f6 0 18%, #fff 18% 20%); margin-top: 12px; }
+.ms-main { flex: 1; min-height: 0; overflow: hidden; background: #f2f4f7; }
+.ms-panel { background: #fff; border: 1px solid #e6eaf0; border-radius: 10px; padding: 20px 24px; margin: 0 34px 18px; max-width: 1100px; }
+.ms-panel h3 { margin: 0 0 12px; font-size: 15px; }
+.ms-form { display: grid; grid-template-columns: 160px 1fr; gap: 14px 18px; align-items: center; margin: 16px 0 20px; font-size: 13.5px; }
+.ms-form > label { color: #10163d; font-weight: 700; }
+.ms-radio, .ms-check { display: inline-block; width: 16px; height: 16px; border: 1.5px solid #b6b8c4; border-radius: 50%; vertical-align: -3px; margin-right: 6px; background: #fff; }
+.ms-check { border-radius: 4px; }
+.ms-radio.on { border: 5px solid #4558c4; }
+.ms-check.on { background: #4558c4; border-color: #4558c4; position: relative; }
+.ms-check.on::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.ms-sel { display: inline-flex; align-items: center; height: 34px; padding: 0 34px 0 12px; border: 1px solid #cad1e0; border-radius: 6px; background: #fff; position: relative; }
+.ms-sel::after { content: ""; position: absolute; right: 12px; top: 12px; width: 6px; height: 6px; border: solid #6f738a; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.ms-btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 22px; border-radius: 7px; background: #4558c4; color: #fff; font-weight: 700; font-size: 14px; }
+.ms-btn.is-hover { background: #677cf0; }
+.ms-btn svg { width: 16px; height: 16px; }
+.ms-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ms-tbl th { text-align: left; color: #6f738a; font-weight: 500; border-bottom: 1px solid #e6eaf0; padding: 8px 10px; }
+.ms-tbl td { padding: 10px; border-bottom: 1px solid #f3f4f6; }
+.ms-tbl tr.new td { animation: rowIn 1.2s ease; }
+.ms-adm .ms-item { cursor: default; }
+/* CSV一括処理: the operations as rows */
+.ms-ops { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; margin: 0 34px; max-width: 1100px; }
+.ms-ops .ms-panel { margin: 0 0 18px; }
+.ms-panel h3 { display: flex; align-items: center; gap: 8px; }
+.ms-panel h3 svg { width: 18px; height: 18px; color: #4558c4; }
+.ms-op { display: flex; align-items: center; justify-content: space-between; height: 42px; padding: 0 10px; border-bottom: 1px solid #e6eaf0; font-size: 13.5px; color: #293576; }
+.ms-op:last-child { border-bottom: 0; }
+.ms-op svg { width: 16px; height: 16px; color: #6f738a; }
+.ms-op.is-hover { background: #f2f4fc; }
+/* ---- the screens of this build (js/apps.js) */
+.ms-menu { flex: 1; min-height: 0; overflow: hidden; }
+.ms-st { margin-left: 8px; padding: 1px 7px; border-radius: 9px; font-size: 10.5px; background: #fffdde; color: #8a6d00; border: 1px solid #ffe08a; }
+.ms-st.on { background: #e5fded; color: #008f30; border-color: #9be2b4; }
+.ms-main { position: relative; }
+.ms-scroll { position: absolute; inset: 0; overflow: hidden; padding-bottom: 40px; }
+.ms-h1 .ms-count { margin-left: 14px; font-size: 13px; font-weight: 400; color: #6f738a; }
+.ms-panel { max-width: 1180px; }
+.ms-form.one { grid-template-columns: 150px 1fr; }
+.ms-in { display: inline-flex; align-items: center; min-width: 220px; height: 36px; padding: 0 12px; border: 1px solid #cad1e0; border-radius: 6px; background: #fff; font-size: 14px; gap: 6px; }
+.ms-in.wide { min-width: 460px; }
+.ms-in.num { min-width: 140px; }
+.ms-in.sm { min-width: 110px; height: 32px; }
+.ms-in .v { flex: 1; white-space: pre; }
+.ms-in.num .v { text-align: right; font-variant-numeric: tabular-nums; }
+.ms-in .sfx { color: #6f738a; font-size: 13px; }
+.ms-in.focus { border-color: #4558c4; box-shadow: 0 0 0 3px #f2f4fc; }
+.ms-req { margin-left: 8px; padding: 1px 6px; border-radius: 4px; background: #fef3f6; color: #e31959; font-size: 10.5px; font-weight: 700; }
+.ms-help { margin: 6px 0 0; font-size: 12px; color: #6f738a; }
+.ms-help.in { display: inline; margin-left: 10px; }
+.ms-rd { display: inline-flex; align-items: center; margin-right: 22px; }
+.ms-tg { display: inline-block; width: 36px; height: 20px; border-radius: 10px; background: #b6b8c4; position: relative; vertical-align: -5px; transition: background .2s; }
+.ms-tg i { position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .2s; }
+.ms-tg.on { background: #4558c4; }
+.ms-tg.on i { left: 18px; }
+.ms-th { display: inline-block; width: 44px; height: 44px; border-radius: 6px; background: #f2f4f7 center / cover no-repeat; border: 1px solid #e6eaf0; vertical-align: middle; }
+.ms-home2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; padding: 0 34px; max-width: 1240px; align-items: start; }
+.ms-setup { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid #e6eaf0; }
+.ms-setup b { color: #10163d; font-size: 14px; }
+.ms-setup p { margin: 2px 0 0; font-size: 12.5px; }
+.ms-setup .ck { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px dashed #b6b8c4; margin-top: 2px; }
+.ms-setup.done .ck { border: 0; background: #008f30; position: relative; }
+.ms-setup.done .ck::after { content: ""; position: absolute; left: 7px; top: 3px; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.ms-setup.done b { color: #6f738a; text-decoration: line-through; }
+.ms-card .ms-closed { color: #8a6d00; margin: 0 2px; }
+.ms-two { display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px; margin: 0 34px; max-width: 1240px; align-items: start; }
+.ms-two .ms-panel { margin: 0 0 18px; }
+.ms-tbl tr.grp td { background: #f7f8fb; }
+.ms-tbl code { font-family: Consolas, monospace; font-size: 12.5px; color: #293576; }
+.ms-tbl .r { text-align: right; }
+.ms-tbl.items td { padding: 6px 10px; }
+.ms-tree { color: #b6b8c4; margin: 0 6px 0 4px; }
+.ms-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ms-chip { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 14px; background: #f2f4fc; color: #293576; font-size: 13px; }
+.ms-chip i { font-style: normal; color: #7b83ad; }
+.ms-chip.add { background: #fff; border: 1px dashed #c1c6d9; color: #4558c4; }
+.ms-imgs { display: flex; gap: 12px; }
+.ms-img { width: 120px; height: 120px; border-radius: 8px; border: 1px solid #e6eaf0; background: #fff center / cover no-repeat; position: relative; }
+.ms-img i { position: absolute; left: 6px; top: 6px; font-style: normal; font-size: 11px; background: #4558c4; color: #fff; padding: 1px 6px; border-radius: 4px; }
+.ms-img.add { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 1.5px dashed #c1c6d9; color: #4558c4; font-size: 12.5px; }
+.ms-img.add i { position: static; background: none; color: #4558c4; padding: 0; }
+.ms-img.add svg { width: 22px; height: 22px; }
+.ms-ta { min-height: 92px; border: 1px solid #cad1e0; border-radius: 6px; padding: 10px 12px; font-size: 13.5px; line-height: 1.75; white-space: pre-wrap; background: #fff; }
+.ms-ta .ph { color: #b6b8c4; }
+.ms-opt { display: flex; gap: 14px; padding: 8px 0; border-top: 1px solid #f3f4f6; font-size: 13.5px; }
+.ms-opt b { width: 320px; flex: none; }
+.ms-foot { display: flex; justify-content: flex-end; gap: 10px; margin: 0 34px 20px; max-width: 1180px; }
+.ms-foot.left { justify-content: flex-start; margin: 16px 0 0; }
+.ms-btn.ghost { background: #fff; color: #4558c4; border: 1px solid #c1c6d9; }
+.ms-btn.ghost.is-hover { background: #f2f4fc; }
+.ms-btn.sm { height: 32px; padding: 0 14px; font-size: 13px; }
+.ms-btn.off { background: #c1c6d9; }
+.ms-drop { display: flex; align-items: center; gap: 16px; height: 96px; padding: 0 24px; border: 1.5px dashed #c1c6d9; border-radius: 10px; margin: 14px 0; background: #fafbfd; }
+.ms-drop.has { border-style: solid; background: #fff; }
+.ms-file { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; }
+.ms-file b { background: #008f30; color: #fff; font-size: 11px; padding: 4px 6px; border-radius: 4px; }
+.ms-prog { margin-top: 16px; font-size: 13px; color: #293576; }
+.ms-prog i { display: block; height: 6px; margin-top: 8px; border-radius: 3px; background: #4558c4; transition: width .2s; }
+/* クリエイターモード */
+.ms-cm { display: grid; grid-template-columns: 200px 1fr; margin: 0 34px; height: calc(100% - 120px); max-width: 1500px; background: #fff; border: 1px solid #e6eaf0; border-radius: 10px; overflow: hidden; }
+.ms-cm-side { border-right: 1px solid #e6eaf0; padding: 10px 0; font-size: 13px; }
+.ms-cm-side .h { color: #6f738a; font-size: 11.5px; padding: 12px 16px 4px; }
+.ms-cm-side .i { padding: 7px 16px; }
+.ms-cm-side .i.on { background: #f2f4fc; color: #293576; font-weight: 700; box-shadow: inset 3px 0 #4558c4; }
+.ms-cm-main { display: flex; flex-direction: column; min-width: 0; }
+.ms-cm-bar { display: flex; align-items: center; gap: 4px; height: 50px; padding: 0 14px; border-bottom: 1px solid #e6eaf0; }
+.ms-cm-bar .tb { padding: 6px 14px; border-radius: 6px; font-size: 13px; color: #6f738a; }
+.ms-cm-bar .tb.on { background: #f2f4fc; color: #293576; font-weight: 700; }
+.ms-cm-bar .sp { flex: 1; }
+.ms-cm-code { flex: 1; overflow: hidden; padding: 8px 0; font: 13px/20px Consolas, "Courier New", monospace; color: #1f2328; background: #fff; }
+.ms-cm-code.sel .t { background: #cfe0ff; }
+.ms-cl { display: flex; white-space: pre; }
+.ms-cl .n { width: 50px; flex: none; text-align: right; padding-right: 14px; color: #8c8fa3; }
+.ms-cm-code .t-tag { color: #116329; } .ms-cm-code .t-attr { color: #0550ae; } .ms-cm-code .t-str { color: #0a3069; }
+.ms-cm-code .t-com { color: #6e7781; font-style: italic; } .ms-cm-code .t-pun { color: #57606a; }
+/* 会員・決済・配送 */
+.ms-cks { display: flex; flex-wrap: wrap; gap: 12px 26px; font-size: 13.5px; }
+.ms-ckl { display: inline-flex; align-items: center; }
+.ms-pay { display: flex; align-items: center; justify-content: space-between; padding: 14px 4px; border-top: 1px solid #f3f4f6; font-size: 14px; }
+.ms-pay p { margin: 3px 0 0; font-size: 12.5px; }
+.ms-brands { display: flex; gap: 6px; margin-top: 6px; }
+.ms-brands span { font-size: 11px; padding: 2px 7px; border: 1px solid #d8dced; border-radius: 4px; color: #293576; }
+.ms-pref { display: inline-block; margin: 2px 4px 2px 0; padding: 1px 7px; border-radius: 4px; background: #f2f4f7; font-size: 12px; }
+.ms-pref.tk { background: #fffdde; }
+.ms-tbl td.prefs { max-width: 560px; }
+.ms-pv { margin-top: 14px; padding: 14px 16px; background: #f7f8fb; border-radius: 8px; font-size: 13px; }
+.ms-pv-sel { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+.ms-pv-sel .lab { font-weight: 700; }
+.ms-sim { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+.ms-sim-r b { font-size: 18px; color: #10163d; }
+/* 注文 */
+.ms-tag { margin-left: 8px; padding: 1px 6px; border-radius: 4px; background: #fffdde; color: #8a6d00; font-size: 11px; }
+.ms-badge { padding: 3px 9px; border-radius: 10px; background: #f2f4fc; color: #293576; font-size: 12px; }
+.ms-badge.gray { background: #f2f4f7; color: #6f738a; }
+.ms-od-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid #e6eaf0; font-size: 14px; }
+.ms-od-item .ms-th { width: 64px; height: 64px; }
+.ms-od-item p { margin: 4px 0 0; font-size: 12.5px; }
+.ms-od-item .r { margin-left: auto; font-weight: 700; white-space: nowrap; }
+.ms-kv { display: grid; grid-template-columns: 150px 1fr; gap: 10px; margin: 14px 0 0; font-size: 13.5px; }
+.ms-kv dt { color: #6f738a; } .ms-kv dd { margin: 0; }
+.ms-toast { position: absolute; left: 50%; top: 16px; transform: translate(-50%, -16px); opacity: 0; padding: 12px 22px; border-radius: 8px; background: #10163d; color: #fff; font-size: 14px; transition: .3s; pointer-events: none; }
+.ms-toast.show { opacity: 1; transform: translate(-50%, 0); }
+.ms-res { margin-top: 16px; padding: 14px 16px; border-radius: 8px; background: #e5fded; color: #005c1f; font-size: 13.5px; }
+.ms-res.err { background: #fef3f6; color: #10163d; }
+.ms-res.err > b { color: #e31959; }
+.ms-res .ms-tbl { margin-top: 10px; background: #fff; }
+.ms-res-b { display: flex; gap: 10px; margin-top: 12px; }
+/* ---- Lafayette: categories with counts, SKU tables, stock list */
+.ms-cnt { margin-left: 8px; padding: 0 7px; border-radius: 9px; background: #f2f4f7; color: #6f738a; font-size: 11.5px; }
+.ms-tbl tr.open td { background: #f7f8fb; font-weight: 700; }
+.ms-in.off { background: #f2f4f7; color: #b6b8c4; }
+.ms-badge.warn { background: #fffdde; color: #8a6d00; }
+.ms-n { font-size: 18px; color: #10163d !important; margin: 0 2px; }
+.ms-filters { display: flex; gap: 8px; margin-bottom: 12px; }
+.ms-chip.on { background: #4558c4; color: #fff; }
+.ms-tbl tr.zero td { background: #fef3f6; }
+.ms-tbl tr.low td { background: #fffdde; }
+#skuTbl { margin-top: 6px; }
+#skuTbl td { padding: 6px 10px; }

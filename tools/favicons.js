@@ -17,9 +17,11 @@
  *                 taken from the published bundle, MIT licence)
  *   wordpress.png wp-admin / wp-login.php of a WordPress site without a site icon (WordPress' own w-logo-blue-white-bg.png)
  *   schema.ico    Schema Markup Validator (validator.schema.org → schema.org/docs/favicon.ico)
+ *   wix.ico       Wix editor / dashboard (wix.com declares www.wix.com/favicon.ico; checked 2026-11-19)
  * They are kept in their own formats (they are drawn at 16 px, as Chrome draws them).
  *
- * logos/: shopify.svg (shopify.com header), makeshop.svg (console.makeshop.jp login), studio.svg (app.studio.design login)
+ * logos/: shopify.svg (shopify.com header), makeshop.svg (console.makeshop.jp login), studio.svg (app.studio.design login),
+ *         wix.svg (the inline logo of the ja.wix.com header)
  */
 const fs = require('fs');
 const path = require('path');
@@ -38,6 +40,7 @@ const SOURCES = {
   'gtm.svg': { url: 'https://www.gstatic.com/analytics-suite/header/suite/v2/ic_tag_manager.svg' },
   'ta.svg': { url: 'https://tagassistant.google.com/images/tag-assistant-logo.svg' },
   'schema.ico': { url: 'https://schema.org/docs/favicon.ico' },
+  'wix.ico': { url: 'https://www.wix.com/favicon.ico' },
   // wp-admin / wp-login.php of a site without a site icon (WordPress core: wp-includes/images, GPL)
   'wordpress.png': { url: 'https://raw.githubusercontent.com/WordPress/wordpress-develop/trunk/src/wp-includes/images/w-logo-blue-white-bg.png' },
   'sveltia.svg': {
@@ -53,6 +56,15 @@ const LOGOS = {
   'shopify.svg': { url: 'https://cdn.shopify.com/b/shopify-brochure2-assets/d9340911ca8c679b148dd4a205ad2ffa.svg' },
   'makeshop.svg': { url: 'https://console.makeshop.jp/assets/ms-logo-typeC-DPo78kJ5.svg' },
   'studio.svg': { url: 'https://app.studio.design/assets/brand_logo_s-jKJxmZet.svg' },
+  // the header of ja.wix.com draws its logo inline: <a aria-label="Wix ロゴ、トップページ"><svg …></svg></a>
+  'wix.svg': {
+    url: 'https://ja.wix.com/',
+    extract: (html) => {
+      const a = html.indexOf('aria-label="Wix ロゴ、トップページ"');
+      const st = a < 0 ? -1 : html.indexOf('<svg', a);
+      return st < 0 ? '' : html.slice(st, html.indexOf('</svg>', st) + 6).replace('<svg ', '<svg viewBox="0 0 75 30" ') + '\n';
+    },
+  },
 };
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36';
 

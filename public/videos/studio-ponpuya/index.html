@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>有限会社長谷川興業 — 制作プロセス デモ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/img/favicon.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho:wght@400;500&family=Shippori+Mincho&family=Rubik:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.studio.design/ts/ot-pa1gothicstdn-medium/fonts.css">
+<link rel="stylesheet" href="https://fonts.studio.design/ts/ot-pa1gothicstdn-regular/fonts.css">
+<link rel="stylesheet" href="css/editor.css">
+<link rel="stylesheet" href="../../shared/win11.css">
+</head>
+<body class="s1-desktop">
+<!-- Windows 11: the editor runs in a maximized Chrome window -->
+<div class="cw" id="chromeWin">
+  <div class="cw-tabs"><div class="cw-tab on"><img class="fav" src="../../shared/favicons/studio.svg" alt=""><span class="tt">有限会社長谷川興業 - STUDIO</span><span class="x"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></div><span class="cw-newtab"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></span><span class="sp"></span><span class="wc dark"></span></div>
+  <div class="cw-bar"><span class="cw-nav"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></span><span class="cw-nav off"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></span><span class="cw-nav"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg></span><div class="cw-omni"><span class="cw-tune"><svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span><span class="cw-url">app.studio.design<span class="dim">/ja/projects/<span class="pii">XKOkjVpwW4</span>/editor</span></span><span class="cw-star"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg></span></div><span class="cw-nav"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z" opacity=".9"/></svg></span><span class="cw-prof"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#e3e3e3"/><circle cx="12" cy="9.3" r="3.6" fill="#7b7b7b"/><path d="M5.6 18.4c1.4-2.5 3.8-3.7 6.4-3.7s5 1.2 6.4 3.7A9.3 9.3 0 0 1 12 21a9.3 9.3 0 0 1-6.4-2.6z" fill="#7b7b7b"/></svg></span><span class="cw-nav"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></span></div>
+</div>
+<div id="desk"></div>
+<footer id="taskbar" data-pins="explorer edge chrome:browser vscode" data-open="browser" data-active="browser" data-start="2026-11-15T13:30"></footer>
+<div id="app">
+
+  <!-- ============ Top bar ============ -->
+  <header class="topbar">
+    <div class="tb-left">
+      <div class="tb-logo" title="Dashboard"><img src="../../shared/logos/studio.svg" alt="Studio"></div>
+      <div class="tb-project">
+        <span class="tb-project-name">有限会社長谷川興業</span>
+        <i data-icon="chevron-down" class="tb-caret"></i>
+      </div>
+      <div class="tb-divider"></div>
+      <div class="tb-page" id="tbPage"><i data-icon="file"></i><span>Home</span><i data-icon="chevron-down" class="tb-caret"></i></div>
+    </div>
+    <div class="tb-center">
+      <div class="bp-switch">
+        <button class="bp-btn active" id="bp-pc" title="PC"><i data-icon="monitor"></i></button>
+        <button class="bp-btn" id="bp-tablet" title="Tablet"><i data-icon="tablet"></i></button>
+        <button class="bp-btn" id="bp-mobile" title="Mobile"><i data-icon="phone"></i></button>
+      </div>
+      <div class="tb-width"><span id="bpWidth">1280</span><small>px</small></div>
+      <div class="tb-zoom"><span id="zoomLabel">100%</span><i data-icon="chevron-down" class="tb-caret"></i></div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-saved"><i data-icon="cloud-check"></i><span>保存済み</span></div>
+      <div class="tb-avatar"><i data-icon="user"></i></div>
+      <button class="tb-icon" id="btnPreview" title="プレビュー"><i data-icon="play"></i></button>
+      <button class="tb-publish" id="btnPublish">公開</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <!-- ============ Left rail ============ -->
+    <nav class="rail">
+      <button class="rail-btn" data-tab="add" title="追加"><i data-icon="plus"></i></button>
+      <button class="rail-btn active" data-tab="layers" title="レイヤー"><i data-icon="layers"></i></button>
+      <button class="rail-btn" data-tab="pages" title="ページ"><i data-icon="files"></i></button>
+      <button class="rail-btn" data-tab="assets" title="アセット"><i data-icon="image"></i></button>
+      <button class="rail-btn" data-tab="cms" title="CMS"><i data-icon="database"></i></button>
+      <div class="rail-spacer"></div>
+      <button class="rail-btn" title="設定"><i data-icon="settings"></i></button>
+    </nav>
+
+    <!-- ============ Left panel ============ -->
+    <aside class="left-panel">
+      <section class="lp active" data-panel="layers">
+        <div class="lp-head"><span>レイヤー</span><i data-icon="search" class="lp-head-ic"></i></div>
+        <div class="ly-list" id="layerList"></div>
+      </section>
+
+      <section class="lp" data-panel="add">
+        <div class="lp-head"><span>追加</span></div>
+        <div class="lp-search"><i data-icon="search"></i><span>要素を検索</span></div>
+        <div class="lp-scroll">
+          <div class="lp-group-title">基本</div>
+          <div class="tile-grid">
+            <div class="tile" data-tile="box"><i data-icon="square"></i><span>ボックス</span></div>
+            <div class="tile" data-tile="text"><i data-icon="type"></i><span>テキスト</span></div>
+            <div class="tile" data-tile="image"><i data-icon="image"></i><span>画像</span></div>
+            <div class="tile" data-tile="button"><i data-icon="button"></i><span>ボタン</span></div>
+            <div class="tile" data-tile="link"><i data-icon="link"></i><span>リンク</span></div>
+            <div class="tile" data-tile="icon"><i data-icon="star"></i><span>アイコン</span></div>
+            <div class="tile" data-tile="video"><i data-icon="video"></i><span>動画</span></div>
+            <div class="tile" data-tile="embed"><i data-icon="code"></i><span>埋め込み</span></div>
+            <div class="tile" data-tile="form"><i data-icon="form"></i><span>フォーム</span></div>
+          </div>
+          <div class="lp-group-title">レイアウト</div>
+          <div class="tpl-grid">
+            <div class="tpl" data-tpl="header"><div class="wf wf-header"><i></i><i></i></div><span>ヘッダー</span></div>
+            <div class="tpl" data-tpl="hero"><div class="wf wf-hero"><i></i></div><span>ヒーロー</span></div>
+            <div class="tpl" data-tpl="2col"><div class="wf wf-2col"><i></i><i></i></div><span>2カラム</span></div>
+            <div class="tpl" data-tpl="gallery"><div class="wf wf-gallery"><i></i><i></i><i></i></div><span>ギャラリー</span></div>
+            <div class="tpl" data-tpl="list"><div class="wf wf-list"><i></i><i></i><i></i></div><span>リスト</span></div>
+            <div class="tpl" data-tpl="footer"><div class="wf wf-footer"><i></i></div><span>フッター</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp" data-panel="pages">
+        <div class="lp-head"><span>ページ</span><i data-icon="plus" class="lp-head-ic"></i></div>
+        <div class="lp-scroll">
+          <div class="pg-group">ページ</div>
+          <div class="pg-row active" data-page="home"><i data-icon="home"></i><span>Home</span><small>/</small></div>
+          <div class="pg-row" data-page="company"><i data-icon="file"></i><span>company</span><small>/company</small></div>
+          <div class="pg-row" data-page="construction"><i data-icon="file"></i><span>construction</span><small>/construction</small></div>
+          <div class="pg-row" data-page="selling"><i data-icon="file"></i><span>selling</span><small>/selling</small></div>
+          <div class="pg-row" data-page="recruit"><i data-icon="file"></i><span>recruit</span><small>/recruit</small></div>
+          <div class="pg-row" data-page="news"><i data-icon="file"></i><span>news</span><small>/news</small></div>
+          <div class="pg-row" data-page="contact"><i data-icon="file"></i><span>contact</span><small>/contact</small></div>
+          <div class="pg-row" data-page="404"><i data-icon="file"></i><span>404</span><small>/404</small></div>
+          <div class="pg-group">CMSページ</div>
+          <div class="pg-row cms" data-page="member"><i data-icon="database"></i><span>member/:slug</span><small>メンバー</small></div>
+          <div class="pg-row cms" data-page="newspost"><i data-icon="database"></i><span>news/:slug</span><small>お知らせ</small></div>
+          <div class="pg-group">モーダル</div>
+          <div class="pg-row" data-page="mobile-menu"><i data-icon="modal"></i><span>mobile-menu</span></div>
+        </div>
+      </section>
+
+      <section class="lp" data-panel="assets">
+        <div class="lp-head"><span>アセット</span><button class="lp-upload"><i data-icon="upload"></i>アップロード</button></div>
+        <div class="seg"><span class="on">画像</span><span>動画</span><span>ファイル</span></div>
+        <div class="lp-scroll"><div class="asset-grid" id="assetGrid"></div></div>
+      </section>
+
+      <section class="lp" data-panel="cms">
+        <div class="lp-head"><span>CMS</span><i data-icon="plus" class="lp-head-ic"></i></div>
+        <div class="lp-scroll">
+          <div class="pg-group">コレクション</div>
+          <div class="cms-col" id="cmsCollection2">
+            <i data-icon="database"></i><span class="cms-col-name">メンバー</span><small>member</small><span class="cms-count" id="cmsCount2">5</span>
+          </div>
+          <div class="cms-items" id="cmsItems2"></div>
+          <div class="cms-col" id="cmsCollection">
+            <i data-icon="database"></i><span class="cms-col-name">お知らせ</span><small>news</small><span class="cms-count" id="cmsCount">1</span>
+          </div>
+          <div class="cms-items" id="cmsItems"></div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- ============ Canvas ============ -->
+    <main class="canvas" id="canvas">
+      <div class="canvas-inner" id="canvasInner">
+        <div class="frame-wrap" id="frameWrap">
+          <div class="frame-label"><span class="fl-name"><i data-icon="file"></i>Home</span><span class="fl-size" id="frameSize">1280</span></div>
+          <div class="frame" id="frame"><iframe id="siteFrame" title="canvas"></iframe></div>
+        </div>
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="ov-box ov-hover" id="ovHover"></div>
+        <div class="ov-box ov-drop" id="ovDrop"></div>
+        <div class="ov-box ov-issue" id="ovIssue"><span class="ov-issue-tag" id="ovIssueTag"></span></div>
+        <div class="ov-box ov-sel" id="ovSel">
+          <span class="ov-tag" id="ovTag">Box</span>
+          <span class="ov-size" id="ovSize">0 × 0</span>
+          <i class="h tl"></i><i class="h tr"></i><i class="h bl"></i><i class="h br"></i>
+          <i class="h tm"></i><i class="h bm"></i><i class="h ml"></i><i class="h mr"></i>
+        </div>
+      </div>
+      <div class="caption" id="caption"><span class="cap-step" id="capStep">STEP 1</span><span class="cap-text" id="capText"></span></div>
+    </main>
+
+    <!-- ============ Right panel ============ -->
+    <aside class="right-panel" id="props"></aside>
+  </div>
+
+  <!-- popovers -->
+  <div class="popover" id="popover"></div>
+
+  <!-- Japanese IME: prediction / conversion candidate window -->
+  <div class="ime" id="ime"></div>
+
+  <!-- Windows clipboard history (Win + V) -->
+  <div class="clip" id="clip">
+    <div class="clip-tabs"><span>☺</span><span class="gif">GIF</span><span>;-)</span><span>Ω</span><span class="on"><svg viewBox="0 0 20 20" width="16" height="16"><path fill="currentColor" d="M7 2a1.5 1.5 0 0 0-1.41 1H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-.59A1.5 1.5 0 0 0 13 2H7zm0 1h6a.5.5 0 0 1 0 1H7a.5.5 0 0 1 0-1zM5 4h.59A1.5 1.5 0 0 0 7 5h6a1.5 1.5 0 0 0 1.41-1H15a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg></span></div><div class="clip-head"><span>クリップボードの履歴</span><small>すべてクリア</small></div>
+    <div class="clip-list" id="clipList"></div>
+  </div>
+
+  <!-- editor notifications -->
+  <div class="toast" id="toast"><span class="toast-ic" id="toastIc"></span><span class="toast-text" id="toastText"></span></div>
+
+  <!-- keys being typed (romaji / special keys) with the IME mode indicator -->
+  <div class="keystrip" id="keystrip"><span class="ks-mode" id="ksMode">あ</span><span class="ks-keys" id="ksKeys"></span></div>
+
+  <!-- publish modal -->
+  <div class="modal-backdrop" id="publishModal">
+    <div class="modal">
+      <div class="m-head"><h3>サイトを公開</h3><i data-icon="x" class="m-x"></i></div>
+      <div class="m-body">
+        <div class="m-domain">
+          <div class="m-globe"><i data-icon="globe"></i></div>
+          <div class="m-domain-text">
+            <div class="m-label">カスタムドメイン</div>
+            <div class="m-url">ponpuya.com</div>
+          </div>
+          <span class="pill pill-amber" id="mStatus">未公開の変更あり</span>
+        </div>
+        <div class="m-opt"><span class="chk on"><i data-icon="check"></i></span>検索エンジンへのインデックスを許可</div>
+        <div class="m-opt"><span class="chk on"><i data-icon="check"></i></span>サイトマップ（sitemap.xml）を生成</div>
+        <div class="m-progress" id="mProgress"><div class="m-bar" id="mBar"></div><span id="mProgressText">公開しています…</span></div>
+        <div class="m-success" id="mSuccess">
+          <div class="m-check"><i data-icon="check"></i></div>
+          <div><div class="m-success-title">公開しました！</div><div class="m-success-url">https://ponpuya.com</div></div>
+        </div>
+      </div>
+      <div class="m-foot">
+        <button class="btn-ghost" id="btnCancel">キャンセル</button>
+        <button class="btn-primary" id="btnDoPublish">公開する</button>
+        <button class="btn-primary" id="btnOpenSite"><span>サイトを開く</span><i data-icon="external"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- published site in a browser window -->
+  <div class="browser cw" id="browser">
+    <div class="cw-tabs"><div class="cw-tab"><img class="fav" src="../../shared/favicons/studio.svg" alt=""><span class="tt">有限会社長谷川興業 - STUDIO</span><span class="x"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></div><div class="cw-tab on new"><img class="fav" src="assets/img/favicon.webp" alt=""><span class="tt" id="liveTitle">有限会社長谷川興業 | 大阪府豊中市 | コンクリート打設工事</span><span class="x"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span></div><span class="cw-newtab"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></span><span class="sp"></span><span class="wc dark"></span></div>
+    <div class="cw-bar"><span class="cw-nav"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg></span><span class="cw-nav off"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></span><span class="cw-nav"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg></span><div class="cw-omni"><span class="cw-tune"><svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span><span class="cw-url" id="liveUrl">ponpuya.com</span><span class="cw-star"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg></span></div><span class="cw-nav"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z" opacity=".9"/></svg></span><span class="cw-prof"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#e3e3e3"/><circle cx="12" cy="9.3" r="3.6" fill="#7b7b7b"/><path d="M5.6 18.4c1.4-2.5 3.8-3.7 6.4-3.7s5 1.2 6.4 3.7A9.3 9.3 0 0 1 12 21a9.3 9.3 0 0 1-6.4-2.6z" fill="#7b7b7b"/></svg></span><span class="cw-nav"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></span></div>
+    <div class="br-view"><iframe id="liveFrame" title="published site"></iframe><div class="cw-status" id="cwStatus"></div></div>
+  </div>
+
+  <div class="keycap" id="keycap"></div>
+  <div class="drag-ghost" id="ghost"></div>
+  <div class="ff-cover" id="ffCover"><div>準備中…</div></div>
+  <div class="hint" id="hint">
+    <b>Space</b> 再生 / 一時停止　<b>R</b> 最初から　<b>C</b> 字幕 ON/OFF　<b>H</b> このヒントを隠す
+  </div>
+  <div id="issueBox" hidden><span id="issueLbl"></span></div>
+  <div class="cursor" id="cursor" data-kind="arrow"></div>
+</div>
+
+<script src="js/site-snapshot.js"></script>
+<script src="../../shared/stage.js"></script>
+<script src="../../shared/win11.js"></script>
+<script src="js/site-frame.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/scenario.js"></script>
+</body>
+</html>

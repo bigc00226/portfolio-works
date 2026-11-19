@@ -1,0 +1,9 @@
+/* wix-light-op: pieces of this video on top of the Wix editor (shared/wix/wix.css) */
+.lo-files { padding: 14px 18px 4px; font-size: 12px; color: #577083; }
+.lo-sw-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #dfe5eb; font-size: 14px; }
+.lo-sw-row small { display: block; color: #577083; font-size: 12px; margin-top: 2px; }
+.lo-fields { padding: 8px 14px; }
+.lo-fields div { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; margin-bottom: 6px; border: 1px solid #dfe5eb; border-radius: 6px; font-size: 13px; }
+.lo-fields div b { flex: 1; font-weight: 400; }
+.lo-fields div em { font-style: normal; font-size: 11px; color: #577083; }
+.lo-fields div.on { border-color: #116dff; background: #f2f7ff; }

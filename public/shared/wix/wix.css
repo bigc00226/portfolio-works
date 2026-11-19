@@ -1,0 +1,189 @@
+/*
+ * The Wix editor (editor.wix.com needs a login, so it is rebuilt — shared/wix/wix.js). The logo and the favicon are
+ * Wix's own (npm run favicons: logos/wix.svg from the ja.wix.com header, favicons/wix.ico); Wix blue #116dff.
+ * The canvas shows the real pages of the site (captured: videos/<id>/js/site-snapshot.js).
+ */
+.wx { position: absolute; inset: 0; display: flex; flex-direction: column; background: #f0f4f7; font: 13px/1.4 "Noto Sans JP", "Helvetica Neue", Arial, sans-serif; color: #20303c; overflow: hidden; --wb: #116dff; --wb-d: #0f62e6; --wl: #dfe5eb; }
+.wx i[data-icon] svg, .wx i[data-ic] svg { width: 16px; height: 16px; display: block; }
+
+/* top bar */
+.wx-top { flex: none; height: 48px; display: flex; align-items: center; background: #fff; border-bottom: 1px solid var(--wl); padding: 0 8px 0 0; position: relative; z-index: 4; }
+.wx-logo { width: 64px; height: 48px; display: grid; place-items: center; border-right: 1px solid var(--wl); }
+.wx-logo img { width: 38px; height: auto; display: block; }
+.wx-menu { display: flex; height: 100%; border-right: 1px solid var(--wl); }
+.wx-menu span { display: flex; align-items: center; padding: 0 16px; font-size: 14px; color: #20303c; }
+.wx-menu span.upg { color: #6f3cdd; font-weight: 500; }
+.wx-pagesel { display: flex; align-items: center; gap: 6px; height: 100%; padding: 0 16px; border-right: 1px solid var(--wl); min-width: 230px; }
+.wx-pagesel .l { color: #577083; }
+.wx-pagesel b { font-weight: 500; flex: 1; }
+.wx-pagesel.open { background: #e7f0ff; }
+.wx-dev { display: flex; height: 100%; border-right: 1px solid var(--wl); }
+.wx-dev span { width: 48px; display: grid; place-items: center; color: #577083; position: relative; }
+.wx-dev span.on { color: var(--wb); }
+.wx-dev span.on::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 0; height: 3px; background: var(--wb); border-radius: 2px 2px 0 0; }
+.wx-dev svg { width: 22px; height: 22px; }
+.wx-top .sp { flex: 1; }
+.wx-ic { width: 36px; height: 36px; display: grid; place-items: center; color: #20303c; border-radius: 50%; }
+.wx-ic.off { color: #b6c1cd; }
+.wx-zoom { display: flex; align-items: center; gap: 4px; padding: 0 12px; color: #577083; border-right: 1px solid var(--wl); border-left: 1px solid var(--wl); height: 100%; margin: 0 6px; }
+.wx-txt { padding: 0 14px; height: 100%; display: flex; align-items: center; font-size: 14px; color: var(--wb); }
+.wx-txt.saved { color: #577083; }
+.wx-pub { margin-left: 6px; height: 32px; padding: 0 22px; border-radius: 16px; background: var(--wb); color: #fff; display: flex; align-items: center; font-size: 14px; font-weight: 500; }
+.wx-pub.busy { background: #5999ff; }
+
+/* left bar */
+.wx-body { flex: 1; display: flex; min-height: 0; position: relative; }
+.wx-left { flex: none; width: 64px; background: #fff; border-right: 1px solid var(--wl); display: flex; flex-direction: column; align-items: center; padding-top: 10px; gap: 4px; position: relative; z-index: 3; }
+.wx-tool { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #20303c; position: relative; }
+.wx-tool svg { width: 22px; height: 22px; }
+.wx-tool.add { background: var(--wb); color: #fff; margin-bottom: 6px; }
+.wx-tool.on:not(.add) { background: #e7f0ff; color: var(--wb); }
+.wx-tool .tip { position: absolute; left: 54px; top: 50%; transform: translateY(-50%); background: #20303c; color: #fff; font-size: 12px; padding: 5px 10px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s; }
+.wx-tool.tipon .tip { opacity: 1; }
+
+/* stage: the canvas (the real page, scaled to fit) */
+.wx-stage { flex: 1; min-width: 0; position: relative; overflow: hidden; background: #f0f4f7; }
+.wx-canvas { position: absolute; inset: 0 0 0 0; background: #fff; overflow: hidden; }
+.wx-fit { transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.wx-fit iframe, .wx-mob iframe { border: 0; display: block; width: 100%; height: 100%; background: #fff; }
+.wx-guide { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(17,109,255,.45); pointer-events: none; z-index: 2; }
+.wx-blank { position: absolute; inset: 0; display: grid; place-items: center; z-index: 1; pointer-events: none; }
+.wx-blank[hidden] { display: none; }
+.wx-blank div { border: 2px dashed #b6c1cd; color: #577083; border-radius: 8px; padding: 26px 40px; font-size: 15px; background: rgba(255,255,255,.9); text-align: center; }
+.wx-blank b { display: block; color: var(--wb); margin-top: 6px; }
+.wx.mobile .wx-canvas { visibility: hidden; }
+.wx-mob { position: absolute; inset: 0; display: none; justify-content: center; padding-top: 24px; background: #f0f4f7; }
+.wx.mobile .wx-mob { display: flex; }
+.wx-mob-scr { width: 390px; height: calc(100% - 24px); background: #fff; box-shadow: 0 0 0 1px var(--wl), 0 6px 24px rgba(22,45,61,.12); overflow: hidden; position: relative; }
+.wx-mob-lbl { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #577083; }
+
+/* selection / hover (the editor's own blue frames over the canvas) */
+.wx-sel, .wx-hov { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; z-index: 6; display: none; }
+.wx-hov { border: 1px solid rgba(17,109,255,.6); }
+.wx-sel { border: 1px solid var(--wb); }
+.wx-sel.on, .wx-hov.on { display: block; }
+.wx-sel.sec { border-width: 2px; }
+.wx-sel .lbl { position: absolute; left: -1px; top: -24px; height: 22px; padding: 0 8px; background: var(--wb); color: #fff; font-size: 12px; display: flex; align-items: center; border-radius: 4px 4px 0 0; white-space: nowrap; }
+.wx-sel.lbl-in .lbl { top: 0; border-radius: 0 0 4px 0; }
+.wx-sel .h { position: absolute; width: 8px; height: 8px; background: #fff; border: 1px solid var(--wb); border-radius: 50%; }
+.wx-sel .h.tl { left: -5px; top: -5px; } .wx-sel .h.tr { right: -5px; top: -5px; } .wx-sel .h.bl { left: -5px; bottom: -5px; } .wx-sel .h.br { right: -5px; bottom: -5px; }
+.wx-sel.sec .h { display: none; }
+.wx-bar { position: absolute; z-index: 7; display: none; align-items: center; gap: 2px; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(22,45,61,.22); padding: 3px; }
+.wx-bar.on { display: flex; }
+.wx-bar .b { height: 30px; padding: 0 14px; border-radius: 15px; background: var(--wb); color: #fff; display: flex; align-items: center; font-size: 13px; white-space: nowrap; }
+.wx-bar .b.plain { background: transparent; color: var(--wb); }
+.wx-bar .c { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #20303c; }
+.wx-bar .c.on { background: #e7f0ff; color: var(--wb); }
+.wx-bar svg { width: 18px; height: 18px; }
+.wx-addsec { position: absolute; z-index: 7; display: none; transform: translate(-50%, -50%); height: 30px; padding: 0 16px; border-radius: 15px; background: var(--wb); color: #fff; align-items: center; gap: 6px; font-size: 13px; box-shadow: 0 2px 8px rgba(17,109,255,.35); }
+.wx-addsec.on { display: flex; }
+.wx-addsec svg { width: 14px; height: 14px; }
+
+/* floating panels */
+.wx-panel { position: absolute; left: 76px; top: 14px; width: 420px; max-height: calc(100% - 28px); background: #fff; border-radius: 8px; box-shadow: 0 4px 22px rgba(22,45,61,.22); z-index: 8; display: none; flex-direction: column; overflow: hidden; }
+.wx-panel.on { display: flex; animation: wxIn .18s ease-out; }
+.wx-panel.wide { width: 700px; }
+.wx-panel.right { left: auto; right: 24px; width: 340px; }
+@keyframes wxIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.wx-ph { height: 52px; flex: none; display: flex; align-items: center; padding: 0 12px 0 20px; border-bottom: 1px solid var(--wl); gap: 6px; }
+.wx-ph b { flex: 1; font-size: 16px; font-weight: 500; }
+.wx-ph .c { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #20303c; }
+.wx-pb { flex: 1; min-height: 0; overflow: auto; scrollbar-width: none; }
+.wx-pf { flex: none; padding: 12px 18px; border-top: 1px solid var(--wl); display: flex; gap: 10px; justify-content: flex-end; }
+.wx-btn { height: 32px; padding: 0 18px; border-radius: 16px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--wb); border: 1px solid var(--wb); background: #fff; white-space: nowrap; }
+.wx-btn.pri { background: var(--wb); color: #fff; border-color: var(--wb); }
+.wx-btn.busy { background: #5999ff; border-color: #5999ff; }
+.wx-btn svg { width: 15px; height: 15px; }
+
+/* the add panel */
+.wx-add { display: grid; grid-template-columns: 210px 1fr; height: 560px; }
+.wx-add-cats { border-right: 1px solid var(--wl); padding: 8px 0; }
+.wx-add-cats div { padding: 9px 20px; font-size: 14px; }
+.wx-add-cats div.on { background: #e7f0ff; color: var(--wb); }
+.wx-add-items { padding: 16px 18px; overflow: hidden; }
+.wx-add-items h4 { font-size: 13px; font-weight: 500; color: #577083; margin: 4px 0 10px; }
+.wx-add-it { border: 1px solid var(--wl); border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+.wx-add-it.on { border-color: var(--wb); box-shadow: 0 0 0 1px var(--wb); }
+.wx-add-it .t1 { font-size: 26px; font-weight: 700; letter-spacing: .02em; }
+.wx-add-it .t2 { font-size: 18px; font-weight: 500; }
+.wx-add-it .t3 { font-size: 13px; color: #577083; }
+.wx-add-it .pv { height: 70px; border-radius: 4px; background: linear-gradient(135deg, #cfd9e3, #eef2f6); display: grid; place-items: center; color: #577083; font-size: 12px; }
+.wx-add-it .pv.dark { background: linear-gradient(135deg, #3b4a57, #6f8394); color: #fff; }
+.wx-add-it .pv.form { background: #fff; display: block; padding: 8px; }
+.wx-add-it .pv.form i { display: block; height: 10px; border: 1px solid #cfd9e3; border-radius: 3px; margin-bottom: 6px; }
+.wx-add-it .pv.form b { display: block; width: 60px; height: 14px; background: var(--wb); border-radius: 7px; margin-left: auto; }
+.wx-add-it .n { margin-top: 8px; font-size: 12px; color: #20303c; }
+.wx-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* pages & menu panel */
+.wx-pg-tabs { display: flex; gap: 2px; padding: 0 16px; border-bottom: 1px solid var(--wl); }
+.wx-pg-tabs span { padding: 12px 10px; font-size: 13px; color: #577083; }
+.wx-pg-tabs span.on { color: var(--wb); box-shadow: inset 0 -2px 0 var(--wb); }
+.wx-pg-h { padding: 14px 20px 6px; font-size: 12px; color: #577083; display: flex; align-items: center; }
+.wx-pg-h .sp { flex: 1; }
+.wx-pg { margin: 0 14px 6px; height: 40px; border: 1px solid var(--wl); border-radius: 6px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: #fff; font-size: 14px; }
+.wx-pg.sub { margin-left: 44px; }
+.wx-pg.on { border-color: var(--wb); background: #f2f7ff; }
+.wx-pg.new { animation: wxRow .9s ease; }
+@keyframes wxRow { from { background: #d8e7ff; } to { background: #fff; } }
+.wx-pg .nm { flex: 1; white-space: nowrap; overflow: hidden; }
+.wx-pg .home { color: #577083; }
+.wx-pg .dots { color: #577083; }
+.wx-pg input, .wx-pg .ed { flex: 1; border: 0; outline: 0; font: inherit; background: #fff; min-height: 22px; padding: 0 4px; box-shadow: 0 0 0 1px var(--wb); border-radius: 3px; }
+.wx-pg.drag { box-shadow: 0 6px 18px rgba(22,45,61,.25); position: relative; z-index: 2; }
+.wx-pg-add { margin: 10px 14px 16px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--wb); border: 1px dashed var(--wb); font-size: 13px; }
+.wx-ctx { position: absolute; z-index: 9; background: #fff; border-radius: 6px; box-shadow: 0 4px 18px rgba(22,45,61,.25); padding: 6px 0; min-width: 220px; display: none; }
+.wx-ctx.on { display: block; }
+.wx-ctx div { padding: 8px 18px; font-size: 13px; display: flex; gap: 10px; align-items: center; }
+.wx-ctx div.on { background: #e7f0ff; color: var(--wb); }
+.wx-ctx div svg { width: 15px; height: 15px; }
+.wx-ctx .sep { height: 1px; padding: 0; margin: 4px 0; background: var(--wl); }
+
+/* settings panels (text / image / form) */
+.wx-sf { padding: 14px 20px; border-bottom: 1px solid var(--wl); }
+.wx-sf label { display: block; font-size: 12px; color: #577083; margin-bottom: 8px; }
+.wx-in { white-space: pre-wrap; min-height: 34px; border: 1px solid #c3cfda; border-radius: 6px; padding: 6px 10px; font-size: 14px; display: flex; align-items: center; background: #fff; }
+.wx-in.focus { border-color: var(--wb); box-shadow: 0 0 0 1px var(--wb); }
+.wx-in .ph { color: #9aa9b7; }
+.wx-in .v:empty + .ph { display: inline; }
+.wx-slider { display: flex; align-items: center; gap: 12px; }
+.wx-slider .tr { flex: 1; height: 4px; border-radius: 2px; background: #dfe5eb; position: relative; }
+.wx-slider .tr b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--wb); border-radius: 2px; }
+.wx-slider .tr i { position: absolute; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #fff; border: 2px solid var(--wb); }
+.wx-slider .n { width: 56px; text-align: right; border: 1px solid #c3cfda; border-radius: 6px; padding: 4px 8px; }
+.wx-tg { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+.wx-tg .sw { width: 36px; height: 20px; border-radius: 10px; background: #b6c1cd; position: relative; transition: background .2s; }
+.wx-tg .sw::after { content: ""; position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .2s; }
+.wx-tg .sw.on { background: var(--wb); }
+.wx-tg .sw.on::after { left: 18px; }
+.wx-opt { display: flex; gap: 8px; }
+.wx-opt span { flex: 1; height: 56px; border: 1px solid #c3cfda; border-radius: 6px; display: grid; place-items: center; font-size: 12px; color: #577083; }
+.wx-opt span.on { border-color: var(--wb); box-shadow: 0 0 0 1px var(--wb); color: var(--wb); }
+
+/* media manager */
+.wx-media { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 14px 18px; }
+.wx-media div { aspect-ratio: 1; border-radius: 4px; background: #eef2f6 center / cover no-repeat; position: relative; }
+.wx-media div.on { box-shadow: 0 0 0 3px var(--wb); }
+.wx-media div.up::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--wb) var(--p, 100%), #dfe5eb 0); }
+
+/* modal (publish) + toast */
+.wx-modal { position: absolute; inset: 0; z-index: 12; background: rgba(22,45,61,.42); display: none; align-items: center; justify-content: center; }
+.wx-modal.on { display: flex; }
+.wx-dlg { width: 600px; background: #fff; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,.3); overflow: hidden; animation: wxIn .2s ease-out; }
+.wx-dlg .hd { padding: 24px 30px 6px; font-size: 22px; font-weight: 500; }
+.wx-dlg .bd { padding: 6px 30px 22px; color: #3b4a57; font-size: 14px; line-height: 1.7; }
+.wx-dlg .url { margin-top: 14px; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px; background: #f2f7ff; color: var(--wb); font-size: 15px; }
+.wx-dlg .ft { padding: 14px 30px 22px; display: flex; gap: 10px; justify-content: flex-end; }
+.wx-dlg .art { height: 130px; background: linear-gradient(120deg, #116dff, #5aa4ff 60%, #a9d0ff); display: grid; place-items: center; color: #fff; }
+.wx-dlg .art svg { width: 56px; height: 56px; }
+.wx-toast { position: absolute; left: 50%; bottom: 26px; transform: translate(-50%, 20px); background: #20303c; color: #fff; border-radius: 6px; padding: 10px 18px; font-size: 13px; z-index: 13; opacity: 0; transition: opacity .2s, transform .2s; display: flex; gap: 8px; align-items: center; }
+.wx-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.wx-toast svg { width: 16px; height: 16px; color: #60bc57; }
+
+/* text being typed on the canvas (inside the page frame: added by wix.js) */
+
+/* preview mode: only the page, with "back to the editor" */
+.wx-back { display: none; height: 32px; padding: 0 18px; border-radius: 16px; background: var(--wb); color: #fff; align-items: center; font-size: 14px; margin-left: auto; }
+.wx.preview .wx-back { display: flex; }
+.wx.preview .wx-top > *:not(.wx-logo):not(.wx-back) { display: none; }
+.wx.preview .wx-left { display: none; }
