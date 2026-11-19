@@ -1,13 +1,12 @@
 'use client';
 /* WORKS: the tabbed library (特別 = every video, 一般 / デモ / ゲーム = the sites of content/sites.ts) and the live preview.
    The selected tab is kept in the URL hash (#special, #general …); links with data-go="<tab>" anywhere on the page pick a tab.
-   特別: platform filter (Shopify / WordPress / EC-CUBE / その他), the newest video large, the others as cards.
-   ゲーム: a grid of game cards; 一般 / デモ: the large site cards. */
+   特別: platform filter (Shopify / WordPress / EC-CUBE / その他) and the grid of video cards, whose details open beside
+   it when the pointer rests on one (VideoStage.tsx). ゲーム: a grid of game cards; 一般 / デモ: the large site cards. */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { SiteEntry, VideoEntry } from '@/lib/registry';
 import type { Tab, TabKey } from '@/lib/types';
-import { FeatureCard } from './FeatureCard';
-import { VideoCard } from './VideoCard';
+import { VideoStage } from './VideoStage';
 import { GameCard } from './GameCard';
 import { SiteCard as SiteCardView } from './SiteCard';
 import { SitePreview, type SitePreviewHandle } from './SitePreview';
@@ -141,18 +140,14 @@ export function Library({ tabs, videos, sites, cats, catOf }: { tabs: Tab[]; vid
               ) : t.key === 'special' ? (
                 <>
                   <div className="vfilter" role="group" aria-label="プラットフォームで絞り込み">
-                    {[{ key: 'all', label: 'すべて', color: '#e9efff', n: videos.length }, ...cats].map((c) => (
+                    {[{ key: 'all', label: 'すべて', color: 'var(--text)', n: videos.length }, ...cats].map((c) => (
                       <button key={c.key} type="button" aria-pressed={cat === c.key} style={{ '--c': c.color } as React.CSSProperties}
                         onClick={() => { setCat(c.key); const p = panels.current.special; if (p) { p.classList.remove('anim'); void p.offsetWidth; p.classList.add('anim'); } }}>
                         <i />{c.label}<span>{c.n}</span>
                       </button>
                     ))}
                   </div>
-                  <div className="vgrid">
-                    {shown.map((v, i) => (i === 0
-                      ? <FeatureCard key={v.id} v={v} i={i} color={catByKey[catOf[v.id]]?.color || '#5b8cff'} />
-                      : <VideoCard key={v.id} v={v} i={i} cat={catByKey[catOf[v.id]] || cats[cats.length - 1]} />))}
-                  </div>
+                  <VideoStage key={cat} videos={shown} catFor={(id) => catByKey[catOf[id]] || cats[cats.length - 1]} />
                 </>
               ) : t.key === 'game' ? (
                 <div className="ggrid">

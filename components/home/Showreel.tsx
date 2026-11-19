@@ -24,17 +24,17 @@ export function Showreel({ items, chips }: { items: Item[]; chips: { label: stri
   const v = items[cur];
   const go = useCallback((d: number) => setCur((c) => (c + d + n) % n), [n]);
 
-  // progress bar + advance (direct style writes: no re-render per frame)
+  // progress bar + advance (direct style writes: no re-render per frame; scaleX, not width, so no layout / repaint per frame)
   useEffect(() => {
     elapsed.current = 0;
-    if (prog.current) prog.current.style.width = '0%';
+    if (prog.current) prog.current.style.transform = 'scaleX(0)';
     if (n < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let last = 0, raf = 0;
     const tick = (now: number) => {
       if (last && !paused.current && !document.hidden) elapsed.current += Math.min(100, now - last);
       last = now;
       if (elapsed.current >= HOLD) { setCur((c) => (c + 1) % n); return; }
-      if (prog.current) prog.current.style.width = `${Math.min(1, elapsed.current / HOLD) * 100}%`;
+      if (prog.current) prog.current.style.transform = `scaleX(${Math.min(1, elapsed.current / HOLD).toFixed(4)})`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

@@ -13,7 +13,8 @@ import type { Tab } from '../lib/types';
 export const tabs: Tab[] = [
   {
     key: 'special', label: '特別', en: 'SPECIAL', icon: 'spark', isNew: true, title: '制作過程の動画',
-    lead: 'デザインから実装・確認・公開まで、制作の一部始終を録画しました。サムネイルをクリックすると再生ページが開き、チャプターを選ぶとその場面から再生します。',
+    lead: 'デザインから実装・確認・公開まで、制作の一部始終を録画しました。動画にマウスを乗せると一覧が左に寄り、右側に概要・タグ・チャプターをすべて表示します（スマホではタップで開きます）。クリックすると再生ページが開き、チャプターを選ぶとその場面から再生します。',
+    hint: '動画にマウスを乗せると、右側に詳細を表示',
   },
   {
     key: 'general', label: '一般', en: 'WORKS', icon: 'link', title: '制作実績', num: 'WORK',

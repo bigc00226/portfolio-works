@@ -4,7 +4,44 @@ import { Arrow, Play } from './icons';
 import { Showreel } from './Showreel';
 
 /* Hero: the claim (lines rise in one by one), the two ways in, the numbers (counted up by Motion.tsx) and the showreel.
-   Behind it: the studio picture (public/site/img/hero-art.webp), drifting aurora light, a slow grid and film grain. */
+   Behind it: the studio picture (public/site/img/hero-art.webp, dark theme only), drifting aurora light, a slow grid,
+   the sky — the moon and twinkling stars by night, the sun and clouds by day (home.css .sky; the switch in the header
+   sets one and raises the other) — and film grain. */
+
+// the stars: fixed pseudo-random places, so the server and the browser draw the same sky
+const STARS = (() => {
+  let seed = 20261119;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  return Array.from({ length: 48 }, (_, k) => {
+    const big = k % 8 === 3;
+    return { k, big, x: (rnd() * 100).toFixed(2), y: (rnd() * 80).toFixed(2), s: (big ? 2.4 + rnd() * .8 : 1 + rnd() * 1.6).toFixed(1), tw: (2.4 + rnd() * 3.6).toFixed(1) };
+  });
+})();
+const CLOUDS = [
+  { x: '35%', y: '15%', w: 112, t: 26, dx: 46 },
+  { x: '55%', y: '19%', w: 150, t: 34, dx: -60 },
+  { x: '62%', y: '89%', w: 124, t: 30, dx: 54 },
+];
+
+function Sky() {
+  return (
+    <div className="sky">
+      <span className="stars">
+        {STARS.map((s) => (
+          <i key={s.k} className={s.big ? 'big' : undefined}
+            style={{ left: `${s.x}%`, top: `${s.y}%`, '--s': `${s.s}px`, '--tw': `${s.tw}s`, '--k': s.k } as React.CSSProperties} />
+        ))}
+      </span>
+      <span className="shooting" />
+      <span className="clouds">
+        {CLOUDS.map((c) => <i key={c.x} style={{ '--x': c.x, '--y': c.y, '--w': `${c.w}px`, '--t': `${c.t}s`, '--dx': `${c.dx}px` } as React.CSSProperties} />)}
+      </span>
+      <span className="sun"><span className="sun-float"><span className="sun-halo" /><span className="sun-rays" /><span className="sun-core" /></span></span>
+      <span className="moon"><span className="moon-float"><span className="moon-halo" /><span className="moon-core"><i /><i /><i /></span></span></span>
+    </div>
+  );
+}
+
 export function Hero({ videos, stats, cats }: { videos: VideoEntry[]; stats: [string, number, string][]; cats: { label: string; color: string; n: number }[] }) {
   const d = (n: number) => ({ '--d': n }) as React.CSSProperties;
   return (
@@ -13,6 +50,7 @@ export function Hero({ videos, stats, cats }: { videos: VideoEntry[]; stats: [st
         <Image className="hero-art" src="/site/img/hero-art.webp" alt="" fill priority sizes="100vw" />
         <span className="aurora a1" /><span className="aurora a2" /><span className="aurora a3" />
         <span className="hero-lines" />
+        <Sky />
         <span className="grain" />
       </div>
       <div className="container hero-in">
