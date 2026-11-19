@@ -1,10 +1,14 @@
 'use client';
 /* WORKS: the tabbed library (特別 = every video, 一般 / デモ / ゲーム = the sites of content/sites.ts) and the live preview.
-   The selected tab is kept in the URL hash (#special, #general …); links with data-go="<tab>" anywhere on the page pick a tab. */
+   The selected tab is kept in the URL hash (#special, #general …); links with data-go="<tab>" anywhere on the page pick a tab.
+   特別: platform filter (Shopify / WordPress / EC-CUBE / その他), the newest video large, the others as cards.
+   ゲーム: a grid of game cards; 一般 / デモ: the large site cards. */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { SiteEntry, VideoEntry } from '@/lib/registry';
 import type { Tab, TabKey } from '@/lib/types';
 import { FeatureCard } from './FeatureCard';
+import { VideoCard } from './VideoCard';
+import { GameCard } from './GameCard';
 import { SiteCard as SiteCardView } from './SiteCard';
 import { SitePreview, type SitePreviewHandle } from './SitePreview';
 import { Scroll, TabIconOf } from './icons';
@@ -12,9 +16,14 @@ import { Scroll, TabIconOf } from './icons';
 export type SiteCard = SiteEntry & { full: { width: number; height: number }; scrollSec: number };
 type SiteKey = Exclude<TabKey, 'special'>;
 type SelectOpts = { scroll?: false | 'library'; instant?: boolean; silent?: boolean };
+/** a platform of the videos (the filter of 特別) */
+export type VideoCat = { key: string; label: string; color: string; n: number };
 
-export function Library({ tabs, videos, sites }: { tabs: Tab[]; videos: VideoEntry[]; sites: Record<SiteKey, SiteCard[]> }) {
+export function Library({ tabs, videos, sites, cats, catOf }: { tabs: Tab[]; videos: VideoEntry[]; sites: Record<SiteKey, SiteCard[]>; cats: VideoCat[]; catOf: Record<string, string> }) {
   const [current, setCurrent] = useState<TabKey>(tabs[0].key);
+  const [cat, setCat] = useState('all');
+  const catByKey = Object.fromEntries(cats.map((c) => [c.key, c]));
+  const shown = cat === 'all' ? videos : videos.filter((v) => catOf[v.id] === cat);
   const tabsEl = useRef<HTMLDivElement>(null);
   const ink = useRef<HTMLSpanElement>(null);
   const anchor = useRef<HTMLDivElement>(null);
@@ -88,7 +97,7 @@ export function Library({ tabs, videos, sites }: { tabs: Tab[]; videos: VideoEnt
   return (
     <section className="library" id="library" aria-labelledby="libTitle" ref={library}>
       <div className="container">
-        <div className="sec-head">
+        <div className="sec-head" data-reveal="">
           <p className="sec-eyebrow">WORKS</p>
           <h2 id="libTitle">制作の記録</h2>
           <p>制作過程の動画・制作実績・公開中のデモ・ゲームを、タブで切り替えてご覧いただけます。</p>
@@ -130,7 +139,27 @@ export function Library({ tabs, videos, sites }: { tabs: Tab[]; videos: VideoEnt
                   {t.empty?.text && <p>{t.empty.text}</p>}
                 </div>
               ) : t.key === 'special' ? (
-                <div className="features">{videos.map((v, i) => <FeatureCard key={v.id} v={v} i={i} />)}</div>
+                <>
+                  <div className="vfilter" role="group" aria-label="プラットフォームで絞り込み">
+                    {[{ key: 'all', label: 'すべて', color: '#e9efff', n: videos.length }, ...cats].map((c) => (
+                      <button key={c.key} type="button" aria-pressed={cat === c.key} style={{ '--c': c.color } as React.CSSProperties}
+                        onClick={() => { setCat(c.key); const p = panels.current.special; if (p) { p.classList.remove('anim'); void p.offsetWidth; p.classList.add('anim'); } }}>
+                        <i />{c.label}<span>{c.n}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="vgrid">
+                    {shown.map((v, i) => (i === 0
+                      ? <FeatureCard key={v.id} v={v} i={i} color={catByKey[catOf[v.id]]?.color || '#5b8cff'} />
+                      : <VideoCard key={v.id} v={v} i={i} cat={catByKey[catOf[v.id]] || cats[cats.length - 1]} />))}
+                  </div>
+                </>
+              ) : t.key === 'game' ? (
+                <div className="ggrid">
+                  {sites.game.map((s, i) => (
+                    <GameCard key={s.id} s={s} i={i} tab={t} onOpen={(k, dev) => preview.current?.open(sites.game, k, dev)} />
+                  ))}
+                </div>
               ) : (
                 <div className="sgrid">
                   {sites[t.key].map((s, i) => (

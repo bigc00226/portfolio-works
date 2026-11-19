@@ -3,14 +3,17 @@
  *   npm run game-images                    every game in public/games/ that has an images.json
  *   npm run game-images -- shogi nanpure   some games
  *   npm run game-images -- --samples       redraw every sample image (the generated pictures you added are kept)
+ *   npm run game-images -- site            the site's own pictures (the list page's design): public/site/images.json →
+ *                                          public/site/img/, sheet docs/site/images.md (not in the games' index)
  *
  * Each game lists its pictures in public/games/<id>/images.json (schema below). For every entry this tool:
  *   1. takes a picture you made with an AI tool and saved as  public/games/<id>/img/<name>.png | .jpg | .jpeg | .webp
  *      (any size): resizes it to the entry's w × h (cover crop; `fit: "contain"` keeps it whole), cuts out a plain background
  *      when the entry needs transparency (alpha: true) and the picture has none, and writes img/<name>.webp (the source is removed);
  *   2. otherwise, when img/<name>.webp is missing or is still a sample: draws the sample image (画像サンプル) in its place;
- *   3. writes docs/games/prompts/<id>.md — the prompt sheet (recommended tool, prompt, negative prompt, a prompt for any other tool)
- *      and docs/games/prompts/README.md — every game, how many pictures are still samples, which tools are used.
+ *   3. writes docs/games/prompts/<id>.md — the prompt sheet (recommended tool, prompt, negative prompt, a prompt for any other tool),
+ *      docs/games/prompts/README.md — every game, how many pictures are still samples, which tools are used —, and
+ *      docs/games/prompts/all.md (every sheet in one file) and all.csv (one row per picture, for a spreadsheet).
  * Each sample carries a marker in its EXIF (ImageDescription "game-images-sample:<hash of what it shows>"), so a picture you saved
  * over it is never mistaken for a sample, and a sample is redrawn when its size, colours or label change in images.json.
  *
@@ -66,6 +69,11 @@ const KINDS = { bg: '背景', key: 'キービジュアル', cg: 'イベント絵
 const SRC_EXT = ['.png', '.jpg', '.jpeg', '.webp'];
 
 const GAMES = path.join(PUBLIC, 'games');
+/** the set "site" is the list page's own pictures (public/site/); every other id is a game (public/games/<id>/) */
+const SITE = 'site';
+const baseOf = (id) => (id === SITE ? path.join(PUBLIC, 'site') : path.join(GAMES, id));
+const relOf = (id) => (id === SITE ? 'public/site' : `public/games/${id}`);
+const docOf = (id) => (id === SITE ? path.join(ROOT, 'docs', 'site', 'images.md') : path.join(DOCS, `${id}.md`));
 const DOCS = path.join(ROOT, 'docs', 'games', 'prompts');
 const args = process.argv.slice(2);
 const SAMPLES = args.includes('--samples');
@@ -76,7 +84,7 @@ const sampleKey = (im) => md5(JSON.stringify([im.w, im.h, !!im.alpha, im.shape, 
 const rel = (p) => path.relative(ROOT, p).split(path.sep).join('/');
 
 function readSpec(id) {
-  const f = path.join(GAMES, id, 'images.json');
+  const f = path.join(baseOf(id), 'images.json');
   const spec = JSON.parse(fs.readFileSync(f, 'utf8'));
   const names = new Set();
   for (const im of spec.images || []) {
@@ -258,20 +266,20 @@ function sheet(id, spec, state) {
   const done = imgs.filter((im) => state[im.name] === 'art').length;
   const L = [];
   L.push(`# ${spec.title} ― 画像の生成プロンプト`, '');
-  L.push(`ゲーム: \`public/games/${id}/\`（${imgs.length} 枚中 ${done} 枚が生成済み、${imgs.length - done} 枚が画像サンプル）。このファイルは \`npm run game-images\` が \`public/games/${id}/images.json\` から書き出します（直接編集しないでください）。`, '');
+  L.push(`${id === SITE ? 'サイト' : 'ゲーム'}: \`${relOf(id)}/\`（${imgs.length} 枚中 ${done} 枚が生成済み、${imgs.length - done} 枚が画像サンプル）。このファイルは \`npm run game-images -- ${id}\` が \`${relOf(id)}/images.json\` から書き出します（直接編集しないでください）。`, '');
   if (spec.style) L.push('## 全体のアートディレクション', '', spec.style, '');
   L.push('## 差し替えの手順', '',
     `1. 下のプロンプトを、画像ごとの「おすすめのツール」（または「ほかのツール用」の英文を好きなツール）に入力して生成します。`,
-    `2. できた画像を \`public/games/${id}/img/<ファイル名>.png\`（.jpg / .webp も可・サイズは自由）として保存します。`,
+    `2. できた画像を \`${relOf(id)}/img/<ファイル名>.png\`（.jpg / .webp も可・サイズは自由）として保存します。`,
     `3. \`npm run game-images -- ${id}\` を実行すると、指定のサイズに合わせて WebP に変換し、画像サンプルと置き換えます（透過が必要な画像は、単色の背景を自動で切り抜きます）。`,
-    `4. ゲームのカードのプレビュー画像も撮り直すときは \`npm run capture -- ${id}\`。`, '');
+    id === SITE ? '4. 一覧ページは画像を直接読み込むので、ほかに作業はいりません（`npm run build` で反映）。' : `4. ゲームのカードのプレビュー画像も撮り直すときは \`npm run capture -- ${id}\`。`, '');
   L.push('## 画像の一覧', '', '| | ファイル | サイズ | 種類 | 用途 | おすすめのツール |', '|---|---|---|---|---|---|');
   for (const im of imgs) L.push(`| ${state[im.name] === 'art' ? '✅' : '⬜'} | [\`img/${im.name}.webp\`](#${im.name}) | ${im.w}×${im.h}${im.alpha ? '（透過）' : ''} | ${KINDS[im.kind] || im.kind} | ${im.use} | ${TOOLS[im.tool].name} |`);
   L.push('', '⬜ = 画像サンプルのまま　✅ = 生成した画像に差し替え済み', '');
   for (const im of imgs) {
     const t = TOOLS[im.tool];
     L.push(`<a id="${im.name}"></a>`, '', `## ${im.label}`, '');
-    L.push(`- ファイル: \`public/games/${id}/img/${im.name}.webp\`（${im.w}×${im.h}px${im.alpha ? '・背景は透過' : ''}）`);
+    L.push(`- ファイル: \`${relOf(id)}/img/${im.name}.webp\`（${im.w}×${im.h}px${im.alpha ? '・背景は透過' : ''}）`);
     L.push(`- 用途: ${im.use}`);
     if (im.ja) L.push(`- 内容: ${im.ja}`);
     L.push(`- おすすめのツール: [${t.name}](${t.url}) ― サイズ: ${t.size}${im.alpha ? `。透過: ${t.alpha}` : ''}`);
@@ -318,6 +326,7 @@ async function sampleMark(file) {
 (async () => {
   if (!fs.existsSync(GAMES)) { console.log('public/games/ がありません'); return; }
   const list = fs.readdirSync(GAMES).filter((d) => fs.existsSync(path.join(GAMES, d, 'images.json')) && (!ids.length || ids.includes(d)));
+  if (fs.existsSync(path.join(baseOf(SITE), 'images.json')) && (!ids.length || ids.includes(SITE))) list.push(SITE);
   const unknown = ids.filter((i) => !list.includes(i));
   if (unknown.length) { console.error('images.json がないゲーム:', unknown.join(', ')); process.exit(1); }
   let browser = null, page = null;
@@ -332,7 +341,7 @@ async function sampleMark(file) {
   fs.mkdirSync(DOCS, { recursive: true });
   for (const id of list) {
     const spec = readSpec(id);
-    const dir = path.join(GAMES, id, 'img');
+    const dir = path.join(baseOf(id), 'img');
     fs.mkdirSync(dir, { recursive: true });
     const state = {};
     let drawn = 0, imported = 0;
@@ -374,7 +383,8 @@ async function sampleMark(file) {
       }
       state[im.name] = 'sample';
     }
-    fs.writeFileSync(path.join(DOCS, `${id}.md`), sheet(id, spec, state));
+    fs.mkdirSync(path.dirname(docOf(id)), { recursive: true });
+    fs.writeFileSync(docOf(id), sheet(id, spec, state));
     const samples = spec.images.filter((im) => state[im.name] === 'sample').length;
     console.log(`${id}: ${spec.images.length} 枚（画像サンプル ${samples}・生成済み ${spec.images.length - samples}）${drawn ? `、サンプルを ${drawn} 枚描画` : ''}${imported ? `、${imported} 枚取り込み` : ''}`);
   }
@@ -391,5 +401,17 @@ async function sampleMark(file) {
     all.push({ id, spec, state });
   }
   fs.writeFileSync(path.join(DOCS, 'README.md'), index(all));
+  // every sheet in one file, and one CSV row per picture (UTF-8 with BOM, so Excel reads the Japanese)
+  fs.writeFileSync(path.join(DOCS, 'all.md'), ['# ゲームの画像 ― 全ゲームの生成プロンプト（1 ファイル版）', '',
+    '各ゲームのシート（同じフォルダの <id>.md）を 1 つにまとめたものです。`npm run game-images` が書き出します。', '',
+    // (anchors get the game's id in front: several games have a picture named "key", "bg" …)
+    ...all.map(({ id }) => fs.readFileSync(path.join(DOCS, `${id}.md`), 'utf8').replace(/<a id="([^"]+)"><\/a>/g, `<a id="${id}-$1"></a>`).replace(/\]\(#([^)]+)\)/g, `](#${id}-$1)`) + '\n\n---\n')].join('\n'));
+  const cell = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const rows = [['ゲーム', 'id', 'ファイル', '幅', '高さ', '透過', '種類', '名前', '用途', '内容', 'おすすめのツール', 'プロンプト', 'ネガティブ', '共通の英文プロンプト', '参照画像', 'メモ', '状態']];
+  for (const { id, spec, state } of all) for (const im of spec.images) {
+    rows.push([spec.title, id, `public/games/${id}/img/${im.name}.webp`, im.w, im.h, im.alpha ? 'あり' : '', KINDS[im.kind] || im.kind, im.label, im.use, im.ja || '',
+      TOOLS[im.tool].name, im.prompt, im.negative || '', im.generic, im.ref || '', im.notes || '', state[im.name] === 'art' ? '生成済み' : '画像サンプル']);
+  }
+  fs.writeFileSync(path.join(DOCS, 'all.csv'), '\ufeff' + rows.map((r) => r.map(cell).join(',')).join('\r\n') + '\r\n');
   console.log('wrote docs/games/prompts/');
 })().catch((e) => { console.error(e.message || e); process.exit(1); });

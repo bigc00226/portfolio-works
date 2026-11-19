@@ -1,5 +1,5 @@
 'use client';
-/* 特別: one video — thumbnail, chapter bar + list (each chapter starts the player there), title, summary, tags. */
+/* 特別: the newest video, large — thumbnail, chapter bar + list (each chapter starts the player there), title, summary, tags. */
 import Image from 'next/image';
 import { useState } from 'react';
 import type { VideoEntry } from '@/lib/registry';
@@ -8,16 +8,16 @@ import { Play, PlayGlyph, Spark } from './icons';
 
 const sec = (ms: number) => Math.round(ms / 100) / 10;
 
-export function FeatureCard({ v, i }: { v: VideoEntry; i: number }) {
+export function FeatureCard({ v, i, color }: { v: VideoEntry; i: number; color: string }) {
   const [hl, setHl] = useState<number | null>(null);
   const ch = v.chapterList.slice(1); // the opening title is not a chapter of the work
   const hover = (c: number) => ({ onMouseEnter: () => setHl(c), onMouseLeave: () => setHl(null) });
   return (
-    <article className="feature item" style={{ '--i': i } as React.CSSProperties}>
+    <article className="feature item spot" style={{ '--i': i, '--c': color } as React.CSSProperties}>
       <div className="fmedia-col">
         <a className="fmedia" href={paths.watch(v.id)} aria-label={`${v.title} を再生`}>
-          <Image src={paths.thumb(v.id)} alt="" fill sizes="(max-width: 1100px) 92vw, 640px" />
-          <span className="pick"><Spark />特別編</span>
+          <Image src={paths.thumb(v.id)} alt="" fill sizes="(max-width: 1100px) 92vw, 700px" />
+          <span className="pick"><Spark />最新の制作動画</span>
           {v.duration > 0 && <span className="dur">{fmtTime(v.duration)}</span>}
           <span className="play" aria-hidden="true"><PlayGlyph /></span>
         </a>
@@ -43,7 +43,8 @@ export function FeatureCard({ v, i }: { v: VideoEntry; i: number }) {
         )}
       </div>
       <div className="fbody">
-        <div className="meta-line">
+        <span className="latest"><i />NEW RELEASE</span>
+        <div className="meta-line" style={{ marginTop: 14 }}>
           <span className="tool">{v.tool}</span>
           {jdate(v.recorded) && <><span className="sep" /><span>{jdate(v.recorded)}</span></>}
         </div>
@@ -52,7 +53,7 @@ export function FeatureCard({ v, i }: { v: VideoEntry; i: number }) {
         <p className="sum">{v.summary}</p>
         <div className="tags">{v.tags.map((x) => <span key={x}>{x}</span>)}</div>
         <div className="actions">
-          <a className="btn btn-primary btn-sm" href={paths.watch(v.id)}><Play />動画を再生{v.duration > 0 && <small>{fmtTime(v.duration)}</small>}</a>
+          <a className="btn btn-primary" href={paths.watch(v.id)}><Play />動画を再生{v.duration > 0 && <small>{fmtTime(v.duration)}</small>}</a>
         </div>
       </div>
     </article>

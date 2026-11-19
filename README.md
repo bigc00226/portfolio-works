@@ -33,7 +33,7 @@ movie/
 │   │   └── watch/[id]/page.tsx   /watch/<id>（全動画を静的に生成）
 │   └── icon.svg                  サイトのファビコン
 ├── components/
-│   ├── home/                     Header · Hero · Showreel · ToolsStrip · Why · Library（タブ）· FeatureCard · SiteCard · SitePreview（ライブプレビュー）· Footer · icons
+│   ├── home/                     Header · Hero · Showreel · ToolsStrip · Why · Flow · Library（タブ・絞り込み）· FeatureCard · VideoCard · SiteCard · GameCard · SitePreview（ライブプレビュー）· Closing · Footer · Motion（スクロールの演出）· icons
 │   └── player/Player.tsx         プレーヤー（シーク・字幕・全画面・キー操作）
 ├── content/                      ★ 掲載内容（レジストリ）。ここだけを編集します
 │   ├── videos.ts                 制作動画（特別タブ）
@@ -57,6 +57,7 @@ movie/
 │   └── thumbs/                   動画のサムネイル（videos/<id>.webp）・サイトのプレビュー画像（sites/<id>-pc|full|sp.webp）
 ├── docs/videos/<id>.md           各動画の説明（内容・本物と再現の区別・録画の手順）
 ├── docs/games/                   ゲームの作り方（README.md）・各ゲームの説明（<id>.md）・画像の生成プロンプト（prompts/<id>.md）
+├── docs/site/images.md           一覧ページのデザインで使う画像の生成プロンプト（public/site/images.json から自動で書き出し）
 ├── tools/                        撮影・測定・確認のツール（下表）
 │   ├── wp/playground.js          WordPress の本物の管理画面の取り込み（WordPress Playground）
 │   └── snapshots/<id>/           その動画専用の取り込みスクリプト（と確認用の test/）
@@ -80,7 +81,13 @@ movie/
 
 一覧の並び順は画面上の日付（`recorded`）の新しい順で、自動で決まります。型は `lib/types.ts`。ツールも同じ `content/*.ts` を読みます（Node.js 22.18 以上は TypeScript をそのまま読み込めます）。
 
-## 画像（WebP）
+## 一覧ページのデザイン（2026-11-19 リデザイン）
+
+- 夜の制作スタジオをイメージした暗い配色（深い紺に、画面の光のようなブルー・シアン・バイオレット、録画中の赤を差し色）。色はすべて `app/(site)/home.css` の `:root` の変数です。
+- 構成：ヘッダー（スクロールで半透明に・読んだ位置のバー・スマホはメニュー）→ ヒーロー（見出しが 1 行ずつ現れる・オーロラの光・マウスに合わせて傾くショーリール）→ ツールの帯（2 段で逆向きに流れる）→ 動画で見せる理由 → 収録している工程（4 段階）→ 制作の記録（タブ。特別は Shopify / WordPress / EC-CUBE / その他で絞り込み・最新の 1 本を大きく・残りはカード。ゲームはカードの一覧）→ 締めの帯 → フッター。
+- 演出は `components/home/Motion.tsx` にまとめています（`[data-reveal]` の要素をスクロールで表示・数字のカウントアップ・ヘッダーの状態・カードのスポットライト・表示中の節のリンク）。端末で「視差効果を減らす」を選んでいる場合と、JavaScript が動かない場合は、演出なしで最初からすべて表示します。
+- デザインで使う画像（ヒーローの背景・理由の節の絵・工程 4 枚・締めの帯の背景、計 7 枚）は、いまは **画像サンプル** です。`public/site/images.json` に一覧とプロンプトがあり、`npm run game-images -- site` で画像サンプルの作成と [docs/site/images.md](docs/site/images.md)（ツール別のプロンプト）の書き出しをします。生成した画像を `public/site/img/<名前>.png` に保存して同じコマンドを実行すると差し替わります。
+
 
 - `public/` の画像（動画の中に映るサイトの画像・サムネイル・Windows のアイコン・マウスポインター）は **すべて WebP** です。
   Next.js への移行時に変換した 10 本分は、変換前 144.0 MB → 変換後 93.5 MB（2,894 枚、35% 減）。WordPress の 12 本は取り込みの最後に WebP に変換しています。写真は非可逆（品質 80）、ロゴ・UI の画像は劣化のない可逆圧縮、アニメーション GIF はアニメーションのまま変換しています。

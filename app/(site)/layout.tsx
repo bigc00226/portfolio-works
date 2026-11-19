@@ -10,14 +10,21 @@ const shippori = Shippori_Mincho_B1({ subsets: ['latin'], weight: ['600', '700']
 
 export const metadata: Metadata = {
   title: 'Process Portfolio ― 制作の過程を録画した、動画のポートフォリオ',
-  description: '制作実績を URL やスクリーンショットだけでなく、デザインから実装・確認・公開までの作業過程の録画でご紹介する動画ポートフォリオです。公開中のデモサイトもこのページで操作できます。',
+  description: '制作実績を URL やスクリーンショットだけでなく、デザインから実装・確認・公開までの作業過程の録画でご紹介する動画ポートフォリオです。公開中のデモサイトとゲームもこのページで操作できます。',
 };
 
-export const viewport: Viewport = { themeColor: '#eaf2ff' };
+export const viewport: Viewport = { themeColor: '#05070f', colorScheme: 'dark' };
+
+// Before the first paint: the scroll-in animations (home.css .motion [data-reveal]) only apply with JavaScript, and not
+// for people who asked for less motion — without this class every section is simply visible.
+const MOTION = "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${inter.variable} ${noto.variable} ${shippori.variable}`}>
+    <html lang="ja" className={`${inter.variable} ${noto.variable} ${shippori.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION }} />
+      </head>
       <body>{children}</body>
     </html>
   );

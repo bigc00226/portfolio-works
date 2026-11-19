@@ -58,7 +58,7 @@ export const SitePreview = forwardRef<SitePreviewHandle>(function SitePreview(_,
   const nameAt = (d: number) => (state ? state.list[(state.i + d + state.list.length) % state.list.length]?.name : '');
   const onClose = () => {
     document.documentElement.classList.remove('lock');
-    const back = s && document.getElementById(`site-${s.id}`)?.querySelector<HTMLElement>('.browser');
+    const back = s && document.getElementById(`site-${s.id}`)?.querySelector<HTMLElement>('.browser, .gshot');
     setState(null);
     setLoad(0);
     back?.focus({ preventScroll: true });
