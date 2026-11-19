@@ -4,7 +4,7 @@
 
 | ゲーム | 画像 | 生成済み | 使うツール |
 |---|---|---|---|
-| [クレーン横丁](crane-game.md) | 12 枚 | 0 枚 | ChatGPT、Recraft、Midjourney、niji・journey |
+| [クレーン横丁](crane-game.md) | 12 枚 | 12 枚 | ChatGPT、Recraft、Midjourney、niji・journey |
 | [番狂わせ大富豪](daifugo.md) | 11 枚 | 0 枚 | Midjourney、Leonardo.Ai、niji・journey、Gemini |
 | [ことば花火 ― 打って打ち上げるタイピング](hanabi-typing.md) | 5 枚 | 0 枚 | Midjourney、Ideogram、Gemini |
 | [花暦こいこい](hanafuda-koikoi.md) | 53 枚 | 0 枚 | Midjourney、Ideogram、Adobe Firefly、niji・journey |
@@ -24,7 +24,7 @@
 | [こしば日和](shiba-ikusei.md) | 14 枚 | 0 枚 | niji・journey、Midjourney、Stable Diffusion XL、ChatGPT |
 | [縁側将棋](shogi.md) | 7 枚 | 0 枚 | Midjourney、niji・journey、ChatGPT |
 | [和菓子ころりん](wagashi-merge.md) | 14 枚 | 0 枚 | Leonardo.Ai、ChatGPT、Midjourney、Ideogram |
-| **合計** | **238 枚** | **0 枚** | |
+| **合計** | **238 枚** | **12 枚** | |
 
 ## ツールごとの使い分け
 

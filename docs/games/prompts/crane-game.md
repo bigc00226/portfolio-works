@@ -1,6 +1,6 @@
 # クレーン横丁 ― 画像の生成プロンプト
 
-ゲーム: `public/games/crane-game/`（12 枚中 0 枚が生成済み、12 枚が画像サンプル）。このファイルは `npm run game-images` が `public/games/crane-game/images.json` から書き出します（直接編集しないでください）。
+ゲーム: `public/games/crane-game/`（12 枚中 12 枚が生成済み、0 枚が画像サンプル）。このファイルは `npm run game-images -- crane-game` が `public/games/crane-game/images.json` から書き出します（直接編集しないでください）。
 
 ## 全体のアートディレクション
 
@@ -17,18 +17,18 @@
 
 | | ファイル | サイズ | 種類 | 用途 | おすすめのツール |
 |---|---|---|---|---|---|
-| ⬜ | [`img/p-usa.webp`](#p-usa) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-neko.webp`](#p-neko) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-shiba.webp`](#p-shiba) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-pen.webp`](#p-pen) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-hiyo.webp`](#p-hiyo) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-kuma.webp`](#p-kuma) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-azarashi.webp`](#p-azarashi) | 384×192（透過） | スプライト | ぬいぐるみの山の細長い景品（向きに合わせて回転して表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/p-dachs.webp`](#p-dachs) | 384×192（透過） | スプライト | ぬいぐるみの山の細長い景品（向きに合わせて回転して表示） | ChatGPT（画像生成 / GPT Image） |
-| ⬜ | [`img/box-snack.webp`](#box-snack) | 350×140 | カード | 橋渡しの景品の箱の正面・景品棚 | Recraft（V3） |
-| ⬜ | [`img/box-robo.webp`](#box-robo) | 350×140 | カード | 橋渡しの景品の箱の正面・景品棚 | Recraft（V3） |
-| ⬜ | [`img/bg.webp`](#bg) | 1600×1000 | 背景 | プレイ画面の背景（機械のまわりに暗くして表示） | Midjourney（v7） |
-| ⬜ | [`img/key.webp`](#key) | 1600×900 | キービジュアル | タイトル画面の背景 | niji・journey（Midjourney の `--niji 6`） |
+| ✅ | [`img/p-usa.webp`](#p-usa) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-neko.webp`](#p-neko) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-shiba.webp`](#p-shiba) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-pen.webp`](#p-pen) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-hiyo.webp`](#p-hiyo) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-kuma.webp`](#p-kuma) | 256×256（透過） | スプライト | ぬいぐるみの山の景品（機械の中・景品棚・ゲットの表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-azarashi.webp`](#p-azarashi) | 384×192（透過） | スプライト | ぬいぐるみの山の細長い景品（向きに合わせて回転して表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/p-dachs.webp`](#p-dachs) | 384×192（透過） | スプライト | ぬいぐるみの山の細長い景品（向きに合わせて回転して表示） | ChatGPT（画像生成 / GPT Image） |
+| ✅ | [`img/box-snack.webp`](#box-snack) | 350×140 | カード | 橋渡しの景品の箱の正面・景品棚 | Recraft（V3） |
+| ✅ | [`img/box-robo.webp`](#box-robo) | 350×140 | カード | 橋渡しの景品の箱の正面・景品棚 | Recraft（V3） |
+| ✅ | [`img/bg.webp`](#bg) | 1600×1000 | 背景 | プレイ画面の背景（機械のまわりに暗くして表示） | Midjourney（v7） |
+| ✅ | [`img/key.webp`](#key) | 1600×900 | キービジュアル | タイトル画面の背景 | niji・journey（Midjourney の `--niji 6`） |
 
 ⬜ = 画像サンプルのまま　✅ = 生成した画像に差し替え済み
 

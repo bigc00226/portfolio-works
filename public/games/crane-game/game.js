@@ -622,13 +622,21 @@
       const bw = Math.min(V.w * 0.8, 340 * L.k), bh = bw * 0.55;
       ctx.fillStyle = 'rgba(255,255,255,.95)'; ctx.beginPath(); ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 22); ctx.fill();
       ctx.strokeStyle = '#ff4f8b'; ctx.lineWidth = 5; ctx.stroke();
-      const isz = bh * 0.62;
-      if (img) { const iw = b.K.box || b.K.shape === 'long' ? isz * 1.6 : isz; ctx.drawImage(img, -bw / 2 + 18, -isz / 2 + 6, iw * (b.K.box ? 1 : 1), isz * (b.K.box ? 0.8 : b.K.shape === 'long' ? 0.8 : 1)); }
+      // the prize's picture in a box on the left, fitted with its own proportions (square plush, lying plush, wide box art);
+      // the words centred in what is left on the right
+      const pad = 18, wide = b.K.box || b.K.shape === 'long';
+      const areaW = bw * (wide ? 0.44 : 0.36), areaH = bh - pad * 2, ax = -bw / 2 + pad, ay = -bh / 2 + pad;
+      if (img) {
+        const iw = img.naturalWidth || img.width || areaW, ih = img.naturalHeight || img.height || areaH;
+        const sc = Math.min(areaW / iw, areaH / ih), dw = iw * sc, dh = ih * sc;
+        ctx.drawImage(img, ax + (areaW - dw) / 2, ay + (areaH - dh) / 2, dw, dh);
+      }
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const tx = (b.K.box || b.K.shape === 'long' ? 0.24 : 0.16) * bw;
-      ctx.font = font(bh * 0.24); ctx.fillStyle = '#ff2f6d'; ctx.fillText('ゲット！', tx, -bh * 0.16);
+      const textL = ax + areaW + 10, textR = bw / 2 - pad, tx = (textL + textR) / 2, maxW = textR - textL;
+      let gs = bh * 0.24; ctx.font = font(gs); while (ctx.measureText('ゲット！').width > maxW && gs > 14) { gs--; ctx.font = font(gs); }
+      ctx.fillStyle = '#ff2f6d'; ctx.fillText('ゲット！', tx, -bh * 0.16);
       ctx.font = font(Math.min(bh * 0.13, 20), 700); ctx.fillStyle = '#4a1d3a';
-      let nm = b.K.name; const maxW = bw * 0.5; let fs = Math.min(bh * 0.13, 20); while (ctx.measureText(nm).width > maxW && fs > 9) { fs--; ctx.font = font(fs, 700); }
+      let nm = b.K.name; let fs = Math.min(bh * 0.13, 20); while (ctx.measureText(nm).width > maxW && fs > 9) { fs--; ctx.font = font(fs, 700); }
       ctx.fillText(nm, tx, bh * 0.08);
       if (b.first) { ctx.font = font(Math.min(bh * 0.1, 14), 700); ctx.fillStyle = '#e2622b'; ctx.fillText('はじめての景品！', tx, bh * 0.28); }
       ctx.restore();
