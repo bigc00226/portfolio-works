@@ -15,7 +15,7 @@ export function VideoOverview({ rows, qs }: { rows: VideoStat[]; qs: string }) {
   const totPlays = rows.reduce((a, v) => a + v.plays, 0), totComp = rows.reduce((a, v) => a + v.completes, 0);
   return (
     <>
-      <div className="ad-grid">
+      <div className="tp-grid">
         <ChartCard title="プラットフォーム別の再生" sub="再生の回数" table={{ cols: ['プラットフォーム', '再生', '詳細を開いた', '視聴時間'], rows: plats.map((p) => [p.label, p.plays, p.details, fmtDur(p.watch)]) }}>
           <Donut rows={plats.map((p) => ({ label: p.label, n: p.plays }))} unit="回" label="再生" />
         </ChartCard>
@@ -31,10 +31,10 @@ export function VideoOverview({ rows, qs }: { rows: VideoStat[]; qs: string }) {
             xLabel="詳細を開いた回数" yLabel="詳細から再生した割合" sizeLabel="再生の回数" />
         </ChartCard>
       </div>
-      <section className="ad-card">
-        <header className="ad-card-h"><div><h3>すべての動画</h3><p>再生の多い順。動画名を選ぶと、視聴の維持率とチャプターごとの離脱を表示</p></div></header>
-        <div className="ad-table-wrap">
-          <table className="ad-table">
+      <section className="tp-card">
+        <header className="tp-card-h"><div><h3>すべての動画</h3><p>再生の多い順。動画名を選ぶと、視聴の維持率とチャプターごとの離脱を表示</p></div></header>
+        <div className="tp-table-wrap">
+          <table className="tp-table">
             <thead><tr><th>動画</th><th>プラットフォーム</th><th className="r">長さ</th><th className="r">詳細を開いた</th><th className="r">再生ページ</th><th className="r">視聴者</th><th className="r">再生</th><th>平均視聴率</th><th className="r">完了</th><th className="r">視聴時間</th><th>最後の閲覧</th></tr></thead>
             <tbody>
               {sorted.map((v) => (
@@ -71,7 +71,7 @@ export function VideoDetail({ r, hourly }: { r: Report; hourly: boolean }) {
   return (
     <>
       <div className="kpis mini">{tiles.map(([l, v]) => <div key={l} className="kpi"><span className="kpi-l">{l}</span><span className="kpi-v">{v}</span></div>)}</div>
-      <div className="ad-grid">
+      <div className="tp-grid">
         <ChartCard wide={2} title="視聴の維持率" sub="再生のうち、動画のその位置まで見た割合" table={{ cols: ['位置', '時刻', '割合'], rows: r.retention.map((x) => [`${x.p}%`, fmtClockLen((r.video.duration * x.p) / 100), fmtPct(x.share, 1)]) }}>
           <LineChart labels={r.retention.map((x) => fmtClockLen((r.video.duration * x.p) / 100))} series={[{ name: '維持率', color: S(1), values: r.retention.map((x) => Math.round(x.share * 1000) / 10) }]} unit="%" yMax={100} yFmt={(n) => `${n}%`} />
         </ChartCard>
@@ -88,8 +88,8 @@ export function VideoDetail({ r, hourly }: { r: Report; hourly: boolean }) {
           <HBars rows={r.chapters.map((c) => ({ label: c.name, n: c.stopped, sub: fmtClockLen(c.t) }))} unit="回" color={S(8)} limit={30} />
         </ChartCard>
         <ChartCard wide={3} title="この動画を見た人" sub="IP アドレスごと">
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="tp-table-wrap">
+            <table className="tp-table">
               <thead><tr><th>IP アドレス</th><th>ブラウザー</th><th>OS</th><th className="r">再生ページ</th><th>最大到達位置</th><th className="r">視聴時間</th><th>最後に見た日時</th></tr></thead>
               <tbody>
                 {r.viewers.length ? r.viewers.map((v) => (

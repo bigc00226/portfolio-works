@@ -31,19 +31,19 @@ export default async function SettingsPage() {
     <Shell active="settings">
       <PageHead title="設定" sub="パスワード、集計から除外する IP アドレス、記録の書き出しと削除" />
       <StoreNotice />
-      <div className="ad-grid">
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>パスワードの変更</h3><p>{initial ? '初期設定のパスワードのままです' : `最後の変更：${fmtDateTime(changed)}`}</p></div></header>
+      <div className="tp-grid">
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>パスワードの変更</h3><p>{initial ? '初期設定のパスワードのままです' : `最後の変更：${fmtDateTime(changed)}`}</p></div></header>
           <PasswordForm action={passwordAction} />
         </section>
 
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>自分のアクセスを除外</h3><p>自分で確認したときのアクセスを、集計に含めないようにします</p></div></header>
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>自分のアクセスを除外</h3><p>自分で確認したときのアクセスを、集計に含めないようにします</p></div></header>
           <dl className="kv" style={{ marginBottom: 14 }}>
             <dt>このブラウザーの IP</dt><dd className="mono">{ip}</dd>
             <dt>状態</dt><dd>{me?.excluded ? <span className="chip">除外中</span> : <span className="chip blue">集計に含まれています</span>}</dd>
           </dl>
-          {!me?.excluded && <form action={excludeMeAction}><button className="ad-btn sm">この IP アドレスを除外</button></form>}
+          {!me?.excluded && <form action={excludeMeAction}><button className="tp-btn sm">この IP アドレスを除外</button></form>}
           <h4 className="mini-h" style={{ marginTop: 22 }}>除外中の IP アドレス（{excluded.length}）</h4>
           {excluded.length ? (
             <ul className="ex-list">
@@ -51,42 +51,42 @@ export default async function SettingsPage() {
                 <li key={x.id}>
                   <a className="mono row-link" href={`/admin/visitors/${x.id}`}>{x.ip}</a>
                   {x.note && <span className="muted">{x.note}</span>}
-                  <form action={excludeAction}><input type="hidden" name="id" value={x.id} /><input type="hidden" name="excluded" value="0" /><button className="ad-btn ghost sm">集計に戻す</button></form>
+                  <form action={excludeAction}><input type="hidden" name="id" value={x.id} /><input type="hidden" name="excluded" value="0" /><button className="tp-btn ghost sm">集計に戻す</button></form>
                 </li>
               ))}
             </ul>
-          ) : <p className="ad-hint">ありません。訪問者のページからも除外できます。</p>}
+          ) : <p className="tp-hint">ありません。訪問者のページからも除外できます。</p>}
         </section>
 
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>ログイン中のブラウザー</h3><p>この管理画面にログインしているブラウザーの数</p></div></header>
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>ログイン中のブラウザー</h3><p>この管理画面にログインしているブラウザーの数</p></div></header>
           <p style={{ margin: '0 0 14px', fontSize: 28, fontWeight: 700 }}>{sessions}<small style={{ fontSize: 13, color: 'var(--muted)', marginLeft: 4 }}>台</small></p>
-          <p className="ad-hint" style={{ marginBottom: 14 }}>ログインは 7 日間有効です。パスワードを変更すると、ほかのブラウザーは自動でログアウトされます。</p>
-          {sessions > 1 && <form action={revokeAction}><button className="ad-btn ghost sm">ほかのブラウザーをすべてログアウト</button></form>}
+          <p className="tp-hint" style={{ marginBottom: 14 }}>ログインは 7 日間有効です。パスワードを変更すると、ほかのブラウザーは自動でログアウトされます。</p>
+          {sessions > 1 && <form action={revokeAction}><button className="tp-btn ghost sm">ほかのブラウザーをすべてログアウト</button></form>}
         </section>
 
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>記録の書き出し</h3><p>Excel で開ける CSV（UTF-8・BOM 付き）。全期間</p></div></header>
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>記録の書き出し</h3><p>Excel で開ける CSV（UTF-8・BOM 付き）。全期間</p></div></header>
           <dl className="kv" style={{ marginBottom: 16 }}>
             <dt>訪問者</dt><dd>{fmtN(n!.visitors)} 人</dd>
             <dt>ページビュー</dt><dd>{fmtN(n!.views)} 件</dd>
             <dt>操作</dt><dd>{fmtN(n!.events)} 件</dd>
             <dt>記録の開始</dt><dd>{n!.first ? fmtDateTime(n!.first) : '—'}</dd>
           </dl>
-          <div className="ad-toolbar" style={{ marginBottom: 0 }}>
-            <a className="ad-btn ghost sm" href="/admin/export?type=visitors&range=all&bots=1">訪問者</a>
-            <a className="ad-btn ghost sm" href="/admin/export?type=views&range=all&bots=1">ページビュー</a>
-            <a className="ad-btn ghost sm" href="/admin/export?type=events&range=all&bots=1">操作</a>
+          <div className="tp-toolbar" style={{ marginBottom: 0 }}>
+            <a className="tp-btn ghost sm" href="/admin/export?type=visitors&range=all&bots=1">訪問者</a>
+            <a className="tp-btn ghost sm" href="/admin/export?type=views&range=all&bots=1">ページビュー</a>
+            <a className="tp-btn ghost sm" href="/admin/export?type=events&range=all&bots=1">操作</a>
           </div>
         </section>
 
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>記録の削除</h3><p>古い記録をまとめて削除します。元に戻せません</p></div></header>
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>記録の削除</h3><p>古い記録をまとめて削除します。元に戻せません</p></div></header>
           <PurgeForm action={purgeAction} />
         </section>
 
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>データベース</h3><p>{st.kind === 'turso' ? 'SQLite（Turso・クラウド）' : 'SQLite（Node.js 組み込みの node:sqlite）'}</p></div></header>
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>データベース</h3><p>{st.kind === 'turso' ? 'SQLite（Turso・クラウド）' : 'SQLite（Node.js 組み込みの node:sqlite）'}</p></div></header>
           <dl className="kv">
             <dt>保存先</dt><dd>{st.kind === 'turso' ? 'Turso' : st.kind === 'file' ? 'サーバーのファイル' : <span className="chip warn">一時ファイル（記録は残りません）</span>}</dd>
             <dt>{st.kind === 'turso' ? 'ホスト' : 'ファイル'}</dt><dd className="mono">{st.where}</dd>

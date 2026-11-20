@@ -36,18 +36,18 @@ export default async function VisitorsPage({ searchParams }: { searchParams: Sea
       <PageHead title="訪問者（IP アドレス別）" sub={<>{range.label}に {fmtN(list.length)} 人・ページビュー {fmtN(totals.views)} 回・再生 {fmtN(totals.plays)} 回・視聴 {fmtDur(totals.watch)}</>}>
         <FilterBar path="/admin/visitors" ranges={ranges} range={range.key} bots={bots} extra={{ ...(q ? { q } : {}), sort, ...(showExcluded ? { excluded: '1' } : {}) }} />
       </PageHead>
-      <section className="ad-card">
-        <form className="ad-toolbar" method="get">
+      <section className="tp-card">
+        <form className="tp-toolbar" method="get">
           <input type="hidden" name="range" value={range.key} />
           {bots && <input type="hidden" name="bots" value="1" />}
-          <input className="ad-input sm" name="q" defaultValue={q} placeholder="IP アドレス・ブラウザー・OS・メモ・動画名で検索" style={{ flex: '1 1 280px' }} />
-          <select className="ad-input sm" name="sort" defaultValue={sort}>{SORTS.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}</select>
-          <label className="ad-check" style={{ height: 36 }}><input type="checkbox" name="excluded" value="1" defaultChecked={showExcluded} />除外中も表示</label>
-          <button className="ad-btn sm">絞り込む</button>
-          <a className="ad-btn ghost sm" href={`/admin/export?type=visitors&range=${range.key}${bots ? '&bots=1' : ''}`}>CSV で書き出す</a>
+          <input className="tp-input sm" name="q" defaultValue={q} placeholder="IP アドレス・ブラウザー・OS・メモ・動画名で検索" style={{ flex: '1 1 280px' }} />
+          <select className="tp-input sm" name="sort" defaultValue={sort}>{SORTS.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}</select>
+          <label className="tp-check" style={{ height: 36 }}><input type="checkbox" name="excluded" value="1" defaultChecked={showExcluded} />除外中も表示</label>
+          <button className="tp-btn sm">絞り込む</button>
+          <a className="tp-btn ghost sm" href={`/admin/export?type=visitors&range=${range.key}${bots ? '&bots=1' : ''}`}>CSV で書き出す</a>
         </form>
-        <div className="ad-table-wrap">
-          <table className="ad-table">
+        <div className="tp-table-wrap">
+          <table className="tp-table">
             <thead>
               <tr>
                 <th>IP アドレス</th><th>ブラウザー</th><th>OS</th><th>デバイス</th><th>初回</th><th>最終アクセス</th>
@@ -87,11 +87,11 @@ export default async function VisitorsPage({ searchParams }: { searchParams: Sea
           </table>
         </div>
         {pages > 1 && (
-          <div className="ad-pager">
+          <div className="tp-pager">
             <span>{fmtN(list.length)} 人中 {fmtN((page - 1) * PER + 1)}〜{fmtN(Math.min(list.length, page * PER))} 人目</span>
             <div>
-              {page > 1 && <a className="ad-btn ghost sm" href={keep({ page: page - 1 })}>前へ</a>}
-              {page < pages && <a className="ad-btn ghost sm" href={keep({ page: page + 1 })}>次へ</a>}
+              {page > 1 && <a className="tp-btn ghost sm" href={keep({ page: page - 1 })}>前へ</a>}
+              {page < pages && <a className="tp-btn ghost sm" href={keep({ page: page + 1 })}>次へ</a>}
             </div>
           </div>
         )}

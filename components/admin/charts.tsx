@@ -107,13 +107,13 @@ export type Table = { cols: string[]; rows: (string | number)[][]; align?: ('l' 
 export function ChartCard({ title, sub, table, children, wide, action, id }: { title: string; sub?: string; table?: Table; children: ReactNode; wide?: 1 | 2 | 3; action?: ReactNode; id?: string }) {
   const [asTable, setAsTable] = useState(false);
   return (
-    <section className={`ad-card${wide ? ` w${wide}` : ''}`} id={id}>
-      <header className="ad-card-h">
+    <section className={`tp-card${wide ? ` w${wide}` : ''}`} id={id}>
+      <header className="tp-card-h">
         <div><h3>{title}</h3>{sub && <p>{sub}</p>}</div>
-        <div className="ad-card-tools">
+        <div className="tp-card-tools">
           {action}
           {table && (
-            <button type="button" className={`ad-seg-btn${asTable ? ' on' : ''}`} aria-pressed={asTable} onClick={() => setAsTable(!asTable)} title="数値を表で見る">
+            <button type="button" className={`tp-seg-btn${asTable ? ' on' : ''}`} aria-pressed={asTable} onClick={() => setAsTable(!asTable)} title="数値を表で見る">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3.5" y="4.5" width="17" height="15" rx="2" /><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10" /></svg>表
             </button>
           )}
@@ -126,8 +126,8 @@ export function ChartCard({ title, sub, table, children, wide, action, id }: { t
 
 export function DataTable({ t }: { t: Table }) {
   return (
-    <div className="ad-table-wrap">
-      <table className="ad-table">
+    <div className="tp-table-wrap">
+      <table className="tp-table">
         <thead><tr>{t.cols.map((c, i) => <th key={c} className={(t.align?.[i] ?? (i ? 'r' : 'l')) === 'r' ? 'r' : ''}>{c}</th>)}</tr></thead>
         <tbody>
           {t.rows.length ? t.rows.map((r, i) => (

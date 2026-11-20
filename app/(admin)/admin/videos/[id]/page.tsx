@@ -21,7 +21,7 @@ export default async function VideoPage({ params, searchParams }: { params: Prom
   return (
     <Shell active="videos" qs={qs}>
       <PageHead title={r.video.title} crumb={{ href: `/admin/videos${qs}`, label: '動画' }}
-        sub={<>{r.video.tool}・{fmtClockLen(r.video.duration)}・<a className="ad-link" href={`/watch/${encodeURIComponent(r.video.id)}`} target="_blank" rel="noopener">再生ページを開く</a></>}>
+        sub={<>{r.video.tool}・{fmtClockLen(r.video.duration)}・<a className="tp-link" href={`/watch/${encodeURIComponent(r.video.id)}`} target="_blank" rel="noopener">再生ページを開く</a></>}>
         <FilterBar path={`/admin/videos/${encodeURIComponent(id)}`} ranges={ranges} range={range.key} bots={bots} />
       </PageHead>
       <VideoDetail r={r} hourly={range.hourly} />

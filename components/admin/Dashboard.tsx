@@ -69,7 +69,7 @@ export function Dashboard({ d, rangeLabel, hourly }: { d: Data; rangeLabel: stri
       </div>
 
       {/* ------------------------------------------------ over time */}
-      <div className="ad-grid">
+      <div className="tp-grid">
         <ChartCard wide={2} title="訪問者とページビューの推移" sub={`${rangeLabel}・${unitT}ごと`}
           table={{ cols: [hourly ? '時刻' : '日付', '訪問者', 'ページビュー', '再生'], rows: d.series.map((x) => [x.label, x.visitors, x.views, x.plays]) }}>
           <LineChart labels={labels} series={[
@@ -104,8 +104,8 @@ export function Dashboard({ d, rangeLabel, hourly }: { d: Data; rangeLabel: stri
       </div>
 
       {/* ------------------------------------------------ when / who */}
-      <h2 className="ad-sec-title">いつ・だれが見ているか</h2>
-      <div className="ad-grid">
+      <h2 className="tp-sec-title">いつ・だれが見ているか</h2>
+      <div className="tp-grid">
         <ChartCard wide={2} title="曜日と時間帯" sub="ページビューの回数（日本時間）"
           table={{ cols: ['曜日', ...Array.from({ length: 24 }, (_, h) => `${h}時`)], rows: d.heat.map((r, i) => ['月火水木金土日'[i], ...r]) }}>
           <Heatmap grid={d.heat} unit="回" />
@@ -146,9 +146,9 @@ export function Dashboard({ d, rangeLabel, hourly }: { d: Data; rangeLabel: stri
       </div>
 
       {/* ------------------------------------------------ videos */}
-      <h2 className="ad-sec-title">どの動画が見られているか</h2>
-      <div className="ad-grid">
-        <ChartCard title="よく再生された動画" sub="再生の回数" action={<Link className="ad-link" href="/admin/videos">すべて見る</Link>}
+      <h2 className="tp-sec-title">どの動画が見られているか</h2>
+      <div className="tp-grid">
+        <ChartCard title="よく再生された動画" sub="再生の回数" action={<Link className="tp-link" href="/admin/videos">すべて見る</Link>}
           table={{ cols: ['動画', '再生', '視聴者', '平均視聴率'], rows: [...d.videos].sort((a, b) => b.plays - a.plays).filter((v) => v.plays || v.details).map((v) => [v.title, v.plays, v.viewers, fmtPct(v.avgPct)]) }}>
           <HBars rows={[...d.videos].filter((v) => v.plays).sort((a, b) => b.plays - a.plays).map((v) => ({ label: v.title, n: v.plays, href: `/admin/videos/${v.id}` }))} unit="回" />
         </ChartCard>
@@ -187,11 +187,11 @@ export function Dashboard({ d, rangeLabel, hourly }: { d: Data; rangeLabel: stri
       </div>
 
       {/* ------------------------------------------------ people and history */}
-      <h2 className="ad-sec-title">訪問者とアクセス履歴</h2>
-      <div className="ad-grid">
-        <ChartCard wide={3} title="最近の訪問者" sub="IP アドレスごと。行を選ぶと、見たページと動画をすべて表示" action={<Link className="ad-link" href="/admin/visitors">すべての訪問者</Link>}>
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+      <h2 className="tp-sec-title">訪問者とアクセス履歴</h2>
+      <div className="tp-grid">
+        <ChartCard wide={3} title="最近の訪問者" sub="IP アドレスごと。行を選ぶと、見たページと動画をすべて表示" action={<Link className="tp-link" href="/admin/visitors">すべての訪問者</Link>}>
+          <div className="tp-table-wrap">
+            <table className="tp-table">
               <thead><tr><th>IP アドレス</th><th>ブラウザー</th><th>OS</th><th>デバイス</th><th className="r">ページビュー</th><th>見た動画</th><th className="r">視聴時間</th><th>最終アクセス</th></tr></thead>
               <tbody>
                 {d.people.length ? d.people.map((x) => (
@@ -210,7 +210,7 @@ export function Dashboard({ d, rangeLabel, hourly }: { d: Data; rangeLabel: stri
             </table>
           </div>
         </ChartCard>
-        <ChartCard wide={3} title="アクセス履歴" sub="新しい順（ページを開くたびに 1 件）" action={<Link className="ad-link" href="/admin/history">すべての履歴</Link>}>
+        <ChartCard wide={3} title="アクセス履歴" sub="新しい順（ページを開くたびに 1 件）" action={<Link className="tp-link" href="/admin/history">すべての履歴</Link>}>
           <Feed items={d.recent.slice(0, 25)} compact />
         </ChartCard>
       </div>

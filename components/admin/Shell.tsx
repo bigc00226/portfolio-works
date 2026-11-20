@@ -17,7 +17,7 @@ export const Icon = ({ name }: { name: keyof typeof I }) => (
 );
 
 export const Mark = () => (
-  <span className="ad-brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 18 9.5 11l4 4L20 6" /><path d="M15 6h5v5" /></svg></span>
+  <span className="tp-brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 18 9.5 11l4 4L20 6" /><path d="M15 6h5v5" /></svg></span>
 );
 
 const NAV = [
@@ -30,33 +30,33 @@ const NAV = [
 
 export function Shell({ active, qs = '', children }: { active: (typeof NAV)[number]['key']; qs?: string; children: ReactNode }) {
   return (
-    <div className="ad">
-      <aside className="ad-side">
-        <a className="ad-brand" href="/admin"><Mark /><div><b>Trust Portfolio</b><small>ANALYTICS</small></div></a>
-        <nav className="ad-nav" aria-label="管理画面">
+    <div className="tp-app">
+      <aside className="tp-side">
+        <a className="tp-brand" href="/admin"><Mark /><div><b>Trust Portfolio</b><small>ANALYTICS</small></div></a>
+        <nav className="tp-nav" aria-label="管理画面">
           {NAV.map((n) => (
             <a key={n.key} href={n.key === 'settings' ? n.href : `${n.href}${qs}`} aria-current={active === n.key ? 'page' : undefined}>
               <Icon name={n.icon} /><span>{n.label}</span>
             </a>
           ))}
         </nav>
-        <div className="ad-side-foot">
-          <a className="ad-side-btn" href="/" target="_blank" rel="noopener"><Icon name="site" /><span>サイトを開く</span></a>
+        <div className="tp-side-foot">
+          <a className="tp-side-btn" href="/" target="_blank" rel="noopener"><Icon name="site" /><span>サイトを開く</span></a>
           <ThemeSwitch />
-          <form action={logoutAction}><button className="ad-side-btn" type="submit"><Icon name="out" /><span>ログアウト</span></button></form>
+          <form action={logoutAction}><button className="tp-side-btn" type="submit"><Icon name="out" /><span>ログアウト</span></button></form>
           <span className="side-note">時刻はすべて日本時間</span>
         </div>
       </aside>
-      <main className="ad-main">{children}</main>
+      <main className="tp-main">{children}</main>
     </div>
   );
 }
 
 export function PageHead({ title, sub, crumb, children }: { title: string; sub?: ReactNode; crumb?: { href: string; label: string }; children?: ReactNode }) {
   return (
-    <div className="ad-top">
+    <div className="tp-top">
       <div>
-        {crumb && <div className="ad-crumb"><a href={crumb.href}>{crumb.label}</a><span>/</span></div>}
+        {crumb && <div className="tp-crumb"><a href={crumb.href}>{crumb.label}</a><span>/</span></div>}
         <h1>{title}</h1>
         {sub && <p>{sub}</p>}
       </div>

@@ -5,7 +5,7 @@ export function StoreNotice() {
   const st = store();
   if (st.persistent) return null;
   return (
-    <div className="ad-banner">
+    <div className="tp-banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3 2.5 20h19z" /><path d="M12 10v4M12 17h.01" /></svg>
       <span>
         {st.note}、アクセスの記録とパスワードの変更は一時ファイルに書いています。サーバーが入れ替わると消えます。

@@ -17,12 +17,12 @@ export default function AdminError({ error, retry }: { error: unknown; retry: ()
       <div className="login-card">
         <h1>このページを表示できませんでした</h1>
         <p>もう一度読み込むと直ることがあります。続く場合は、下の内容をお知らせください（サーバーの記録にも残しています）。</p>
-        <pre className="ad-msg err" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', margin: '0 0 16px', fontFamily: 'var(--mono)', fontSize: 12 }}>
+        <pre className="tp-msg err" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', margin: '0 0 16px', fontFamily: 'var(--mono)', fontSize: 12 }}>
           {digest ? `サーバーのエラー（digest: ${digest}）\n` : ''}{e.message || String(error)}
         </pre>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button className="ad-btn" type="button" onClick={() => retry()}>もう一度読み込む</button>
-          <a className="ad-btn ghost" href="/admin">ダッシュボードを開き直す</a>
+          <button className="tp-btn" type="button" onClick={() => retry()}>もう一度読み込む</button>
+          <a className="tp-btn ghost" href="/admin">ダッシュボードを開き直す</a>
         </div>
       </div>
     </div>

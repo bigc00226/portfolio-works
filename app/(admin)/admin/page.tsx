@@ -24,20 +24,20 @@ export default async function AdminHome({ searchParams }: { searchParams: Search
       </PageHead>
       <StoreNotice />
       {initial && (
-        <div className="ad-banner">
+        <div className="tp-banner">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3 2.5 20h19z" /><path d="M12 10v4M12 17h.01" /></svg>
           パスワードが初期設定のままです。ほかの人に見られないよう、変更してください。
           <a href="/admin/settings">パスワードを変更</a>
         </div>
       )}
       {d.totals.views === 0 && (
-        <div className="ad-banner info">
+        <div className="tp-banner info">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
           まだアクセスの記録がありません。サイト（トップページ・再生ページ）が開かれると、ここに集計されます。
         </div>
       )}
       <Dashboard d={d} rangeLabel={range.label} hourly={range.hourly} />
-      <p className="ad-hint" style={{ marginTop: 18 }}>
+      <p className="tp-hint" style={{ marginTop: 18 }}>
         記録の合計：訪問者 {fmtN(d.totals.visitors)} 人・ページビュー {fmtN(d.totals.views)} 回・操作 {fmtN(d.totals.events)} 件
         {d.totals.first ? `（${fmtDateTime(d.totals.first)} から）` : ''}。除外した IP アドレスは数えていません{bots ? '' : '。ボットは含めていません'}。
       </p>

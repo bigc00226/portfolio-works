@@ -27,12 +27,12 @@ export default async function VisitorPage({ params, searchParams }: { params: Pr
     <Shell active="visitors" qs={qs}>
       <PageHead title={s.ip} crumb={{ href: `/admin/visitors${qs}`, label: '訪問者' }}
         sub={<>初回 {fmtDateTime(s.firstSeen)}・最終 {fmtDateTime(s.lastSeen)}（{ago(s.lastSeen)}）</>}>
-        <div className="ad-filters">
+        <div className="tp-filters">
           {s.excluded && <span className="chip" style={{ height: 30 }}>集計から除外中</span>}
           {s.bot && <span className="chip warn" style={{ height: 30 }}>ボット</span>}
           <form action={excludeAction}>
             <input type="hidden" name="id" value={s.id} /><input type="hidden" name="excluded" value={s.excluded ? '0' : '1'} />
-            <button className="ad-btn ghost sm">{s.excluded ? '集計に戻す' : 'この IP を集計から除外'}</button>
+            <button className="tp-btn ghost sm">{s.excluded ? '集計に戻す' : 'この IP を集計から除外'}</button>
           </form>
           <form action={deleteVisitorAction}>
             <input type="hidden" name="id" value={s.id} />
@@ -45,9 +45,9 @@ export default async function VisitorPage({ params, searchParams }: { params: Pr
         {tiles.map(([l, v]) => <div key={l} className="kpi"><span className="kpi-l">{l}</span><span className="kpi-v">{v}</span></div>)}
       </div>
 
-      <div className="ad-grid">
-        <section className="ad-card">
-          <header className="ad-card-h"><div><h3>この訪問者について</h3><p>最後のアクセスの情報</p></div></header>
+      <div className="tp-grid">
+        <section className="tp-card">
+          <header className="tp-card-h"><div><h3>この訪問者について</h3><p>最後のアクセスの情報</p></div></header>
           <dl className="kv">
             <dt>IP アドレス</dt><dd className="mono">{s.ip}</dd>
             <dt>ブラウザー</dt><dd>{s.browser || '—'}</dd>
@@ -57,15 +57,15 @@ export default async function VisitorPage({ params, searchParams }: { params: Pr
             <dt>タイムゾーン</dt><dd>{d.agents.at(-1)?.tz || '—'}</dd>
             <dt>画面の大きさ</dt><dd>{d.agents.at(-1)?.screen || '—'}</dd>
           </dl>
-          <form action={noteAction} className="ad-toolbar" style={{ marginTop: 16, marginBottom: 0 }}>
+          <form action={noteAction} className="tp-toolbar" style={{ marginTop: 16, marginBottom: 0 }}>
             <input type="hidden" name="id" value={s.id} />
-            <input className="ad-input sm" name="note" defaultValue={s.note} placeholder="メモ（例：〇〇社の担当者）" maxLength={200} style={{ flex: 1 }} />
-            <button className="ad-btn ghost sm">メモを保存</button>
+            <input className="tp-input sm" name="note" defaultValue={s.note} placeholder="メモ（例：〇〇社の担当者）" maxLength={200} style={{ flex: 1 }} />
+            <button className="tp-btn ghost sm">メモを保存</button>
           </form>
         </section>
         <ChartCard wide={2} title="使ったブラウザーと OS" sub={`${d.agents.length} 種類の組み合わせ`}>
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="tp-table-wrap">
+            <table className="tp-table">
               <thead><tr><th>ブラウザー</th><th>OS</th><th>デバイス</th><th>画面</th><th className="r">ページビュー</th><th>初回</th><th>最終</th></tr></thead>
               <tbody>
                 {d.agents.map((a, i) => (
@@ -85,8 +85,8 @@ export default async function VisitorPage({ params, searchParams }: { params: Pr
         </ChartCard>
 
         <ChartCard wide={3} title="見た動画" sub="再生ページを開いた動画と、一覧で詳細を開いた動画">
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="tp-table-wrap">
+            <table className="tp-table">
               <thead><tr><th>動画</th><th>プラットフォーム</th><th className="r">詳細を開いた</th><th className="r">再生ページ</th><th className="r">再生</th><th>最大到達位置</th><th className="r">視聴時間</th><th>最後に見た日時</th></tr></thead>
               <tbody>
                 {d.watched.length ? d.watched.map((w) => (
