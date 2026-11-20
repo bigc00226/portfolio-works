@@ -5,6 +5,7 @@
 <title>Né（ne-auberge.jp）— 制作プロセス デモ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23222'/%3E%3Ctext x='16' y='22' font-family='serif' font-size='15' fill='%23F7F7F6' text-anchor='middle'%3EN%C3%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/demo.css">
 <link rel="stylesheet" href="../../shared/vscode.css">
 <link rel="stylesheet" href="../../shared/win11.css">
@@ -15,45 +16,37 @@
 
     <!-- ===================================================== Design tool (Figma-style) -->
     <section class="win max" id="win-design" data-app="design">
-      <!-- Figma desktop app: file tabs + window buttons -->
-      <div class="fg-tabbar"><span class="fg-home"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-6h-5v6H4z"/></svg></span><span class="fg-ftab on"><span>Web サイト デザイン</span><svg viewBox="0 0 24 24" width="13" height="13"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="fg-tabplus">+</span><span class="sp"></span><span class="wc"></span></div>
-      <header class="fg-top">
-        <div class="fg-tools">
-          <span class="fg-tool fg-menu"><i data-icon="menu"></i></span>
-          <span class="fg-tool active" data-tool="move"><i data-icon="pointer"></i></span>
-          <span class="fg-tool" data-tool="frame"><i data-icon="frame"></i></span>
-          <span class="fg-tool" data-tool="rect"><i data-icon="square"></i></span>
-          <span class="fg-tool" data-tool="pen"><i data-icon="pen"></i></span>
-          <span class="fg-tool" data-tool="text"><i data-icon="type"></i></span>
-          <span class="fg-tool" data-tool="hand"><i data-icon="hand"></i></span>
-          <span class="fg-tool" data-tool="comment"><i data-icon="comment"></i></span>
-        </div>
-        <div class="fg-file"><span class="fg-proj">Né</span><span class="fg-sep">/</span><b>Web サイト デザイン</b><i data-icon="chevron-down"></i></div>
-        <div class="fg-right">
-          <span class="fg-avatar">K</span>
-          <span class="fg-share">共有</span>
-          <span class="fg-tool"><i data-icon="play"></i></span>
-          <span class="fg-zoom" id="fgZoom">50%</span>
-        </div>
-      </header>
+      <!-- Figma desktop app (Windows, light, Japanese UI3 as of 2026-11): tab bar, navigation bar, left / right sidebars,
+           floating toolbar, variables view -->
+      <div class="fg-tabbar"><span class="fg-home"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.2 8 2.8l5.5 4.4V13.5H9.8V9.8H6.2v3.7H2.5z"/></svg></span><span class="fg-ftab on"><span class="fi"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13 4.2 8.6 10.6 2.2a1.5 1.5 0 0 1 2.1 0l1.1 1.1a1.5 1.5 0 0 1 0 2.1L7.4 11.8z"/><circle cx="7.6" cy="8.4" r="1"/></svg></span><span class="nm">Web サイト デザイン</span><span class="x"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l6 6M9 3 3 9"/></svg></span></span><span class="fg-tabplus"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5v9M3.5 8h9"/></svg></span><span class="sp"></span><span class="fg-tabchev"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span><span class="wc"></span></div>
       <div class="fg-body">
+        <nav class="fg-rail fg-ltabs">
+          <span class="logo"><svg width="14" height="20" viewBox="0 0 38 57" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M19 2H10.5a8.5 8.5 0 0 0 0 17H19zM19 19H10.5a8.5 8.5 0 0 0 0 17H19zM19 36H10.5A8.5 8.5 0 1 0 19 44.5zM19 2h8.5a8.5 8.5 0 0 1 0 17H19z"/><circle cx="27.5" cy="27.5" r="8.5"/></svg></span><i class="sep"></i>
+          <span class="it on" data-ltab="layers"><i><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 2.5h6l3.5 3.5v9.5h-9.5z"/><path d="M10.5 2.5V6H14"/></svg></i>ファイル</span>
+          <span class="it" data-ltab="agent"><i><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5c.6 3.4 3.1 5.9 6.5 6.5-3.4.6-5.9 3.1-6.5 6.5-.6-3.4-3.1-5.9-6.5-6.5 3.4-.6 5.9-3.1 6.5-6.5z"/></svg></i>エージェント</span>
+          <span class="it" data-ltab="assets"><i><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6.5"/><path d="M9 6v6M6 9h6"/></svg></i>アセット</span>
+          <span class="it" data-ltab="tools"><i><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="9" rx="1.5"/><path d="M6.5 6V4.2h5V6M2.5 10h13M6.5 9v2M11.5 9v2"/></svg></i>ツール</span>
+          <i class="sep"></i>
+          <span class="it" data-ltab="vars" id="fgVarsBtn"><i><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5 14.6 5.7v6.6L9 15.5l-5.6-3.2V5.7z"/><circle cx="9" cy="9" r="2"/></svg></i>バリアブル</span>
+        </nav>
         <aside class="fg-left">
-          <div class="fg-ltabs"><span class="on" data-ltab="layers">レイヤー</span><span data-ltab="assets">アセット</span></div>
+          <div class="fg-fname"><b><span class="nm">Web サイト デザイン</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></b><small>Né</small><span class="tg"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M6 3v10"/></svg></span></div>
           <div class="fg-lpane on" data-lpane="layers">
-            <div class="fg-sec-h">ページ<i data-icon="plus"></i></div>
+            <div class="fg-sec-h"><span class="cv"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>ページ<span class="ac"><span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.2"/><path d="m10.2 10.2 3.3 3.3"/></svg></span><span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5v9M3.5 8h9"/></svg></span></span></div>
             <div class="fg-pages">
-              <div class="fg-page on"><i data-icon="check"></i>Home</div>
+              <div class="fg-page on"><i></i>Home</div>
               <div class="fg-page"><i></i>Design System</div>
               <div class="fg-page"><i></i>Cuisine / Stay / Architecture</div>
             </div>
-            <div class="fg-sec-h">レイヤー</div>
+            <div class="fg-sec-h"><span class="cv"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>レイヤー</div>
             <div class="fg-layers" id="fgLayers"></div>
           </div>
           <div class="fg-lpane" data-lpane="assets">
-            <div class="fg-search"><i data-icon="search"></i>アセットを検索</div>
-            <div class="fg-sec-h">写真（Ne_photos）</div>
+            <div class="fg-search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.2"/><path d="m10.2 10.2 3.3 3.3"/></svg><span>アセットを検索</span></div>
+            <div class="fg-alib">このファイル<span class="ac"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5h3v9H3zM7 3.5h3v9H7zM11 4l2.6-.6 1.9 8.6-2.6.6z"/></svg></span></div>
+            <div class="fg-sec-h">Ne_photos</div>
             <div class="fg-assets" id="fgAssets"></div>
-            <div class="fg-sec-h">ロゴ（awards）</div>
+            <div class="fg-sec-h">Awards</div>
             <div class="fg-assets logos" id="fgLogos"></div>
           </div>
         </aside>
@@ -62,24 +55,37 @@
           <div class="fg-draw" id="fgDraw"></div>
           <div class="fg-sel" id="fgSel"><span class="fg-sel-size" id="fgSelSize"></span></div>
           <div class="fg-hov" id="fgHov"></div>
+          <div class="fg-toolbar">
+            <span class="fg-tool active" data-tool="move"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5 15.5 9l-4.6 1.4L9 15z"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="frame"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M13 3v14M3 7h14M3 13h14"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="rect"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="1"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="pen"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5 6 9.5l5-3.5 3 3-3.5 5zM4 16.5l4.4-4.4"/><circle cx="9.5" cy="10.6" r="1.2"/><path d="m11 6 2.5-2.5 3 3L14 9"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="text"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10M10 4.5v11.5"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="code"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4.5c-2 0-2.5.8-2.5 2.3v1.6c0 1-.6 1.6-1.6 1.6 1 0 1.6.6 1.6 1.6v1.6c0 1.5.5 2.3 2.5 2.3M12.5 4.5c2 0 2.5.8 2.5 2.3v1.6c0 1 .6 1.6 1.6 1.6-1 0-1.6.6-1.6 1.6v1.6c0 1.5-.5 2.3-2.5 2.3"/></svg></span>
+            <span class="fg-tool" data-tool="comment"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5a6.5 6.5 0 0 1 0 13H3.5V10A6.5 6.5 0 0 1 10 3.5z"/></svg></span><span class="dd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span>
+            <span class="fg-tool" data-tool="actions"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.6"/><path d="M14 3.4 16.6 6 14 8.6 11.4 6z"/><rect x="3.4" y="11.4" width="5.2" height="5.2" rx=".6"/><path d="M14 11.5v5M11.5 14h5"/></svg></span><i class="div"></i>
+            <span class="modes"><span data-m="draw"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13c3-5 5-9 7-8.5s-3 6.5-1 7.5 4.5-4 6-3.5"/></svg></span><span data-m="design" class="on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="10" height="9" rx="1"/><path d="m9 8 6.5 2.6-2.9.9-.9 2.9z"/></svg></span><span data-m="motion"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.8 15.2 9 9 15.2 2.8 9z"/><path d="M9 6.2 11.8 9 9 11.8"/></svg></span><span data-m="dev"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 5.5-3.5 3.5 3.5 3.5M11.5 5.5l3.5 3.5-3.5 3.5"/></svg></span></span>
+          </div>
+          <span class="fg-help">?</span>
         </main>
         <aside class="fg-rightpanel">
-          <div class="fg-rtabs"><span class="on">デザイン</span><span>プロトタイプ</span></div>
+          <div class="fg-rh1"><span class="fg-avatar">K</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg><span class="play"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5v9l7.5-4.5z"/></svg><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span><span class="fg-share">共有</span></div>
+          <div class="fg-rtabs" id="fgRtabs"><span class="on">デザイン</span><span>プロトタイプ</span><span class="zm"><span class="fg-zoom" id="fgZoom">50%</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4 5 6.5 7.5 4"/></svg></span></div>
           <div class="fg-props" id="fgProps"></div>
         </aside>
       </div>
-      <!-- local variables -->
+      <!-- variables view (opened from バリアブル in the navigation bar) -->
       <div class="fg-modal" id="fgVars">
-        <div class="fg-modal-h"><b>ローカル変数</b><span class="fg-x" id="fgVarsClose"><i data-icon="close"></i></span></div>
-        <div class="fg-modal-b">
-          <div class="fg-vcols">
-            <div class="fg-vcol-nav">
-              <div class="fg-vcoll on" data-coll="color">Color</div>
-              <div class="fg-vcoll" data-coll="type">Typography</div>
-              <div class="fg-vcoll" data-coll="space">Spacing</div>
-            </div>
-            <div class="fg-vtable" id="fgVarTable"></div>
-          </div>
+        <div class="fg-vside">
+          <div class="hd">バリアブル<span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M6 3v10"/></svg></span></div>
+          <div class="sh">コレクション<span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5v9M3.5 8h9"/></svg></span></div>
+          <div class="grp" id="fgVarColls"></div>
+          <div class="sh">グループ</div>
+          <div class="grp"><div class="fg-vgrp on">すべて<em id="fgVarCount"></em></div></div>
+        </div>
+        <div class="fg-vmain">
+          <div class="top"><span class="sr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.2"/><path d="m10.2 10.2 3.3 3.3"/></svg><span>検索</span><span class="f"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><path d="M5.5 6.5h5M6.5 8.5h3M7.3 10.5h1.4"/></svg></span></span><span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h3.5v3.5M13 3 9 7M6.5 13H3V9.5M3 13l4-4"/></svg></span><span class="fg-x" id="fgVarsClose"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span></div>
+          <div class="fg-vtable" id="fgVarTable"></div>
         </div>
       </div>
     </section>
@@ -101,7 +107,7 @@
         </nav>
         <aside class="vs-side">
           <div class="vs-side-h">エクスプローラー<span class="ci">&#xea7c;</span></div>
-          <div class="vs-root"><span class="ci">&#xeab4;</span>NE-AUBERGE<span class="vs-root-acts"><span class="ci">&#xea7f;</span><span class="ci">&#xea80;</span><span class="ci">&#xeb37;</span><span class="ci">&#xeac5;</span></span></div>
+          <div class="vs-root"><span class="ci">&#xeab4;</span><span class="vs-root-nm">NE-AUBERGE</span><span class="vs-root-acts"><span class="ci">&#xea7f;</span><span class="ci">&#xea80;</span><span class="ci">&#xeb37;</span><span class="ci">&#xeac5;</span></span></div>
           <div class="vs-tree" id="vsTree"></div>
           <div class="vs-secs"><div class="vs-sec"><span class="ci">&#xeab6;</span>アウトライン</div><div class="vs-sec"><span class="ci">&#xeab6;</span>タイムライン</div></div>
         </aside>
@@ -115,7 +121,7 @@
           </div>
         </main>
       </div>
-      <footer class="vs-status"><span class="vs-remote"><span class="ci">&#xeb3a;</span></span><span><span class="ci">&#xec6f;</span> main<span class="ci vs-sync">&#xea77;</span></span><span id="vsProblems"><span class="ci">&#xea87;</span> 0 <span class="ci">&#xea6c;</span> 0</span><span class="sp"></span><span id="vsPos">Ln 1, Col 1</span><span>スペース: 2</span><span>UTF-8</span><span>LF</span><span class="vs-lang"><span class="ci">&#xeb0f;</span><span id="vsLang">Astro</span></span><span class="ci">&#xec1e;</span><span class="ci">&#xeaa2;</span></footer>
+      <footer class="vs-status"><span class="vs-remote"><span class="ci">&#xeb3a;</span></span><span><span class="ci">&#xec6f;</span> main<span class="ci vs-sync">&#xea77;</span></span><span id="vsProblems"><span class="ci">&#xea87;</span> 0 <span class="ci">&#xea6c;</span> 0</span><span class="sp"></span><span id="vsPos">行 1、列 1</span><span>スペース: 2</span><span>UTF-8</span><span>LF</span><span class="vs-lang"><span class="ci">&#xeb0f;</span><span id="vsLang">Astro</span></span><span class="ci">&#xec1e;</span><span class="ci">&#xeaa2;</span></footer>
     </section>
 
     <!-- ===================================================== Browser (Chrome-style) -->

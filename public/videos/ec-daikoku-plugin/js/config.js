@@ -17,7 +17,7 @@ window.VIDEO = {
     steps: ['依頼・現状確認（のし指定は備考欄）', 'eccube:plugin:generate でプラグインの雛形', 'エンティティ・管理画面（独自メニュー・設定・表書き）', 'インストール・有効化、管理画面で設定', '注文手続きに のし（トレイト・FormExtension・TemplateEvent）', 'テスト注文・受注登録・注文メール', '無効化・有効化と配送CSV', 'zip にまとめて本番へ'],
   },
   store: { name: 'あみだ池大黒オンラインショップ', handle: 'daikoku', domain: 'www.daikoku.ne.jp', initials: '大', avatar: '#a4282c' },
-  project: { name: 'daikoku-eccube', path: 'C:\work\daikoku-eccube' },
+  project: { name: 'daikoku-eccube', path: 'C:\\work\\daikoku-eccube' },
   pins: 'explorer edge chrome:browser vscode:code',
   pages: { wp: '<div id="wpPage"></div>' },   // the real EC-CUBE screens (shared/wordpress/wp-frame.js as window.EC)
   snapshot: {

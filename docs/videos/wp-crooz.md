@@ -107,7 +107,7 @@
 - **画面の環境**：VS Code は今の既定の見た目です（Dark Modern テーマ、VS Code 自身のアイコン codicon、Seti のファイルアイコン、ミニマップ。`public/shared/vscode.css` / `vscode.js`）。ターミナルは PowerShell です。
   共通のコードの色分けに PHP がないため、テンプレート（`header.php` など）は HTML、PHP だけのファイル（`functions.php`）はスクリプトの色で表示しています（ステータスバーは「PHP」、タブのサイズ 4）。
 - wp-env の出力（ポート番号・かかった時間）、ファイルの内容の一部（`page-overview.php` の骨組みは貼り付け）、3 つのミスと修正、作業の時刻は演出です。
-- Chrome のデバイスモード（iPhone 14 Pro Max・390 × 844）は見た目を似せたものです。
+- Chrome のデバイスモード（DevTools を下に開いた状態・iPhone 12 Pro・390 × 844）は見た目を似せたものです。
 
 ## サイトを更新した場合
 

@@ -12,7 +12,9 @@
   const LO = {
     /** "追加" panel: categories on the left, the items of one category on the right */
     add(cat, items) {
-      const CATS = ['テキスト', '画像', 'ボタン', 'ストリップ', 'デコレーション', 'ボックス', 'ギャラリー', 'メニュー・アンカー', 'お問い合わせ・フォーム', 'ソーシャル', '動画・音楽', '埋め込みコード'];
+      // the categories of the classic editor's "パーツを追加" panel, in its order (support.wix.com/ja, 2025-11)
+      const CATS = ['テキスト', '画像', 'ボタン', 'ストリップ', '装飾', 'ボックス', 'ギャラリー', 'メニュー・アンカー', 'フォーム', '動画・音楽', 'インタラクティブ', 'リスト', '埋め込みコード', 'ソーシャル', '支払い', '入力欄', 'アプリウィジェット', 'CMS', 'ブログ', 'ショップ', 'サービス予約', 'イベント', 'レストラン', 'コミュニティ', 'マイデザイン'];
+      if (cat === 'お問い合わせ・フォーム') cat = 'フォーム';
       return `<div class="wx-add"><div class="wx-add-cats">${CATS.map((c) => `<div${c === cat ? ' class="on"' : ''}>${esc(c)}</div>`).join('')}</div><div class="wx-add-items">${items}</div></div>`;
     },
     strips() {
@@ -34,22 +36,23 @@
         <div class="wx-add-it" id="addForm"><div class="pv form"><i></i><i></i><i></i><b></b></div><div class="n">お問い合わせ（項目を追加できる）</div></div>
         <div class="wx-add-it"><div class="pv form"><i></i><b></b></div><div class="n">メールマガジン登録</div></div></div>`;
     },
-    /** pages & menu: [{n, home, sub, on, id, edit}] */
-    pages(list, o = {}) {
-      const row = (p) => `<div class="wx-pg${p.sub ? ' sub' : ''}${p.on ? ' on' : ''}${p.new ? ' new' : ''}"${p.id ? ` id="${p.id}"` : ''} data-pg="${esc(p.n)}">
-          ${p.home ? `<span class="home">${sv('home')}</span>` : ''}${p.edit ? `<span class="ed" id="${p.edit}"></span>` : `<span class="nm">${esc(p.n)}</span>`}<span class="dots">${sv('dots')}</span></div>`;
-      return `<div class="wx-pg-tabs"><span class="on">サイトメニュー</span><span>ページ</span><span>ブログ</span><span>多言語</span></div>
-        <div class="wx-pg-h">サイトメニュー（ヘッダーのナビゲーション）<span class="sp"></span>${list.length} ページ</div>
-        ${list.map(row).join('')}
-        <div class="wx-pg-add" id="pgAdd">${sv('plus', 15)}ページを追加</div>
-        ${o.note ? `<div class="lo-files">${esc(o.note)}</div>` : ''}`;
+    /** "サイトページ" panel (ページ・メニュー): page types on the left, the site menu's pages as cards on the right
+     *  (support.wix.com/ja screenshot, 2025-06) — [{n, home, sub, on, id, edit}] */
+    pages(list) {
+      const row = (p, i) => {
+        const par = !p.sub && list[i + 1] && list[i + 1].sub;
+        return `<div class="wx-pg${p.sub ? ' sub' : ''}${par ? ' par' : ''}${p.on ? ' on' : ''}${p.new ? ' new' : ''}"${p.id ? ` id="${p.id}"` : ''} data-pg="${esc(p.n)}">
+          <span class="grip"></span><span class="pi">${sv(p.home ? 'home' : 'pages', 17)}</span>${p.edit ? `<span class="ed" id="${p.edit}"></span>` : `<span class="nm">${esc(p.n)}</span>`}<span class="dots">${sv('dots')}</span></div>`;
+      };
+      return `<div class="wx-sp"><div class="wx-sp-cats"><span class="on">サイトメニュー</span><span>登録・ログイン</span><span>ブログページ</span></div>
+        <div class="wx-sp-main"><div class="wx-sp-h">サイトメニュー<span class="add" id="pgAdd">${sv('plus', 14)}追加</span></div>
+        ${list.map(row).join('')}</div></div>`;
     },
     /** media manager: images [{src, name}] */
     media(imgs, o = {}) {
-      return `<div class="lo-files">${esc(o.folder || 'サイトファイル')}　${imgs.length} 件</div>
-        <div class="wx-media">${imgs.map((m, i) => `<div${o.on === i ? ' class="on"' : ''}${o.up === i ? ' class="up"' : ''} style="background-image:url('${m.src}')" title="${esc(m.name)}"></div>`).join('')}</div>`;
+      return X.mediaManager(imgs.map((m, i) => ({ ...m, on: o.on === i, up: o.up === i })), o);
     },
-    mediaFoot() { return `<span class="wx-btn" id="mdUpload">${sv('upload', 15)}メディアをアップロード</span><span class="wx-btn pri" id="mdPick">ページに追加</span>`; },
+    mediaFoot() { return '<span class="wx-btn pri" id="mdPick">ページに追加</span>'; },
     /** background settings of a strip */
     bg(o = {}) {
       return `<div class="wx-sf"><label>背景</label><div class="wx-opt"><span>色</span><span class="on">画像</span><span>動画</span></div></div>
@@ -60,10 +63,12 @@
     /** text settings (font size) */
     textSize(px, o = {}) {
       const pct = Math.round(((px - 12) / (60 - 12)) * 100);
-      return `<div class="wx-sf"><label>テーマ</label><div class="wx-in"><span class="v">見出し 1</span></div></div>
-        <div class="wx-sf"><label>フォントサイズ${o.mobile ? '（モバイル）' : ''}</label><div class="wx-slider" id="txSize"><div class="tr"><b style="width:${pct}%"></b><i style="left:${pct}%"></i></div><span class="n">${px}</span></div></div>
-        <div class="wx-sf"><label>行間</label><div class="wx-slider"><div class="tr"><b style="width:40%"></b><i style="left:40%"></i></div><span class="n">1.6</span></div></div>
-        ${o.mobile ? '<div class="wx-sf" style="font-size:12px;color:#577083">モバイルでの変更はデスクトップのサイトには反映されません。</div>' : ''}`;
+      // the classic editor's "テキスト設定" panel: スタイル / 文字サイズ (slider + box) / B I U … / エフェクト / 文字と行の間隔
+      // (support.wix.com/ja screenshot, 2025-05)
+      return `<div class="wx-sf"><label>スタイル</label><div class="wx-in lo-sel"><span class="v">見出し 1</span>${sv('chev', 16)}</div></div>
+        <div class="wx-sf"><label>文字サイズ</label><div class="wx-slider" id="txSize"><div class="tr"><b style="width:${pct}%"></b><i style="left:${pct}%"></i></div><span class="n">${px}</span></div></div>
+        <div class="wx-sf lo-fmt"><b>B</b><i>I</i><u>U</u></div>
+        <div class="wx-sf lo-fold">エフェクト</div><div class="wx-sf lo-fold">文字と行の間隔</div>`;
     },
     /** form settings (Wix Forms) */
     form(o = {}) {

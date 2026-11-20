@@ -150,45 +150,45 @@ movie/
 
 | 動画（id） | 再生ページ | 長さ | 画面上の日付 |
 | --- | --- | --- | --- |
-| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:27 | 2026/11/01 10:18〜 |
+| NOT A HOTEL ブランドデザインから WordPress 公開まで（`notahotel`） | `/watch/notahotel` | 5:26 | 2026/11/01 10:18〜 |
 | 株式会社吉武工務店 コーポレートサイト制作（`yoshitake-koumuten`） | `/watch/yoshitake-koumuten` | 5:31 | 2026/11/01 10:42〜 |
-| Né（ネ）オーベルジュ Web サイト制作（`ne-auberge`） | `/watch/ne-auberge` | 5:49 | 2026/11/01 15:36〜 |
-| 日清食品グループ オンラインストア makeshop から Shopify への移行（`nissin-store`） | `/watch/nissin-store` | 7:39 | 2026/11/02 10:12〜 |
+| Né（ネ）オーベルジュ Web サイト制作（`ne-auberge`） | `/watch/ne-auberge` | 5:50 | 2026/11/01 15:36〜 |
+| 日清食品グループ オンラインストア makeshop から Shopify への移行（`nissin-store`） | `/watch/nissin-store` | 7:40 | 2026/11/02 10:12〜 |
 | Stand by Beauty Clinic 12-1月限定キャンペーンのランディングページ制作（`wp-stand-by-lp`） | `/watch/wp-stand-by-lp` | 6:17 | 2026/11/02 13:30〜（途中でカット） |
-| あみだ池大黒オンラインショップ EC-CUBE 4 専用プラグイン開発（ギフトのし：外のし・内のし／表書き／名入れ）（`ec-daikoku-plugin`） | `/watch/ec-daikoku-plugin` | 9:42 | 2026/11/03 10:12〜 |
-| 旅するように和菓子と出逢う makeshop クリエイターモード移行（`tabisuruwagashi`） | `/watch/tabisuruwagashi` | 5:14 | 2026/11/03 13:18〜 |
+| あみだ池大黒オンラインショップ EC-CUBE 4 専用プラグイン開発（ギフトのし：外のし・内のし／表書き／名入れ）（`ec-daikoku-plugin`） | `/watch/ec-daikoku-plugin` | 10:08 | 2026/11/03 10:12〜 |
+| 旅するように和菓子と出逢う makeshop クリエイターモード移行（`tabisuruwagashi`） | `/watch/tabisuruwagashi` | 5:22 | 2026/11/03 13:18〜 |
 | 仁秀 NINSHU WooCommerce による EC サイト構築（`wp-ninshu-woocommerce`） | `/watch/wp-ninshu-woocommerce` | 9:06 | 2026/11/04 10:05〜 |
 | GREEN BASE テーマ選定とメタフィールドによる商品ページのカスタマイズ（`green-base`） | `/watch/green-base` | 6:14 | 2026/11/04 13:40〜 |
 | SANYO ONLINE STORE 既存ストアの機能改善（ブランド横断の絞り込み・店舗在庫 / OMO・表示速度）（`sanyo-online-store`） | `/watch/sanyo-online-store` | 7:28 | 2026/11/05 09:55〜 |
-| 京橋ウェルネスクリニック・かとう歯科 お問い合わせフォームの構築（`wp-clinic-contact-form`） | `/watch/wp-clinic-contact-form` | 6:13 | 2026/11/05 14:10〜（途中でカット） |
-| 小山弓具 公式オンラインショップ EC-CUBE 4 既存 EC サイトの機能改修（受注生産・在庫の表示と送料無料の条件）（`ec-koyama-kyugu`） | `/watch/ec-koyama-kyugu` | 7:49 | 2026/11/06 10:14〜 |
+| 京橋ウェルネスクリニック・かとう歯科 お問い合わせフォームの構築（`wp-clinic-contact-form`） | `/watch/wp-clinic-contact-form` | 6:12 | 2026/11/05 14:10〜（途中でカット） |
+| 小山弓具 公式オンラインショップ EC-CUBE 4 既存 EC サイトの機能改修（受注生産・在庫の表示と送料無料の条件）（`ec-koyama-kyugu`） | `/watch/ec-koyama-kyugu` | 7:50 | 2026/11/06 10:14〜 |
 | クックパッド株式会社 WordPress おしらせ（ブログ・オウンドメディア）の構築（`wp-cookpad-media`） | `/watch/wp-cookpad-media` | 7:16 | 2026/11/06 13:12〜（途中でカット） |
-| kachaka Online Store EC-CUBE 4 デザインリニューアル（Twig テンプレート）（`ec-kachaka-store`） | `/watch/ec-kachaka-store` | 7:44 | 2026/11/07 10:06〜 |
+| kachaka Online Store EC-CUBE 4 デザインリニューアル（Twig テンプレート）（`ec-kachaka-store`） | `/watch/ec-kachaka-store` | 7:46 | 2026/11/07 10:06〜 |
 | クルーズ株式会社 WordPress コーポレートサイトの新規制作（`wp-crooz`） | `/watch/wp-crooz` | 6:22 | 2026/11/07 10:39〜 |
-| Hanahiro ONLINE SHOP makeshop EC サイトの新規構築（`makeshop-hanahiro`） | `/watch/makeshop-hanahiro` | 5:07 | 2026/11/07 13:10〜（途中でカット） |
-| Soup Stock Tokyo 公式オンラインショップ 倉庫・店舗の在庫連携（`soup-stock-tokyo`） | `/watch/soup-stock-tokyo` | 5:41 | 2026/11/07 15:41〜（途中で 16:01 へカット） |
-| KANADEMONO for BUSINESS 法人向け見積もり・お問い合わせ機能の開発（`kanademono-business`） | `/watch/kanademono-business` | 8:59 | 2026/11/08 10:30〜 |
+| Hanahiro ONLINE SHOP makeshop EC サイトの新規構築（`makeshop-hanahiro`） | `/watch/makeshop-hanahiro` | 5:09 | 2026/11/07 13:10〜（途中でカット） |
+| Soup Stock Tokyo 公式オンラインショップ 倉庫・店舗の在庫連携（`soup-stock-tokyo`） | `/watch/soup-stock-tokyo` | 5:42 | 2026/11/07 15:41〜（途中で 16:01 へカット） |
+| KANADEMONO for BUSINESS 法人向け見積もり・お問い合わせ機能の開発（`kanademono-business`） | `/watch/kanademono-business` | 8:57 | 2026/11/08 10:30〜 |
 | 整体りびるど 既存 WordPress サイトのリニューアル（`wp-ribuild-renewal`） | `/watch/wp-ribuild-renewal` | 7:43 | 2026/11/08 13:32〜 |
-| ライフミール EC-CUBE 4 決済システムの構築（トークン方式のカード決済・後払いの条件・支払方法ごとのルール）（`ec-l-meal-payment`） | `/watch/ec-l-meal-payment` | 9:47 | 2026/11/09 10:12〜 |
-| カイロライン三鷹整体院 WordPress サイトの SEO 対策・検索順位改善（`wp-chiroline-seo`） | `/watch/wp-chiroline-seo` | 5:06 | 2026/11/09 13:20〜 |
-| Lafayette 公式通販サイト makeshop アパレル EC サイトの構築・カスタマイズ（`makeshop-lafayette`） | `/watch/makeshop-lafayette` | 4:58 | 2026/11/09 15:40〜（途中でカット） |
-| 呉竹 BtoBオンライン注文サイト EC-CUBE 4 BtoB 機能の構築（承認制の会員登録・掛率の卸価格・発注単位・掛け払い）（`ec-kuretake-btob`） | `/watch/ec-kuretake-btob` | 9:52 | 2026/11/10 10:04〜 |
-| Garage（ガラージ）EC-CUBE 2 帳票・PDF・CSV のカスタマイズ（納品書・出荷 CSV・商品一括登録）（`ec-garage-forms`） | `/watch/ec-garage-forms` | 8:26 | 2026/11/10 10:20〜 |
-| 株式会社ライト光機製作所 Wix 企業ホームページの新規制作（`wix-light-op`） | `/watch/wix-light-op` | 5:15 | 2026/11/10 14:05〜 |
+| ライフミール EC-CUBE 4 決済システムの構築（トークン方式のカード決済・後払いの条件・支払方法ごとのルール）（`ec-l-meal-payment`） | `/watch/ec-l-meal-payment` | 10:02 | 2026/11/09 10:12〜 |
+| カイロライン三鷹整体院 WordPress サイトの SEO 対策・検索順位改善（`wp-chiroline-seo`） | `/watch/wp-chiroline-seo` | 5:07 | 2026/11/09 13:20〜 |
+| Lafayette 公式通販サイト makeshop アパレル EC サイトの構築・カスタマイズ（`makeshop-lafayette`） | `/watch/makeshop-lafayette` | 4:59 | 2026/11/09 15:40〜（途中でカット） |
+| 呉竹 BtoBオンライン注文サイト EC-CUBE 4 BtoB 機能の構築（承認制の会員登録・掛率の卸価格・発注単位・掛け払い）（`ec-kuretake-btob`） | `/watch/ec-kuretake-btob` | 10:20 | 2026/11/10 10:04〜 |
+| Garage（ガラージ）EC-CUBE 2 帳票・PDF・CSV のカスタマイズ（納品書・出荷 CSV・商品一括登録）（`ec-garage-forms`） | `/watch/ec-garage-forms` | 8:25 | 2026/11/10 10:20〜 |
+| 株式会社ライト光機製作所 Wix 企業ホームページの新規制作（`wix-light-op`） | `/watch/wix-light-op` | 5:13 | 2026/11/10 14:05〜 |
 | GMOアリーナさいたま WordPress マルチサイトのサーバー移転・新ドメイン移行準備（`wp-saitama-arena-migration`） | `/watch/wp-saitama-arena-migration` | 7:08 | 2026/11/10 22:04〜（途中でカット） |
-| CAGIANA《カジーナ》 EC-CUBE 3 から EC-CUBE 4.3 へのデータ移行（商品・会員・受注・画像・テーマ・旧 URL・本番切り替え）（`ec-cagiana-migration`） | `/watch/ec-cagiana-migration` | 8:47 | 2026/11/11 10:05〜（途中で 21:02 へカット） |
+| CAGIANA《カジーナ》 EC-CUBE 3 から EC-CUBE 4.3 へのデータ移行（商品・会員・受注・画像・テーマ・旧 URL・本番切り替え）（`ec-cagiana-migration`） | `/watch/ec-cagiana-migration` | 8:46 | 2026/11/11 10:05〜（途中で 21:02 へカット） |
 | 福岡正信自然農園 WordPress 会員制サイト・ログイン機能（`wp-f-masanobu-members`） | `/watch/wp-f-masanobu-members` | 5:47 | 2026/11/11 13:20〜 |
 | アジアンリトリート WordPress 予約システムの導入（`wp-asianretreat-booking`） | `/watch/wp-asianretreat-booking` | 5:31 | 2026/11/12 10:12〜（途中でカット） |
-| Kanro POCKeT Shopify と業務システムの連携（`kanro-pocket`） | `/watch/kanro-pocket` | 6:46 | 2026/11/12 11:20〜 |
-| Nagomi Nature Connections Wix サービス紹介サイト・予約導線の制作（`wix-nagomi`） | `/watch/wix-nagomi` | 5:00 | 2026/11/12 14:20〜 |
-| GMOアリーナさいたま WordPress 独自プラグイン開発（催事管理システムとのイベント連携）（`wp-saitama-arena-plugin`） | `/watch/wp-saitama-arena-plugin` | 8:10 | 2026/11/13 10:31〜（途中でカット） |
+| Kanro POCKeT Shopify と業務システムの連携（`kanro-pocket`） | `/watch/kanro-pocket` | 6:47 | 2026/11/12 11:20〜 |
+| Nagomi Nature Connections Wix サービス紹介サイト・予約導線の制作（`wix-nagomi`） | `/watch/wix-nagomi` | 5:01 | 2026/11/12 14:20〜 |
+| GMOアリーナさいたま WordPress 独自プラグイン開発（催事管理システムとのイベント連携）（`wp-saitama-arena-plugin`） | `/watch/wp-saitama-arena-plugin` | 8:09 | 2026/11/13 10:31〜（途中でカット） |
 | はらいろ整骨院・へいわじま整骨院 WordPress 既存ページの修正（`wp-seikotsuin-fixes`） | `/watch/wp-seikotsuin-fixes` | 5:31 | 2026/11/13 14:06〜（途中でカット） |
 | ＠ベリーネット（タックルベリー）EC-CUBE 4 店舗システムとの連携（Web API・GraphQL・WebHook）（`ec-tackleberry-api`） | `/watch/ec-tackleberry-api` | 9:47 | 2026/11/14 10:06〜（途中でカット） |
-| ワイエス建装 STUDIO コーポレートサイト制作（`studio-ysk`） | `/watch/studio-ysk` | 5:24 | 2026/11/14 14:00〜 |
-| 販促品直ナビ EC-CUBE 4 サーバー・セキュリティ・保守（健康診断・管理画面の防御・バックアップ・セキュリティパッチ）（`ec-chokunavi-maintenance`） | `/watch/ec-chokunavi-maintenance` | 9:35 | 2026/11/15 10:02〜 |
-| 有限会社長谷川興業 STUDIO 企業サイトの制作・リニューアル（`studio-ponpuya`） | `/watch/studio-ponpuya` | 5:01 | 2026/11/15 13:30〜 |
+| ワイエス建装 STUDIO コーポレートサイト制作（`studio-ysk`） | `/watch/studio-ysk` | 5:25 | 2026/11/14 14:00〜 |
+| 販促品直ナビ EC-CUBE 4 サーバー・セキュリティ・保守（健康診断・管理画面の防御・バックアップ・セキュリティパッチ）（`ec-chokunavi-maintenance`） | `/watch/ec-chokunavi-maintenance` | 9:36 | 2026/11/15 10:02〜 |
+| 有限会社長谷川興業 STUDIO 企業サイトの制作・リニューアル（`studio-ponpuya`） | `/watch/studio-ponpuya` | 5:03 | 2026/11/15 13:30〜 |
 
-合計 37 本・約 257 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
+合計 37 本・約 259 分（一覧ページの「総収録時間」）。長さとチャプター時刻は `generated/timeline.json`（`npm run timeline`）。
 
 ### Shopify の動画（6 本）
 
@@ -417,6 +417,30 @@ EC-CUBE の管理画面・ショップの画面は、この PC の上で動か�
 - EC-CUBE 3（データ移行の動画）：自分で用意したコピーを、`runtime.js` が PHP 7.4・`html/` を公開フォルダとして動かします（`capture.js` の `dir`・`merge`）
 - コードエディター（`Kit.Code`）は Twig（拡張子 .twig）も色分けします
 - そのほかは WordPress の動画と同じです（公開中のサイトは `npm run snapshot -- <id>`、確認は `verify` / `check` / `pointer` / `timeline`）
+
+## 見た目の監査（2026-11-20）
+
+再現した画面（ログインが必要なもの・アプリの枠）を、本物の画面写真・公式ヘルプ・公開されている CSS / JS と 1 画面ずつ比べて直しました。画面の日付（2026/11/01〜15）の時点の見た目に合わせています。
+
+| 画面 | 主な修正 |
+| --- | --- |
+| Chrome の枠（全 37 本） | 2023 年のデザイン変更以降の見た目に（この PC の Chrome 157 を撮影して採寸）：タブ列 40px・#d3e3fd、左端のタブ検索、選択中のタブの裾の丸み、ツールバー 46px、アドレスバー 34px・#edf2fa（`shared/win11.css` の末尾） |
+| タスクバー | 「タスク ビュー」のボタンを外した |
+| VS Code | ステータスバーを日本語版の「行 N、列 N」に、エクスプローラーのフォルダー名を 1 行（はみ出しは …）に |
+| デバイスモード（14 本） | DevTools を下に開いた状態で表示（デバイスモードは DevTools の機能のため）。倍率は残りの高さに合わせて表示。機種名は 390×844 に合う「iPhone 12 Pro」 |
+| Shopify の管理画面・テーマエディタ | Polaris の本物のアイコン（@shopify/polaris-icons）、ナビの日本語ラベル（注文書・在庫転送・チェックアウト離脱・グロース ほか）、上部バー・ボタン・バッジ・モーダルを Polaris の値に。新しい管理画面（2026-09-15 から順次展開）は全ストアへの完了日が未公表のため、従来デザインの最終形にしています |
+| makeshop の管理画面 | 2026-07-27 リリースの左メニュー・ヘッダー・右サイドバー、ページ名・URL・パンくず・トーストを管理画面の公開ファイルの定義どおりに |
+| STUDIO のエディタ | 2025-11-25 から既定の新エディタ（Editor 5.0。旧エディタは 2026 年 5 月末に終了）の配置に作り直し |
+| Wix のエディタ | 2 段の上部バー、左のアイコン列、パネル名・パーツの分類・サイトページ・メディアを 2025〜2026 年の日本語の画面写真どおりに |
+| Figma | UI3（明るいタブバー・左のナビゲーションバー・下の浮いたツールバー・右パネル）、バリアブルの画面 |
+| GTM・Tag Assistant・GA4・Gmail | 日本語版の画面写真どおりの構成と文言。画面に出る時刻はタスクバーの時計から計算 |
+
+修正した不具合：
+- 字幕をオフにすると、上へ移したキー表示の帯が画面の縦いっぱいに伸びていた（`body.no-captions .keystrip` の優先度。`shared/win11.css`）
+- ec-daikoku-plugin のターミナルのパスが「C:workdaikoku-eccube」になっていた（`config.js` の `\` のエスケープ漏れ）
+- wp-asianretreat-booking の通知メールで、テスト予約の氏名・電話・メール・住所がぼかされていなかった（`js/gmail.js` の `pii`）
+
+確認できずに残した点（各画面の細部の文言など）は [docs/audit-2026-11-20.md](docs/audit-2026-11-20.md) にまとめています。
 
 ## Next.js への移行（2026-11-17）
 

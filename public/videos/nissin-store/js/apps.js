@@ -17,34 +17,19 @@
   const yen = (v) => '¥' + Number(v).toLocaleString('ja-JP');
 
   /* ===================================================================== makeshop admin */
+  // the admin's frame (js/makeshop-login-frame.js: MsUi.shell) — the left menu as this account shows it
+  // (会員情報CSV is opened from 会員一覧 › CSV一括処理, as in the admin)
+  const MS_FRAME = {
+    shopName: '日清食品グループ オンラインストア', shopId: 'nissinstore', avatar: 'blue-lighten-3', homeId: 'msNavHome',
+    groups: {
+      order: [['', '注文一覧']],
+      product: [['', '商品一覧'], ['', 'カテゴリ設定'], ['msNavCsv', 'CSV一括処理']],
+      member: [['msNavMdl', '会員一覧'], ['', '会員グループ一覧']],
+    },
+  };
   $('#brContent').insertAdjacentHTML('afterbegin', `
     <div class="br-page" data-page="mslogin"><iframe id="msLoginFrame" title="管理画面ログイン - makeshop byGMO"></iframe></div>
-    <div class="br-page" data-page="ms"><div class="ms-adm">
-      <div class="ms-shell">
-        <aside class="ms-side">
-          <div class="ms-brand"><img class="ms-brand-logo" src="assets/makeshop/ms-logo-typeA.svg" alt="makeshop byGMO"><span class="ms-collapse" title="メニューを折りたたむ"><i data-ms-icon="collapseHorizontal"></i></span></div>
-          <div class="ms-shop"><div class="ms-shop-name">日清食品グループ オンラインストア</div><div class="ms-shop-id">ID: <span class="pii">nissinstore</span></div></div>
-          <div class="ms-grp">日々のショップ運営をスムーズにする</div>
-          <div class="ms-item" id="msNavHome"><i data-ms-icon="home"></i>ホーム</div>
-          <div class="ms-item"><i data-ms-icon="menuBook"></i>メインメニュー</div>
-          <div class="ms-item open" id="msNavItem"><i data-ms-icon="product"></i>商品管理<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-sub open"><div class="ms-subitem">商品一覧</div><div class="ms-subitem">商品登録</div><div class="ms-subitem" id="msNavCsv">CSV一括処理</div></div>
-          <div class="ms-item"><i data-ms-icon="order"></i>注文管理<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-item open"><i data-ms-icon="customer"></i>会員管理<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-sub open"><div class="ms-subitem">会員一覧</div><div class="ms-subitem" id="msNavMdl">会員アップロード・ダウンロード</div></div>
-          <div class="ms-item"><i data-ms-icon="design"></i>ショップデザイン<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-grp">現状を分析して、売上につなげる</div>
-          <div class="ms-item"><i data-ms-icon="analysis"></i>分析・販促管理<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-grp">便利な機能を追加する</div>
-          <div class="ms-item"><i data-ms-icon="app"></i>アプリ管理<i class="chev" data-icon="chevron-down"></i></div>
-          <div class="ms-item ms-bottom"><i data-ms-icon="config"></i>機能・設定</div>
-        </aside>
-        <div class="ms-body">
-          <header class="ms-top"><div class="ms-crumb" id="msCrumb"></div><span class="sp"></span><span class="ms-tl"><i data-ms-icon="search"></i>検索</span><span class="ms-tl"><i data-ms-icon="help"></i>ヘルプ</span><span class="ms-tl"><i data-ms-icon="account"></i>アカウント</span></header>
-          <main class="ms-main" id="msMain"></main>
-        </div>
-      </div>
-    </div></div>`);
+    <div class="br-page" data-page="ms"><div class="ms-adm">${window.MsUi.shell(MS_FRAME)}</div></div>`);
 
   const MS = {
     URL: 'https://console.makeshop.jp',
@@ -52,72 +37,85 @@
     PASSWORD: 'Nissin-mig2026',  // shown as ••• by the page
     /** "<page> - makeshop byGMO" (the admin's own title format) */
     title: (t) => window.MsUi.title(t),
-    crumb(c) { $('#msCrumb').innerHTML = c.map((x, i) => (i ? '<span class="sl">/</span>' : '') + `<span>${esc(x)}</span>`).join(''); },
+    crumb(c) { $('#msCrumb').innerHTML = window.MsUi.crumbs(c); },
     nav(id) {
       $$('.ms-adm .ms-subitem').forEach((e) => e.classList.toggle('on', e.id === id));
       $('#msNavHome').classList.toggle('on', id === 'msNavHome');
     },
-    /** /dashboard — where the login lands */
+    /** /dashboard — where the login lands (no breadcrumbs; its blocks as the manual names them: 注文サマリー, 会員数, ランキング) */
     home() {
       this.nav('msNavHome');
-      this.crumb(['ホーム']);
+      this.crumb([]);
       $('#msMain').innerHTML = `
-        <h1 class="ms-h1">ホーム</h1>
+        <h1 class="ms-h1">ダッシュボード</h1>
         <div class="ms-home">
-          <div class="ms-card"><h3>受注</h3><p class="ms-mute">新規受注・発送待ちの確認</p><div class="ms-ph"></div></div>
-          <div class="ms-card"><h3>商品</h3><p class="ms-mute">商品登録・在庫の管理</p><div class="ms-ph"></div></div>
-          <div class="ms-card"><h3>会員</h3><p class="ms-mute">会員情報・メールマガジン</p><div class="ms-ph"></div></div>
+          <div class="ms-card"><h3>注文サマリー</h3><p class="ms-mute">今日・前日・今月・先月の売上総額と注文件数</p><div class="ms-ph"></div></div>
+          <div class="ms-card"><h3>会員数：男女比</h3><p class="ms-mute">会員登録数（退会済み会員は含めません）</p><div class="ms-ph"></div></div>
+          <div class="ms-card"><h3>ランキング：売上金額</h3><p class="ms-mute">今日・昨日・今月・先月</p><div class="ms-ph"></div></div>
         </div>`;
     },
-    /** /products/csv — CSV一括処理 (the operations under their names in the admin) */
+    /**
+     * /products/csv — CSV一括処理 as the admin lays it out (ProductCsvHomePage; manual.makeshop.jp/hc/ja/articles/53559390589721):
+     * CSV処理ジョブ管理, then a card per CSV (アップロード / ダウンロード / フォーマット管理), then 旧CSV一括処理 (the older screens)
+     */
     csvHome() {
       this.nav('msNavCsv');
-      this.crumb(['CSV一括処理']);
-      const row = (t, id) => `<div class="ms-op"${id ? ` id="${id}"` : ''}><span>${esc(t)}</span><i data-ms-icon="arrowForward"></i></div>`;
-      const up = ['商品情報一括アップロード', '商品一括登録', '商品一括修正', '商品一括削除', '商品の並び順一括登録・修正', '商品のカテゴリ一括登録・解除', 'サブ画像一括登録・修正', 'バリエーション一括登録・修正', '会員グループ別価格一括登録'];
+      this.crumb(['ホーム', '商品管理', '商品一覧', 'CSV一括処理']);
+      const acts = (fmt) => `<span class="ms-csv-acts"><span><i data-ms-icon="upload"></i>アップロード</span><span><i data-ms-icon="download"></i>ダウンロード</span>${fmt ? '<span>フォーマット管理</span>' : ''}</span>`;
+      const card = (t, d, fmt) => `<div class="ms-csv-card"><div class="t">${esc(t)}</div><p>${esc(d)}</p>${acts(fmt)}</div>`;
+      const old = (t, id) => `<span class="ms-csv-old"${id ? ` id="${id}"` : ''}>${esc(t)}</span>`;
       $('#msMain').innerHTML = `
         <h1 class="ms-h1">CSV一括処理</h1>
-        <div class="ms-ops">
-          <div class="ms-panel"><h3><i data-ms-icon="upload"></i>アップロード</h3>${up.map((t) => row(t)).join('')}</div>
-          <div class="ms-panel"><h3><i data-ms-icon="download"></i>ダウンロード</h3>${row('商品リストダウンロード', 'msCsvPdl')}${row('ダウンロード一覧')}${row('アップロード一覧')}</div>
-        </div>`;
+        <div class="ms-panel ms-csv-job"><div class="t">CSV処理ジョブ管理</div><p>商品情報一括アップロードの結果を確認できます。</p><div class="lk"><span>アップロード一覧</span><span>ダウンロード一覧</span></div></div>
+        <div class="ms-csv-grid">
+          ${card('商品情報一括アップロード', 'すべての商品情報を一括で管理（登録・編集・削除・出力）できます。出力する項目はフォーマット管理で登録したフォーマットで指定できます。', true)}
+          ${card('バリエーション一括登録・修正', 'CSV形式のファイルをダウンロード・アップロードして、バリエーションを一括で登録・更新できます。出力する項目はフォーマット管理で登録したフォーマットで指定できます。', true)}
+          ${card('商品の並び順一括登録・修正', 'CSV形式のファイルをアップロードすると、商品の表示優先度を一括登録・変更することができます。')}
+          ${card('商品のカテゴリ一括登録・解除', 'CSV形式のファイルをアップロードすると、商品の属するカテゴリを一括で登録・解除することができます。')}
+        </div>
+        <div class="ms-panel ms-csv-job"><div class="t">旧CSV一括処理</div><div class="lk">${old('商品一括登録')}${old('商品一括修正')}${old('商品リストダウンロード', 'msCsvPdl')}${old('オプショングループ一括登録')}</div></div>`;
       window.MsUi.hydrate($('#msMain'));
     },
-    /** /products/csv/product-list — CSV一括処理 › 商品リストダウンロード */
+    /**
+     * /products/csv/product-list — 旧CSV一括処理 › 商品リストダウンロード: the admin shows its older screen here
+     * (/makeshop/newmanager/product_download.html in a frame; manual.makeshop.jp/hc/ja/articles/44242885925401)
+     */
     pdl() {
       this.nav('msNavCsv');
-      this.crumb(['CSV一括処理', '商品リストダウンロード']);
+      this.crumb(['ホーム', '商品管理', '商品一覧', 'CSV一括処理', '商品リストダウンロード']);
+      const opt = (t, on, more) => `<div class="ms-lg-opt"><span class="ms-radio${on ? ' on' : ''}"></span>${esc(t)}${more ? ' <u>(詳細はこちら)</u>' : ''}</div>`;
       $('#msMain').innerHTML = `
         <h1 class="ms-h1">商品リストダウンロード</h1>
-        <div class="ms-panel">
-          <p class="ms-note">登録されている商品データを CSV ファイルでダウンロードします。CSV ファイルの文字コードは <b>Shift_JIS</b> です。</p>
-          <div class="ms-form">
-            <label>対象商品</label><div><span class="ms-radio on"></span>すべての商品（${F.ITEMS.length.toLocaleString()} 件）　<span class="ms-radio"></span>検索条件で絞り込む</div>
-            <label>ダウンロード項目</label><div><span class="ms-sel" id="msItems">基本情報・価格・在庫・カテゴリー・画像 URL</span></div>
-            <label>オプション</label><div><span class="ms-check on"></span>ケース販売（セット）情報を含める　<span class="ms-check on"></span>非表示の商品を含める</div>
-          </div>
-          <span class="ms-btn" id="msDlBtn"><i data-ms-icon="download"></i>CSV ダウンロード</span>
-        </div>
-        <div class="ms-panel"><h3>ダウンロード履歴</h3><table class="ms-tbl"><thead><tr><th>日時</th><th>ファイル名</th><th>件数</th></tr></thead><tbody id="msHist"><tr><td colspan="3" class="ms-mute">履歴はありません</td></tr></tbody></table></div>`;
-      window.MsUi.hydrate($('#msMain'));
-    },
-    /** /members/member-csv — 会員一覧 › 会員アップロード・ダウンロード */
-    mdl() {
-      this.nav('msNavMdl');
-      this.crumb(['会員一覧', '会員アップロード・ダウンロード']);
-      $('#msMain').innerHTML = `
-        <h1 class="ms-h1">会員アップロード・ダウンロード</h1>
-        <div class="ms-panel">
-          <p class="ms-note">会員情報を CSV ファイルでダウンロードします（文字コード：Shift_JIS）。パスワードは暗号化されているため出力されません。</p>
-          <div class="ms-form">
-            <label>対象会員</label><div><span class="ms-radio on"></span>すべての会員　<span class="ms-radio"></span>会員グループで絞り込む</div>
-            <label>出力項目</label><div><span class="ms-sel">会員ID・氏名・連絡先・住所・会員グループ・メルマガ購読・登録日・退会</span></div>
-          </div>
-          <span class="ms-btn" id="msDlBtn"><i data-ms-icon="download"></i>CSV ダウンロード</span>
+        <div class="ms-panel ms-legacy">
+          <p class="ms-note">MakeShopに登録した商品データを様々なモールのCSV形式に合わせてダウンロードすることができます。（CSVの文字コードは <b>Shift_JIS</b>）</p>
+          <div class="ms-lg-h">カテゴリを選択してください</div>
+          <span class="ms-sel" id="msItems">すべての商品</span>
+          <div class="ms-lg-h">ダウンロードするCSV形式を選択してください</div>
+          ${opt('楽天市場(RMS)　通常商品登録用CSVでダウンロード', false, true)}${opt('楽天市場(RMS)　項目選択肢登録用CSVでダウンロード', false, true)}${opt('標準の形式で商品リストダウンロード', true)}
+          <div class="ms-lg-btn"><span id="msDlBtn">↓ 上記の選択した形式で商品データダウンロード</span></div>
         </div>`;
       window.MsUi.hydrate($('#msMain'));
     },
-    hist(name, n) { $('#msHist').innerHTML = `<tr class="new"><td>${esc(window.Win11.fmt.stamp())}</td><td>${esc(name)}</td><td>${n}</td></tr>`; },
+    /**
+     * /members — 会員一覧 with its CSVダウンロード dialog open (the admin writes the member CSV from 会員一覧:
+     * "会員一覧で絞り込んだ会員を、選んだフォーマットの項目・並び順でCSVに出力します。" — its own text)
+     */
+    mdl() {
+      this.nav('msNavMdl');
+      this.crumb(['ホーム', '会員管理', '会員一覧']);
+      $('#msMain').innerHTML = `
+        <div class="ms-phead"><h1 class="ms-h1">会員一覧</h1><span class="ms-btn ghost">CSV一括処理</span></div>
+        <div class="ms-panel"><div class="ms-ph"></div><div class="ms-ph"></div></div>
+        <div class="ms-dlg-bg"></div>
+        <div class="ms-panel ms-dlg"><h3>CSVダウンロード</h3>
+          <p class="ms-note">会員一覧で絞り込んだ会員を、選んだフォーマットの項目・並び順でCSVに出力します。パスワードは暗号化されているため出力されません。</p>
+          <div class="ms-form"><label>フォーマット</label><div><span class="ms-sel">基本フォーマット</span></div></div>
+          <div class="ms-dlg-b"><span class="ms-btn ghost">閉じる</span><span class="ms-btn" id="msDlBtn">ダウンロード</span></div>
+        </div>`;
+      window.MsUi.hydrate($('#msMain'));
+    },
+    /** (the older download screen keeps no history list) */
+    hist() {},
   };
 
   /* ===================================================================== Shopify admin views */

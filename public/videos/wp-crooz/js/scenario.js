@@ -565,7 +565,7 @@
   /* 6 — smartphone */
   scene('sp', async () => {
     Caption.step(6);
-    Caption.set('スマートフォン表示の確認：Chrome のデバイスモード（iPhone 14 Pro Max・幅 390px）');
+    Caption.set('スマートフォン表示の確認：Chrome のデバイスモード（iPhone 12 Pro・幅 390px）');
     await Browser.typeUrl('localhost:8888/about/overview/');
     await devPage('overview', '/about/overview/', { after: 300 });
     await Keycap.show(['Ctrl', 'Shift', 'M'], 700);

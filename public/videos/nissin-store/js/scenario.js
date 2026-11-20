@@ -110,7 +110,7 @@
     await window.MsLoginFrame.signIn({ id: MS.ID, password: MS.PASSWORD });
     Browser.loading('ms', true);
     await wait(900);
-    Browser.nav('ms', { title: MS.title('ホーム'), url: MS.URL + '/dashboard', page: 'ms' });
+    Browser.nav('ms', { title: MS.title('ダッシュボード'), url: MS.URL + '/dashboard', page: 'ms' });
     MS.home();
     Browser.loading('ms', false);
     await wait(500);
@@ -132,7 +132,7 @@
     await Browser.download('product_20261102.csv', `${Math.round(F.PRODUCT_CSV.length * 1.45 / 1024)} KB`);
     Caption.set('会員データも書き出す（パスワードは暗号化されているため出力されない）');
     await clickUi('#msNavMdl', { after: 80 });
-    Browser.nav('ms', { title: MS.title('会員アップロード・ダウンロード'), url: MS.URL + '/members/member-csv' });
+    Browser.nav('ms', { title: MS.title('会員一覧'), url: MS.URL + '/members' });
     MS.mdl();
     await wait(600);
     await hoverUi('.ms-panel .ms-note', { ax: 0.7, hold: 1800 });
@@ -339,7 +339,8 @@
     await Code.openFile('data/shopify/redirects.csv', { top: 0 });
     await wait(1400);
     await Win.switchTo('browser');
-    await Admin.go('online/navigation', V.navigation(), { title: 'ナビゲーション', path: '/content/menus' });
+    // menus and URL redirects are under コンテンツ > メニュー (help.shopify.com/ja: online-store/menus-and-links)
+    await Admin.go('content/menus', V.navigation().replace('<h1>ナビゲーション</h1>', '<h1>メニュー</h1>'), { title: 'メニュー', path: '/content/menus' });
     await Admin.open('#navRedir', V.redirects([]), { title: 'URL リダイレクト', path: '/content/redirects' });
     await adminImport({
       btn: '#rdImport', add: '#rdAdd', title: 'URL リダイレクトをインポート',

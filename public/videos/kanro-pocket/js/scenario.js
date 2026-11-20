@@ -122,7 +122,8 @@
     // the app credentials -> .env (ignored by git)
     Caption.set('アプリの API 認証情報（アクセストークン・API シークレット）は .env に保存（.gitignore 済み・リポジトリには入れない）');
     await Win.switchTo('browser');
-    await Admin.openSettings('apps', V.appsSettings(), { title: 'アプリと販売チャネル', path: 'apps' });
+    // 設定 > アプリ (apps and sales channels are two settings pages: help.shopify.com/ja/manual/apps/working-with-apps)
+    await Admin.openSettings('apps', V.appsSettings().replace('<h1>アプリと販売チャネル</h1>', '<h1>アプリ</h1>'), { title: 'アプリ', path: 'apps' });
     await clickUi('#appRow', { after: 60 });
     Browser.loading('adm', true); await wait(400); Browser.loading('adm', false);
     Admin.settings('apps', V.appCreds(), { title: 'kanro-ec-gateway', path: 'apps/development/kanro-ec-gateway/api_credentials' });

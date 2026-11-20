@@ -3,7 +3,7 @@
  * (shared/wordpress/wp-frame.js, js/wp-snapshot.js):
  *   - the tab icons: asianretreat.jp's site icon (assets/favicon.webp, from the live site) — wp-admin shows the site icon
  *     too; the mail tab: Gmail's real favicon (shared/favicons)
- *   - Mail: the shop's inbox (a webmail look-alike without logos, as in wp-clinic-contact-form — Gmail needs a login)
+ *   - Mail: the shop's inbox (Gmail, reproduced in js/gmail.js — it needs a login; the logo is Gmail's own)
  *   - AR.paid(doc): the general settings' Stripe section as it is once the paid plan of Booking Package is active
  *     (RECONSTRUCTED: the free plugin draws the same fields disabled with 「有料購読への加入が必要」 — the captured screen)
  *   - AR.card(doc): the payment step with Stripe's card field (RECONSTRUCTED for the same reason)
@@ -120,31 +120,20 @@
 
   /* ---------------------------------------------------------------- the shop's inbox */
   $('#brContent').insertAdjacentHTML('afterbegin', `
-    <div class="br-page" data-page="mail"><div class="wm" id="wm">
-      <aside class="wm-side"><div class="wm-compose"><i data-icon="pencil"></i>作成</div>
-        <div class="wm-f on"><i data-ic="inbox"></i>受信トレイ<b id="wmCount"></b></div><div class="wm-f"><i data-icon="star"></i>スター付き</div><div class="wm-f"><i data-ic="clock"></i>スヌーズ中</div><div class="wm-f"><i data-icon="arrow-right"></i>送信済み</div><div class="wm-f"><i data-icon="file"></i>下書き</div>
-        <div class="wm-lbl">ラベル</div><div class="wm-f"><i data-icon="tag"></i>WEB予約</div><div class="wm-f"><i data-icon="tag"></i>LINE予約</div></aside>
-      <main class="wm-main"><div class="wm-top"><div class="wm-search"><i data-icon="search"></i>メールを検索</div></div><div class="wm-body" id="wmBody"></div></main>
-    </div></div>`);
+    <div class="br-page" data-page="mail">${window.GmailUI.shell({ account: 'A', avatar: '#8e24aa', labels: ['WEB予約', 'LINE予約'], tabs: true })}</div>`);
   const Mail = {
     list: [],
     render(o = {}) {
-      const unread = this.list.filter((m) => !m.read).length;
-      $('#wmCount').textContent = unread || '';
-      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) :
-        `<div class="wm-list">${this.list.map((m, i) => `<div class="wm-row${m.read ? '' : ' unread'}${o.newIdx != null && i <= o.newIdx ? ' new' : ''}" data-mail="${i}"><span class="wm-star">${icon('star')}</span><span class="wm-from">${esc(m.from)}</span><span class="wm-subj"><b>${esc(m.subject)}</b> — <span class="sa-mute">${esc(m.snippet)}</span></span><span class="wm-date">${esc(m.time)}</span></div>`).join('')}</div>`;
-      D.hydrateIcons($('#wmBody'));
+      // Gmail's inbox / message view (js/gmail.js)
+      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) : window.GmailUI.list(this.list, { ...o, newAll: true });
+      window.GmailUI.count(this.list);
     },
     reading(m) {
-      return `<div class="wm-read"><div class="wm-tools"><span data-back>${icon('arrow-left')}</span>${icon('download')}${icon('alert')}${icon('x-circle')}</div>
-        <h2>${esc(m.subject)} <span class="sa-tag">${esc(m.label || '受信トレイ')}</span></h2>
-        <div class="wm-hd"><span class="wm-av">${esc(m.from[0])}</span><div><b>${esc(m.from)}</b> <span class="sa-mute pii">&lt;${esc(m.addr)}&gt;</span><div class="sa-mute">To: <span class="pii">${esc(m.to)}</span></div></div><span class="wm-date">${esc(m.time)}</span></div>
-        <div class="wm-text" id="wmText">${m.html || esc(m.text)}</div></div>`;
+      return window.GmailUI.reading({ ...m, addrPii: true, toHtml: `<span class="pii">${esc(m.to)}</span>`, html: m.html || null }, this.list);
     },
     add(m) { this.list.unshift({ read: false, ...m }); },
     row(i) { return $(`#wmBody .wm-row[data-mail="${i}"]`); },
   };
-  D.hydrateIcons($('#wm'));
 
   window.AR = AR;
   window.Mail = Mail;

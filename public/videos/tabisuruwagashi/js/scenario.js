@@ -116,7 +116,7 @@
     await window.MsLoginFrame.signIn({ id: SHOP_ID, password: PASSWORD });
     Browser.loading('adm', true);
     await wait(900);
-    Browser.setTitle('adm', window.MsUi.title('ホーム'));
+    Browser.setTitle('adm', window.MsUi.title('ダッシュボード'));
     Browser.setUrl('adm', ADMIN_URL + '/dashboard');
     Browser.setPage('adm', 'admin');
     Browser.loading('adm', false);
@@ -565,7 +565,7 @@
     await window.MsLoginFrame.load($('#msLoginFrame'));
     window.MsUi.hydrate();
     window.MsUi.fonts();
-    Admin.view('home', ['ホーム']);
+    Admin.view('home', []); // (the dashboard has no breadcrumbs)
     // fonts of the admin + every Japanese glyph that will be typed, before recording
     const typed = JSON.stringify(JA) + Object.values(JA).flat().filter((s) => s && s.r).map((s) => D.romajiToKana(s.r).kana).join('');
     const all = document.body.textContent + typed + Tpl.BASIC.top.slice(0, 4000);

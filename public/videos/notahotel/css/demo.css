@@ -639,3 +639,217 @@ body.no-captions .keystrip { bottom: 56px; }
 .fg-tabbar .wc { color: #fff; }
 .fg-top { border-top: 1px solid #383838; }
 .fg-right { padding-right: 10px; }
+
+/* =============================================================================================================
+   Figma desktop app (Windows, light, Japanese UI3 as of 2026-11): tab bar, navigation bar (ファイル・エージェント・
+   アセット・ツール・バリアブル), left sidebar, right sidebar, floating toolbar (with the 描く / デザイン / Motion /
+   Dev Mode switch), variables view. Sizes and colours follow help.figma.com ("Explore the navigation bar and left
+   sidebar", "Navigating UI3") and 2026 screenshots of the Japanese app at 100% scaling.
+   ============================================================================================================= */
+#win-design { font-family: 'Inter', 'Yu Gothic UI', 'Meiryo UI', 'Segoe UI', sans-serif; letter-spacing: .005em; }
+#win-design svg { flex: none; }
+/* tab bar */
+#win-design .fg-tabbar { height: 39px; background: #e9e9e9; color: #1e1e1e; border-bottom: 1px solid #d1d1d1; font-size: 12px; box-sizing: border-box; }
+#win-design .fg-tabbar .fg-home { width: 51px; color: #444; border-right: 1px solid #d9d9d9; }
+#win-design .fg-tabbar .fg-ftab { min-width: 0; width: 196px; background: #fff; color: #1e1e1e; gap: 8px; padding: 0 8px 0 12px; justify-content: flex-start; border-right: 1px solid #d9d9d9; }
+#win-design .fg-tabbar .fg-ftab .fi { display: flex; color: #0d99ff; }
+#win-design .fg-tabbar .fg-ftab .nm { flex: 1; white-space: nowrap; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 14px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 14px), transparent); }
+#win-design .fg-tabbar .fg-ftab .x { display: flex; color: #444; }
+#win-design .fg-tabbar .fg-ftab svg { opacity: 1; }
+#win-design .fg-tabbar .fg-tabplus { width: 38px; color: #444; font-size: 0; }
+#win-design .fg-tabbar .fg-tabchev { width: 40px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #d9d9d9; color: #1e1e1e; }
+#win-design .fg-tabbar .wc { color: #1e1e1e; }
+/* body: navigation bar | left sidebar | canvas | right sidebar */
+#win-design .fg-body { background: #f5f5f5; }
+#win-design .fg-rail { width: 52px; flex: none; background: #fff; border-right: 1px solid #e6e6e6; display: flex; flex-direction: column; align-items: center; padding: 10px 0 0; gap: 0; height: auto; border-bottom: 0; font-weight: 400; color: #1e1e1e; box-sizing: border-box; }
+#win-design .fg-rail .logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: #1e1e1e; }
+#win-design .fg-rail .sep { width: 24px; height: 1px; background: #e6e6e6; margin: 9px 0 6px; }
+#win-design .fg-rail .it { width: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 3px 0 5px; color: #1e1e1e; font-size: 9px; line-height: 12px; letter-spacing: 0; white-space: nowrap; }
+#win-design .fg-rail .it i { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-style: normal; }
+#win-design .fg-rail .it.on { color: #1e1e1e; }
+#win-design .fg-rail .it.on i { background: #e5f4ff; color: #0d99ff; }
+#win-design .fg-rail .it.is-hover:not(.on) i { background: #f5f5f5; }
+#win-design .fg-left { width: 241px; color: #1e1e1e; font-size: 11px; border-right: 1px solid #e6e6e6; }
+#win-design .fg-fname { position: relative; padding: 13px 16px 12px; border-bottom: 1px solid #e6e6e6; flex: none; }
+#win-design .fg-fname b { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; line-height: 20px; margin-right: 28px; min-width: 0; }
+#win-design .fg-fname b .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#win-design .fg-fname small { display: block; color: #757575; font-size: 11px; margin-top: 2px; }
+#win-design .fg-fname .tg { position: absolute; right: 12px; top: 15px; display: flex; color: #1e1e1e; }
+#win-design .fg-sec-h { height: 40px; padding: 0 8px 0 16px; font-size: 11px; font-weight: 600; color: #1e1e1e; justify-content: flex-start; }
+#win-design .fg-sec-h .ac { margin-left: auto; display: flex; gap: 2px; }
+#win-design .fg-sec-h .ac span { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: #1e1e1e; }
+#win-design .fg-sec-h .cv { display: flex; color: #8c8c8c; margin: 0 4px 0 -12px; }
+#win-design .fg-pages { padding: 0 8px 8px; border-bottom: 1px solid #e6e6e6; }
+#win-design .fg-page { height: 24px; margin: 2px 0; padding: 0 8px; gap: 0; color: #1e1e1e; font-size: 11px; font-weight: 400; }
+#win-design .fg-page i { display: none; }
+#win-design .fg-page.on { background: #f5f5f5; font-weight: 600; color: #1e1e1e; }
+#win-design .fg-layers { padding: 0 8px 20px; }
+#win-design .fg-layer { height: 32px; gap: 8px; border-radius: 0; color: #1e1e1e; font-size: 11px; font-weight: 400; overflow: hidden; }
+#win-design .fg-layer .lic { width: 16px; height: 16px; justify-content: center; align-items: center; color: #8c8c8c; }
+#win-design .fg-layer .lic svg { width: 16px; height: 16px; }
+#win-design .fg-layer.frame { font-weight: 400; }
+#win-design .fg-layer.frame .lic, #win-design .fg-layer.text .lic { color: #8c8c8c; }
+#win-design .fg-layer.sel { background: #e5f4ff; color: #1e1e1e; border-radius: 5px; }
+#win-design .fg-layer.sel .lic { color: #1e1e1e; }
+#win-design .fg-layer.component, #win-design .fg-layer.component .lic, #win-design .fg-layer.instance, #win-design .fg-layer.instance .lic { color: #9747ff; }
+/* Assets tab */
+#win-design .fg-search { margin: 12px 12px 4px 16px; height: 28px; border-radius: 5px; background: #f5f5f5; color: #8c8c8c; padding: 0 8px; gap: 8px; font-size: 11px; }
+#win-design .fg-alib { display: flex; align-items: center; height: 32px; padding: 0 12px 0 16px; font-size: 11px; color: #757575; }
+#win-design .fg-alib .ac { margin-left: auto; display: flex; color: #1e1e1e; }
+#win-design .fg-lpane[data-lpane="assets"] .fg-sec-h { height: 32px; font-weight: 500; color: #1e1e1e; }
+#win-design .fg-assets { gap: 8px; padding: 0 16px 10px; }
+#win-design .fg-asset { font-size: 11px; color: #1e1e1e; gap: 4px; }
+#win-design .fg-asset .th { border-radius: 5px; background-color: #f5f5f5; box-shadow: none; }
+/* canvas */
+#win-design .fg-canvas { background: #f5f5f5; }
+#win-design .fg-flabel { color: #8c8c8c; font-weight: 400; }
+#win-design .fg-fbody { box-shadow: none; }
+#win-design .fg-sel { border-width: 1px; }
+#win-design .fg-sel .h { width: 6px; height: 6px; border-width: 1px; margin: -4px 0 0 -4px; }
+#win-design .fg-sel-size { font-size: 10px; line-height: 16px; padding: 0 4px; border-radius: 2px; font-weight: 500; transform: translate(-50%, 6px); }
+#win-design .fg-hov { border-width: 1.5px; }
+/* floating toolbar */
+.fg-toolbar { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); height: 48px; background: #fff; border-radius: 13px; box-shadow: 0 0 .5px rgba(0, 0, 0, .18), 0 3px 8px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .1); display: flex; align-items: center; padding: 0 8px; gap: 2px; z-index: 6; }
+.fg-toolbar .fg-tool { width: auto; min-width: 32px; height: 32px; border-radius: 6px; color: #1e1e1e; background: none; display: flex; align-items: center; justify-content: center; }
+.fg-toolbar .fg-tool svg { width: 20px; height: 20px; }
+.fg-toolbar .fg-tool.active { background: #0d99ff; color: #fff; }
+.fg-toolbar .fg-tool.is-hover:not(.active) { background: #f5f5f5; }
+.fg-toolbar .dd { width: 12px; display: flex; justify-content: center; color: #1e1e1e; margin-right: 4px; }
+.fg-toolbar .div { width: 1px; height: 48px; background: #e6e6e6; margin: 0 6px; }
+.fg-toolbar .modes { display: flex; background: #f5f5f5; border-radius: 8px; padding: 2px; gap: 2px; }
+.fg-toolbar .modes span { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #8c8c8c; }
+.fg-toolbar .modes span svg { width: 18px; height: 18px; }
+.fg-toolbar .modes span.on { background: #fff; color: #1e1e1e; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .08); }
+#win-design.devmode .fg-toolbar .fg-tool.active { background: #14ae5c; color: #fff; }
+#win-design.devmode .fg-toolbar .modes span.on { color: #14ae5c; }
+#win-design.devmode .fg-share { background: #14ae5c; }
+.fg-help { position: absolute; right: 12px; bottom: 12px; width: 24px; height: 24px; border-radius: 50%; background: #1e1e1e; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 11px; z-index: 6; }
+/* right sidebar */
+#win-design .fg-rightpanel { width: 241px; color: #1e1e1e; font-size: 11px; border-left: 1px solid #e6e6e6; display: flex; flex-direction: column; }
+.fg-rh1 { height: 48px; flex: none; display: flex; align-items: center; padding: 0 8px 0 12px; gap: 4px; }
+#win-design .fg-avatar { width: 24px; height: 24px; font-size: 11px; background: #f24e1e; }
+.fg-rh1 .play { margin-left: auto; display: flex; align-items: center; gap: 2px; padding: 0 6px; }
+#win-design .fg-share { height: 32px; padding: 0 12px; border-radius: 5px; font-size: 11px; display: flex; align-items: center; margin: 0; }
+#win-design .fg-rtabs { height: 40px; padding: 0 8px; gap: 2px; border-bottom: 1px solid #e6e6e6; font-weight: 500; color: #757575; flex: none; }
+#win-design .fg-rtabs span { height: 24px; padding: 0 8px; border-radius: 5px; display: flex; align-items: center; }
+#win-design .fg-rtabs span.on { background: #f5f5f5; color: #1e1e1e; font-weight: 600; }
+#win-design .fg-rtabs .zm { margin-left: auto; display: flex; align-items: center; gap: 4px; padding-right: 4px; color: #1e1e1e; font-weight: 400; background: none; }
+#win-design .fg-zoom { width: auto; color: #1e1e1e; font-size: 11px; text-align: left; }
+#win-design .fg-props { flex: 1; overflow: hidden; }
+#win-design .fg-ps { border-bottom: 1px solid #e6e6e6; padding: 10px 12px 12px 16px; }
+#win-design .fg-ps.h { padding: 0 12px 0 16px; height: 41px; display: flex; align-items: center; }
+#win-design .fg-ps-h { display: flex; align-items: center; justify-content: flex-start; font-weight: 600; height: 22px; margin-bottom: 6px; color: #1e1e1e; }
+#win-design .fg-ps.h .fg-ps-h { margin: 0; flex: 1; gap: 4px; }
+#win-design .fg-ps.em .fg-ps-h, #win-design .fg-ps.em .fg-ps-h .ic { color: #757575; }
+#win-design .fg-ps-h .ic { margin-left: auto; display: flex; align-items: center; gap: 8px; color: #1e1e1e; }
+#win-design .fg-ps-h .ic svg { width: 16px; height: 16px; }
+#win-design .fg-ps .sub { color: #757575; height: 16px; margin: 4px 0; }
+#win-design .fg-row { display: flex; grid-template-columns: none; gap: 8px; align-items: center; margin-bottom: 4px; }
+#win-design .fg-in { height: 24px; flex: 1; min-width: 0; background: #f5f5f5; border-radius: 5px; padding: 0 8px; gap: 8px; color: #1e1e1e; border: 1px solid transparent; box-sizing: border-box; }
+#win-design .fg-in .k { color: #8c8c8c; display: flex; }
+#win-design .fg-in .k svg { width: 14px; height: 14px; }
+#win-design .fg-in .v { color: #1e1e1e; }
+#win-design .fg-in .s { margin-left: auto; color: #757575; display: flex; align-items: center; gap: 3px; }
+#win-design .fg-in.focus { background: #fff; border-color: #0d99ff; box-shadow: none; }
+#win-design .fg-in.fill { padding-right: 0; }
+#win-design .fg-in.fill .op { margin-left: auto; border-left: 1px solid #fff; height: 22px; display: flex; align-items: center; padding: 0 8px; gap: 3px; }
+#win-design .fg-in.fill .op i { font-style: normal; color: #8c8c8c; }
+#win-design .fg-in .sw { width: 14px; height: 14px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); flex: none; background-size: cover; background-position: center; }
+#win-design .fg-var { background: #fff; border: 1px solid #e6e6e6; border-radius: 4px; padding: 0 6px 0 4px; height: 18px; gap: 6px; }
+#win-design .fg-var .sw { width: 12px; height: 12px; border-radius: 2px; }
+.fg-ib { width: 24px; height: 24px; flex: none; display: flex; align-items: center; justify-content: center; color: #1e1e1e; border-radius: 5px; }
+.fg-ib svg { width: 16px; height: 16px; }
+.fg-seg { flex: 1; height: 24px; background: #f5f5f5; border-radius: 5px; display: flex; padding: 2px; gap: 2px; box-sizing: border-box; }
+.fg-seg span { flex: 1; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #757575; }
+.fg-seg span.on { background: #fff; color: #1e1e1e; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .12); }
+.fg-chk { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.fg-chk i { width: 14px; height: 14px; border-radius: 3px; background: #1e1e1e; display: flex; align-items: center; justify-content: center; }
+.fg-dd2 { height: 24px; flex: 1; min-width: 0; border: 1px solid #e6e6e6; border-radius: 5px; display: flex; align-items: center; padding: 0 6px 0 8px; background: #fff; white-space: nowrap; overflow: hidden; box-sizing: border-box; }
+.fg-dd2 .c { margin-left: auto; display: flex; }
+#win-design .fg-in .v .caret { margin-right: 0; }
+/* frame presets (frame tool) */
+.fg-pre { padding: 4px 8px; }
+.fg-pre .g { height: 32px; display: flex; align-items: center; gap: 6px; padding: 0 8px; border-radius: 5px; font-weight: 600; color: #1e1e1e; }
+.fg-pre .g .cv { width: 12px; display: flex; justify-content: center; }
+.fg-pre .it { height: 32px; display: flex; align-items: center; padding: 0 8px 0 26px; border-radius: 5px; color: #1e1e1e; }
+.fg-pre .it small { margin-left: auto; color: #8c8c8c; font-size: 11px; }
+.fg-pre .it.is-hover, .fg-pre .g.is-hover { background: #f5f5f5; }
+/* variables view (opened from バリアブル in the navigation bar) */
+#win-design .fg-modal { left: 60px; top: 47px; width: 860px; height: 520px; transform: translateY(6px); border-radius: 13px; overflow: hidden; display: flex; font-size: 11px; color: #1e1e1e;
+  box-shadow: 0 0 .5px rgba(0, 0, 0, .3), 0 10px 24px rgba(0, 0, 0, .18), 0 2px 5px rgba(0, 0, 0, .15); z-index: 8; }
+#win-design .fg-modal.show { transform: none; }
+.fg-vside { width: 216px; flex: none; border-right: 1px solid #e6e6e6; display: flex; flex-direction: column; }
+.fg-vside .hd { height: 44px; display: flex; align-items: center; padding: 0 10px 0 14px; border-bottom: 1px solid #e6e6e6; font-weight: 600; }
+.fg-vside .hd span { margin-left: auto; display: flex; }
+.fg-vside .sh { height: 40px; display: flex; align-items: center; padding: 0 10px 0 14px; font-weight: 600; }
+.fg-vside .sh span { margin-left: auto; display: flex; }
+.fg-vside .grp { padding: 0 8px 8px; border-bottom: 1px solid #e6e6e6; }
+.fg-vside .grp:last-child { border-bottom: 0; }
+#win-design .fg-vcoll, .fg-vgrp { height: 28px; display: flex; align-items: center; padding: 0 8px; border-radius: 5px; color: #1e1e1e; font-size: 11px; font-weight: 400; }
+#win-design .fg-vcoll.on { background: #f5f5f5; color: #1e1e1e; font-weight: 600; }
+.fg-vgrp.on { background: #e5f4ff; font-weight: 600; }
+#win-design .fg-vcoll em, .fg-vgrp em { margin-left: auto; font-style: normal; color: #8c8c8c; font-weight: 400; }
+.fg-vmain { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.fg-vmain .top { height: 44px; display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 0 10px; border-bottom: 1px solid #e6e6e6; }
+.fg-vmain .sr { width: 190px; height: 28px; border-radius: 5px; background: #f5f5f5; display: flex; align-items: center; gap: 6px; padding: 0 4px 0 8px; color: #8c8c8c; box-sizing: border-box; }
+.fg-vmain .sr .f { margin-left: auto; display: flex; color: #757575; }
+.fg-vmain .top > span { display: flex; color: #1e1e1e; }
+#win-design .fg-vtable { flex: 1; padding: 0; font-size: 11px; overflow: hidden; }
+#win-design .fg-vrow { grid-template-columns: 1fr 1fr 44px; height: 36px; padding: 0; border-bottom: 1px solid #e6e6e6; }
+#win-design .fg-vrow > span { height: 100%; display: flex; align-items: center; padding: 0 14px; border-right: 1px solid #e6e6e6; min-width: 0; overflow: hidden; white-space: nowrap; }
+#win-design .fg-vrow > span:last-child { border-right: 0; justify-content: center; padding: 0; }
+#win-design .fg-vrow.head { color: #1e1e1e; font-weight: 600; font-size: 11px; height: 36px; }
+#win-design .fg-vrow .nm { gap: 10px; color: #1e1e1e; }
+#win-design .fg-vrow .nm svg { width: 16px; height: 16px; color: #1e1e1e; }
+#win-design .fg-vrow .vl { gap: 8px; color: #1e1e1e; font-family: inherit; font-size: 11px; }
+#win-design .fg-vrow .vl .sw { width: 16px; height: 16px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); flex: none; }
+/* NOT A HOTEL extras (UI3 as of 2026-11): Dev Mode toolbar and inspect panel, component properties, local styles */
+.fg-toolbar .fg-devonly { display: none; }
+#win-design.devmode .fg-toolbar .fg-devonly { display: flex; }
+#win-design.devmode .fg-toolbar :is([data-tool="frame"], [data-tool="rect"], [data-tool="pen"], [data-tool="text"], [data-tool="code"], [data-tool="actions"]),
+#win-design.devmode .fg-toolbar :is([data-tool="frame"], [data-tool="rect"], [data-tool="pen"], [data-tool="text"]) + .dd { display: none; }
+#win-design.devmode .fg-toolbar .modes span[data-m="design"] { background: none; box-shadow: none; color: #8c8c8c; }
+#win-design.devmode .fg-toolbar .modes span[data-m="dev"] { background: #fff; color: #14ae5c; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .08); }
+#win-design.devmode .fg-sel, #win-design.devmode .fg-sel .h { border-color: #14ae5c !important; }
+#win-design.devmode .fg-sel .fg-sel-size { background: #14ae5c; color: #fff; }
+/* local styles (nothing selected) */
+.fg-sty .sub { color: #757575; margin: 2px 0 2px; }
+.fg-sty .it { height: 28px; display: flex; align-items: center; gap: 8px; color: #1e1e1e; }
+.fg-sty .it b { width: 16px; font-size: 11px; font-weight: 600; text-align: center; }
+.fg-sty .it .sw { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); margin: 0 1px; }
+/* component properties */
+#win-design .fg-prop { height: 28px; margin: 0 0 2px; padding: 0; background: none; color: #1e1e1e; border-radius: 0; justify-content: flex-start; gap: 8px; }
+#win-design .fg-prop .pi { display: flex; color: #1e1e1e; }
+#win-design .fg-prop .pi svg { width: 14px; height: 14px; }
+#win-design .fg-prop .pk { font-weight: 400; color: #1e1e1e; width: 84px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#win-design .fg-prop .pv { margin-left: auto; color: #757575; max-width: 100px; }
+#win-design .fg-prop .fg-dd2 { flex: 1; }
+/* Dev Mode: インスペクト */
+.fg-insp .lh { padding: 12px 12px 10px 16px; border-bottom: 1px solid #e6e6e6; }
+.fg-insp .lh b { display: flex; align-items: center; font-size: 13px; font-weight: 600; gap: 6px; }
+.fg-insp .lh b .ac { margin-left: auto; display: flex; gap: 10px; }
+.fg-insp .lh .m { display: flex; align-items: center; gap: 6px; color: #757575; margin-top: 8px; }
+.fg-insp .row2 { display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; height: 40px; border-bottom: 1px solid #e6e6e6; font-weight: 600; }
+.fg-insp .row2 .r { margin-left: auto; display: flex; }
+.fg-insp .row2.lp { border-bottom: 0; padding-left: 30px; }
+.fg-insp .fg-box { margin: 0 12px 10px 16px; background: #f5f5f5; border-radius: 6px; height: 112px; position: relative; color: #757575; font-size: 10px; }
+.fg-insp .fg-box .b1 { position: absolute; inset: 14px 18px; border: 1px dashed #c4c4c4; }
+.fg-insp .fg-box .b2 { position: absolute; inset: 34px 36px; background: #e5f4ff; border: 1px solid #0d99ff; }
+.fg-insp .fg-box .b3 { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border: 1px dashed #1e1e1e; background: #fff; color: #1e1e1e; padding: 2px 8px; white-space: nowrap; font-size: 11px; }
+.fg-insp .fg-box .l1 { position: absolute; left: 24px; top: 15px; }
+.fg-insp .fg-box .l2 { position: absolute; left: 42px; top: 35px; }
+.fg-insp .fg-lc { display: flex; align-items: center; justify-content: space-between; margin: 0 12px 12px 16px; }
+.fg-insp .fg-seg2 { display: flex; background: #f5f5f5; border-radius: 5px; padding: 2px; }
+.fg-insp .fg-seg2 span { padding: 0 8px; height: 22px; display: flex; align-items: center; color: #8c8c8c; border-radius: 4px; }
+.fg-insp .fg-seg2 span.on { background: #fff; color: #1e1e1e; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .12); }
+.fg-insp .fg-dd { height: 24px; border: 1px solid #e6e6e6; border-radius: 5px; padding: 0 6px 0 8px; display: flex; align-items: center; gap: 6px; font-weight: 500; box-sizing: border-box; }
+.fg-code2 { margin: 0 12px 8px 16px; }
+.fg-code2 .ch { height: 30px; display: flex; align-items: center; padding: 0 2px; font-size: 12px; color: #1e1e1e; }
+.fg-code2 .ch .cp { margin-left: auto; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: #444; }
+.fg-code2 .cb { border: 1px solid #e6e6e6; border-radius: 6px; background: #fff; overflow: hidden; }
+.fg-code2 pre { margin: 0; padding: 6px 10px 8px 0; font: 11px/19px 'Roboto Mono', Consolas, monospace; color: #1e1e1e; white-space: pre; overflow: hidden; background: linear-gradient(90deg, transparent 31px, #e6e6e6 31px, #e6e6e6 32px, transparent 32px); }
+.fg-code2 pre .n { display: inline-block; width: 22px; text-align: right; color: #b3b3b3; margin-right: 14px; }
+.fg-code2 pre .v { color: #d6229b; }
+/* plugin window (Figma's plugin frame: white title bar with the plugin name and close) */
+#win-design .fg-plugin { border-radius: 13px; overflow: hidden; box-shadow: 0 0 .5px rgba(0, 0, 0, .3), 0 10px 24px rgba(0, 0, 0, .18), 0 2px 5px rgba(0, 0, 0, .15); font-family: inherit; }
+#win-design .fg-plugin-h { height: 41px; font-size: 11px; font-weight: 600; border-bottom: 1px solid #e6e6e6; padding: 0 8px 0 16px; }

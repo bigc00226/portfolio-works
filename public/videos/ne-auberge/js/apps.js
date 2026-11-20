@@ -31,6 +31,46 @@
   }
   function varOfColor(hex) { return COLOR_VARS.find((k) => hex6(ROOT_VARS[k]) === hex) || ''; }
 
+  // Figma's own glyphs (UI3, 2026): layer types, right-sidebar controls, variable types
+  const fsv = (w, b, sw = 1) => `<svg width="${w}" height="${w}" viewBox="0 0 ${w} ${w}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
+  const FG = {
+    frame: fsv(16, '<path d="M5.5 2v12M10.5 2v12M2 5.5h12M2 10.5h12"/>'),
+    section: fsv(16, '<path d="M5.5 2v12M10.5 2v12M2 5.5h12M2 10.5h12"/>'),
+    text: fsv(16, '<path d="M3.5 3.5h9M8 3.5v9.5"/>'),
+    image: fsv(16, '<rect x="2.5" y="3" width="11" height="10" rx="1"/><circle cx="6" cy="6.5" r="1"/><path d="m2.5 11.5 3.2-3 2.4 2.2 2.2-1.8 3.2 2.8"/>'),
+    group: fsv(16, '<rect x="3" y="3" width="10" height="10" rx=".5" stroke-dasharray="2 1.6"/>'),
+    component: fsv(16, '<path d="M8 2 10 4 8 6 6 4zM12 6l2 2-2 2-2-2zM8 10l2 2-2 2-2-2zM4 6l2 2-2 2-2-2z"/>'),
+    instance: fsv(16, '<path d="M8 2.6 13.4 8 8 13.4 2.6 8z"/>'),
+    rect: fsv(16, '<rect x="3" y="3" width="10" height="10" rx=".5"/>'),
+    chev: fsv(10, '<path d="M2.5 4 5 6.5 7.5 4"/>', 1.2),
+    chevR: fsv(10, '<path d="M4 2.5 6.5 5 4 7.5"/>', 1.2),
+    plus: fsv(16, '<path d="M8 3.5v9M3.5 8h9"/>'),
+    minus: fsv(16, '<path d="M3.5 8h9"/>'),
+    eye: fsv(16, '<path d="M1.8 8S4.2 3.8 8 3.8 14.2 8 14.2 8 11.8 12.2 8 12.2 1.8 8 1.8 8z"/><circle cx="8" cy="8" r="2"/>'),
+    styles: fsv(16, '<circle cx="5" cy="5" r="1.6"/><circle cx="11" cy="5" r="1.6"/><circle cx="5" cy="11" r="1.6"/><circle cx="11" cy="11" r="1.6"/>'),
+    pageIc: fsv(16, '<rect x="3" y="2.5" width="6.5" height="11" rx="1.5"/><path d="M9.5 5.5h1.5a2 2 0 0 1 2 2v1.5a2 2 0 0 1-2 2h-1.5"/>'),
+    code: fsv(16, '<path d="m5.5 4.5-3.5 3.5 3.5 3.5M10.5 4.5 14 8l-3.5 3.5"/>'),
+    dots: fsv(16, '<circle cx="3.5" cy="8" r=".6" fill="currentColor"/><circle cx="8" cy="8" r=".6" fill="currentColor"/><circle cx="12.5" cy="8" r=".6" fill="currentColor"/>'),
+    tune: fsv(16, '<path d="M4 2.5v11M12 2.5v11M8 2.5v11"/><circle cx="4" cy="10" r="1.5" fill="#fff"/><circle cx="12" cy="6" r="1.5" fill="#fff"/><circle cx="8" cy="8" r="1.5" fill="#fff"/>'),
+    alV: fsv(16, '<rect x="3" y="4" width="7" height="2.6" rx=".8"/><rect x="3" y="9.4" width="10" height="2.6" rx=".8"/>'),
+    // variable types: colour (palette), number (#), string (Aa-like)
+    vColor: fsv(16, '<path d="M8 2.5a5.5 5.5 0 0 0 0 11c.9 0 1.3-.6 1.1-1.3-.3-.9.3-1.7 1.2-1.7H12a1.5 1.5 0 0 0 1.5-1.5A5.5 5.5 0 0 0 8 2.5z"/><circle cx="5.3" cy="7.2" r=".7"/><circle cx="7.6" cy="5.1" r=".7"/><circle cx="10.4" cy="5.8" r=".7"/>'),
+    vNum: fsv(16, '<path d="M6.2 3 5 13M11 3 9.8 13M3 6h10.5M2.5 10H13"/>'),
+    vStr: fsv(16, '<path d="M2.5 12.5 5.5 4l3 8.5M3.6 9.6h3.8M10 8.3c.4-.6 1-.9 1.7-.9 1 0 1.8.6 1.8 1.7v3.4M13.5 10.2c-.6-.3-1.2-.4-1.8-.4-1 0-1.8.5-1.8 1.4 0 .8.7 1.3 1.5 1.3.9 0 1.7-.5 2.1-1.2"/>'),
+  };
+  const fA = (b) => fsv(14, b);
+  const fSeg = (icons, on = -1) => `<span class="fg-seg">${icons.map((ic, i) => `<span${i === on ? ' class="on"' : ''}>${ic}</span>`).join('')}</span>`;
+  /** right-sidebar section: title + action icons; empty sections have a grey title */
+  const fSec = (title, body, ac = FG.plus) => `<div class="fg-ps${body ? '' : ' h em'}"><div class="fg-ps-h">${title}<span class="ic">${ac}</span></div>${body || ''}</div>`;
+  const fIn = (k, v, o = {}) => `<div class="fg-in${o.cls ? ' ' + o.cls : ''}"${o.f ? ` data-f="${o.f}"` : ''}>${k ? `<span class="k">${k}</span>` : ''}<span class="v">${v}</span>${o.s ? `<span class="s">${o.s}</span>` : ''}</div>`;
+  /** 位置 (alignment, X / Y, rotation) — the same block for frames, text and images */
+  const fPos = (x, y) => fSec('位置', `<div class="sub">配置</div><div class="fg-row">${fSeg([fA('<path d="M2.5 2v10M5 4.5h7M5 9.5h4"/>'), fA('<path d="M7 2v10M3 4.5h8M4.5 9.5h5"/>'), fA('<path d="M11.5 2v10M2 4.5h7M5 9.5h4"/>')])}${fSeg([fA('<path d="M2 2.5h10M4.5 5v7M9.5 5v4"/>'), fA('<path d="M2 7h10M4.5 3v8M9.5 4.5v5"/>'), fA('<path d="M2 11.5h10M4.5 2v7M9.5 5v4"/>')])}</div>
+        <div class="sub">位置</div><div class="fg-row">${fIn('X', x)}${fIn('Y', y)}</div>
+        <div class="sub">回転</div><div class="fg-row">${fIn(fA('<path d="M3 3v8h8M3 7.5a4 4 0 0 1 3.5 3.5"/>'), '0°')}${fSeg([fA('<path d="M4 3.5a5 5 0 1 1-1 5.5"/><path d="M4 1.5v2h2"/>'), fA('<path d="M7 2v10M2.5 4v6l3-3zM11.5 4v6l-3-3z"/>'), fA('<path d="M2 7h10M4 2.5h6l-3 3zM4 11.5h6l-3-3z"/>')])}</div>`, '');
+  const fLook = (o = {}) => fSec('外見', `<div class="fg-row" style="color:#757575;margin:0 0 4px"><span style="flex:1">不透明度</span><span style="flex:1">角の半径</span></div><div class="fg-row">${fIn(fA('<rect x="2" y="2" width="10" height="10" rx="1" stroke-dasharray="1.5 1.5"/>'), '100%')}${fIn(fA('<path d="M2 7V4a2 2 0 0 1 2-2h3"/>'), '0', { cls: o.text ? 'dis' : '' })}<span class="fg-ib">${fA('<path d="M2 5V2.5h2.5M9.5 2.5H12V5M12 9v2.5H9.5M4.5 11.5H2V9"/>')}</span></div>`, `${FG.eye}${fsv(16, '<path d="M8 2.5 12 8a4 4 0 1 1-8 0z"/>')}`);
+  const fHead = (t, ac) => `<div class="fg-ps h"><div class="fg-ps-h">${t} ${FG.chev}<span class="ic">${ac || `${FG.code}${FG.dots}`}</span></div></div>`;
+  const fResize = `<span class="fg-ib">${fA('<path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9"/>')}</span>`;
+
   const Design = {
     cam: { x: 0, y: 0, z: 0.5 },
     frames: {},
@@ -50,7 +90,7 @@
       const { x, y, z } = this.cam;
       this.world.style.transform = `translate(${(-x * z).toFixed(2)}px, ${(-y * z).toFixed(2)}px) scale(${z})`;
       $('#fgZoom').textContent = Math.round(z * 100) + '%';
-      Object.values(this.frames).forEach((f) => { f.label.style.fontSize = 12 / z + 'px'; f.label.style.paddingBottom = 5 / z + 'px'; });
+      Object.values(this.frames).forEach((f) => { f.label.style.fontSize = 11 / z + 'px'; f.label.style.paddingBottom = 4 / z + 'px'; });
     },
     view() { const r = this.canvas.getBoundingClientRect(); return { w: r.width, h: r.height, r }; },
     /** camera that shows world rect (x, y, w, h) — anchored top-left with padding */
@@ -145,10 +185,9 @@
   const Layers = {
     items: [],
     render() {
-      const IC = { frame: 'frame', section: 'square', text: 'type', image: 'image', group: 'layers', component: 'blocks' };
       $('#fgLayers').innerHTML = this.items.map((it) =>
-        `<div class="fg-layer ${it.kind}${it.sel ? ' sel' : ''}${it.isNew ? ' new' : ''}" data-key="${it.key}" style="padding-left:${8 + it.depth * 16}px">` +
-        `<span class="lic">${icon(IC[it.kind] || 'square')}</span><span>${esc(it.name)}</span></div>`).join('');
+        `<div class="fg-layer ${it.kind}${it.sel ? ' sel' : ''}${it.isNew ? ' new' : ''}" data-key="${it.key}" style="padding-left:${10 + it.depth * 24}px">` +
+        `<span class="lic">${FG[it.kind] || FG.rect}</span><span>${esc(it.name)}</span></div>`).join('');
       this.items.forEach((it) => { it.isNew = false; });
     },
     add(item, o = {}) {
@@ -168,87 +207,117 @@
     el(key) { return $(`.fg-layer[data-key="${key}"]`); },
   };
 
+  /* right sidebar (デザイン tab) — UI3 as of 2026-11: sections 位置 / レイアウト / 外見 / タイポグラフィ / 塗り / 線 /
+     エフェクト / エクスポート; nothing selected: ページ / スタイル / エクスポート (variables moved to the navigation bar) */
   const Props = {
     root() { return $('#fgProps'); },
     empty() {
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-ps-h">ページ</div>
-        <div class="fg-row one"><div class="fg-in"><span class="sw" style="background:#F0F0F0"></span><span class="v">F0F0F0</span><span class="k" style="margin-left:auto">100%</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">ローカル変数<span class="ic" id="fgVarsBtn">${icon('variable')}</span></div><div class="fg-hint">カラー・タイポグラフィ・余白の値を変数として定義し、デザインと実装（CSS カスタムプロパティ）で共有します。</div></div>
-        <div class="fg-ps"><div class="fg-ps-h">書き出し<span class="ic">${icon('plus')}</span></div></div>`;
+      this.root().innerHTML = fSec('ページ', `<div class="fg-row">${this.fillIn('#F5F5F5')}<span class="fg-ib">${FG.eye}</span></div>`, FG.pageIc) +
+        fSec('スタイル', '') + fSec('エクスポート', '');
     },
+    /** frame tool: the preset list (groups collapsed except デスクトップ) */
     presets() {
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-ps-h">フレーム</div>
-        <div class="fg-hint" style="margin-bottom:8px">デスクトップ</div>
-        <div class="fg-row one"><div class="fg-in" data-preset="desktop"><span class="v">Desktop</span><span class="k" style="margin-left:auto">1440 × 900</span></div></div>
-        <div class="fg-row one"><div class="fg-in"><span class="v">MacBook Air</span><span class="k" style="margin-left:auto">1280 × 832</span></div></div>
-        <div class="fg-hint" style="margin:12px 0 8px">スマートフォン</div>
-        <div class="fg-row one"><div class="fg-in"><span class="v">iPhone 13 mini</span><span class="k" style="margin-left:auto">375 × 812</span></div></div>
-        <div class="fg-row one"><div class="fg-in"><span class="v">iPhone 16</span><span class="k" style="margin-left:auto">393 × 852</span></div></div></div>`;
+      const G = ['スマートフォン', 'タブレット', 'デスクトップ', 'プレゼンテーション', 'ウォッチ', '用紙', 'ソーシャルメディア', 'Figma コミュニティ', 'アーカイブ'];
+      const DESK = [['MacBook Air', '1280×832'], ['MacBook Pro 14インチ', '1512×982'], ['MacBook Pro 16インチ', '1728×1117'], ['デスクトップ', '1440×1024', 'desktop'], ['ワイヤーフレーム', '1440×1024'], ['TV', '1280×720']];
+      this.root().innerHTML = `<div class="fg-ps h"><div class="fg-ps-h">フレーム</div></div><div class="fg-pre">${G.map((g) => g === 'デスクトップ'
+        ? `<div class="g"><span class="cv">${FG.chev}</span>${g}</div>${DESK.map(([n, s, k]) => `<div class="it"${k ? ` data-preset="${k}"` : ''}><span>${n}</span><small>${s}</small></div>`).join('')}`
+        : `<div class="g"><span class="cv">${FG.chevR}</span>${g}</div>`).join('')}</div>`;
     },
-    fillRow(hex, label) {
+    /** a fill input: a colour variable shows as a chip with its name, otherwise the hex value */
+    fillIn(hex, o = {}) {
       const v = varOfColor(hex);
-      return `<div class="fg-row one"><div class="fg-in" data-f="fill">${v ? `<span class="fg-var"><span class="sw" style="background:${hex}"></span>${esc(v.replace('--', ''))}</span><span class="k" style="margin-left:auto">${hex.slice(1)}</span>` : `<span class="sw" style="background:${hex}"></span><span class="v">${hex.slice(1)}</span>`}</div></div>`;
+      const body = o.img ? `<span class="sw" style="background-image:url(${o.img})"></span><span class="v">画像</span>`
+        : v ? `<span class="fg-var"><span class="sw" style="background:${hex}"></span>${esc(v.replace('--', ''))}</span>`
+          : `<span class="sw" style="background:${hex}"></span><span class="v">${hex.slice(1)}</span>`;
+      return `<div class="fg-in fill" data-f="fill">${body}<span class="op">100 <i>%</i></span></div>`;
     },
+    fillRow(hex, o = {}) { return `<div class="fg-row">${this.fillIn(hex, o)}<span class="fg-ib">${FG.eye}</span><span class="fg-ib">${FG.minus}</span></div>`; },
+    fills(rows) { return fSec('塗り', rows, `${FG.styles}${FG.plus}`); },
     frame(f) {
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title">${icon('frame')}${esc(f.name)}<small>フレーム</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">フレーム</div>
-          <div class="fg-row"><div class="fg-in"><span class="k">X</span><span class="v">${Math.round(f.x)}</span></div><div class="fg-in"><span class="k">Y</span><span class="v">${Math.round(f.y)}</span></div></div>
-          <div class="fg-row"><div class="fg-in" data-f="w"><span class="k">W</span><span class="v">${f.w}</span></div><div class="fg-in" data-f="h"><span class="k">H</span><span class="v">${f.h}</span></div></div>
-          <div class="fg-row one"><div class="fg-in"><span class="k">${icon('check')}</span><span class="v">コンテンツをクリップ</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">塗り<span class="ic">${icon('plus')}</span></div>${this.fillRow('#F7F7F6')}</div>
-        <div class="fg-ps"><div class="fg-ps-h">レイアウトグリッド<span class="ic">${icon('plus')}</span></div>
-          <div class="fg-row one"><div class="fg-in"><span class="v">最大幅 72rem（1152）・余白 clamp(1.5rem, 1rem + 3vw, 4rem)</span></div></div></div>`;
+      this.root().innerHTML = fHead('フレーム') + fPos(Math.round(f.x), Math.round(f.y)) +
+        fSec('レイアウト', `<div class="sub">サイズ</div><div class="fg-row">${fIn('W', f.w, { f: 'w' })}${fIn('H', f.h, { f: 'h' })}${fResize}</div>
+          <div class="fg-chk"><i>${fsv(10, '<path d="m2.5 5 2 2 3.5-4" stroke="#fff"/>', 1.4)}</i>コンテンツを隠す</div>`, `${fsv(16, '<path d="M3 3l3 3M13 3l-3 3M3 13l3-3M13 13l-3-3"/>')}${FG.alV}`) +
+        fLook() + this.fills(this.fillRow('#F7F7F6')) + fSec('線', '') + fSec('エフェクト', '') + fSec('レイアウトガイド', '') + fSec('エクスポート', '');
     },
     text(el, name) {
       const cs = el.ownerDocument.defaultView.getComputedStyle(el);
+      const r = el.getBoundingClientRect();
       const size = parseFloat(cs.fontSize);
       const lh = cs.lineHeight === 'normal' ? 0 : parseFloat(cs.lineHeight);
       const ls = parseFloat(cs.letterSpacing) || 0;
       const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim();
+      const wt = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold' }[cs.fontWeight] || 'Regular';
       const hex = rgbToHex(cs.color);
       const r1 = (n) => Math.round(n * 10) / 10;
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title">${icon('type')}${esc(name)}<small>テキスト</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">タイポグラフィ<span class="ic">${icon('settings')}</span></div>
-          <div class="fg-row one"><div class="fg-in"><span class="v" style="font-family:'Yu Mincho',serif">${esc(fam)}</span></div></div>
-          <div class="fg-row"><div class="fg-in"><span class="v">Regular</span></div><div class="fg-in" data-f="size"><span class="v">${r1(size)}</span></div></div>
-          <div class="fg-row"><div class="fg-in"><span class="k">行間</span><span class="v">${lh ? Math.round((lh / size) * 100) + '%' : 'Auto'}</span></div><div class="fg-in"><span class="k">字間</span><span class="v">${Math.round((ls / size) * 100)}%</span></div></div>
-          <div class="fg-row"><div class="fg-in"><span class="k">${icon('align-c')}</span><span class="v">${cs.textAlign === 'center' ? '中央揃え' : '左揃え'}</span></div><div class="fg-in" data-f="wrap"><span class="k">${icon('text')}</span><span class="v">${cs.whiteSpace === 'nowrap' ? '自動幅' : '固定幅'}</span></div></div>
-        </div>
-        <div class="fg-ps"><div class="fg-ps-h">塗り<span class="ic">${icon('plus')}</span></div>${this.fillRow(hex)}</div>`;
+      const auto = cs.whiteSpace === 'nowrap';
+      const al = { center: 1, right: 2, end: 2 }[cs.textAlign] || 0;
+      void name;
+      this.root().innerHTML = fHead('テキスト') + fPos(Math.round(r.left), Math.round(r.top + el.ownerDocument.defaultView.scrollY)) +
+        fSec('レイアウト', `<div class="sub">サイズ変更</div><div class="fg-row" data-f="wrap">${fSeg([fA('<path d="M2.5 3v8M5 7h6.5M9.5 5l2 2-2 2"/>'), fA('<path d="M3 2.5h8M7 5v6.5M5 9.5l2 2 2-2"/>'), fA('<rect x="2.5" y="2.5" width="9" height="9" rx="1"/><path d="M5 5.5h4M5 8.5h3"/>')], auto ? 0 : 1)}</div>
+          <div class="fg-row" style="margin-top:8px">${fIn('W', Math.round(r.width), { s: auto ? '内包' : '' })}${fIn('H', Math.round(r.height), { s: '内包' })}${fResize}</div>`, '') +
+        fLook({ text: true }) +
+        fSec('タイポグラフィ', `<div class="fg-row"><span class="fg-dd2">${esc(fam)}<span class="c">${FG.chev}</span></span></div>
+          <div class="fg-row"><span class="fg-dd2">${wt}<span class="c">${FG.chev}</span></span><div class="fg-in fill" data-f="size"><span class="v">${r1(size)}</span><span class="op" style="width:28px;padding:0;justify-content:center">${FG.chev}</span></div></div>
+          <div class="fg-row" style="color:#757575;margin:4px 0"><span style="flex:1">行間</span><span style="flex:1">文字間隔</span></div>
+          <div class="fg-row">${fIn(fA('<path d="M3 2.5h8M3 11.5h8M5 9.5 7 4l2 5.5M5.7 7.8h2.6"/>'), lh ? Math.round((lh / size) * 100) + '%' : '自動')}${fIn(fA('<path d="M2 2v10M12 2v10M5 9.5 7 4l2 5.5"/>'), Math.round((ls / size) * 100) + '%')}</div>
+          <div class="sub">配置</div><div class="fg-row">${fSeg([fA('<path d="M2.5 3.5h9M2.5 7h6M2.5 10.5h9"/>'), fA('<path d="M2.5 3.5h9M4 7h6M2.5 10.5h9"/>'), fA('<path d="M2.5 3.5h9M5.5 7h6M2.5 10.5h9"/>')], al)}${fSeg([fA('<path d="M2.5 2.5h9M7 4.5v7M4.5 7 7 4.5 9.5 7"/>'), fA('<path d="M2.5 7h9M7 2v3M7 9v3"/>'), fA('<path d="M2.5 11.5h9M7 2.5v7M4.5 7 7 9.5 9.5 7"/>')], 0)}<span class="fg-ib">${FG.tune}</span></div>`, FG.styles) +
+        this.fills(this.fillRow(hex)) + fSec('線', '') + fSec('エフェクト', '');
     },
+    /** a frame whose fill is a photo (the hero section) */
     image(el, name, file) {
       const r = el.getBoundingClientRect();
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title">${icon('image')}${esc(name)}<small>セクション</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">レイアウト</div>
-          <div class="fg-row"><div class="fg-in"><span class="k">W</span><span class="v">${Math.round(r.width)}</span></div><div class="fg-in"><span class="k">H</span><span class="v">${Math.round(r.height)}</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">塗り<span class="ic">${icon('plus')}</span></div>
-          <div class="fg-row one"><div class="fg-in"><span class="sw" style="background:url(assets/photos/${file}.webp) center/cover"></span><span class="v">${file}.jpg</span><span class="k" style="margin-left:auto">フィル</span></div></div>
-          <div class="fg-row one"><div class="fg-in"><span class="sw" style="background:linear-gradient(#120f0c4d,#120f0c80)"></span><span class="v">グラデーション 30–50%</span></div></div></div>`;
+      void name;
+      this.root().innerHTML = fHead('フレーム') + fPos(Math.round(r.left), Math.round(r.top)) +
+        fSec('レイアウト', `<div class="sub">サイズ</div><div class="fg-row">${fIn('W', Math.round(r.width), { f: 'w' })}${fIn('H', Math.round(r.height), { f: 'h' })}${fResize}</div>
+          <div class="fg-chk"><i>${fsv(10, '<path d="m2.5 5 2 2 3.5-4" stroke="#fff"/>', 1.4)}</i>コンテンツを隠す</div>`, '') +
+        fLook() + this.fills(this.fillRow('', { img: `assets/photos/${file}.webp` })) + fSec('線', '') + fSec('エフェクト', '') + fSec('エクスポート', '');
     },
-    field(name) { return $(`.fg-in[data-f="${name}"]`, this.root()); },
+    field(name) { return $(`[data-f="${name}"]`, this.root()); },
     flash(name) { const f = this.field(name); if (f) { f.classList.remove('changed'); void f.offsetWidth; f.classList.add('changed'); } },
   };
 
+  /* variables view (navigation bar → バリアブル): collections on the left, 名前 / 値 table on the right */
   const Vars = {
-    open() { $('#fgVars').classList.add('show'); },
-    close() { $('#fgVars').classList.remove('show'); },
+    coll: 'color',
+    NAMES: { color: 'Color', type: 'Typography', space: 'Spacing' },
+    open() {
+      $('#fgVars').classList.add('show');
+      $$('.fg-rail .it').forEach((s) => s.classList.toggle('on', s.id === 'fgVarsBtn'));
+      this.counts();
+    },
+    close() {
+      $('#fgVars').classList.remove('show');
+      const pane = ($('.fg-lpane.on') || {}).dataset || {};
+      $$('.fg-rail .it').forEach((s) => s.classList.toggle('on', s.dataset.ltab === (pane.lpane || 'layers')));
+    },
     rows(coll) {
       const COLL = {
         color: COLOR_VARS.map((k) => [k, ROOT_VARS[k], 'color']),
-        type: ['--fs-display', '--fs-h1', '--fs-h2', '--fs-body', '--fs-caption', '--lh-body', '--lh-head', '--ls', '--serif'].filter((k) => ROOT_VARS[k]).map((k) => [k, ROOT_VARS[k], 'num']),
-        space: ['--section-y', '--gutter', '--maxw', '--measure', '--space-1', '--space-2', '--space-3', '--space-4'].filter((k) => ROOT_VARS[k]).map((k) => [k, ROOT_VARS[k], 'num']),
+        type: ['--fs-display', '--fs-h1', '--fs-h2', '--fs-body', '--fs-caption', '--lh-body', '--lh-head', '--ls', '--serif'].filter((k) => ROOT_VARS[k]).map((k) => [k, ROOT_VARS[k]]),
+        space: ['--section-y', '--gutter', '--maxw', '--measure', '--space-1', '--space-2', '--space-3', '--space-4'].filter((k) => ROOT_VARS[k]).map((k) => [k, ROOT_VARS[k]]),
       };
-      return COLL[coll] || [];
+      // Figma's number variables are unitless (px); anything else (clamp(), font stacks) is a string variable
+      return (COLL[coll] || []).map(([k, v, kind]) => {
+        if (kind) return [k, v, kind];
+        const m = String(v).trim().match(/^(-?[\d.]+)(px|rem|em)?$/);
+        return m ? [k, String(Math.round(parseFloat(m[1]) * (m[2] === 'rem' || m[2] === 'em' ? 16 : 1) * 100) / 100), 'num'] : [k, v, 'str'];
+      });
+    },
+    counts() {
+      $('#fgVarColls').innerHTML = Object.keys(this.NAMES).map((c) => `<div class="fg-vcoll${c === this.coll ? ' on' : ''}" data-coll="${c}">${this.NAMES[c]}<em>${this.rows(c).length}</em></div>`).join('');
+      $('#fgVarCount').textContent = this.rows(this.coll).length;
     },
     async show(coll, o = {}) {
+      this.coll = coll;
       $$('.fg-vcoll').forEach((c) => c.classList.toggle('on', c.dataset.coll === coll));
+      $('#fgVarCount').textContent = this.rows(coll).length;
       const t = $('#fgVarTable');
-      t.innerHTML = `<div class="fg-vrow head"><span>名前</span><span>値</span><span>CSS</span></div>`;
+      t.innerHTML = `<div class="fg-vrow head"><span>名前</span><span>値</span><span>${FG.plus}</span></div>`;
       for (const [k, v, kind] of this.rows(coll)) {
         const val = kind === 'color'
           ? `<span class="sw" style="background:${v}"></span>${hex6(v).slice(1)}`
           : esc(v.length > 34 ? v.slice(0, 33) + '…' : v);
-        t.insertAdjacentHTML('beforeend', `<div class="fg-vrow${Clock.ff ? '' : ' new'}"><span class="nm">${icon(kind === 'color' ? 'eye' : 'variable')}${esc(k.replace('--', ''))}</span><span class="vl">${val}</span><span class="vl" style="color:#888">var(${esc(k)})</span></div>`);
+        t.insertAdjacentHTML('beforeend', `<div class="fg-vrow${Clock.ff ? '' : ' new'}"><span class="nm">${kind === 'color' ? FG.vColor : kind === 'num' ? FG.vNum : FG.vStr}${esc(k.replace('--', ''))}</span><span class="vl">${val}</span><span></span></div>`);
         await kw(o.gap || 170);
       }
     },
@@ -377,7 +446,7 @@
       box.innerHTML = html;
       box.style.paddingTop = 2 - frac * LH + 'px';
       window.VSC.minimap($('#vsMini'), toks, this.top);
-      if (this.ins) $('#vsPos').textContent = `Ln ${this.ins.line + 1}, Col ${this.ins.col + 1}`;
+      if (this.ins) $('#vsPos').textContent = `行 ${this.ins.line + 1}、列 ${this.ins.col + 1}`;
       this.follow();
     },
     /**
@@ -699,40 +768,94 @@
 
   /* ================================================================ Tag Manager */
   const GTM_ID = S.gtmId || 'GTM-MCB2MDKB';
+  /* Google's Material icons (filled, 24 × 24) used by Tag Manager, Tag Assistant and Analytics */
+  const MP = {
+    back: 'M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z',
+    search: 'M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z',
+    apps4: 'M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z',
+    apps: 'M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z',
+    help: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z',
+    helpO: 'M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z',
+    more: 'M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z',
+    chevR: 'M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z',
+    drop: 'M7 10l5 5 5-5z',
+    close: 'M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
+    folderO: 'M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z',
+    overview: 'M5 5h14l1.5 3H3.5zM3 9h18v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z',
+    tag: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z',
+    tagO: 'M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z',
+    vars: 'M3 9h18v9H3zM5 6.5h3V9H5zm5.5 0h3V9h-3zM16 6.5h3V9h-3z',
+    folder: 'M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z',
+    eye: 'M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z',
+    power: 'M13 3h-2v10h2V3zm4.83 2.17-1.42 1.42A6.92 6.92 0 0 1 19 12c0 3.87-3.13 7-7 7A6.995 6.995 0 0 1 7.58 6.58L6.17 5.17A8.932 8.932 0 0 0 3 12a9 9 0 0 0 18 0c0-2.74-1.23-5.18-3.17-6.83z',
+    shield: 'M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z',
+    edit: 'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+    code: 'M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z',
+    image: 'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z',
+    sweep: 'M15 16h4v2h-4zm0-8h7v2h-7zm0 4h6v2h-6zM3 18c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V8H3v10zM14 5h-3l-1-1H6L5 5H2v2h12z',
+    openNew: 'M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z',
+    api: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9.4 15.6 8 17l-5-5 5-5 1.4 1.4L5.8 12l3.6 3.6zm5.2 0 3.6-3.6-3.6-3.6L16 7l5 5-5 5-1.4-1.4z',
+    copy: 'M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z',
+    home: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
+    reports: 'M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z',
+    explore: 'M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z',
+    ads: 'M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h1v4h2v-4h1l5 3V6L8 9H4zm11.5 3c0-1.33-.58-2.53-1.5-3.35v6.69c.92-.81 1.5-2.01 1.5-3.34z',
+    admin: 'M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z',
+    flag: 'M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z',
+    bolt: 'M7 2v11h3v9l7-12h-4l4-8z',
+    page: 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
+  };
+  const mi = (k, s = 24) => `<svg class="mi" width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor"><path d="${MP[k]}"/></svg>`;
+  // the trigger glyph (two overlapping circles) and the Google tag glyph (blue tag with a G)
+  const TRIG = (s = 24) => `<svg class="mi" width="${s}" height="${s}" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="14" r="6.5" fill="currentColor"/></svg>`;
+  const GTAG = (s = 28) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24"><path d="M12 2.2 6.2 7.4V20a1.8 1.8 0 0 0 1.8 1.8h8a1.8 1.8 0 0 0 1.8-1.8V7.4z" fill="#4285f4"/><circle cx="12" cy="7.6" r="1.3" fill="#fff"/><path d="M14.6 15.6a2.7 2.7 0 1 1-.8-2.1" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M12.2 15.4h2.5" stroke="#fff" stroke-width="1.5"/></svg>`;
+  const ADS = '<svg width="28" height="28" viewBox="0 0 24 24"><path d="M8.6 3.9 2.4 14.6a3.4 3.4 0 1 0 5.9 3.4l6.2-10.7z" fill="#fbbc04"/><path d="M15.4 3.9a3.4 3.4 0 0 0-5.9 3.4l6.2 10.7a3.4 3.4 0 1 0 5.9-3.4z" fill="#4285f4"/><circle cx="5.3" cy="16.3" r="3.4" fill="#34a853"/></svg>';
+  const FLOOD = '<svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="#4285f4" stroke-width="4" stroke-dasharray="15 32"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#ea4335" stroke-width="4" stroke-dasharray="12 35" stroke-dashoffset="-15"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#fbbc04" stroke-width="4" stroke-dasharray="10 37" stroke-dashoffset="-27"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#34a853" stroke-width="4" stroke-dasharray="10 37" stroke-dashoffset="-37"/></svg>';
+  const LINKER = '<svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4285f4"/><path d="M7 10h8.5l-2-2M17 14H8.5l2 2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* ============================================================== Tag Manager
+   * Japanese UI as of 2025–2026: header (タグ マネージャー / account › container / 検索ワークスペース), the
+   * ワークスペース・バージョン・管理 tabs with the container ID, ワークスペースでの変更数, プレビュー and 公開, the left
+   * navigation, the tag list, the tag sheet (タグの設定 / トリガー), the tag type and trigger pickers. */
   const Gtm = {
     tags: [
-      { name: 'Google タグ - G-GREWV04PEW', type: 'Google タグ', trig: 'Initialization - All Pages', init: true, date: '3 日前' },
-      { name: 'gtag.js - G-88EYJ4NSQJ', type: 'カスタム HTML', trig: 'All Pages', date: '3 日前' },
-      { name: 'Meta Pixel - PageView', type: 'カスタム HTML', trig: 'All Pages', date: '3 日前' },
+      { name: 'Google タグ - G-GREWV04PEW', type: 'Google タグ', trig: 'Initialization - All Pages', init: true, date: '3日前' },
+      { name: 'gtag.js - G-88EYJ4NSQJ', type: 'カスタム HTML', trig: 'All Pages', date: '3日前' },
+      { name: 'Meta Pixel - PageView', type: 'カスタム HTML', trig: 'All Pages', date: '3日前' },
     ],
+    changes: 0,
     cur: { name: '', tagId: '' },
     init() {
       $('#gtmPage').innerHTML = `<div class="gtm">
-        <div class="gtm-top"><span class="gtm-prod"><img class="lg-img" src="../../shared/favicons/gtm.svg" alt="">Tag Manager</span>
-          <span class="gtm-acc"><small>すべてのアカウント › Né</small><b>ne-auberge.jp</b></span>
-          <span class="gtm-acc"><small>コンテナ</small><b>${GTM_ID}</b></span>
-          <div class="r"><span class="gtm-ws">ワークスペース: Default Workspace</span><span class="gbtn out" id="gtmPreview">プレビュー</span><span class="gbtn fill" id="gtmSubmit">送信</span></div></div>
+        <div class="gx-top"><span class="gx-back">${mi('back')}</span><span class="gx-prod"><img src="../../shared/favicons/gtm.svg" alt="">タグ マネージャー</span>
+          <span class="gx-acc"><small>すべてのアカウント ${mi('chevR', 14)} Né</small><b>ne-auberge.jp${mi('drop')}</b></span>
+          <span class="gx-search">${mi('search')}<span>検索ワークスペース</span></span>
+          <span class="gx-ic">${mi('apps4')}</span><span class="gx-ic">${mi('help')}</span><span class="gx-ic">${mi('more')}</span><span class="gx-av">K</span></div>
+        <div class="gx-tabs"><span class="on">ワークスペース</span><span>バージョン</span><span>管理</span>
+          <span class="r"><span class="id">${GTM_ID}</span><span class="ch">ワークスペースでの変更数: <b id="gtmChanges">0</b></span><span class="gx-btn out" id="gtmPreview">プレビュー</span><span class="gx-btn fill" id="gtmSubmit">公開</span></span></div>
         <div class="gtm-body">
-          <nav class="gtm-nav"><div class="ws">現在のワークスペース<b>Default Workspace</b></div>
-            <div class="gtm-ni" data-nav="overview">${icon('home')}概要</div>
-            <div class="gtm-ni" data-nav="tags">${icon('tag')}タグ</div>
-            <div class="gtm-ni" data-nav="triggers">${icon('bolt')}トリガー</div>
-            <div class="gtm-ni" data-nav="vars">${icon('variable')}変数</div>
-            <div class="gtm-ni">${icon('folder')}フォルダ</div>
-            <div class="gtm-ni">${icon('blocks')}テンプレート</div></nav>
+          <nav class="gx-nav"><div class="lbl">現在のワークスペース</div><div class="ws">Default Workspace${mi('chevR')}</div>
+            <div class="gtm-ni" data-nav="overview">${mi('overview')}概要</div>
+            <div class="gtm-ni" data-nav="tags">${mi('tag')}タグ</div>
+            <div class="gtm-ni" data-nav="triggers">${TRIG()}トリガー</div>
+            <div class="gtm-ni" data-nav="vars">${mi('vars')}変数</div>
+            <div class="gtm-ni">${mi('folder')}フォルダ</div>
+            <div class="gtm-ni">${mi('tagO')}テンプレート</div></nav>
           <main class="gtm-main" id="gtmMain"></main>
-          <div class="gtm-panel" id="gtmPanel"></div>
-          <div class="gtm-pick" id="gtmPick"></div>
         </div>
+        <div class="gx-scrim" id="gtmScrim"></div>
+        <div class="gtm-panel" id="gtmPanel"></div>
+        <div class="gtm-pick" id="gtmPick"></div>
         <div class="gtm-dlg" id="gtmDlg"></div></div>`;
       this.overview();
     },
     nav(k) { $$('.gtm-ni').forEach((n) => n.classList.toggle('on', n.dataset.nav === k)); },
+    setChanges(n) { this.changes = n; const c = $('#gtmChanges'); if (c) c.textContent = n; },
     overview() {
       this.nav('overview');
       $('#gtmMain').innerHTML = `<div class="gtm-overview">
-        <div class="gtm-card"><small>ワークスペースの変更</small><b>0</b></div>
-        <div class="gtm-card"><small>公開中のバージョン</small><b>Version 3</b></div>
+        <div class="gtm-card"><small>ワークスペースでの変更数</small><b>${this.changes}</b></div>
+        <div class="gtm-card"><small>公開中のバージョン</small><b>バージョン 3</b></div>
         <div class="gtm-card"><small>コンテナ ID</small><b>${GTM_ID}</b></div></div>
         <div class="gtm-card"><div class="gtm-card-h">計測設計（ne-auberge.jp）</div>
         <table class="gtm-tbl"><tr><th>目的</th><th>計測</th><th>送信先</th></tr>
@@ -740,91 +863,131 @@
         <tr><td>予約サイトへの送客</td><td>click（外部リンク：CHILLNN / TableCheck）</td><td>GA4</td></tr>
         <tr><td>広告の最適化</td><td>PageView</td><td>Meta Pixel</td></tr></table></div>`;
     },
+    trigChip(t) {
+      const init = /^Initialization/.test(t);
+      return `<span class="gx-chip"><i class="${init ? 'init' : ''}">${mi(init ? 'power' : 'eye', 16)}</i>${esc(t)}</span>`;
+    },
     tagsView(newIdx = -1) {
       this.nav('tags');
-      $('#gtmMain').innerHTML = `<div class="gtm-card"><div class="gtm-card-h">タグ<span class="gbtn fill" id="gtmNew">新規</span></div>
-        <table class="gtm-tbl"><tr><th>名前</th><th>タイプ</th><th>配信トリガー</th><th>最終編集日</th></tr>
-        ${this.tags.map((t, i) => `<tr class="${i === newIdx && !Clock.ff ? 'new' : ''}" data-row="${i}"><td class="nm">${esc(t.name)}</td><td>${esc(t.type)}</td><td><span class="trg${t.init ? ' init' : ''}">${esc(t.trig)}</span></td><td>${t.date}</td></tr>`).join('')}
+      $('#gtmMain').innerHTML = `<div class="gtm-card"><div class="gtm-card-h">タグ<span class="r">${mi('search')}<span class="gx-btn tonal" id="gtmNew">新規</span></span></div>
+        <table class="gtm-tbl"><tr><th class="cb"><i></i></th><th>名前 <span class="ar">↑</span></th><th>タイプ</th><th>配信トリガー</th><th>最終更新</th></tr>
+        ${this.tags.map((t, i) => `<tr class="${i === newIdx && !Clock.ff ? 'new' : ''}" data-row="${i}"><td class="cb"><i></i></td><td class="nm">${esc(t.name)}</td><td>${esc(t.type)}</td><td>${this.trigChip(t.trig)}</td><td>${t.date}</td></tr>`).join('')}
         </table></div>`;
     },
     row(i) { return $(`tr[data-row="${i}"] td.nm`); },
+    /** the tag sheet: 名前のないタグ → タグの設定 (タグの種類・タグ ID・設定…) / トリガー (配信トリガー) */
     panel(t) {
+      const dirty = !!(t.name || t.tagId != null || t.trig);
       const typeHtml = t.tagId != null
-        ? `<div class="gtm-type"><span class="ic" style="background:#1a73e8">G</span><span class="tt"><b>Google タグ</b><small>Google マーケティング プラットフォーム</small></span></div>
-           <div class="gtm-fl">タグ ID</div><div class="gtm-in" id="gtmTagId">${esc(t.tagId)}</div>
-           <div class="gtm-fl">設定パラメータ ・ 共有イベント設定</div>`
-        : `<div class="gtm-empty" id="gtmChooseType"><span class="big">${icon('tag')}</span><span>タグタイプを選択して設定を開始…</span></div>`;
-      const trgHtml = t.trig
-        ? `<div class="gtm-type"><span class="ic" style="background:#1e8e3e">${icon('eye')}</span><span class="tt"><b>${esc(t.trig)}</b><small>ページビュー</small></span></div>`
-        : `<div class="gtm-empty" id="gtmChooseTrig"><span class="big">${icon('bolt')}</span><span>トリガーを選択してこのタグを配信…</span></div>`;
-      $('#gtmPanel').innerHTML = `<div class="gtm-ph">${icon('close')}<span class="gtm-name" id="gtmName">${t.name ? esc(t.name) : '<span style="color:#9aa0a6">名前のないタグ</span>'}</span>
-          <div class="r"><span class="gbtn fill" id="gtmSave">保存</span></div></div>
-        <div class="gtm-pb"><div class="gtm-sec"><h4>タグの設定</h4>${typeHtml}</div><div class="gtm-sec"><h4>トリガー</h4>${trgHtml}</div></div>`;
+        ? `<div class="gx-sub">タグの種類</div><div class="gx-type">${GTAG()}<span class="tt"><b>Google タグ</b><small>Google</small></span><span class="ed">${mi('edit')}</span></div>
+           <div class="gx-sub">タグ ID <span class="q">${mi('helpO', 18)}</span></div><div class="gx-inrow"><div class="gtm-in" id="gtmTagId">${esc(t.tagId)}</div><span class="lego">${mi('vars', 20)}</span></div>
+           <div class="gx-exp">${mi('chevR')}設定</div><div class="gx-exp">${mi('chevR')}共有イベントの設定</div><div class="gx-exp last">${mi('chevR')}詳細設定</div>`
+        : `<div class="gtm-empty" id="gtmChooseType"><span class="big">${mi('tag', 46)}</span><span>タグタイプを選択して設定を開始...</span><a>詳細</a></div>`;
+      const trg = t.trig ? { 'All Pages': ['eye', 'ページビュー'], 'Initialization - All Pages': ['power', '初期化'] }[t.trig] || ['eye', 'ページビュー'] : null;
+      const trgHtml = trg
+        ? `<div class="gx-sub">配信トリガー</div><div class="gx-type trig"><i>${mi(trg[0], 18)}</i><span class="tt"><b>${esc(t.trig)}</b><small>${trg[1]}</small></span></div>`
+        : `<div class="gtm-empty" id="gtmChooseTrig"><span class="big">${TRIG(46)}</span><span>トリガーを選択してこのタグを配信...</span><a>詳細</a></div>`;
+      $('#gtmPanel').innerHTML = `<div class="gtm-ph"><span class="x">${mi('close')}</span><span class="gtm-name${t.name ? '' : ' ph'}" id="gtmName">${t.name ? esc(t.name) : '名前のないタグ'}</span><span class="fd">${mi('folderO')}</span>
+          <div class="r"><span class="gx-btn ${dirty ? 'fill' : 'dis'}" id="gtmSave">保存</span><span class="gx-ic">${mi('more')}</span></div></div>
+        <div class="gtm-pb"><div class="gtm-sec${t.tagId != null ? ' set' : ''}"><h4>タグの設定</h4>${typeHtml}</div><div class="gtm-sec${trg ? ' set' : ''}"><h4>トリガー</h4>${trgHtml}</div></div>`;
     },
     picker(kind) {
-      const opts = kind === 'type'
-        ? [['G', '#1a73e8', 'Google タグ', 'Google マーケティング プラットフォーム', 'googtag'], ['G', '#e37400', 'Google アナリティクス: GA4 イベント', 'Google マーケティング プラットフォーム', 'ga4evt'], ['&lt;/&gt;', '#5f6368', 'カスタム HTML', 'カスタム HTML タグ', 'html']]
-        : [['', '#1e8e3e', 'All Pages', 'ページビュー', 'all'], ['', '#f29900', 'Initialization - All Pages', '初期化', 'init'], ['', '#9334e6', 'Consent Initialization - All Pages', '同意の初期化', 'consent']];
-      $('#gtmPick').innerHTML = `<h4>${kind === 'type' ? 'タグタイプを選択' : 'トリガーの選択'}</h4>` + opts.map(([l, c, n, s, k]) =>
-        `<div class="gtm-opt" data-opt="${k}"><span class="gtm-type" style="padding:0"><span class="ic" style="background:${c}">${kind === 'type' ? l : icon('eye')}</span><span class="tt"><b>${n}</b><small>${s}</small></span></span></div>`).join('');
+      const row = (ic, n, s, k, more) => `<div class="gtm-opt${s ? '' : ' one'}"${k ? ` data-opt="${k}"` : ''}><span class="ic">${ic}</span><span class="tt"><b>${n}</b>${s ? `<small>${s}</small>` : ''}</span>${more ? `<span class="go">${mi('chevR')}</span>` : ''}</div>`;
+      const body = kind === 'type'
+        ? `<div class="gx-gallery">${mi('tagO')}<span>コミュニティ テンプレート ギャラリーでタグタイプをさらに見つけましょう</span>${mi('chevR')}</div>
+           <div class="gx-ph">おすすめ</div>
+           ${row('<img src="../../shared/favicons/ga.svg" alt="" width="26" height="26">', 'Google アナリティクス', '', '', true)}
+           ${row(ADS, 'Google 広告', '', '', true)}
+           ${row(FLOOD, 'Floodlight', '', '', true)}
+           ${row(GTAG(), 'Google タグ', 'Google', 'googtag')}
+           ${row(LINKER, 'コンバージョン リンカー', 'Google', '')}
+           ${row(`<span style="color:#5f6368;display:flex">${mi('shield', 26)}</span>`, 'おすすめのコミュニティ CMP テンプレート', 'Google タグ マネージャーの同意設定と高度に統合できるおすすめの CMP テンプレートをご紹介します。', '', true)}
+           <div class="gx-ph">カスタム</div>
+           ${row(`<span style="color:#5f6368;display:flex">${mi('code', 26)}</span>`, 'カスタム HTML', 'カスタム HTML タグ', 'html')}
+           ${row(`<span style="color:#5f6368;display:flex">${mi('image', 26)}</span>`, 'カスタム画像', 'カスタム画像タグ', '')}`
+        : `<div class="gx-th"><span>名前 <span class="ar">↑</span></span><span>タイプ</span><span>フィルタ</span></div>
+           ${[['all', 'All Pages', 'ページビュー', 'eye', ''], ['consent', 'Consent Initialization - All Pages', '同意の初期化', 'power', ''], ['init', 'Initialization - All Pages', '初期化', 'power', '']]
+             .map(([k, n, s, ic]) => `<div class="gtm-opt trg" data-opt="${k}"><span class="tc">${mi(ic, 18)}</span><span class="n">${n}</span><span class="s">${s}</span><span class="f"></span></div>`).join('')}`;
+      $('#gtmPick').innerHTML = `<div class="gx-pkh"><span class="x">${mi('close')}</span><h4>${kind === 'type' ? 'タグタイプを選択' : 'トリガーの選択'}</h4><span class="r">${kind === 'trig' ? '<span class="add">+</span>' : ''}${mi('search')}</span></div><div class="gx-pkb">${body}</div>`;
     },
     dialog(html) { const d = $('#gtmDlg'); d.innerHTML = html; d.classList.toggle('show', !!html); },
   };
 
-  /* =============================================================== Tag Assistant */
+  /* =============================================================== Tag Assistant
+   * tagassistant.google.com (Japanese): the "Tag Assistant をサイトにリンク" dialog of the Tag Manager preview mode, then
+   * the debug view (接続済み / 概要 / コンテナの詳細 / GTM-… の出力: 配信されたタグ・未配信のタグ). */
   const TA = {
     render(state, tagsOk = true) {
       if (state === 'connect') {
-        $('#taPage').innerHTML = `<div class="ta"><div class="ta-top"><img class="lg-img" src="../../shared/favicons/ta.svg" alt=""><span class="t">Tag Assistant</span></div>
-          <div style="display:flex;justify-content:center;padding-top:90px"><div class="gtm-dlg-box" style="box-shadow:0 1px 3px rgba(60,64,67,.3)">
-            <h3>ウェブサイトに接続</h3><div style="color:#5f6368;margin-bottom:14px">コンテナ ${GTM_ID} のプレビューを開始します。ウェブサイトの URL を入力してください。</div>
-            <div class="gtm-fl">ウェブサイトの URL</div><div class="gtm-in" id="taUrl" style="width:100%"></div>
-            <div class="row"><span class="gbtn">キャンセル</span><span class="gbtn fill" id="taConnect">接続</span></div></div></div></div>`;
+        $('#taPage').innerHTML = `<div class="ta"><div class="tx-top"><img src="../../shared/favicons/ta.svg" alt=""><span class="t">Tag Assistant</span><span class="beta">BETA</span>
+            <span class="r"><a>拡張機能をインストール</a>${mi('more')}<span class="gx-av">K</span></span></div>
+          <div class="tx-home"><h2>Tag Assistant へようこそ</h2><p>Tag Assistant を使用すると、サイトのタグが適切に機能しているかどうかを確認できます。</p>
+            <div class="tx-dom"><div class="h">ドメイン<span class="gx-btn tonal">ドメインを追加</span></div><div class="sub">有効なドメイン</div><div class="none">有効なドメインはありません</div></div></div>
+          <div class="tx-scrim"></div>
+          <div class="tx-dlg"><span class="x">${mi('close')}</span><h3>Tag Assistant をサイトにリンク</h3>
+            <div class="lg"><img src="../../shared/favicons/gtm.svg" alt=""><span>タグ マネージャー プレビュー モード</span></div>
+            <p>タグ マネージャー コンテナ <b>${GTM_ID}</b> は、このウェブブラウザのデバッグモードで読み込まれます。サイトの URL を入力すると、コンテナのプレビューが開始します。</p>
+            <div class="fl">ウェブサイトの URL ${mi('helpO', 18)}</div><div class="gtm-in" id="taUrl" data-ph="例: https://www.google.com"></div>
+            <div class="bt"><span class="gx-btn fill" id="taConnect">リンク</span></div><div class="nw">新しいウィンドウでサイトを開きます</div>
+            <div class="ck"><i><svg width="12" height="12" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" fill="#fff"/></svg></i>URL にデバッグ シグナルを含める <span class="q">ⓘ</span></div></div></div>`;
         return;
       }
-      const ev = ['Consent Initialization', 'Initialization', 'Container Loaded', 'DOM Ready', 'Window Loaded'];
+      const ev = ['同意の初期化', '初期化', 'コンテナの読み込み', 'DOM Ready', 'ウィンドウの読み込み'];
       const fired = [
-        ['Google タグ - G-GREWV04PEW', 'Initialization'],
-        ['GA4 - Google タグ', 'Container Loaded', this.tagId],
-        ['gtag.js - G-88EYJ4NSQJ', 'Container Loaded'],
-        ['Meta Pixel - PageView', 'Container Loaded'],
+        [Gtm.tags.find((t) => /G-GREWV04PEW/.test(t.name)).name, 'Google タグ'],
+        [Gtm.cur.name || 'GA4 - Google タグ', 'Google タグ', true],
+        ['gtag.js - G-88EYJ4NSQJ', 'カスタム HTML'],
+        ['Meta Pixel - PageView', 'カスタム HTML'],
       ];
-      $('#taPage').innerHTML = `<div class="ta"><div class="ta-top"><img class="lg-img" src="../../shared/favicons/ta.svg" alt=""><span class="t">Tag Assistant</span><span class="ta-conn">接続済み: localhost:4321</span>
-          <span style="margin-left:auto;color:#5f6368;font-size:12.5px">コンテナ ${GTM_ID} ・ Default Workspace</span></div>
-        <div class="ta-body"><div class="ta-left"><h6>概要</h6>${ev.map((e, i) => `<div class="ta-ev${i === 2 ? ' on' : ''}${Clock.ff ? '' : ' new'}" style="animation-delay:${i * 120}ms"><span class="n">${i + 1}</span>${e}</div>`).join('')}</div>
-          <div class="ta-main"><div class="ta-tabs"><span class="on">タグ</span><span>変数</span><span>データレイヤー</span><span>同意</span></div>
-            <div class="ta-h">発動したタグ（${fired.length}）</div>
-            <div class="ta-tags">${fired.map(([n, e, id], i) => `<div class="ta-tag${Clock.ff ? '' : ' new'}" style="animation-delay:${300 + i * 140}ms" ${id ? 'id="taMain"' : ''}><span class="cnt">1 回発動</span><b>${esc(n)}</b><small>${id ? 'tag_id: ' + esc(id) : e}</small></div>`).join('')}</div>
-            <div class="ta-h">発動しなかったタグ（0）</div></div></div></div>`;
+      $('#taPage').innerHTML = `<div class="ta"><div class="tx-top dbg"><span class="x">${mi('close')}</span><span class="cn"><small>接続済み</small><b>localhost:4321</b></span><span class="r">${mi('more')}</span></div>
+        <div class="tx-found"><span class="n">1</span><span class="m">Google タグが見つかりました</span><span class="chip"><img src="../../shared/favicons/gtm.svg" alt="">${GTM_ID}</span></div>
+        <div class="ta-body"><div class="ta-left"><div class="sum">概要<span>${mi('sweep')}</span></div>
+            <div class="grp">${mi('drop')}<span>Né（ネ）｜新潟・新発田、一日一組のオーベル…</span></div>
+            ${ev.map((e, i) => `<div class="ta-ev${Clock.ff ? '' : ' new'}" style="animation-delay:${(ev.length - 1 - i) * 120}ms"><span class="n">${i + 1}</span>${e}<i>${mi('api', 14)}</i></div>`).reverse().join('')}</div>
+          <div class="ta-main"><h2>概要</h2>
+            <div class="tx-card"><h4>コンテナの詳細</h4><div class="kv"><div><small>コンテナ名</small><a>ne-auberge.jp ${mi('openNew', 16)}</a></div><div><small>コンテナ ID</small>${GTM_ID}</div><div><small>ソース</small>ページ上の gtm.js スニペット</div><div><small>コンテナ バージョン</small>プレビュー ${mi('edit', 16)}</div></div></div>
+            <div class="tx-card"><h4>${GTM_ID} の出力 ${mi('helpO', 18)}</h4><div class="ta-tabs"><span class="on">タグ</span><span>変数</span><span>データレイヤー</span><span>同意</span><span>コンソール (0)</span></div>
+              <div class="ta-h">配信されたタグ</div>
+              <div class="ta-tags">${fired.map(([n, type, main], i) => `<div class="ta-tag${Clock.ff ? '' : ' new'}" style="animation-delay:${300 + i * 140}ms" ${main ? 'id="taMain"' : ''}><b>${esc(n)}</b><small>${type} - 1 回配信されました</small></div>`).join('')}</div>
+              <div class="ta-h">未配信のタグ</div><div class="ta-none">なし</div></div></div></div></div>`;
       void tagsOk;
     },
     tagId: '',
   };
 
-  /* ================================================================== Analytics */
+  /* ================================================================== Analytics
+   * Google アナリティクス (Japanese, 2026): top bar, left navigation, 管理 › データ ストリーム › ウェブ ストリームの詳細,
+   * 管理 › DebugView (分 / 秒 streams, 上位のイベント, 現在のユーザー プロパティ). Event times follow the taskbar clock. */
   const GA = {
     events: [],
     render(view) {
-      const top = `<div class="ga-top"><img class="lg-img" src="../../shared/favicons/ga.svg" alt=""><span class="t">Analytics</span>
-        <span class="ga-prop"><small>すべてのアカウント › Né</small><b>ne-auberge.jp（GA4）</b></span></div>`;
-      const rail = `<div class="ga-rail"><span>${icon('home')}</span><span>${icon('chart')}</span><span>${icon('search')}</span><span class="${view === 'admin' ? 'on' : ''}" id="gaAdminBtn">${icon('settings')}</span></div>`;
+      const top = `<div class="g4-top"><span class="g4-hb">${mi('apps')}</span><img class="g4-logo" src="../../shared/favicons/ga.svg" alt=""><span class="g4-name">アナリティクス</span>
+        <div class="g4-acct"><small>すべてのアカウント ${mi('chevR', 14)} Né</small><b>ne-auberge.jp${mi('drop')}</b></div>
+        <div class="g4-search">${mi('search')}<span>「レポート」と検索してみてください</span></div>
+        <span class="g4-ic">${mi('apps')}</span><span class="g4-ic">${mi('help')}</span><span class="g4-ic">${mi('more')}</span><span class="gx-av">K</span></div>`;
+      const rail = `<div class="g4-rail"><span>${mi('home')}</span><span>${mi('reports')}</span><span>${mi('explore')}</span><span>${mi('ads')}</span><span class="on bottom" id="gaAdminBtn">${mi('admin')}</span></div>`;
       let main;
       if (view === 'admin') {
-        main = `<div class="ga-h">管理 › データ ストリーム</div><div class="ga-admin"><h4>ウェブ ストリームの詳細</h4><div class="u">https://ne-auberge.jp</div>
-          <div class="ga-kv"><span>ストリーム名</span><b style="font-family:inherit">ne-auberge.jp</b><span>ストリーム URL</span><b>https://ne-auberge.jp</b><span>測定 ID</span><b id="gaMid">G-MEEEN9DKT1</b><span>拡張計測機能</span><b style="font-family:inherit">ページビュー・スクロール・離脱クリック・サイト内検索 ほか</b></div></div>`;
+        main = `<div class="g4-head"><span class="bk">${mi('back')}</span><h1>ウェブ ストリームの詳細</h1></div>
+          <div class="g4-card st"><div class="ct">ストリームの詳細 <span class="ed">${mi('edit', 20)}</span></div>
+            <div class="g4-kv"><div><small>ストリーム名</small>ne-auberge.jp</div><div><small>ストリームの URL</small>https://ne-auberge.jp</div><div><small>ストリーム ID</small><span class="pii">10482317746</span></div><div><small>測定 ID</small><span class="mid"><b id="gaMid">G-MEEEN9DKT1</b>${mi('copy', 18)}</span></div></div></div>
+          <div class="g4-card st"><div class="ct">イベント</div>
+            <div class="g4-row"><span class="ic">${mi('bolt', 22)}</span><span class="tx"><b>拡張計測機能</b><small>ページビュー、スクロール数、離脱クリック、他 3 個</small></span><span class="sw on"><i></i></span></div></div>`;
       } else {
         const n = this.events.length;
-        const stream = n
-          ? `<div class="ga-stream">${this.events.map((e) => `<div class="ga-evt${e.conv ? ' conv' : ''}"><span class="tm">${e.t}</span><span class="dot"></span><span class="pill">${esc(e.name)}</span><span class="pm">${esc(e.pm || '')}</span></div>`).join('')}</div>`
-          : `<div class="ga-emptymsg"><b>デバッグ デバイスが見つかりません</b>GTM のプレビュー（Tag Assistant）や debug_mode を有効にした端末からのイベントが、<br>ここにリアルタイムで表示されます。</div>`;
         const counts = {};
         this.events.forEach((e) => { counts[e.name] = (counts[e.name] || 0) + 1; });
-        main = `<div class="ga-h">DebugView<span class="ga-dev">デバッグ デバイス: <b id="gaDevN">${n ? '1' : '0'}</b></span></div>
-          <div class="ga-grid"><div class="ga-col"><h5>過去 30 分</h5><div class="ga-min">${[30, 25, 20, 15, 10, 5, 1].map((m, i) => `<span class="${n && i === 6 ? 'on' : ''}">${n && i === 6 ? n : 0}</span>`).join('')}</div></div>
-          <div class="ga-col" id="gaStream"><h5>秒ストリーム</h5>${stream}</div>
-          <div class="ga-col"><h5>上位イベント（30 分）</h5><div class="ga-top10">${Object.entries(counts).map(([k, v]) => `<div><span>${esc(k)}</span><b>${v}</b></div>`).join('') || '<div style="color:#9aa0a6;font-family:inherit">—</div>'}</div></div></div>`;
+        const icon4 = (e) => mi(e.conv ? 'flag' : e.name === 'page_view' ? 'page' : 'bolt', 16);
+        main = `<div class="g4-head"><h1>DebugView</h1><span class="dv">デバッグ デバイス: <b id="gaDevN">${n ? '1' : '0'}</b>${mi('drop')}</span></div>
+          <div class="g4-cols">
+            <div class="g4-min"><div class="t">分</div><div class="list">${[0, 1, 2, 3, 4, 5, 6].map((i) => `<div class="m${n && i === 0 ? ' now' : ' z'}"><i>${n && i === 0 ? n : 0}</i></div>`).join('')}</div></div>
+            <div class="g4-sec" id="gaStream"><div class="t">秒</div><div class="stream"><div class="line"></div><div class="evs">${this.events.map((e) => `<div class="g4-ev in${e.conv ? ' key' : ''}"><span class="tm">${e.t}</span><span class="dot">${icon4(e)}</span><span class="nm">${esc(e.name)}</span></div>`).join('')}</div></div></div>
+            <div class="g4-side">
+              <div class="g4-card top"><div class="ct">上位のイベント<small>過去 30 分間</small></div><div class="rows">${Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([k, v]) => { const c = this.events.find((e) => e.name === k).conv; return `<div class="r"><span class="ic${c ? ' key' : ''}">${mi(c ? 'flag' : 'bolt', 16)}</span><span class="n">${esc(k)}</span><span class="c">${v}</span></div>`; }).join('') || '<div class="none">データがありません</div>'}</div></div>
+              <div class="g4-card"><div class="ct">現在のユーザー プロパティ</div><div class="none">ユーザー プロパティはありません</div></div>
+            </div></div>`;
       }
-      $('#gaPage').innerHTML = `<div class="ga">${top}<div class="ga-body">${rail}<div class="ga-main">${main}</div></div></div>`;
+      $('#gaPage').innerHTML = `<div class="ga g4">${top}<div class="g4-body">${rail}<div class="g4-main">${main}</div></div></div>`;
     },
   };
 

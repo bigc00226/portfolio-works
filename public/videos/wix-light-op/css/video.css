@@ -7,3 +7,9 @@
 .lo-fields div b { flex: 1; font-weight: 400; }
 .lo-fields div em { font-style: normal; font-size: 11px; color: #577083; }
 .lo-fields div.on { border-color: #116dff; background: #f2f7ff; }
+/* "テキスト設定" (classic editor) */
+.lo-sel { justify-content: space-between; }
+.lo-fmt { display: flex; gap: 28px; padding-left: 26px; font: 16px/1 Georgia, serif; color: #000624; }
+.lo-fmt b, .lo-fmt i, .lo-fmt u { font-family: inherit; }
+.lo-fold { font-size: 14px; color: #000624; display: flex; align-items: center; gap: 10px; }
+.lo-fold::before { content: ""; border: 5px solid transparent; border-left: 6px solid #000624; border-right: 0; }

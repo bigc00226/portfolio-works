@@ -15,6 +15,46 @@
   const S = window.SITE_SNAPSHOT;
   const TF = window.ThemeFiles;
 
+  // Figma's own glyphs (UI3, 2026): layer types, right-sidebar controls, variable types
+  const fsv = (w, b, sw = 1) => `<svg width="${w}" height="${w}" viewBox="0 0 ${w} ${w}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
+  const FG = {
+    frame: fsv(16, '<path d="M5.5 2v12M10.5 2v12M2 5.5h12M2 10.5h12"/>'),
+    section: fsv(16, '<path d="M5.5 2v12M10.5 2v12M2 5.5h12M2 10.5h12"/>'),
+    text: fsv(16, '<path d="M3.5 3.5h9M8 3.5v9.5"/>'),
+    image: fsv(16, '<rect x="2.5" y="3" width="11" height="10" rx="1"/><circle cx="6" cy="6.5" r="1"/><path d="m2.5 11.5 3.2-3 2.4 2.2 2.2-1.8 3.2 2.8"/>'),
+    group: fsv(16, '<rect x="3" y="3" width="10" height="10" rx=".5" stroke-dasharray="2 1.6"/>'),
+    component: fsv(16, '<path d="M8 2 10 4 8 6 6 4zM12 6l2 2-2 2-2-2zM8 10l2 2-2 2-2-2zM4 6l2 2-2 2-2-2z"/>'),
+    instance: fsv(16, '<path d="M8 2.6 13.4 8 8 13.4 2.6 8z"/>'),
+    rect: fsv(16, '<rect x="3" y="3" width="10" height="10" rx=".5"/>'),
+    chev: fsv(10, '<path d="M2.5 4 5 6.5 7.5 4"/>', 1.2),
+    chevR: fsv(10, '<path d="M4 2.5 6.5 5 4 7.5"/>', 1.2),
+    plus: fsv(16, '<path d="M8 3.5v9M3.5 8h9"/>'),
+    minus: fsv(16, '<path d="M3.5 8h9"/>'),
+    eye: fsv(16, '<path d="M1.8 8S4.2 3.8 8 3.8 14.2 8 14.2 8 11.8 12.2 8 12.2 1.8 8 1.8 8z"/><circle cx="8" cy="8" r="2"/>'),
+    styles: fsv(16, '<circle cx="5" cy="5" r="1.6"/><circle cx="11" cy="5" r="1.6"/><circle cx="5" cy="11" r="1.6"/><circle cx="11" cy="11" r="1.6"/>'),
+    pageIc: fsv(16, '<rect x="3" y="2.5" width="6.5" height="11" rx="1.5"/><path d="M9.5 5.5h1.5a2 2 0 0 1 2 2v1.5a2 2 0 0 1-2 2h-1.5"/>'),
+    code: fsv(16, '<path d="m5.5 4.5-3.5 3.5 3.5 3.5M10.5 4.5 14 8l-3.5 3.5"/>'),
+    dots: fsv(16, '<circle cx="3.5" cy="8" r=".6" fill="currentColor"/><circle cx="8" cy="8" r=".6" fill="currentColor"/><circle cx="12.5" cy="8" r=".6" fill="currentColor"/>'),
+    tune: fsv(16, '<path d="M4 2.5v11M12 2.5v11M8 2.5v11"/><circle cx="4" cy="10" r="1.5" fill="#fff"/><circle cx="12" cy="6" r="1.5" fill="#fff"/><circle cx="8" cy="8" r="1.5" fill="#fff"/>'),
+    alV: fsv(16, '<rect x="3" y="4" width="7" height="2.6" rx=".8"/><rect x="3" y="9.4" width="10" height="2.6" rx=".8"/>'),
+    // variable types: colour (palette), number (#), string (Aa-like)
+    vColor: fsv(16, '<path d="M8 2.5a5.5 5.5 0 0 0 0 11c.9 0 1.3-.6 1.1-1.3-.3-.9.3-1.7 1.2-1.7H12a1.5 1.5 0 0 0 1.5-1.5A5.5 5.5 0 0 0 8 2.5z"/><circle cx="5.3" cy="7.2" r=".7"/><circle cx="7.6" cy="5.1" r=".7"/><circle cx="10.4" cy="5.8" r=".7"/>'),
+    vNum: fsv(16, '<path d="M6.2 3 5 13M11 3 9.8 13M3 6h10.5M2.5 10H13"/>'),
+    vStr: fsv(16, '<path d="M2.5 12.5 5.5 4l3 8.5M3.6 9.6h3.8M10 8.3c.4-.6 1-.9 1.7-.9 1 0 1.8.6 1.8 1.7v3.4M13.5 10.2c-.6-.3-1.2-.4-1.8-.4-1 0-1.8.5-1.8 1.4 0 .8.7 1.3 1.5 1.3.9 0 1.7-.5 2.1-1.2"/>'),
+  };
+  const fA = (b) => fsv(14, b);
+  const fSeg = (icons, on = -1) => `<span class="fg-seg">${icons.map((ic, i) => `<span${i === on ? ' class="on"' : ''}>${ic}</span>`).join('')}</span>`;
+  /** right-sidebar section: title + action icons; empty sections have a grey title */
+  const fSec = (title, body, ac = FG.plus) => `<div class="fg-ps${body ? '' : ' h em'}"><div class="fg-ps-h">${title}<span class="ic">${ac}</span></div>${body || ''}</div>`;
+  const fIn = (k, v, o = {}) => `<div class="fg-in${o.cls ? ' ' + o.cls : ''}"${o.f ? ` data-f="${o.f}"` : ''}>${k ? `<span class="k">${k}</span>` : ''}<span class="v">${v}</span>${o.s ? `<span class="s">${o.s}</span>` : ''}</div>`;
+  /** 位置 (alignment, X / Y, rotation) — the same block for frames, text and images */
+  const fPos = (x, y) => fSec('位置', `<div class="sub">配置</div><div class="fg-row">${fSeg([fA('<path d="M2.5 2v10M5 4.5h7M5 9.5h4"/>'), fA('<path d="M7 2v10M3 4.5h8M4.5 9.5h5"/>'), fA('<path d="M11.5 2v10M2 4.5h7M5 9.5h4"/>')])}${fSeg([fA('<path d="M2 2.5h10M4.5 5v7M9.5 5v4"/>'), fA('<path d="M2 7h10M4.5 3v8M9.5 4.5v5"/>'), fA('<path d="M2 11.5h10M4.5 2v7M9.5 5v4"/>')])}</div>
+        <div class="sub">位置</div><div class="fg-row">${fIn('X', x)}${fIn('Y', y)}</div>
+        <div class="sub">回転</div><div class="fg-row">${fIn(fA('<path d="M3 3v8h8M3 7.5a4 4 0 0 1 3.5 3.5"/>'), '0°')}${fSeg([fA('<path d="M4 3.5a5 5 0 1 1-1 5.5"/><path d="M4 1.5v2h2"/>'), fA('<path d="M7 2v10M2.5 4v6l3-3zM11.5 4v6l-3-3z"/>'), fA('<path d="M2 7h10M4 2.5h6l-3 3zM4 11.5h6l-3-3z"/>')])}</div>`, '');
+  const fLook = (o = {}) => fSec('外見', `<div class="fg-row" style="color:#757575;margin:0 0 4px"><span style="flex:1">不透明度</span><span style="flex:1">角の半径</span></div><div class="fg-row">${fIn(fA('<rect x="2" y="2" width="10" height="10" rx="1" stroke-dasharray="1.5 1.5"/>'), '100%')}${fIn(fA('<path d="M2 7V4a2 2 0 0 1 2-2h3"/>'), '0', { cls: o.text ? 'dis' : '' })}<span class="fg-ib">${fA('<path d="M2 5V2.5h2.5M9.5 2.5H12V5M12 9v2.5H9.5M4.5 11.5H2V9"/>')}</span></div>`, `${FG.eye}${fsv(16, '<path d="M8 2.5 12 8a4 4 0 1 1-8 0z"/>')}`);
+  const fHead = (t, ac) => `<div class="fg-ps h"><div class="fg-ps-h">${t} ${FG.chev}<span class="ic">${ac || `${FG.code}${FG.dots}`}</span></div></div>`;
+  const fResize = `<span class="fg-ib">${fA('<path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9"/>')}</span>`;
+
   /* ====================================================================== DESIGN */
   const Design = {
     cam: { x: 0, y: 0, z: 0.5 },
@@ -24,6 +64,8 @@
     init() {
       this.canvas = $('#fgCanvas');
       this.world = $('#fgWorld');
+      // Dev Mode toolbar: move / measure / annotate / comment (the drawing tools are hidden while Dev Mode is on)
+      $('.fg-toolbar .dd').insertAdjacentHTML('afterend', `<span class="fg-tool fg-devonly" data-tool="measure">${fsv(20, '<path d="M3.5 13.5 13.5 3.5l3 3-10 10z"/><path d="m6.5 10.5 1.5 1.5M8.8 8.2l1.5 1.5M11 6l1.5 1.5"/>', 1.2)}</span><span class="fg-tool fg-devonly" data-tool="annotate">${fsv(20, '<path d="M4 15.5 5 12l7.5-7.5 2.5 2.5L7.5 14.5z"/><path d="M11 6l2.5 2.5"/>', 1.2)}</span>`);
       this.apply();
       D.frameFns.add(() => this.track());
       Props.empty();
@@ -32,7 +74,7 @@
       const { x, y, z } = this.cam;
       this.world.style.transform = `translate(${(-x * z).toFixed(2)}px, ${(-y * z).toFixed(2)}px) scale(${z})`;
       $('#fgZoom').textContent = Math.round(z * 100) + '%';
-      Object.values(this.frames).forEach((f) => { f.label.style.fontSize = 12 / z + 'px'; f.label.style.paddingBottom = 5 / z + 'px'; });
+      Object.values(this.frames).forEach((f) => { f.label.style.fontSize = 11 / z + 'px'; f.label.style.paddingBottom = 4 / z + 'px'; });
       $$('.fg-cmp-tag', this.world).forEach((t) => { t.style.fontSize = 11 / z + 'px'; });
     },
     view() { const r = this.canvas.getBoundingClientRect(); return { w: r.width, h: r.height, r }; },
@@ -171,10 +213,9 @@
     page(p) { this.cur = p; this.render(); },
     get list() { return this.items[this.cur]; },
     render() {
-      const IC = { frame: 'frame', section: 'square', text: 'type', image: 'image', group: 'layers', component: 'blocks', instance: 'blocks' };
       $('#fgLayers').innerHTML = this.list.map((it) =>
-        `<div class="fg-layer ${it.kind}${it.sel ? ' sel' : ''}${it.isNew ? ' new' : ''}" data-key="${it.key}" style="padding-left:${8 + it.depth * 16}px">` +
-        `<span class="lic">${icon(IC[it.kind] || 'square')}</span><span>${esc(it.name)}</span></div>`).join('');
+        `<div class="fg-layer ${it.kind}${it.sel ? ' sel' : ''}${it.isNew ? ' new' : ''}" data-key="${it.key}" style="padding-left:${10 + it.depth * 24}px">` +
+        `<span class="lic">${FG[it.kind] || FG.rect}</span><span>${esc(it.name)}</span></div>`).join('');
       this.list.forEach((it) => { it.isNew = false; });
     },
     add(item, o = {}) {
@@ -204,107 +245,138 @@
   }
   const varOfColor = (hx) => { const c = TF.COLORS.find((k) => k.color.toUpperCase() === String(hx).toUpperCase()); return c ? 'color/' + c.slug : ''; };
 
+  /* right sidebar — UI3 as of 2026-11. デザイン / プロトタイプ, or インスペクト / プラグイン in Dev Mode. Nothing selected:
+     ページ / スタイル / エクスポート (variables moved to the navigation bar) */
   const Props = {
     root() { return $('#fgProps'); },
-    tabs(dev) { $('#fgRtabs').innerHTML = dev ? '<span class="on">インスペクト</span><span>プラグイン</span>' : '<span class="on">デザイン</span><span>プロトタイプ</span>'; },
+    tabs(dev) {
+      const t = $$('#fgRtabs > span:not(.zm)');
+      t[0].textContent = dev ? 'インスペクト' : 'デザイン';
+      t[1].textContent = dev ? 'プラグイン' : 'プロトタイプ';
+      t[0].classList.add('on'); t[1].classList.remove('on');
+    },
     empty() {
       this.tabs(false);
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-ps-h">ページ</div>
-        <div class="fg-row one"><div class="fg-in"><span class="sw" style="background:#F5F5F5"></span><span class="v">F5F5F5</span><span class="k" style="margin-left:auto">100%</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">ローカル変数<span class="ic" id="fgVarsBtn">${icon('variable')}</span></div><div class="fg-hint">ブランドの色・書体・レイアウト値を変数として定義し、デザインと WordPress テーマ（theme.json）で共有します。</div></div>
-        <div class="fg-ps"><div class="fg-ps-h">スタイル</div><div class="fg-hint">テキストスタイル 6 ・ カラースタイル 8</div></div>
-        <div class="fg-ps"><div class="fg-ps-h">書き出し<span class="ic">${icon('plus')}</span></div></div>`;
+      this.root().innerHTML = fSec('ページ', `<div class="fg-row">${this.fillIn('#F5F5F5')}<span class="fg-ib">${FG.eye}</span></div>`, FG.pageIc) +
+        fSec('スタイル', `<div class="fg-sty"><div class="sub">テキストスタイル</div>${['Japanese / Heading 56', 'Japanese / Body 16', 'English / Display'].map((n) => `<div class="it"><b>Ag</b>${n}</div>`).join('')}
+          <div class="sub">カラースタイル</div>${TF.COLORS.slice(0, 4).map((c) => `<div class="it"><span class="sw" style="background:${c.color}"></span>${esc(c.slug)}</div>`).join('')}</div>`) +
+        fSec('エクスポート', '');
     },
-    fillRow(hx) {
-      const v = varOfColor(hx);
-      return `<div class="fg-row one"><div class="fg-in" data-f="fill">${v ? `<span class="fg-var"><span class="sw" style="background:${hx}"></span>${esc(v)}</span><span class="k" style="margin-left:auto">${hx.slice(1)}</span>` : `<span class="sw" style="background:${hx}"></span><span class="v">${hx.slice(1)}</span>`}</div></div>`;
+    fillIn(hex) {
+      const v = varOfColor(hex);
+      const body = v ? `<span class="fg-var"><span class="sw" style="background:${hex}"></span>${esc(v)}</span>` : `<span class="sw" style="background:${hex}"></span><span class="v">${hex.slice(1)}</span>`;
+      return `<div class="fg-in fill" data-f="fill">${body}<span class="op">100 <i>%</i></span></div>`;
     },
+    fillRow(hx) { return `<div class="fg-row">${this.fillIn(hx)}<span class="fg-ib">${FG.eye}</span><span class="fg-ib">${FG.minus}</span></div>`; },
+    fills(rows) { return fSec('塗り', rows, `${FG.styles}${FG.plus}`); },
     frame(f) {
       this.tabs(false);
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title">${icon('frame')}${esc(f.name)}<small>フレーム</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">フレーム</div>
-          <div class="fg-row"><div class="fg-in"><span class="k">X</span><span class="v">${Math.round(f.x)}</span></div><div class="fg-in"><span class="k">Y</span><span class="v">${Math.round(f.y)}</span></div></div>
-          <div class="fg-row"><div class="fg-in" data-f="w"><span class="k">W</span><span class="v">${f.w}</span></div><div class="fg-in" data-f="h"><span class="k">H</span><span class="v">${f.h}</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">レイアウトグリッド<span class="ic">${icon('plus')}</span></div>
-          <div class="fg-row one"><div class="fg-in"><span class="v">${f.w > 800 ? '12 列 ・ 余白 48（padding-inline）・ 溝 24（gutter）' : '4 列 ・ 余白 16 ・ 溝 15'}</span></div></div></div>`;
+      this.root().innerHTML = fHead('フレーム') + fPos(Math.round(f.x), Math.round(f.y)) +
+        fSec('レイアウト', `<div class="sub">サイズ</div><div class="fg-row">${fIn('W', f.w, { f: 'w' })}${fIn('H', f.h, { f: 'h' })}${fResize}</div>
+          <div class="fg-chk"><i>${fsv(10, '<path d="m2.5 5 2 2 3.5-4" stroke="#fff"/>', 1.4)}</i>コンテンツを隠す</div>`, `${fsv(16, '<path d="M3 3l3 3M13 3l-3 3M3 13l3-3M13 13l-3-3"/>')}${FG.alV}`) +
+        fLook() + this.fills(this.fillRow('#FFFFFF')) + fSec('線', '') + fSec('エフェクト', '') +
+        fSec('レイアウトガイド', `<div class="fg-row"><div class="fg-in"><span class="k">${fA('<path d="M3.5 2v10M7 2v10M10.5 2v10"/>')}</span><span class="v">列（${f.w > 800 ? 12 : 4}）</span></div><span class="fg-ib">${FG.eye}</span><span class="fg-ib">${FG.minus}</span></div>`, `${FG.styles}${FG.plus}`) +
+        fSec('エクスポート', '');
     },
     text(el, name, o = {}) {
       this.tabs(false);
       const cs = el.ownerDocument.defaultView.getComputedStyle(el);
+      const r = el.getBoundingClientRect();
       const size = parseFloat(cs.fontSize);
       const lh = cs.lineHeight === 'normal' ? 0 : parseFloat(cs.lineHeight);
       const ls = parseFloat(cs.letterSpacing) || 0;
       const fam = o.family || cs.fontFamily.split(',')[0].replace(/["']/g, '').trim();
       const hx = rgbToHex(cs.color);
       const r1 = (n) => Math.round(n * 10) / 10;
-      const wt = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold' }[cs.fontWeight] || cs.fontWeight;
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title">${icon('type')}${esc(name)}<small>テキスト</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">タイポグラフィ<span class="ic">${icon('settings')}</span></div>
-          ${o.style ? `<div class="fg-row one"><div class="fg-in"><span class="fg-var">${icon('type')}${esc(o.style)}</span></div></div>` : ''}
-          <div class="fg-row one"><div class="fg-in"><span class="v">${esc(fam)}</span></div></div>
-          <div class="fg-row"><div class="fg-in"><span class="v">${esc(wt)}</span></div><div class="fg-in" data-f="size"><span class="v">${r1(size)}</span></div></div>
-          <div class="fg-row"><div class="fg-in"><span class="k">行間</span><span class="v">${lh ? Math.round((lh / size) * 100) + '%' : 'Auto'}</span></div><div class="fg-in"><span class="k">字間</span><span class="v">${r1((ls / size) * 100)}%</span></div></div>
-        </div>
-        <div class="fg-ps"><div class="fg-ps-h">塗り<span class="ic">${icon('plus')}</span></div>${this.fillRow(hx)}</div>`;
+      const wt = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold' }[cs.fontWeight] || 'Regular';
+      void name;
+      // a text style applied: the typography section shows the style (name + Ag), not the separate values
+      const typo = o.style
+        ? `<div class="fg-row"><div class="fg-in"><span class="k" style="color:#1e1e1e;font-weight:600">Ag</span><span class="v">${esc(o.style)}</span><span class="s">${fA('<path d="M3 7h8"/>')}</span></div></div>`
+        : `<div class="fg-row"><span class="fg-dd2">${esc(fam)}<span class="c">${FG.chev}</span></span></div>
+          <div class="fg-row"><span class="fg-dd2">${wt}<span class="c">${FG.chev}</span></span><div class="fg-in fill" data-f="size"><span class="v">${r1(size)}</span><span class="op" style="width:28px;padding:0;justify-content:center">${FG.chev}</span></div></div>
+          <div class="fg-row" style="color:#757575;margin:4px 0"><span style="flex:1">行間</span><span style="flex:1">文字間隔</span></div>
+          <div class="fg-row">${fIn(fA('<path d="M3 2.5h8M3 11.5h8M5 9.5 7 4l2 5.5M5.7 7.8h2.6"/>'), lh ? Math.round((lh / size) * 100) + '%' : '自動')}${fIn(fA('<path d="M2 2v10M12 2v10M5 9.5 7 4l2 5.5"/>'), r1((ls / size) * 100) + '%')}</div>`;
+      this.root().innerHTML = fHead('テキスト') + fPos(Math.round(r.left), Math.round(r.top)) +
+        fSec('レイアウト', `<div class="sub">サイズ変更</div><div class="fg-row">${fSeg([fA('<path d="M2.5 3v8M5 7h6.5M9.5 5l2 2-2 2"/>'), fA('<path d="M3 2.5h8M7 5v6.5M5 9.5l2 2 2-2"/>'), fA('<rect x="2.5" y="2.5" width="9" height="9" rx="1"/><path d="M5 5.5h4M5 8.5h3"/>')], 0)}</div>
+          <div class="fg-row" style="margin-top:8px">${fIn('W', Math.round(r.width), { s: '内包' })}${fIn('H', Math.round(r.height), { s: '内包' })}${fResize}</div>`, '') +
+        fLook({ text: true }) + fSec('タイポグラフィ', typo, FG.styles) + this.fills(this.fillRow(hx)) + fSec('線', '') + fSec('エフェクト', '');
     },
-    /** component properties (Figma: component set / instance) */
+    /** component properties (main component: the property list; instance: a value per property) */
     component(name, props, o = {}) {
       this.tabs(false);
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title cmp">${icon('blocks')}${esc(name)}<small>${o.instance ? 'インスタンス' : 'コンポーネント'}</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">プロパティ<span class="ic">${icon('plus')}</span></div>
-          ${props.map(([k, kind, v], i) => `<div class="fg-prop${Clock.ff || !o.anim ? '' : ' new'}" style="animation-delay:${i * 90}ms" data-prop="${esc(k)}"><span class="pk">${icon(kind === 'bool' ? 'check' : kind === 'variant' ? 'blocks' : 'type')}${esc(k)}</span><span class="pv">${esc(v)}</span></div>`).join('')}
-        </div>
-        ${o.note ? `<div class="fg-ps"><div class="fg-hint">${o.note}</div></div>` : ''}`;
+      const PI = { variant: FG.instance, text: FG.text, bool: fA('<rect x="1.5" y="4" width="11" height="6" rx="3"/><circle cx="9.5" cy="7" r="1.8"/>') };
+      const rows = props.map(([k, kind, v], i) => o.instance
+        ? `<div class="fg-row fg-prop${Clock.ff || !o.anim ? '' : ' new'}" data-prop="${esc(k)}" style="animation-delay:${i * 90}ms"><span class="pk">${esc(k)}</span><span class="fg-dd2">${esc(v)}<span class="c">${FG.chev}</span></span></div>`
+        : `<div class="fg-row fg-prop${Clock.ff || !o.anim ? '' : ' new'}" data-prop="${esc(k)}" style="animation-delay:${i * 90}ms"><span class="pi">${PI[kind] || FG.text}</span><span class="pk">${esc(k)}</span><span class="pv">${esc(kind === 'variant' ? String(v).split(' / ')[0] : v)}</span></div>`).join('');
+      this.root().innerHTML = `<div class="fg-ps h"><div class="fg-ps-h" style="color:#9747ff"><span style="display:flex">${o.instance ? FG.instance : FG.component}</span>${esc(name)} ${FG.chev}<span class="ic" style="color:#1e1e1e">${FG.code}${FG.dots}</span></div></div>` +
+        fSec('プロパティ', rows, o.instance ? fA('<path d="M2 7h10M7 2v10" stroke-opacity="0"/>') : FG.plus) + fLook() + fSec('塗り', '') + fSec('線', '') + fSec('エフェクト', '');
     },
-    /** Dev Mode: inspect panel with the CSS of the selected element (computed in the frame) */
+    /** Dev Mode: インスペクト — layer name, 開発リソース, レイヤープロパティ, リスト / コード, CSS blocks (with variables) */
     inspect(el, name) {
       this.tabs(true);
       const cs = el.ownerDocument.defaultView.getComputedStyle(el);
       const r = el.getBoundingClientRect();
       const bg = rgbToHex(cs.backgroundColor), fg = rgbToHex(cs.color);
       const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim();
-      const lines = [
-        `display: ${cs.display === 'inline' ? 'inline-flex' : cs.display};`,
-        `width: ${Math.round(r.width)}px;`, `height: ${Math.round(r.height)}px;`,
-        `padding: ${cs.padding};`,
-        `border-radius: ${cs.borderTopLeftRadius};`,
-        `background: var(--color-highlight, ${bg});`,
-        `color: var(--color-white, ${fg});`,
-        `font-family: ${fam};`, `font-size: ${cs.fontSize};`, `font-weight: ${cs.fontWeight};`,
-      ];
-      this.root().innerHTML = `<div class="fg-ps"><div class="fg-title cmp">${icon('blocks')}${esc(name)}<small>Button / Primary</small></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">変数</div>
-          <div class="fg-row one"><div class="fg-in"><span class="fg-var"><span class="sw" style="background:${bg}"></span>color/highlight</span><span class="k" style="margin-left:auto">${bg.slice(1)}</span></div></div>
-          <div class="fg-row one"><div class="fg-in"><span class="fg-var"><span class="sw" style="background:${fg};box-shadow:inset 0 0 0 1px #ccc"></span>color/white</span><span class="k" style="margin-left:auto">${fg.slice(1)}</span></div></div></div>
-        <div class="fg-ps"><div class="fg-ps-h">コード<span class="k">CSS</span></div><pre class="fg-code">${lines.map((l) => { const [k, ...v] = l.split(':'); return `<span class="ck">${esc(k)}</span>:${esc(v.join(':'))}`; }).join('\n')}</pre></div>`;
+      const vb = varOfColor(bg), vf = varOfColor(fg);
+      const code = (title, rows) => `<div class="fg-code2"><div class="ch">${title}<span class="cp">${fsv(16, '<rect x="5" y="2.5" width="8.5" height="10" rx="1"/><path d="M3 5v8.5a1 1 0 0 0 1 1h6.5"/>')}</span></div><div class="cb"><pre>${rows.map(([p, v], i) => `<span class="n">${i + 1}</span><span class="p">${p}</span>: <span class="v">${esc(v)}</span>;`).join('\n')}</pre></div></div>`;
+      this.root().innerHTML = `<div class="fg-insp"><div class="lh"><b><span style="color:#9747ff;display:flex">${FG.instance}</span>${esc(name)}<span class="ac">${FG.code}${FG.dots}</span></b>
+          <div class="m">${fsv(14, '<path d="M3 4h8M3 7h8M3 10h8"/>')}インスタンス</div></div>
+        <div class="row2">開発リソース<span class="r">${FG.plus}</span></div>
+        <div class="row2 lp"><span style="display:flex;color:#8c8c8c;margin-left:-14px">${FG.chev}</span>レイヤープロパティ</div>
+        <div class="fg-box"><span class="b1"></span><span class="l1">ボーダー</span><span class="b2"></span><span class="l2">パディング</span><span class="b3">${Math.round(r.width)} × ${Math.round(r.height)}</span></div>
+        <div class="fg-lc"><span class="fg-seg2"><span>リスト</span><span class="on">コード</span></span><span class="fg-dd">CSS ${FG.chev}</span></div>
+        ${code('レイアウト', [['display', 'flex'], ['width', `${Math.round(r.width)}px`], ['height', `${Math.round(r.height)}px`], ['padding', cs.padding], ['justify-content', 'center'], ['align-items', 'center']])}
+        ${code('スタイル', [['border-radius', cs.borderTopLeftRadius], ['background', vb ? `var(--${vb.replace('/', '-')}, ${bg})` : bg]])}
+        ${code('タイポグラフィ', [['color', vf ? `var(--${vf.replace('/', '-')}, ${fg})` : fg], ['font-family', fam], ['font-size', cs.fontSize], ['font-weight', cs.fontWeight]])}</div>`;
     },
-    field(name) { return $(`.fg-in[data-f="${name}"]`, this.root()); },
+    field(name) { return $(`[data-f="${name}"]`, this.root()); },
     flash(name) { const f = this.field(name); if (f) { f.classList.remove('changed'); void f.offsetWidth; f.classList.add('changed'); } },
   };
 
+  /* variables view (navigation bar → バリアブル): collections on the left, 名前 / 値 table on the right */
   const Vars = {
-    open() { $('#fgVars').classList.add('show'); },
-    close() { $('#fgVars').classList.remove('show'); },
+    coll: 'color',
+    NAMES: { color: 'Color', type: 'Typography', space: 'Layout' },
+    open() {
+      $('#fgVars').classList.add('show');
+      $$('.fg-rail .it').forEach((s) => s.classList.toggle('on', s.id === 'fgVarsBtn'));
+      this.counts();
+    },
+    close() {
+      $('#fgVars').classList.remove('show');
+      const pane = ($('.fg-lpane.on') || {}).dataset || {};
+      $$('.fg-rail .it').forEach((s) => s.classList.toggle('on', s.dataset.ltab === (pane.lpane || 'layers')));
+    },
     rows(coll) {
       if (coll === 'color') return TF.COLORS.map((c) => ['color/' + c.slug, c.color, 'color']);
       if (coll === 'type') return TF.FONTS.map((f) => ['font/' + f.slug, f.fontFamily, 'str']).concat([['size/heading-section', '20', 'num'], ['size/display-house', '64', 'num'], ['size/body', '16', 'num'], ['size/caption', '12', 'num']]);
-      return TF.LAYOUT.map(([k, v]) => ['layout/' + k, String(v).replace('px', ''), 'num']);
+      return TF.LAYOUT.map(([k, v]) => ['layout/' + k, String(v).replace('px', ''), /^-?[\d.]+$/.test(String(v).replace('px', '')) ? 'num' : 'str']);
+    },
+    counts() {
+      $('#fgVarColls').innerHTML = Object.keys(this.NAMES).map((c) => `<div class="fg-vcoll${c === this.coll ? ' on' : ''}" data-coll="${c}">${this.NAMES[c]}<em>${this.rows(c).length}</em></div>`).join('');
+      $('#fgVarCount').textContent = this.rows(this.coll).length;
     },
     async show(coll, o = {}) {
+      this.coll = coll;
       $$('.fg-vcoll').forEach((c) => c.classList.toggle('on', c.dataset.coll === coll));
+      $('#fgVarCount').textContent = this.rows(coll).length;
       const t = $('#fgVarTable');
-      t.innerHTML = `<div class="fg-vrow head"><span>名前</span><span>値</span><span>CSS / theme.json</span></div>`;
+      t.innerHTML = `<div class="fg-vrow head"><span>名前</span><span>値</span><span>${FG.plus}</span></div>`;
       for (const [k, v, kind] of this.rows(coll)) {
         const val = kind === 'color' ? `<span class="sw" style="background:${v}"></span>${v.slice(1).toUpperCase()}` : esc(v.length > 30 ? v.slice(0, 29) + '…' : v);
-        const css = kind === 'color' ? `--wp--preset--color--${k.split('/')[1]}` : kind === 'str' ? `--wp--preset--font-family--${k.split('/')[1]}` : k.startsWith('size') ? `--wp--preset--font-size--${k.split('/')[1]}` : `--${k.split('/')[1]}`;
-        t.insertAdjacentHTML('beforeend', `<div class="fg-vrow${Clock.ff ? '' : ' new'}"><span class="nm">${icon(kind === 'color' ? 'eye' : 'variable')}${esc(k)}</span><span class="vl">${val}</span><span class="vl" style="color:#888">${esc(css)}</span></div>`);
+        t.insertAdjacentHTML('beforeend', `<div class="fg-vrow${Clock.ff ? '' : ' new'}"><span class="nm">${kind === 'color' ? FG.vColor : kind === 'num' ? FG.vNum : FG.vStr}${esc(k)}</span><span class="vl">${val}</span><span></span></div>`);
         await kw(o.gap || 150);
       }
     },
   };
 
   const Plugin = {
-    show() { $('#fgPluginJson').textContent = TF.TOKENS_JSON; $('#fgPlugin').classList.add('show'); },
+    show() {
+      $('#fgPluginJson').textContent = TF.TOKENS_JSON; $('#fgPlugin').classList.add('show');
+      $$('#fgRtabs > span:not(.zm)').forEach((s, i) => s.classList.toggle('on', i === 1)); // the プラグイン tab it was run from
+    },
     hide() { $('#fgPlugin').classList.remove('show'); },
   };
 
@@ -382,7 +454,7 @@
       this.ins = null; this.sel = null; this.sq = []; this.lineCls = {};
       $('#vsLang').textContent = { php: 'PHP', css: 'CSS', json: 'JSON', yaml: 'YAML', md: 'Markdown', html: 'XML' }[f.lang] || 'Plain Text';
       $('#vsIndent').textContent = f.lang === 'php' ? 'タブのサイズ: 4' : 'スペース: 2';
-      $('#vsPos').textContent = 'Ln 1, Col 1';
+      $('#vsPos').textContent = '行 1、列 1';
       this.renderTabs();
       this.renderTree();
       this.render();
@@ -442,7 +514,7 @@
       box.innerHTML = html;
       box.style.paddingTop = 2 - frac * LH + 'px';
       window.VSC.minimap($('#vsMini'), toks, this.top);
-      if (this.ins) $('#vsPos').textContent = `Ln ${this.ins.line + 1}, Col ${this.ins.col + 1}`;
+      if (this.ins) $('#vsPos').textContent = `行 ${this.ins.line + 1}、列 ${this.ins.col + 1}`;
       this.follow();
     },
     /**

@@ -47,34 +47,72 @@
     globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/>',
     rocket: '<path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1zM12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/>',
     form: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h5"/>',
+    chevL: '<path d="M15 6l-6 6 6 6"/>',
+    seo: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="11" cy="12" r="3"/><path d="M13.2 14.2 16 17"/>',
+    share: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 13l3-3 2 2 3-3"/>',
+    rename: '<path d="M4 5V4h16v1M4 19v1h16v-1M9 9h6M12 9v6"/>',
+    hide: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>',
+    subpg: '<path d="M7 4v9a2 2 0 0 0 2 2h10M16 12l3 3-3 3"/>',
+    trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
   };
   const sv = (n, s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SV[n] || ''}</svg>`;
 
-  const TOOLS = [['add', 'plus', '追加'], ['section', 'section', 'セクションを追加'], ['pages', 'pages', 'ページとメニュー'], ['design', 'design', 'サイトのデザイン'], ['apps', 'apps', 'アプリを追加'], ['business', 'business', 'ビジネスツール'], ['media', 'media', 'メディア'], ['cms', 'cms', 'CMS']];
+  /* the left bar of the classic editor uses solid (filled) glyphs: support.wix.com/ja screenshots, 2025–2026 */
+  const FV = {
+    add: '<circle cx="12" cy="12" r="10"/><path d="M12 7v10M7 12h10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>',
+    section: '<rect x="3" y="5" width="18" height="2.2" rx="1.1"/><rect x="3" y="9.5" width="18" height="9.5" rx="1.6"/>',
+    pages: '<path d="M7 2.5h7.2L19.5 8v11.5A2 2 0 0 1 17.5 21.5h-10.5A2 2 0 0 1 5 19.5v-15A2 2 0 0 1 7 2.5z"/><path d="M8.8 13.2h6.4M8.8 16.8h6.4" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/>',
+    design: '<path d="M2.5 17.5 7.6 4h2.6l5.1 13.5h-2.9l-1.2-3.4H6.6l-1.2 3.4zm4.9-5.7h3.1L8.9 7.3z"/><path d="M18.6 11.2c1.5 2 2.6 3.5 2.6 5a2.6 2.6 0 0 1-5.2 0c0-1.5 1.1-3 2.6-5z"/>',
+    apps: '<rect x="3.5" y="3.5" width="7.3" height="7.3" rx="1.6"/><rect x="13.2" y="3.5" width="7.3" height="7.3" rx="1.6"/><rect x="3.5" y="13.2" width="7.3" height="7.3" rx="1.6"/><rect x="13.2" y="13.2" width="7.3" height="7.3" rx="1.6"/>',
+    business: '<rect x="3.5" y="3.5" width="7.3" height="7.3" rx="1.6"/><rect x="3.5" y="13.2" width="7.3" height="7.3" rx="1.6"/><path d="M13.2 5.1a1.6 1.6 0 0 1 1.6-1.6h4.1a1.6 1.6 0 0 1 1.6 1.6v4.1a1.6 1.6 0 0 1-1.6 1.6h-4.1a1.6 1.6 0 0 1-1.6-1.6z"/><circle cx="16.9" cy="16.9" r="2.4"/><path d="M16.9 12.6v1.6M16.9 19.6v1.6M12.6 16.9h1.6M19.6 16.9h1.6M13.9 13.9l1.1 1.1M18.8 18.8l1.1 1.1M13.9 19.9l1.1-1.1M18.8 15l1.1-1.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    media: '<rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M5 17.5l4.6-5.6 3.3 3.8 2.4-2.6 3.7 4.4z" fill="#fff"/><circle cx="16" cy="8.6" r="1.6" fill="#fff"/>',
+    cms: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.8h18M9.2 9.8V20M9.2 14.9H21" stroke="#fff" stroke-width="1.6"/>',
+    brief: '<path d="M9 3.5h6a1.5 1.5 0 0 1 1.5 1.5v1.6H19a2 2 0 0 1 2 2v10.4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8.6a2 2 0 0 1 2-2h2.5V5A1.5 1.5 0 0 1 9 3.5zm.4 1.9v1.2h5.2V5.4z"/><path d="M8.6 13.4h6.8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>',
+    bg: '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M6 18 18 6" stroke="#fff" stroke-width="1.8"/>',
+    wrench: '<path d="M20.6 6.6a5 5 0 0 1-6.6 6.2l-7.3 7.3a2 2 0 1 1-2.8-2.8l7.3-7.3a5 5 0 0 1 6.2-6.6l-3.1 3.1.6 2.4 2.4.6z"/>',
+    hidden: '<path d="M12 5.5c5.2 0 9 4.4 10 6.5-1 2.1-4.8 6.5-10 6.5S3 14.1 2 12c1-2.1 4.8-6.5 10-6.5zm0 3a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/><path d="M4 3.5 20 20.5" stroke="#fff" stroke-width="3"/><path d="M4 3.5 20 20.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    zoomout: '<path d="M4 4l5 5M9 5v4H5M20 4l-5 5M15 5v4h4M4 20l5-5M9 19v-4H5M20 20l-5-5M15 19v-4h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    tools: '<rect x="3.5" y="4.5" width="17" height="15" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9h17M9 9v10.5" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+    search: '<circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+  };
+  const fv = (n, s = 24) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor">${FV[n] || ''}</svg>`;
+
+  // [data-tool, glyph, tooltip, panel colour]: the order of the left bar in the ja screenshots (2025-11 パーツを追加 article)
+  const TOOLS = [['add', 'add', 'パーツを追加', '#116dff'], ['section', 'section', 'セクションを追加', '#7c66fa'], ['pages', 'pages', 'ページ・メニュー', '#24b490'],
+    ['design', 'design', 'サイトデザイン', '#116dff'], ['apps', 'apps', 'アプリ', '#116dff'], ['business', 'business', 'マイビジネス', '#116dff'], ['media', 'media', 'メディア', '#fb7d33'],
+    ['cms', 'cms', 'CMS', '#116dff'], ['brief', 'brief', '', '#116dff']];
+  // the mobile editor's own left bar (追加 / ページ / 背景 / モバイルツール / モバイル上で非表示: ja article, 2025-03)
+  const MTOOLS = [['add', 'add', '追加', '#116dff'], ['pages', 'pages', 'ページ', '#24b490'], ['bg', 'bg', '背景', '#116dff'], ['mtools', 'wrench', 'モバイルツール', '#116dff'], ['section', 'hidden', 'モバイル上で非表示', '#d6338c']];
+  const toolHtml = (list) => list.map(([k, ic, tip, col]) => `<span class="wx-tool${k === 'add' ? ' add' : ''}" data-tool="${k}" style="--tc:${col}">${fv(ic, k === 'add' ? 30 : 22)}${tip ? `<span class="tip">${tip}</span>` : ''}</span>`).join('');
   const html = `
     <div class="wx" id="wx">
       <header class="wx-top">
         <span class="wx-logo"><img src="../../shared/logos/wix.svg" alt="Wix"></span>
-        <nav class="wx-menu"><span>サイト</span><span>設定</span><span>開発モード</span><span>ヘルプ</span><span class="upg">アップグレード</span></nav>
-        <div class="wx-pagesel" id="wxPageSel"><span class="l">ページ:</span><b id="wxPageName">ホーム</b>${sv('chev')}</div>
-        <div class="wx-dev"><span class="on" id="wxDesk">${sv('desktop')}</span><span id="wxMob">${sv('mobile')}</span></div>
+        <nav class="wx-menu"><span>サイト</span><span>設定</span><span>Dev Mode</span><span>プロジェクトを依頼</span><span>ヘルプ</span><span class="upg">アップグレード</span></nav>
         <span class="sp"></span>
-        <span class="wx-ic" id="wxUndo">${sv('undo', 18)}</span><span class="wx-ic off">${sv('redo', 18)}</span>
-        <span class="wx-zoom">100%</span>
-        <span class="wx-back" id="wxBack">エディタに戻る</span><span class="wx-txt" id="wxSave">保存</span><span class="wx-txt" id="wxPreview">プレビュー</span><span class="wx-pub" id="wxPublish">公開</span>
+        <span class="wx-back" id="wxBack">エディタに戻る</span><span class="wx-txt save" id="wxSave">保存</span><span class="wx-txt" id="wxPreview">プレビュー</span><span class="wx-pub" id="wxPublish">公開</span>
       </header>
+      <div class="wx-top2">
+        <div class="wx-pagesel" id="wxPageSel"><span class="l">ページ：</span><b id="wxPageName">ホーム</b>${sv('chev', 18)}</div>
+        <div class="wx-dev"><span class="on" id="wxDesk">${sv('desktop', 20)}</span><span id="wxMob">${sv('mobile', 20)}</span></div>
+        <span class="sp"></span>
+        <span class="wx-grp"><span class="wx-ic" id="wxUndo">${sv('undo', 19)}</span><span class="wx-ic off">${sv('redo', 19)}</span></span>
+        <span class="wx-grp wx-zoom" title="ズームアウト">${fv('zoomout', 19)}</span>
+        <span class="wx-grp">${fv('tools', 19)}<span>ツール</span></span>
+        <span class="wx-grp">${fv('search', 19)}<span>検索</span></span>
+      </div>
       <div class="wx-body">
-        <nav class="wx-left" id="wxLeft">${TOOLS.map(([k, ic, tip]) => `<span class="wx-tool${k === 'add' ? ' add' : ''}" data-tool="${k}">${sv(ic, 22)}<span class="tip">${tip}</span></span>`).join('')}</nav>
+        <nav class="wx-left" id="wxLeft">${toolHtml(TOOLS)}</nav>
         <div class="wx-stage" id="wxStage">
           <div class="wx-canvas" id="wxCanvas"><div class="wx-fit" id="wxFit"><iframe id="wxFrame" title="Wix エディタのキャンバス" tabindex="-1"></iframe></div></div>
-          <div class="wx-mob" id="wxMobBox"><span class="wx-mob-lbl">モバイル（390 px）</span><div class="wx-mob-scr"><iframe id="wxSpFrame" title="Wix エディタのキャンバス（モバイル）" tabindex="-1"></iframe></div></div>
+          <div class="wx-mob" id="wxMobBox"><div class="wx-mob-scr"><iframe id="wxSpFrame" title="Wix エディタのキャンバス（モバイル）" tabindex="-1"></iframe></div></div>
           <div class="wx-hov" id="wxHov"></div>
-          <div class="wx-sel" id="wxSel"><span class="lbl"></span><i class="h tl"></i><i class="h tr"></i><i class="h bl"></i><i class="h br"></i></div>
+          <div class="wx-sel" id="wxSel"><span class="lbl"></span><i class="h tl"></i><i class="h tm"></i><i class="h tr"></i><i class="h ml"></i><i class="h mr"></i><i class="h bl"></i><i class="h bm"></i><i class="h br"></i></div>
           <div class="wx-bar" id="wxBar"></div>
           <div class="wx-addsec" id="wxAddSec">${sv('plus')}セクションを追加</div>
           <div class="wx-blank" id="wxBlank" hidden><div>このページはまだ空です<b>左の「＋」からセクションや要素を追加</b></div></div>
         </div>
-        <div class="wx-panel" id="wxPanel"><div class="wx-ph"><b id="wxPanelTitle"></b><span class="c">${sv('help', 18)}</span><span class="c" id="wxPanelX">${sv('close', 18)}</span></div><div class="wx-pb" id="wxPanelBody"></div><div class="wx-pf" id="wxPanelFoot" hidden></div></div>
+        <div class="wx-panel" id="wxPanel"><div class="wx-ph"><b id="wxPanelTitle"></b><span class="c q">?</span><span class="c" id="wxPanelX">${sv('close', 18)}</span></div><div class="wx-pb" id="wxPanelBody"></div><div class="wx-pf" id="wxPanelFoot" hidden></div></div>
         <div class="wx-ctx" id="wxCtx"></div>
         <div class="wx-modal" id="wxModal"></div>
         <div class="wx-toast" id="wxToast"></div>
@@ -94,6 +132,28 @@
     @keyframes wxReveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   `;
   const addCss = (doc) => { const s = doc.createElement('style'); s.id = 'wx-css'; s.textContent = FRAME_CSS; doc.head.appendChild(s); };
+
+  /* wording of the current classic editor (support.wix.com/ja screenshots 2025–2026): titles and labels the videos
+   * pass in are mapped to what the editor itself shows */
+  const BAR_WORDS = { '背景を変更': 'セクションの背景を変更' };
+  const CTX_WORDS = { 'サブページにする': 'サブページ', 'SEO の基本設定': 'SEO ベーシック', 'ソーシャルシェア': 'SNS シェア', 'メニューに表示しない': '非表示' };
+  const PAGE_MENU = [{ t: '設定', ic: 'gear' }, { t: 'SEO ベーシック', ic: 'seo' }, { t: 'SNS シェア', ic: 'share' }, '-',
+    { t: '名前を変更', ic: 'rename' }, { t: 'ホームページに設定', ic: 'home' }, { t: '非表示', ic: 'hide' }, { t: 'サブページ', ic: 'subpg' }, { t: '削除', ic: 'trash' }];
+  const PANEL_KIND = { 'パーツを追加': 'add', 'モバイルサイトに追加': 'add', 'サイトページ': 'pages', 'メディアファイルを選択': 'mm', 'モバイル上で非表示': 'mhide' };
+  const PANEL_COLOR = { add: '#116dff', pages: '#24b490', mhide: '#d6338c' };
+  function panelTitle(t, mobile) {
+    const m = String(t).match(/^ページの設定：(.*)$/);
+    if (m) return `ページ設定（${m[1]}）`;
+    return ({ '追加': mobile ? 'モバイルサイトに追加' : 'パーツを追加', 'ページとメニュー': 'サイトページ', 'メディアの選択': 'メディアファイルを選択',
+      'テキストの設定': 'テキスト設定', 'モバイルで非表示の要素': 'モバイル上で非表示' })[t] || t;
+  }
+  function panelWords(h) {
+    h = String(h);
+    // page settings: the tab band of the panel (ja article: ページ情報 / レイアウト / アクセス権 / SEO ベーシック / SNS シェア / SEO 詳細設定)
+    h = h.replace(/<div class="wx-pg-tabs"><span>ページ情報<\/span><span>権限<\/span><span class="on">SEO の基本設定<\/span><span>ソーシャルシェア<\/span><\/div>/,
+      `<div class="wx-pg-tabs wx-tband"><span class="arr">${sv('chevL', 16)}</span><span>アクセス権</span><span class="on">SEO ベーシック</span><span>SEO 詳細設定</span><span>SNS シェア</span></div>`);
+    return h.replace('タイトルタグ（検索結果とブラウザのタブに表示）', 'タイトルタグ');
+  }
 
   const Wix = {
     doc: null, spDoc: null, mobile: false, sel: null, hov: null, scale: 1,
@@ -117,7 +177,6 @@
       f.style.width = '1920px';
       f.style.height = Math.ceil(stage.clientHeight / s) + 'px';
       f.style.transform = `scale(${s})`;
-      $('.wx-zoom').textContent = Math.round(s * 100) + '%';
     },
     async load(page, o = {}) {
       this.fit();
@@ -128,6 +187,9 @@
     },
     async loadSp(page, o = {}) {
       this.spDoc = await window.StoreFrame.load($('#wxSpFrame'), page, 'sp', { ...o, before: (d) => { addCss(d); if (o.before) o.before(d); } });
+      // the mobile editor edits a 320 px wide page: a mobile-optimized (classic) site was captured as its 320 px layout
+      // centred in a 390 px window — show that column; a responsive page fills 390 px — draw it at 320 px
+      $('#wxMobBox').classList.toggle('fixed320', !this.spDoc.body.classList.contains('responsive'));
       return this.spDoc;
     },
     cur() { return this.mobile ? this.spDoc : this.doc; },
@@ -154,6 +216,8 @@
       $('#wx').classList.toggle('mobile', this.mobile);
       $('#wxDesk').classList.toggle('on', !this.mobile);
       $('#wxMob').classList.toggle('on', this.mobile);
+      // the mobile editor has its own, shorter left bar
+      $('#wxLeft').innerHTML = toolHtml(this.mobile ? MTOOLS : TOOLS);
     },
     /** preview: the editor's bars go away, the page fills the window (the canvas is refitted) */
     preview(on) {
@@ -209,20 +273,42 @@
     },
     unselect() { this.select(null); },
     /** the floating toolbar of a selected element: [{b:'テキストを編集'}, {c:'gear'}, …] */
-    barHtml(items) { return items.map((x) => (x.b ? `<span class="b${x.plain ? ' plain' : ''}"${x.id ? ` id="${x.id}"` : ''}>${esc(x.b)}</span>` : `<span class="c"${x.id ? ` id="${x.id}"` : ''}>${sv(x.c, 18)}</span>`)).join(''); },
+    barHtml(items) { return items.map((x) => (x.b ? `<span class="b${x.plain ? ' plain' : ''}"${x.id ? ` id="${x.id}"` : ''}>${esc(BAR_WORDS[x.b] || x.b)}</span>` : `<span class="c"${x.id ? ` id="${x.id}"` : ''}>${sv(x.c, 18)}</span>`)).join(''); },
     /* -------- panels, menus, dialogs */
     panel(title, body, o = {}) {
       const p = $('#wxPanel');
-      p.className = 'wx-panel on' + (o.wide ? ' wide' : '') + (o.right ? ' right' : '');
-      $('#wxPanelTitle').textContent = title;
-      $('#wxPanelBody').innerHTML = body;
+      const t = panelTitle(title, this.mobile);
+      const kind = PANEL_KIND[t] || (/^ページ設定/.test(t) ? 'pgset' : '');
+      p.className = 'wx-panel on' + (o.wide ? ' wide' : '') + (o.right ? ' right' : '') + (kind ? ' ' + kind : '');
+      p.style.setProperty('--pc', PANEL_COLOR[kind] || '#116dff');
+      $('#wxPanelTitle').textContent = t;
+      $('#wxPanelBody').innerHTML = panelWords(body);
       const f = $('#wxPanelFoot');
       f.hidden = !o.foot;
       f.innerHTML = o.foot || '';
       D.hydrateIcons(p);
       return p;
     },
-    panelBody(body) { $('#wxPanelBody').innerHTML = body; },
+    panelBody(body) {
+      const pb = $('#wxPanelBody');
+      pb.innerHTML = panelWords(body);
+      // a page being named at the end of a long site menu: the list scrolls so the new row is in view
+      const ed = $('.wx-pg .ed', pb);
+      if (ed) {
+        const r = ed.closest('.wx-pg').getBoundingClientRect(), b = pb.getBoundingClientRect();
+        if (r.bottom > b.bottom - 12) pb.scrollTop += r.bottom - b.bottom + 24;
+      }
+    },
+    /** the media manager ("メディアファイルを選択", support.wix.com/ja 2025-12): sources on the left, the site's files with
+     *  their names in the middle — imgs [{src, name, on, up}] */
+    mediaManager(imgs) {
+      const nav = ['<div class="it">ホーム</div>', '<div class="sep"></div>', '<div class="h">管理</div>', '<div class="it on">サイトファイル</div>', '<div class="it">訪問者のアップロード</div>',
+        '<div class="it">マイボード</div>', '<div class="it">ゴミ箱</div>', '<div class="sep"></div>', '<div class="h">より多くの素材</div>', '<div class="it">Wix 画像・動画素材</div>',
+        '<div class="it">Shutterstock</div>', '<div class="it">Unsplash</div>', '<div class="it ai">AI 画像生成ツール</div>'].join('');
+      return `<div class="wx-mm"><div class="wx-mm-nav"><span class="wx-btn pri" id="mdUpload">${sv('plus', 14)}アップロード</span>${nav}</div>
+        <div class="wx-mm-main"><div class="wx-mm-q">${fv('search', 17)}<span>ビジネス、ファッション、フィットネスなどを検索…</span></div><div class="wx-mm-h">サイトファイル</div>
+        <div class="wx-media">${imgs.map((m) => `<div${m.on ? ' class="on"' : ''}><i class="th${m.up ? ' up' : ''}" style="background-image:url('${m.src}')"></i><b>${esc(m.name || '')}</b></div>`).join('')}</div></div></div>`;
+    },
     async closePanel(o = {}) {
       if (o.click !== false && $('#wxPanel').classList.contains('on')) await clickUi('#wxPanelX', { after: 60 });
       $('#wxPanel').classList.remove('on');
@@ -230,6 +316,13 @@
     },
     ctx(items, at) {
       const c = $('#wxCtx');
+      // the "…" menu of a page row is always the same list (ja screenshot, 2025-06): keep the ids the caller wants to click
+      if (at.closest && at.closest('.wx-pg')) {
+        const ids = {};
+        items.forEach((x) => { if (x.id) ids[CTX_WORDS[x.t] || x.t] = x.id; });
+        items = PAGE_MENU.map((x) => (x === '-' ? x : { ...x, id: ids[x.t] }));
+      }
+      c.classList.toggle('pg', !!(at.closest && at.closest('.wx-pg')));
       c.innerHTML = items.map((x) => (x === '-' ? '<div class="sep"></div>' : `<div${x.id ? ` id="${x.id}"` : ''}>${x.ic ? sv(x.ic, 15) : ''}${esc(x.t)}</div>`)).join('');
       const b = $('.wx-body').getBoundingClientRect(), r = at.getBoundingClientRect();
       c.style.left = r.right - b.left - 30 + 'px';
@@ -245,7 +338,8 @@
       t.classList.add('on');
       wait(ms).then(() => t.classList.remove('on'));
     },
-    saved(on) { const s = $('#wxSave'); s.textContent = on ? '保存済み' : '保存'; s.classList.toggle('saved', on); },
+    // the label stays 保存 after saving (ja screenshots); only the colour fades while there is nothing new to save
+    saved(on) { const s = $('#wxSave'); s.textContent = '保存'; s.classList.toggle('saved', on); },
     async save() { await clickUi('#wxSave', { after: 60 }); this.saved(true); await this.toast('サイトを保存しました'); },
     /**
      * typing on the canvas: the element's own markup comes back once the text is typed (the page's real line breaks / spans)

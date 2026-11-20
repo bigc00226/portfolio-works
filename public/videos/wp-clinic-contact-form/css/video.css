@@ -47,3 +47,84 @@
 .wm-acct { margin-left: auto; margin-right: 8px; width: 34px; height: 34px; border-radius: 50%; background: #8fb9a8; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 15px; }
 .wm-top { display: flex; align-items: center; }
 .wm-text b.k { font-weight: 600; }
+
+/* ============================================================== Gmail (web, Japanese, 2025–2026) — js/gmail.js */
+.wm.gmx { flex-direction: column; background: #f8fafd; font: 14px/20px 'Google Sans', Roboto, 'Noto Sans JP', 'Yu Gothic UI', sans-serif; color: #1f1f1f; }
+.gmx .gmi { display: block; flex: none; }
+.gx-h { height: 64px; flex: none; display: flex; align-items: center; padding: 8px; box-sizing: border-box; }
+.gx-h .hi { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #444746; flex: none; }
+.gx-logo { width: 109px; height: 40px; margin-left: 4px; }
+.gx-s { width: 720px; height: 48px; margin-left: 67px; border-radius: 24px; background: #e9eef6; display: flex; align-items: center; padding: 0 12px; gap: 10px; color: #444746; font-size: 16px; }
+.gx-s span { flex: 1; }
+.gx-h .hr { margin-left: auto; display: flex; align-items: center; }
+.gx-av { width: 32px; height: 32px; border-radius: 50%; margin: 0 8px 0 12px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 15px; }
+.gx-b { flex: 1; display: flex; min-height: 0; }
+.gx-rail { width: 68px; flex: none; display: flex; flex-direction: column; align-items: center; padding-top: 6px; gap: 10px; }
+.gx-rail .ri { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; line-height: 16px; font-weight: 500; color: #444746; }
+.gx-rail .ic { position: relative; width: 56px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+.gx-rail .ri.on { color: #1f1f1f; font-weight: 700; }
+.gx-rail .ri.on .ic { background: #d3e3fd; color: #001d35; }
+.gx-rail .gx-bd { position: absolute; left: 30px; top: -4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: #b3261e; color: #fff; font-size: 11px; line-height: 16px; text-align: center; box-sizing: border-box; font-weight: 500; }
+.gmx .wm-side { width: 248px; flex: none; padding: 0; overflow: hidden; }
+.gmx .wm-compose { display: inline-flex; align-items: center; gap: 12px; height: 56px; padding: 0 24px 0 16px; margin: 8px 0 16px 4px; border-radius: 16px; background: #c2e7ff; color: #001d35; font-size: 14px; font-weight: 500; }
+.gmx .wm-f { height: 32px; width: 224px; display: flex; align-items: center; gap: 18px; padding: 0 12px 0 16px; border-radius: 16px; font-size: 14px; color: #1f1f1f; white-space: nowrap; box-sizing: border-box; }
+.gmx .wm-f .gmi { color: #444746; }
+.gmx .wm-f b { margin-left: auto; font-size: 12px; font-weight: 700; }
+.gmx .wm-f.on { background: #d3e3fd; font-weight: 700; color: #001d35; }
+.gmx .wm-f.on .gmi { color: #001d35; }
+.gmx .wm-lbl { display: flex; justify-content: space-between; align-items: center; width: 224px; padding: 16px 12px 6px 16px; margin: 0; font-size: 16px; font-weight: 500; color: #1f1f1f; box-sizing: border-box; }
+.gmx .wm-lbl .gmi { color: #444746; }
+.gmx .wm-main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 0 16px 16px 0; }
+.gmx .wm-body { flex: 1; min-height: 0; background: #fff; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+.gx-tool { height: 48px; flex: none; display: flex; align-items: center; padding: 0 12px 0 10px; color: #444746; }
+.gx-tool .ti { height: 40px; min-width: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #444746; }
+.gx-tool .ti.dim { color: #c4c7c5; }
+.gx-tool .sep { width: 1px; height: 20px; background: #dadce0; margin: 0 8px; }
+.gx-tool .pg { margin-left: auto; font-size: 12px; color: #444746; padding: 0 8px; font-family: Roboto, sans-serif; }
+.gx-tool .ti.is-hover { background: #eceff1; }
+.gx-cats { display: flex; height: 56px; flex: none; border-bottom: 1px solid #f1f3f4; }
+.gx-cats .c { position: relative; width: 252px; display: flex; align-items: center; gap: 18px; padding-left: 18px; font-size: 14px; font-weight: 500; color: #444746; }
+.gx-cats .c.on { color: #0b57d0; }
+.gx-cats .c.on::after { content: ''; position: absolute; left: 8px; right: 8px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: #0b57d0; }
+.gmx .wm-list { flex: 1; overflow: hidden; border-top: 1px solid #f1f3f4; }
+.gmx .wm-row { position: relative; height: 40px; gap: 0; display: flex; align-items: center; padding: 0 16px 0 8px; font-family: Roboto, 'Noto Sans JP', sans-serif; font-size: 14px; color: #1f1f1f; background: #f2f6fc; border-bottom: 1px solid rgba(100, 121, 143, .12); white-space: nowrap; }
+.gmx .wm-row.unread { background: #fff; font-weight: 700; }
+.gmx .wm-row.unread .wm-from { font-weight: 700; }
+.gmx .wm-row.att { height: 64px; align-items: flex-start; padding-top: 10px; box-sizing: border-box; }
+.gmx .wm-row .c { width: 32px; height: 20px; flex: none; display: flex; align-items: center; justify-content: center; color: #c4c7c5; }
+.gmx .wm-row.is-hover { box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); z-index: 2; }
+.gmx .wm-from { width: 168px; flex: none; padding: 0 18px 0 6px; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+.gmx .wm-subj { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gmx .wm-subj b { font-weight: inherit; }
+.gmx .wm-row:not(.unread) .wm-subj b { font-weight: 400; }
+.gmx .wm-subj .sn { color: #5f6368; font-weight: 400; }
+.gx-chip { display: flex; width: max-content; align-items: center; gap: 8px; height: 24px; margin-top: 6px; padding: 0 10px 0 6px; border: 1px solid #dadce0; border-radius: 12px; font-weight: 500; font-size: 13px; color: #3c4043; }
+.gmx .wm-date { width: 84px; margin-left: 0; text-align: right; font-size: 12px; color: #1f1f1f; }
+.gmx .wm-row:not(.unread) .wm-date { color: #5f6368; font-weight: 400; }
+/* message view */
+.gmx .wm-read { padding: 0; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.gmx .wm-tools { gap: 0; margin: 0; }
+.gx-scroll { flex: 1; overflow: hidden; padding: 4px 0 24px; }
+.gx-subj { display: flex; align-items: center; gap: 10px; padding: 14px 16px 6px 72px; }
+.gx-subj h2 { margin: 0; font-weight: 400; font-size: 22px; line-height: 28px; color: #1f1f1f; }
+.gx-subj .lc { display: inline-flex; align-items: center; gap: 4px; height: 18px; padding: 0 4px 0 6px; border-radius: 4px; background: #ddd; color: #444746; font-size: 12px; flex: none; }
+.gx-subj .lc i { font-style: normal; color: #666; }
+.gx-subj .ri { margin-left: auto; display: flex; gap: 22px; color: #444746; }
+.gx-mh { display: flex; align-items: flex-start; padding: 14px 16px 0; }
+.gx-mh .av { width: 40px; height: 40px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 500; font-size: 18px; margin-right: 16px; }
+.gx-mh .fr { flex: 1; font-family: Roboto, 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 20px; }
+.gx-mh .fr b { font-weight: 700; }
+.gx-mh .ad { font-size: 12px; color: #5f6368; }
+.gx-mh .to { font-size: 12px; color: #5f6368; display: flex; align-items: center; gap: 2px; }
+.gx-mh .gx-dt { display: flex; align-items: center; gap: 18px; font-family: Roboto, sans-serif; font-size: 12px; color: #5f6368; }
+.gx-mh .gx-dt .gmi { color: #444746; }
+.gmx .wm-text { margin: 0; padding: 18px 40px 8px 72px; font-family: Roboto, 'Noto Sans JP', sans-serif; font-size: 14px; line-height: 1.75; color: #222; white-space: pre-wrap; max-width: none; }
+.gx-atts { padding: 12px 0 0 72px; border-top: 0; }
+.gx-att { width: 180px; height: 120px; border: 1px solid #dadce0; border-radius: 6px; overflow: hidden; position: relative; background: #f5f5f5; }
+.gx-att .th { position: absolute; inset: 0 0 34px; display: flex; justify-content: center; padding-top: 10px; }
+.gx-att .th .pg { width: 70px; height: 80px; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); }
+.gx-att .nm { position: absolute; left: 0; right: 0; bottom: 0; height: 34px; background: #f1f3f4; display: flex; align-items: center; gap: 8px; padding: 0 8px; font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; }
+.gx-att.is-hover { box-shadow: 0 1px 2px rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); }
+.gx-btns { display: flex; gap: 12px; padding: 16px 0 0 72px; }
+.gx-btns .b { height: 40px; display: inline-flex; align-items: center; gap: 8px; padding: 0 22px 0 16px; border: 1px solid #747775; border-radius: 20px; font-size: 14px; font-weight: 500; color: #444746; }
+.gx-btns .b.r { width: 40px; padding: 0; justify-content: center; box-sizing: border-box; }

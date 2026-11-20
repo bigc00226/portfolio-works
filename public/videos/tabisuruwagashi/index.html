@@ -37,50 +37,20 @@
         <!-- ================================================= shop admin (reconstruction with the real logo, icons, labels and colours: js/makeshop-ui.js) -->
         <div class="br-page" data-page="admin" id="adm">
           <div class="ms-shell" id="msShell">
-            <aside class="ms-side">
-              <div class="ms-brand"><img class="ms-brand-logo" src="assets/makeshop/ms-logo-typeA.svg" alt="makeshop byGMO"><span class="ms-collapse" title="メニューを折りたたむ"><i data-ms-icon="collapseHorizontal"></i></span></div>
-              <div class="ms-shop">
-                <div class="ms-shop-name">旅するように和菓子と出逢う<i data-icon="link"></i></div>
-                <div class="ms-shop-id">ID: <span class="pii">gaxwagashi</span></div>
-              </div>
-              <div class="ms-grp">日々のショップ運営をスムーズにする</div>
-              <div class="ms-item" data-nav="home"><i data-ms-icon="home"></i>ホーム</div>
-              <div class="ms-item" data-nav="menu"><i data-ms-icon="menuBook"></i>メインメニュー</div>
-              <div class="ms-item"><i data-ms-icon="product"></i>商品管理<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-item"><i data-ms-icon="order"></i>注文管理<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-item"><i data-ms-icon="customer"></i>会員管理<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-item" id="navDesign" data-nav="design"><i data-ms-icon="design"></i>ショップデザイン<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-sub" id="navDesignSub">
-                <div class="ms-subitem" id="navTemplate" data-nav="dslist">テンプレート選択・編集</div>
-                <div class="ms-subitem">デザイン設定</div>
-                <div class="ms-subitem">ストレージ</div>
-              </div>
-              <div class="ms-grp">現状を分析して、売上につなげる</div>
-              <div class="ms-item"><i data-ms-icon="analysis"></i>分析・販促管理<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-grp">便利な機能を追加する</div>
-              <div class="ms-item"><i data-ms-icon="app"></i>アプリ管理<i class="chev" data-icon="chevron-down"></i></div>
-              <div class="ms-item ms-bottom"><i data-ms-icon="config"></i>機能・設定</div>
-            </aside>
+            <!-- the left menu, header and right side bar are drawn by js/apps.js (MsUi.shell); these views go into its page area -->
             <div class="ms-body">
-              <header class="ms-top">
-                <div class="ms-crumb" id="msCrumb"></div>
-                <span class="sp"></span>
-                <span class="ms-tl"><i data-ms-icon="search"></i>検索</span>
-                <span class="ms-tl"><i data-ms-icon="help"></i>ヘルプ<i data-icon="chevron-down"></i></span>
-                <span class="ms-tl"><i data-ms-icon="account"></i>アカウント<i data-icon="chevron-down"></i></span>
-              </header>
               <!-- home -->
               <main class="ms-view on" data-view="home">
-                <h1 class="ms-h1">ホーム</h1>
+                <h1 class="ms-h1">ダッシュボード</h1>
                 <div class="ms-home">
                   <div class="ms-card ms-wide">
                     <h3>ショップデザイン</h3>
                     <p>現在のデザイン編集モード：<b id="homeMode">ベーシックモード</b></p>
                     <p class="ms-note">クリエイターモードでは、ページごとに HTML・CSS・JavaScript を自由に編集でき、レスポンシブデザインに対応したショップを構築できます。</p>
                   </div>
-                  <div class="ms-card"><h3>受注</h3><p class="ms-mute">新規受注・発送待ちの確認</p><div class="ms-ph"></div></div>
-                  <div class="ms-card"><h3>商品</h3><p class="ms-mute">商品登録・在庫の管理</p><div class="ms-ph"></div></div>
-                  <div class="ms-card"><h3>会員</h3><p class="ms-mute">会員情報・メールマガジン</p><div class="ms-ph"></div></div>
+                  <div class="ms-card"><h3>注文サマリー</h3><p class="ms-mute">今日・前日・今月・先月の売上総額と注文件数</p><div class="ms-ph"></div></div>
+                  <div class="ms-card"><h3>会員数：男女比</h3><p class="ms-mute">会員登録数（退会済み会員は含めません）</p><div class="ms-ph"></div></div>
+                  <div class="ms-card"><h3>ランキング：売上金額</h3><p class="ms-mute">今日・昨日・今月・先月</p><div class="ms-ph"></div></div>
                 </div>
               </main>
               <!-- design set list -->

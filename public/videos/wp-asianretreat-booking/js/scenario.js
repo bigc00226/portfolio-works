@@ -490,7 +490,7 @@
     const b = { id: '1', bookingDateAndTime: BOOK.date, services: BOOK.service, paymentMethod: 'Stripe で支払う', totalAmount: '¥15,300', first_name: BOOK.name, last_name: BOOK.kana, phone: BOOK.phone, email: BOOK.email, address: BOOK.addr };
     const tpl = F.MAIL;
     Mail.list = [];
-    Mail.add({ from: 'アジアンリトリート', addr: 'asianretreat.jp@gmail.com', to: 'asianretreat.jp@gmail.com', subject: AR.mailText(tpl.adminSubject || '', b), snippet: 'WEB予約が入りました。', text: AR.mailText(tpl.adminBody || '', b), time: '11:20', label: 'WEB予約' });
+    Mail.add({ pii: [BOOK.name, BOOK.kana, BOOK.phone, BOOK.email, BOOK.addr], from: 'アジアンリトリート', addr: 'asianretreat.jp@gmail.com', to: 'asianretreat.jp@gmail.com', subject: AR.mailText(tpl.adminSubject || '', b), snippet: 'WEB予約が入りました。', text: AR.mailText(tpl.adminBody || '', b), time: window.Win11.fmt.time(), label: 'WEB予約' });
     await Browser.newTab('mail');
     await Browser.typeUrl('mail.google.com');
     Browser.nav('mail', { url: 'https://mail.google.com/mail/u/0/#inbox', title: '受信トレイ (1) - asianretreat.jp@gmail.com - Gmail', page: 'mail', fav: 'gmail' });
@@ -524,7 +524,7 @@
     await wait(600);
     await closeEditor();
     skip('11:26');
-    Mail.add({ from: 'アジアンリトリート', addr: 'asianretreat.jp@gmail.com', to: 'asianretreat.jp@gmail.com', subject: AR.mailText(tpl.adminSubject || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00' }), snippet: 'WEB予約が入りました。', text: AR.mailText(tpl.adminBodyFixed || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00', services: 'もみほぐし 60分', totalAmount: '¥9,900' }), time: '11:26', label: 'WEB予約' });
+    Mail.add({ pii: [BOOK.name, BOOK.kana, BOOK.phone, BOOK.email, BOOK.addr], from: 'アジアンリトリート', addr: 'asianretreat.jp@gmail.com', to: 'asianretreat.jp@gmail.com', subject: AR.mailText(tpl.adminSubject || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00' }), snippet: 'WEB予約が入りました。', text: AR.mailText(tpl.adminBodyFixed || '', { ...b, id: '2', bookingDateAndTime: '2026年11月22日（日）11:00', services: 'もみほぐし 60分', totalAmount: '¥9,900' }), time: window.Win11.fmt.time(), label: 'WEB予約' });
     await Browser.clickTab('mail');
     Mail.render({ newIdx: 0 });
     await wait(500);
@@ -576,7 +576,7 @@
     await click(c21);
     await wpScreen('customers-day', { loading: false, after: 400 });
     const rowY = WP.els('tr, .row, div').filter((e) => e.offsetParent !== null && /山本/.test(e.textContent)).sort((x, y) => x.textContent.length - y.textContent.length)[0];
-    if (rowY) { await hover(rowY, 900); Issue.ok(R(rowY, 3), '11/21 13:00 山本 彩 様（タイ古式 90分）'); await wait(2000); Issue.hide(); }
+    if (rowY) { await hover(rowY, 900); Issue.ok(R(rowY, 3), '11/21 13:00 のご予約（タイ古式 90分）'); await wait(2000); Issue.hide(); }
     if (WP.has('customers-detail')) {
       await click(rowY);
       await wpScreen('customers-detail', { loading: false, after: 400 });

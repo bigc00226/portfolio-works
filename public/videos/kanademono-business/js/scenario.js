@@ -499,11 +499,12 @@
     Caption.set('お客様が請求書のリンクから注文 → 支払い期日つきの注文（請求書払い）が作られる');
     await Admin.go('orders', H.page({ title: '注文', actions: [H.btn('エクスポート'), H.btn('注文を作成', { pri: true })] },
       H.card('', H.table([['', 'ck'], '注文', '日付', '顧客', '支払い状況', 'フルフィルメント状況', ['合計', 'num']],
-        [[H.ck(), '<b>#1043</b>', '11月8日 14:09', `${K.ic('building')} ${esc(CO)}`, H.badge('支払い期日 10月15日', 'att', { dot: true }), H.badge('未発送', 'att', { dot: true }), yen(F.TOTAL_B2B)],
+        [[H.ck(), '<b>#1043</b>', '11月8日 14:09', `${K.ic('building')} ${esc(CO)}`, H.badge('支払い期日 12月8日', 'att', { dot: true }), H.badge('未発送', 'att', { dot: true }), yen(F.TOTAL_B2B)],
           [H.ck(), '#1042', '11月8日 11:26', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('発送済み', '', { dot: true, full: true }), yen(64800)],
           [H.ck(), '#1041', '11月8日 09:51', '<span class="pii">一般のお客様</span>', H.badge('支払い済み', '', { dot: true, full: true }), H.badge('未発送', 'att', { dot: true }), yen(23500)]], { id: 'odTable' }), { flush: true })), { title: '注文', path: '/orders' });
     await hoverUi('#odTable tbody tr:first-child td:nth-child(5)', { hold: 1200 });
-    await Admin.open($('#odTable tbody tr:first-child td:nth-child(2) b'), V.order(), { title: '注文 #1043', path: '/orders/5873412345678' });
+    // net 30 from the order of 11/8 (the order view's 10月15日 came before the order itself)
+    await Admin.open($('#odTable tbody tr:first-child td:nth-child(2) b'), V.order().replace(/2026年10月15日/g, '2026年12月8日').replace(/10月15日/g, '12月8日'), { title: '注文 #1043', path: '/orders/5873412345678' });
     Issue.ok($('#odPay'), '30日以内の請求書払い');
     await hoverUi('#odDue', { hold: 1800 });
     await hoverUi('#odTl', { ax: 0.3, hold: 1600 });
@@ -562,9 +563,11 @@
     Caption.step(7);
     Caption.set('動作テスト：ここまでの申請・承認・見積もりで、メールが正しく届いているか確認');
     Mail.list = [];
-    Mail.add({ from: 'Shopify Flow', addr: 'no-reply@shopify.com', subject: `【法人会員登録】${CO} 様から申請がありました`, snippet: '会社名・ご担当者・業種・時期', time: '14:01', label: '法人会員', to: 'b2b@kanademono.design',
+    // received times: a few minutes before the taskbar clock (the steps earlier in the video)
+    const ago = (m) => window.Win11.fmt.time(new Date(window.Win11.now().getTime() - m * 60000));
+    Mail.add({ from: 'Shopify Flow', addr: 'no-reply@shopify.com', subject: `【法人会員登録】${CO} 様から申請がありました`, snippet: '会社名・ご担当者・業種・時期', time: ago(9), label: '法人会員', to: 'b2b@kanademono.design',
       html: `会社名：${esc(CO)}\nご担当者：山田 太郎（総務部）\nメール：b2b+testlab@kanademono.design\n業種・時期：業種：IT・通信 / 時期：1か月以内` });
-    Mail.add({ from: 'KANADEMONO for BUSINESS', addr: 'b2b@kanademono.design', subject: '【KANADEMONO for BUSINESS】法人会員登録が完了しました', snippet: '専用ログインページにメールアドレスを入力してください', time: '14:02', label: '法人会員', to: 'b2b+testlab@kanademono.design',
+    Mail.add({ from: 'KANADEMONO for BUSINESS', addr: 'b2b@kanademono.design', subject: '【KANADEMONO for BUSINESS】法人会員登録が完了しました', snippet: '専用ログインページにメールアドレスを入力してください', time: ago(8), label: '法人会員', to: 'b2b+testlab@kanademono.design',
       html: `${esc(CO)}
 山田 太郎 様
 
@@ -573,7 +576,7 @@ KANADEMONO for BUSINESS の法人会員登録が完了しました。
 法人価格（卸売取引）・カンタン見積もり・請求書払いがご利用いただけます。
 
 <span class="wm-btn" id="wmLogin">専用ログインページへ</span>` });
-    Mail.add({ from: 'KANADEMONO for BUSINESS', addr: 'b2b@kanademono.design', subject: `御見積書・ご請求書（#D1024）`, snippet: F.STYLING, time: '14:06', att: 'quote-D1024.pdf', label: '見積もり',
+    Mail.add({ from: 'KANADEMONO for BUSINESS', addr: 'b2b@kanademono.design', subject: `御見積書・ご請求書（#D1024）`, snippet: F.STYLING, time: ago(4), att: 'quote-D1024.pdf', label: '見積もり',
       to: 'b2b+testlab@kanademono.design', html: `${esc(CO)}\n山田 太郎 様\n\nこのたびはお見積もりのご依頼をいただき、ありがとうございます。\nスタイリング「${esc(F.STYLING)}」のお見積書をお送りします。\n\nお見積金額（税込）：<b>${yen(F.TOTAL_B2B)}</b>\nお支払い：請求書払い（30 日以内）\n\n下記のリンクからご注文いただけます。\n<span class="sa-link">ご注文手続きへ進む</span>` });
     Browser.addTab({ id: 'mail', title: '受信トレイ (3) - b2b@kanademono.design', url: 'https://mail.google.com/mail/u/0/#inbox', page: 'mail', fav: 'mail' }, { anim: true });
     Mail.render({ newIdx: 0 });
@@ -608,7 +611,7 @@ KANADEMONO for BUSINESS の法人会員登録が完了しました。
     Acct.busy(true); await wait(700);
     Acct.codeStep('b2b+testlab@kanademono.design');
     Browser.nav('acct', { title: 'コードを入力 - KANADEMONO' });
-    Mail.add({ from: 'KANADEMONO', addr: 'no-reply@kanademono.design', subject: 'ログイン用の確認コード：482915', snippet: 'このコードは 10 分間有効です', time: '14:12', label: '法人会員', to: 'b2b+testlab@kanademono.design', html: '確認コード：<b>482915</b>\nこのコードは 10 分間有効です。' });
+    Mail.add({ from: 'KANADEMONO', addr: 'no-reply@kanademono.design', subject: 'ログイン用の確認コード：482915', snippet: 'このコードは 10 分間有効です', time: window.Win11.fmt.time(), label: '法人会員', to: 'b2b+testlab@kanademono.design', html: '確認コード：<b>482915</b>\nこのコードは 10 分間有効です。' });
     Caption.set('確認コード（ワンタイムパスワード）はメールで届く');
     await Browser.clickTab('mail');
     Mail.render({ newIdx: 0 });

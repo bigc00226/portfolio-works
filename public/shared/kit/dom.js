@@ -89,7 +89,7 @@
 
   const storeHtml = `
     <div class="st-pc" id="stPc"><div class="st-fit" id="stFit"><iframe id="stFrame" title="${esc(st.domain || 'store')}"></iframe></div></div>
-    <div class="st-dev"><div class="st-devbar">寸法: <b>iPhone 14 Pro Max</b><i data-icon="chevron-down"></i><span class="dv-num">390</span>×<span class="dv-num">844</span><span id="stZoom">100%</span><i data-icon="chevron-down"></i><span>スロットリングなし</span><i data-icon="chevron-down"></i></div>
+    <div class="st-dev"><div class="st-devbar">寸法: <b>iPhone 12 Pro</b><i data-icon="chevron-down"></i><span class="dv-num">390</span>×<span class="dv-num">844</span><span id="stZoom">100%</span><i data-icon="chevron-down"></i><span>スロットリングなし</span><i data-icon="chevron-down"></i></div>
       <div class="st-devscr" id="stDevScr"><iframe id="stSpFrame" title="${esc(st.domain || 'store')} (smartphone)"></iframe></div></div>`;
 
   const extra = Object.entries(V.pages || {}).map(([k, html]) => `<div class="br-page" data-page="${esc(k)}">${html}</div>`).join('');
@@ -139,7 +139,7 @@
         </nav>
         <aside class="vs-side">
           <div class="vs-side-h">エクスプローラー<span class="ci">&#xea7c;</span></div>
-          <div class="vs-root"><span class="ci">&#xeab4;</span>${esc(pr.name.toUpperCase())}<span class="vs-root-acts" id="vsRootActs"><span class="ci" id="vsNewFile">&#xea7f;</span><span class="ci">&#xea80;</span><span class="ci">&#xeb37;</span><span class="ci">&#xeac5;</span></span></div>
+          <div class="vs-root"><span class="ci">&#xeab4;</span><span class="vs-root-nm">${esc(pr.name.toUpperCase())}</span><span class="vs-root-acts" id="vsRootActs"><span class="ci" id="vsNewFile">&#xea7f;</span><span class="ci">&#xea80;</span><span class="ci">&#xeb37;</span><span class="ci">&#xeac5;</span></span></div>
           <div class="vs-tree" id="vsTree"></div>
           <div class="vs-secs"><div class="vs-sec"><span class="ci">&#xeab6;</span>アウトライン</div><div class="vs-sec"><span class="ci">&#xeab6;</span>タイムライン</div></div>
         </aside>
@@ -153,7 +153,7 @@
           </div>
         </main>
       </div>
-      <footer class="vs-status"><span class="vs-remote"><span class="ci">&#xeb3a;</span></span><span><span class="ci">&#xec6f;</span> <span id="vsBranch">main</span><span class="ci vs-sync">&#xea77;</span></span><span id="vsProblems"><span class="ci">&#xea87;</span> 0 <span class="ci">&#xea6c;</span> 0</span><span class="sp"></span><span id="vsPos">Ln 1, Col 1</span><span id="vsIndent">スペース: 2</span><span id="vsEnc">UTF-8</span><span id="vsEol">LF</span><span class="vs-lang"><span class="ci">&#xeb0f;</span><span id="vsLang">Plain Text</span></span><span class="ci">&#xec1e;</span><span class="ci">&#xeaa2;</span></footer>
+      <footer class="vs-status"><span class="vs-remote"><span class="ci">&#xeb3a;</span></span><span><span class="ci">&#xec6f;</span> <span id="vsBranch">main</span><span class="ci vs-sync">&#xea77;</span></span><span id="vsProblems"><span class="ci">&#xea87;</span> 0 <span class="ci">&#xea6c;</span> 0</span><span class="sp"></span><span id="vsPos">行 1、列 1</span><span id="vsIndent">スペース: 2</span><span id="vsEnc">UTF-8</span><span id="vsEol">LF</span><span class="vs-lang"><span class="ci">&#xeb0f;</span><span id="vsLang">Plain Text</span></span><span class="ci">&#xec1e;</span><span class="ci">&#xeaa2;</span></footer>
     </section>`;
 
   const steps = (V.steps || []).map((s, i) => `<span data-step="${i + 1}"><b>${i + 1}</b>${esc(s)}</span>`).join('');

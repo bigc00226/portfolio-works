@@ -30,6 +30,7 @@
 .vs-side-h { color: #cccccc; justify-content: space-between; padding: 0 12px 0 20px; }
 .vs-side-h .ci { font-size: 16px; }
 .vs-root { gap: 2px; }
+.vs-root-nm { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .vs-root > .ci { font-size: 16px; }
 .vs-root-acts { display: inline-flex; gap: 4px; margin-left: auto; margin-right: 10px; }
 .vs-root-acts .ci { font-size: 16px; width: 20px; height: 20px; display: grid; place-items: center; }

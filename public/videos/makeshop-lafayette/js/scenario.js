@@ -67,6 +67,23 @@
     Browser.loading('ms', false);
     await wait(420);
   }
+  /** 商品登録 is opened from 商品一覧 (its 商品登録 button), as in the admin — the same total waits as go() */
+  async function goNewItem(render) {
+    await clickUi('#msNavStock', { after: 60 });
+    Browser.loading('ms', true);
+    await wait(180);
+    Browser.nav('ms', { title: MS.title('商品一覧'), url: MS.URL + '/products' });
+    MS.items();
+    Browser.loading('ms', false);
+    await wait(160);
+    await clickUi('#msItemsNew', { after: 60 });
+    Browser.loading('ms', true);
+    await wait(180);
+    Browser.nav('ms', { title: MS.title('商品登録'), url: MS.URL + '/products/new' });
+    render();
+    Browser.loading('ms', false);
+    await wait(220);
+  }
   const scrollMain = async (y, ms = 700) => { const el = $('#msScroll'); const s = el.scrollTop; await D.tween(ms, (e) => { el.scrollTop = s + (y - s) * e; }, D.Ease.inOut); };
   const toEl = async (sel, off = 120, ms = 700) => { const el = typeof sel === 'string' ? $(sel) : sel, box = $('#msScroll'); await scrollMain(el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - off, ms); };
   if (D.revealers) D.revealers.push(async (el) => {
@@ -107,13 +124,13 @@
     await window.MsLoginFrame.signIn({ id: MS.ID, password: MS.PASSWORD });
     Browser.loading('ms', true);
     await wait(900);
-    Browser.nav('ms', { title: MS.title('ホーム'), url: MS.URL + '/dashboard', page: 'ms' });
+    Browser.nav('ms', { title: MS.title('ダッシュボード'), url: MS.URL + '/dashboard', page: 'ms' });
     MS.home();
     Browser.loading('ms', false);
     await wait(500);
     await hoverUi('.ms-setup', { hold: 1400 });
     Caption.set('カテゴリーは 2 系統：「ブランドから探す」と「アイテムから探す」');
-    await go('msNavCats', () => MS.cats(), 'カテゴリー設定', '/products/categories');
+    await go('msNavCats', () => MS.cats(), 'カテゴリ設定', '/products/categories');
     for (const k of ['lafayette', 'carhartt', 'newera', 'adidas']) await hoverUi(`#brandTbl tbody tr[data-cat="${k}"]`, { hold: 700 });
     await hoverUi('#itemTbl tbody tr[data-cat="tshirts"]', { hold: 1100 });
     Caption.set('LFYT の下に「LFYT クルースウェット/パーカー」を追加');
@@ -123,7 +140,7 @@
     await clickUi('#catAdd', { after: 80 });
     await wait(300);
     MS.cats({ sweat: true, flash: 'lafayette_sweatshirt' });
-    MS.toast('カテゴリーを追加しました');
+    MS.toast('カテゴリを追加しました。');
     await wait(700);
     await hoverUi('#brandTbl tbody tr[data-cat="lafayette_sweatshirt"]', { hold: 1300 });
     Caption.set('シーズンのコレクションも LFYT の下に（LFYT 2026 Autumn/Winter Collection）');
@@ -133,7 +150,7 @@
     await clickUi('#catAdd', { after: 80 });
     await wait(300);
     MS.cats({ sweat: true, aw: true, flash: 'lfyt_2026aw' });
-    MS.toast('カテゴリーを追加しました');
+    MS.toast('カテゴリを追加しました。');
     await wait(600);
     await hoverUi('#brandTbl tbody tr[data-cat="lfyt_2026aw"]', { hold: 1300 });
     Caption.set('パーカーはアイテム別の「パーカー」にも入れて、ブランドとアイテムの両方の入口から見つかるようにする');
@@ -146,7 +163,7 @@
   scene('items', async () => {
     Caption.step(2);
     Caption.set(`商品登録：${BOX.no} BOX LOGO HOODIE（商品名は品番表から貼り付け）`);
-    await go('msNavNew', () => MS.product(), '商品登録', '/products/new');
+    await goNewItem(() => MS.product());
     await clickUi('#pdName', { kind: 'text', after: 80 });
     await Keycap.show(['Ctrl', 'V'], 600);
     MS.product({ name: BOX.name });
@@ -173,7 +190,7 @@
     Caption.set('10 個の SKU（カラー × サイズ）ができた');
     await hoverUi('#skuTbl tbody tr', { hold: 1400 });
     await hoverUi('#skuTbl tbody tr code', { hold: 1500 });
-    await save('#pdSave', '商品を保存しました');
+    await save('#pdSave', '商品を保存しました。');
     // preview the product page
     Caption.set('商品ページで、サイズ・カラーごとの表示を確認');
     await clickUi('#pdPreview', { after: 80 });
@@ -195,7 +212,7 @@
     MS.product({ ...base, colors, sizes, stockOff: false, stock: true });
     await toEl('#varPanel', 90, 0);
     await hoverUi('#skuTbl tbody tr[data-sku="BLACK-XL"]', { hold: 1300 });
-    await save('#pdSave', '商品を保存しました');
+    await save('#pdSave', '商品を保存しました。');
     await Browser.clickTab('pv');
     await Browser.reload(async () => { await Store.load('product'); });
     await Store.scrollToEl(skuTable(), 300, 0);
@@ -232,11 +249,11 @@
     await readHold(3300);
     Issue.hide();
     await Browser.clickTab('ms');
-    await go('msNavList', () => MS.list(), '商品一覧ページ・検索', '/design/item-list');
+    await go('msNavList', () => MS.list(), 'ショップページ表示設定', '/shop-design/settings/shop-page');
     await hoverUi('#lpSort', { hold: 900 });
     await choose('#lpSort', MS.SORTS, MS.SORTS[0], { look: 500 });
     MS.list({ sort: MS.SORTS[0] });
-    await save('#lpSave', '設定を保存しました');
+    await save('#lpSave', '変更内容を保存しました。');
     await Browser.clickTab('pv');
     await Browser.reload(async () => { await Store.load('news'); });
     await Store.scrollToEl(first(), 260, 0);
@@ -277,7 +294,7 @@
     Caption.step(4);
     Caption.set('会員：ご購入額の 1% をポイント還元・新規登録で 500 ポイント（会員特典のページのとおり）');
     await Browser.clickTab('ms');
-    await go('msNavMemberCfg', () => MS.member(), '会員設定', '/members/settings');
+    await go('msNavMemberCfg', () => MS.member(), '会員ポイント機能の設定', '/members/settings/member-point');
     await typeInput('#mbRate', '1', { kps: 8 });
     await typeInput('#mbSignup', '500', { kps: 9 });
     Caption.set('会員ランクは 5 段階・毎月 1 日に確定（最大 10%）');
@@ -286,7 +303,7 @@
     Caption.set('お気に入り・再入荷通知・お気に入り商品のお知らせメールを有効に');
     await toEl('#favPanel', 100);
     for (const id of ['#mbFav', '#mbRestock', '#mbFavMail']) { await clickUi(id, { after: 60 }); $(id).classList.add('on'); await wait(250); }
-    await save('#mbSave', '会員設定を保存しました');
+    await save('#mbSave', '変更内容を保存しました。');
     Caption.set('商品ページの SKU ごとに「お気に入りに追加」「再入荷通知を受け取る」');
     await shop('product', `/view/item/${BOX.code}`, P.product[0]);
     await Store.scrollToEl(skuTable(), 300, 1200);
@@ -310,14 +327,14 @@
     Caption.step(5);
     Caption.set('送料：地域別 600〜1,100 円（ヤマト運輸）と、送料無料のライン');
     await Browser.clickTab('ms');
-    await go('msNavCart', () => MS.cart(), 'カート・送料・決済', '/settings/cart');
+    await go('msNavCart', () => MS.cart(), '配送方法設定', '/settings/delivery/methods');
     for (const el of [...$$('#feeTbl tbody tr')].slice(0, 3)) await hoverUi(el, { hold: 700 });
     await typeInput('#freeLine', '11000', { kps: 9 });
     Caption.set('カートに「あと ◯ 円で送料無料」を出す。決済はカード・後払い・楽天ペイ・LINE Pay・Paidy・キャリア決済・Amazon Pay');
     await clickUi('#cartRemain', { after: 60 }); $('#cartRemain').classList.add('on');
     for (const el of [...$$('.ms-two > div:last-child .ms-chips .ms-chip')]) await hoverUi(el, { hold: 420 });
     await hoverUi('[data-r="rsv:通常商品と別のカート"]', { hold: 1400 });
-    await save('#cartSave', '設定を保存しました');
+    await save('#cartSave', '変更内容を保存しました。');
     Caption.set('ショップのヘッダーの「11,000円以上ご購入で送料無料！」と、商品ページのカートボタン');
     await shop('home', '/', 'Lafayette｜ラファイエット公式通販サイト');
     const bn = [...Store.doc.querySelectorAll('p, div, a, span')].find((e) => e.children.length < 2 && /11,000円以上ご購入で送料無料/.test(e.textContent));
@@ -336,7 +353,7 @@
     Caption.step(6);
     Caption.set('運用：在庫一覧（SKU 単位）で在庫 0 と残りわずかを確認、再入荷通知の申込数も見る');
     await Browser.clickTab('ms');
-    await go('msNavStock', () => MS.stock(), '在庫一覧', '/products/stocks');
+    await go('msNavStock', () => MS.stock(), '商品一覧', '/products');
     for (const el of [...$$('#stkTbl tbody tr.zero')].slice(0, 2)) await hoverUi(el, { hold: 1100 });
     await hoverUi('#stkTbl tbody tr.low', { hold: 1300 });
     await hoverUi('#stkTbl thead th:last-child', { hold: 1100 });
@@ -347,10 +364,10 @@
     Caption.set('在庫 0 の SKU だけに絞り込み：再入荷通知の申込が多いものから追加発注');
     await hoverUi('#stkTbl tbody tr.zero', { hold: 1800 });
     Caption.set(`新作 3 型の販売開始を予約：${QLT.no} LOGO QUILTED HOODIE を 11/21（土）11:00 に`);
-    await go('msNavItems', () => MS.schedule(), '商品編集', `/products/${QLT.code}`);
+    await go('msNavStock', () => MS.schedule(), '商品編集', `/products/${QLT.code}`);
     await hoverUi('#spPanel .ms-tg', { hold: 1300 });
     await typeInput('#spTime', '01:00', { kps: 8 });
-    await save('#spSave', '商品を保存しました');
+    await save('#spSave', '商品を保存しました。');
     await clickUi('#spPreview', { after: 80 });
     await shop('quilted', `/view/item/${QLT.code}`, P.quilted[0], { states: ['release0100'] });
     const pre = () => [...Store.doc.querySelectorAll('.item-detail-addcart, .cartTbl')].find((e) => /販売開始/.test(e.textContent)) || Store.doc.body;
@@ -370,7 +387,7 @@
     await Win.switchTo('browser');
     await Browser.clickTab('ms');
     await typeInput('#spTime', '11:00', { kps: 8 });
-    await save('#spSave', '商品を保存しました');
+    await save('#spSave', '商品を保存しました。');
     await Browser.clickTab('pv');
     await Browser.reload(async () => { await Store.load('quilted'); });
     await Store.scrollToEl(pre(), 360, 0);

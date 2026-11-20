@@ -59,7 +59,6 @@
       `<div class="tb-center">` +
         `<span class="tb-btn tb-start" title="スタート"><img class="tb-ico" src="${ICON('start.webp')}" alt=""></span>` +
         `<span class="tb-searchbox"><span class="tb-sicon">${fl('search_20_regular')}</span><span class="tb-stext">検索</span></span>` +
-        `<span class="tb-btn tb-taskview" title="タスク ビュー">${TASKVIEW}</span>` +
         apps +
       `</div>` +
       `<div class="tb-tray">` +

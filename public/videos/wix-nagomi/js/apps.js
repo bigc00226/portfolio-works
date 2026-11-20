@@ -11,20 +11,22 @@
 
   const NG = {
     /** pages & menu: [{n, home, sub, on, off(hidden from the menu), new, edit, id}] */
-    pages(list, o = {}) {
-      const row = (p) => `<div class="wx-pg${p.sub ? ' sub' : ''}${p.on ? ' on' : ''}${p.new ? ' new' : ''}${p.off ? ' off' : ''}"${p.id ? ` id="${p.id}"` : ''} data-pg="${esc(p.n)}">
-          ${p.home ? `<span class="home">${sv('home')}</span>` : ''}${p.edit ? `<span class="ed" id="${p.edit}"></span>` : `<span class="nm">${esc(p.n)}${p.off ? `<span class="hid" title="メニューに表示しない">${sv('eye', 14)}</span>` : ''}</span>`}<span class="dots">${sv('dots')}</span></div>`;
-      return `<div class="wx-pg-tabs"><span class="on">サイトメニュー</span><span>ページ</span><span>ブログ</span><span>多言語</span></div>
-        <div class="wx-pg-h">サイトメニュー（ヘッダーのナビゲーション）<span class="sp"></span>${list.length} ページ</div>
-        ${list.map(row).join('')}
-        <div class="wx-pg-add" id="pgAdd">${sv('plus', 15)}ページを追加</div>
-        ${o.note ? `<div class="lo-files">${esc(o.note)}</div>` : ''}`;
+    /** "サイトページ" panel (ページ・メニュー): page types on the left, the site menu's pages as cards on the right
+     *  (support.wix.com/ja screenshot, 2025-06) */
+    pages(list) {
+      const row = (p, i) => {
+        const par = !p.sub && list[i + 1] && list[i + 1].sub;
+        return `<div class="wx-pg${p.sub ? ' sub' : ''}${par ? ' par' : ''}${p.on ? ' on' : ''}${p.new ? ' new' : ''}${p.off ? ' off' : ''}"${p.id ? ` id="${p.id}"` : ''} data-pg="${esc(p.n)}">
+          <span class="grip"></span><span class="pi">${sv(p.home ? 'home' : 'pages', 17)}</span>${p.edit ? `<span class="ed" id="${p.edit}"></span>` : `<span class="nm">${esc(p.n)}</span>${p.off ? `<span class="hid" title="非表示">${sv('hide', 15)}</span>` : ''}`}<span class="dots">${sv('dots')}</span></div>`;
+      };
+      return `<div class="wx-sp"><div class="wx-sp-cats"><span class="on">サイトメニュー</span><span>登録・ログイン</span><span>ブログページ</span></div>
+        <div class="wx-sp-main"><div class="wx-sp-h">サイトメニュー<span class="add" id="pgAdd">${sv('plus', 14)}追加</span></div>
+        ${list.map(row).join('')}</div></div>`;
     },
     media(imgs, o = {}) {
-      return `<div class="lo-files">${esc(o.folder || 'サイトファイル')}　${imgs.length} 件</div>
-        <div class="wx-media">${imgs.map((m, i) => `<div${o.on && o.on.includes(i) ? ' class="on"' : ''}${o.up === i ? ' class="up"' : ''} style="background-image:url('${m.src}')" title="${esc(m.name)}"></div>`).join('')}</div>`;
+      return X.mediaManager(imgs.map((m, i) => ({ ...m, on: !!(o.on && o.on.includes(i)), up: o.up === i })), o);
     },
-    mediaFoot(label = 'ページに追加') { return `<span class="wx-btn" id="mdUpload">${sv('upload', 15)}メディアをアップロード</span><span class="wx-btn pri" id="mdPick">${esc(label)}</span>`; },
+    mediaFoot(label = 'ページに追加') { return `<span class="wx-btn pri" id="mdPick">${esc(label)}</span>`; },
     slides(n) {
       return `<div class="wx-sf"><label>スライド（${n} 枚）</label><div class="wx-media" style="padding:0;grid-template-columns:repeat(3,1fr)" id="slList"></div></div>
         <div class="wx-sf"><div class="wx-tg">自動で切り替える（5 秒ごと）<span class="sw on"></span></div></div>

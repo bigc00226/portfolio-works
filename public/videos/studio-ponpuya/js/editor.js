@@ -67,6 +67,13 @@
     more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
     alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
     undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+    eye: '<path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
+    'arrow-left': '<path d="M19 12H5M12 19l-7-7 7-7"/>',
+    'arrow-up': '<path d="M12 19V5M5 12l7-7 7 7"/>',
+    gap: '<path d="M5 4v16M19 4v16M10 9l2 3-2 3M14 9l-2 3 2 3"/>',
+    shadow: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M16 9.5a6.5 6.5 0 0 1-6.5 7.9" stroke-width="3.2"/>',
+    filter: '<circle cx="9" cy="10" r="5"/><circle cx="15" cy="10" r="5"/><circle cx="12" cy="15" r="5"/>',
+    pin: '<rect x="7" y="4.5" width="10" height="15" rx="1.5"/><path d="M12 8.5v7"/>',
   };
   function icon(name, cls = '') {
     return `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`;
@@ -450,7 +457,7 @@
     select(el, o = {}) {
       this.selEl = el;
       this.selOpts = o;
-      if (el) { $('#ovTag').textContent = o.label || 'Box'; $('#ovSel').classList.toggle('cms', !!o.cms); }
+      if (el) { $('#ovTag').textContent = `<${(el.tagName || 'div').toLowerCase()}>`; $('#ovSel').classList.toggle('cms', !!o.cms); }
       this.refresh();
     },
     drop(rect) { this.dropRect = rect; },
@@ -669,10 +676,19 @@
   };
 
   /* ------------------------------------------------------------- properties */
+  // The right panel of STUDIO's editor (Editor 5.0, the default editor since 2025-11-25; help.studio.design/ja screenshots
+  // 2025-12 … 2026-10): the element's name with 条件スタイル, text tabs (テキスト|画像 / ボックス / 変形 / 設定), labels above
+  // filled fields, sections レイアウト / 外観 / ポジション. Nothing selected: ページ / サイト tabs with ページ設定 / 公開情報.
   const fld = (k, v, u, attrs = '') => `<div class="fld" ${attrs}>${k ? `<span class="k">${k}</span>` : ''}<span class="v">${v}</span>${u ? `<span class="u">${u}</span>` : ''}</div>`;
   const prow = (...items) => `<div class="rp-row">${items.join('')}</div>`;
   const lrow = (label, ...items) => `<div class="rp-row"><span class="rp-lbl">${label}</span>${items.join('')}</div>`;
-  const sec = (title, body, ic = 'plus') => `<div class="rp-sec"><div class="rp-sec-title"><span>${title}</span>${ic ? icon(ic) : ''}</div>${body}</div>`;
+  const sec = (title, body, ic = '') => `<div class="rp-sec"><div class="rp-sec-title"><span>${title}</span>${ic ? icon(ic) : ''}</div>${body}</div>`;
+  /** a field with its label above it */
+  const lab = (label, inner, cls = '') => `<div class="rp-f${cls ? ' ' + cls : ''}">${label ? `<div class="rp-l">${label}</div>` : ''}${inner}</div>`;
+  const pair = (a, b) => `<div class="rp-2">${a}${b}</div>`;
+  const chev = () => icon('chevron-down', 'rp-chev');
+  const sel = (v, attrs = '', pre = '') => `<div class="fld sel" ${attrs}>${pre}<span class="v">${v}</span>${chev()}</div>`;
+  const tog = (on) => `<span class="rp-tog${on ? ' on' : ''}"></span>`;
   function fmtLen(v) {
     if (v == null || v === '') return ['Auto', ''];
     v = String(v).trim();
@@ -705,14 +721,31 @@
   }
   const WEIGHTS = { 100: 'Thin', 200: 'ExtraLight', 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold', 800: 'ExtraBold', 900: 'Black' };
   const TYPE_LABEL = { box: 'ボックス', text: 'テキスト', image: '画像', link: 'リンク', form: 'フォーム', embed: '埋め込み', cms: 'CMSリスト', button: 'ボタン' };
+  // the first tab of an element whose content has its own settings (text / image …); every element has ボックス・変形・設定
+  const FIRST_TAB = { text: 'テキスト', image: '画像', embed: '埋め込み', form: 'フォーム' };
+  // the page itself: its settings as the project has them (the published page's own title / description / OGP image)
+  const PAGE = { title: "有限会社長谷川興業 | 大阪府豊中市 | コンクリート打設工事", desc: "有限会社長谷川興業は、大阪府豊中市を拠点に、日本全国のコンクリート打設工事を承っております。より使いやすいポンプ屋さんを目指し、他の圧送業者では断ってしまうような難易度の高い現場でも、高い技術力と対応力でお応えします。", cmsLink: "news/:slug" };
+  // side icons of the margin / padding fields (top, right, bottom, left)
+  const SIDE = ['<path d="M5 5h14M9 9h6v10H9z"/>', '<path d="M19 5v14M5 9h10v6H5z"/>', '<path d="M5 19h14M9 5h6v10H9z"/>', '<path d="M5 5v14M9 9h10v6H9z"/>'];
+  const side = (i) => `<svg class="ic side" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">${SIDE[i]}</svg>`;
 
   const Props = {
-    root: null, cur: null, ov: {},
+    root: null, cur: null, ov: {}, tab: null,
     init() { this.root = $('#props'); this.show(null); },
-    show(target) { this.cur = target; this.ov = (target && target.ov) || {}; this.render(false); },
+    show(target) {
+      this.cur = target;
+      this.ov = (target && target.ov) || {};
+      this.tab = this.tabsFor(target)[0];
+      this.render(false);
+    },
     set(k, v) { this.ov[k] = v; this.render(true, k); },
     clear(k) { delete this.ov[k]; this.render(true, k); },
     extra: {},
+    tabsFor(t) {
+      if (!t || !t.el) return ['ページ', 'サイト'];
+      const type = t.type || 'box';
+      return [FIRST_TAB[type], 'ボックス', '変形', '設定', type === 'cms' ? 'データ' : null].filter(Boolean);
+    },
     render(soft, changedKey) {
       this.root.classList.toggle('soft', !!soft);
       const t = this.cur;
@@ -720,23 +753,42 @@
       if (!t || !t.el) html = this.pageHtml();
       else html = this.elHtml(t);
       this.root.innerHTML = html;
+      this.applyTab();
       if (soft) $$('.rp-sec', this.root).forEach((s) => (s.style.animation = 'none'));
       if (changedKey) { const f = $(`[data-k="${changedKey}"]`, this.root); if (f) f.classList.add('changed'); }
     },
+    tabsHtml() { return `<div class="rp-tabs">${this.tabsFor(this.cur).map((n) => `<span data-tab="${n}">${n}</span>`).join('')}</div>`; },
+    pane(name, body) { return `<div class="rp-pane" data-pane="${name}">${body}</div>`; },
+    applyTab() {
+      if (!this.tabsFor(this.cur).includes(this.tab)) this.tab = this.tabsFor(this.cur)[0];
+      $$('.rp-tabs [data-tab]', this.root).forEach((s) => s.classList.toggle('on', s.dataset.tab === this.tab));
+      $$('.rp-pane', this.root).forEach((p) => p.classList.toggle('on', p.dataset.pane === this.tab));
+    },
+    /** a field on a tab that is not open: the pointer opens that tab first (as a person would) */
+    async reveal(el) {
+      const pane = el && el.closest && el.closest('#props .rp-pane');
+      if (!pane || pane.classList.contains('on')) return;
+      const tab = $(`#props .rp-tabs [data-tab="${pane.dataset.pane}"]`);
+      if (tab) await clickUi(tab, { pause: 110 });
+      this.tab = pane.dataset.pane;
+      this.applyTab();
+      await wait(220);
+    },
     pageHtml() {
-      return `<div class="rp-head">${icon('file')}<span class="rp-name">Home</span><span class="pill pill-blue">ページ</span></div>
-        <div class="rp-tabs"><span class="on">ページ設定</span><span>SEO</span></div>` +
-        sec('基本設定', `
-          <div class="rp-kv"><span>タイトル</span><b>有限会社長谷川興業 | 大阪府豊中市 | コンクリート打設工事</b></div>
-          <div class="rp-kv"><span>URL</span><b>/</b></div>
-          <div class="rp-kv"><span>言語</span><b>ja</b></div>`, '') +
-        sec('ディスクリプション', `<div class="rp-note">有限会社長谷川興業は、大阪府豊中市を拠点に、日本全国のコンクリート打設工事を承っております。より使いやすいポンプ屋さんを目指し、他の圧送業者では断ってしまうような難易度の高い現場でも、高い技術力と対応力でお応えします。</div>`, '') +
-        sec('OGP画像', `<div class="rp-ogp" style="background-image:url(assets/img/ogp.webp)"></div>`, '') +
-        sec('ブレイクポイント', `
-          <div class="rp-kv"><span>PC</span><b>1280px〜</b></div>
-          <div class="rp-kv"><span>PC（小）</span><b>〜1140px</b></div>
-          <div class="rp-kv"><span>タブレット</span><b>〜840px</b></div>
-          <div class="rp-kv"><span>モバイル</span><b>〜540px</b></div>`, '');
+      const page = sec('ページ設定',
+        lab('ページ名', fld('', 'Home', '')) +
+        lab('パス', fld('', '<span class="muted">/</span>', '')) +
+        lab('タイプ', sel('ホーム', '', icon('home'))) +
+        `<div class="rp-sw"><span>ページを非公開にする</span>${tog(false)}</div>`) +
+        sec('公開情報',
+          lab('ページタイトル', fld('', `<span class="muted">${esc(PAGE.title)}</span>`, '')) +
+          lab('ページ説明文', `<div class="fld area"><span class="v muted">${esc(PAGE.desc)}</span></div>`) +
+          lab('ソーシャルカバー', '<div class="rp-ogp" style="background-image:url(assets/img/ogp.webp)"></div>') +
+          `<div class="rp-sw"><span>ファビコン</span><span class="rp-upl">${icon('upload')}</span></div>` +
+          lab('言語', sel('<span class="muted">言語を選択してください</span>')) +
+          `<div class="rp-sw"><span>noindexを設定する</span>${tog(false)}</div>`) +
+        `<div class="rp-sec rp-fold"><div class="rp-sec-title"><span>カスタムコード<span class="rp-paid">有料プラン</span></span>${icon('chevron-down')}</div></div>`;
+      return `<div class="rp-pagehead"></div>${this.tabsHtml()}${this.pane('ページ', page)}${this.pane('サイト', '')}`;
     },
     elHtml(t) {
       const el = t.el;
@@ -747,112 +799,120 @@
       const d = (k) => (k in ov ? ov[k] : decls[k]);
       const cs = Site.win.getComputedStyle(el);
       const type = t.type || 'box';
-      const bpChip = bp !== 'pc' ? `<span class="bp-chip">${bp === 'mobile' ? 'モバイル' : 'タブレット'}</span>` : '';
-      let h = `<div class="rp-head">${icon({ text: 'type', image: 'image', link: 'link', form: 'form', embed: 'code', cms: 'database', button: 'button' }[type] || 'square')}
-        <span class="rp-name">${esc(t.name || 'Box')}</span>${bpChip}${t.cms ? '<span class="pill" style="background:var(--cms-soft);color:var(--cms)">CMS</span>' : `<span class="pill pill-blue">${TYPE_LABEL[type] || 'ボックス'}</span>`}</div>
-        <div class="rp-tabs"><span class="on">スタイル</span><span>アニメーション</span><span>リンク</span></div>`;
+      const bpChip = bp !== 'pc' ? `<span class="bp-chip ${bp}">${bp === 'mobile' ? 'モバイル' : 'タブレット'}</span>` : '';
+      let h = `<div class="rp-head"><span class="rp-eye">${icon('eye')}</span><span class="rp-name">${esc(t.name || 'Box')}</span>${chev()}${bpChip}<span class="rp-cond">条件スタイル</span></div>` + this.tabsHtml();
 
-      if (type === 'cms') {
-        h += sec('CMS', `
-          <div class="rp-kv"><span>コレクション</span><b><span class="bind">${icon('database')}${esc(t.cmsName || 'お知らせ')}</span></b></div>
-          <div class="rp-kv"><span>表示件数</span><b>${esc(t.cmsCount || '3')}</b></div>
-          <div class="rp-kv"><span>並び順</span><b>${esc(t.cmsSort || '公開日（新しい順）')}</b></div>
-          <div class="rp-kv"><span>リンク先</span><b>${esc(t.cmsLink || 'news/:slug')}</b></div>`, '');
-      }
-      if (type === 'form') {
-        h += sec('フォーム', `
-          <div class="rp-kv"><span>フォーム名</span><b>お問い合わせフォーム</b></div>
-          <div class="rp-kv"><span>項目数</span><b>6</b></div>
-          <div class="rp-kv"><span>送信後</span><b>モーダル：thanks</b></div>`, '');
-      }
-      if (type === 'text') h += this.textSec(el, decls, ov, cs);
-      if (type === 'image') h += this.imageSec(el);
+      // first tab: the content of a text / image / embed / form
+      if (type === 'text') h += this.pane('テキスト', this.textSec(el, decls, ov, cs));
+      if (type === 'image') h += this.pane('画像', this.imageSec(el));
       if (type === 'embed') {
         const code = this.extra.embedCode, err = this.extra.embedError;
-        h += sec('埋め込みコード', (code
+        h += this.pane('埋め込み', sec('コード', (code
           ? `<div class="rp-code${err ? ' error' : ''}" id="pp-embed">${code}</div>`
           : `<div class="rp-code empty" id="pp-embed">HTMLコードを貼り付け</div>`) +
-          (err ? `<div class="rp-err">${icon('alert')}<span>${err}</span></div>` : ''), '');
+          (err ? `<div class="rp-err">${icon('alert')}<span>${err}</span></div>` : '')));
       }
+      if (type === 'form') {
+        h += this.pane('フォーム', sec('フォーム', `
+          <div class="rp-kv"><span>フォーム名</span><b>お問い合わせフォーム</b></div>
+          <div class="rp-kv"><span>項目数</span><b>6</b></div>
+          <div class="rp-kv"><span>送信後</span><b>モーダル：thanks</b></div>`));
+      }
+      // ボックス: layout, appearance, position
+      h += this.pane('ボックス', this.layoutSec(d, el, bpKeys) + this.lookSec(d, type) + this.posSec(d, cs));
+      // 変形: transform and animation
+      h += this.pane('変形', sec('変形', pair(lab('移動', fld('→', '0', 'px')), lab('&nbsp;', fld('↑', '0', 'px'))) +
+        pair(lab('回転', fld('', '0', '°')), lab('拡大・縮小', fld('', '100', '%'))) + pair(lab('傾き', fld('', '0', '°')), lab('原点', this.dots(1, 1)))));
+      // 設定: link (and the per-breakpoint visibility)
+      let set = '';
       if (type === 'link' || type === 'button') {
         const href = el.getAttribute('href') || (el.querySelector('a') && el.querySelector('a').getAttribute('href')) || '';
-        h += sec('リンク', lrow('URL', fld('', esc(this.extra.linkLabel || href || '未設定'), '', 'id="pp-link" data-k="href"')), '');
+        set += sec('リンク', lab('URL', fld('', esc(this.extra.linkLabel || href || '未設定'), '', 'id="pp-link" data-k="href"')));
       }
-      if (/flex/.test(cs.display) && type !== 'text') h += this.layoutSec(d);
-      h += this.sizeSec(d, el, bpKeys);
-      h += this.spacingSec(d);
-      if (type !== 'text' && type !== 'embed') {
-        const bg = colorInfo(d('background') || d('background-color'));
-        h += sec('塗り', prow(`<div class="fld" id="pp-fill" data-k="background"><span class="sw ${bg.none ? 'none' : ''}" style="background:${bg.none ? '' : bg.css}"></span><span class="v">${esc(bg.name)}</span><span class="u">${bg.hex}</span></div>`) +
-          lrow('角丸', fld('', fmtRadius(d('border-radius')), 'px')));
+      if (t.vis) set += sec('表示', lab(bp === 'tablet' ? 'タブレット' : '表示', `<div class="fld sel" id="pp-vis" data-k="display">${(ov.display || cs.display) === 'none' ? '<span class="bp-dot"></span>' : ''}<span class="v">${(ov.display || cs.display) === 'none' ? '非表示' : '表示'}</span>${chev()}</div>`));
+      set += sec('属性', pair(lab('タグ', sel(esc(el.tagName.toLowerCase()))), lab('ID', fld('', '<span class="muted">—</span>', ''))));
+      h += this.pane('設定', set);
+      if (type === 'cms') {
+        h += this.pane('データ', sec('CMS', `
+          <div class="rp-kv"><span>モデル</span><b><span class="bind">${icon('file')}${esc(t.cmsName || 'お知らせ')}</span></b></div>
+          <div class="rp-kv"><span>表示件数</span><b>${esc(t.cmsCount || '3')}</b></div>
+          <div class="rp-kv"><span>並び順</span><b>${esc(t.cmsSort || '公開日（新しい順）')}</b></div>
+          <div class="rp-kv"><span>リンク先</span><b>${esc(t.cmsLink || PAGE.cmsLink)}</b></div>`));
       }
-      if (t.vis) h += sec('表示', prow(`<div class="fld" id="pp-vis" data-k="display">${(ov.display || cs.display) === 'none' ? '<span class="bp-dot"></span>' : ''}<span class="v">${(ov.display || cs.display) === 'none' ? '非表示' : '表示'}</span>${icon('chevron-down')}</div>`), '');
-      const pos = d('position') || cs.position;
-      h += sec('位置', prow(`<div class="icon-seg" style="flex:1"><span class="${pos !== 'absolute' && pos !== 'fixed' ? 'on' : ''}" style="flex:1;width:auto">相対</span><span class="${pos === 'absolute' ? 'on' : ''}" style="flex:1;width:auto">絶対</span><span class="${pos === 'fixed' ? 'on' : ''}" style="flex:1;width:auto">固定</span></div>`), '');
       return h;
     },
+    dots(r, c) { let cells = ''; for (let i = 0; i < 9; i++) cells += `<i class="${i === r * 3 + c ? 'on' : ''}"></i>`; return `<div class="align-grid sm">${cells}</div>`; },
     textSec(el, decls, ov, cs) {
       const fam = 'font-family' in ov ? fontInfo(ov['font-family']) : fontInfo(decls['font-family'] || cs.fontFamily);
       const size = fmtLen(decls['font-size'] || cs.fontSize)[0];
-      const weight = WEIGHTS[parseInt(decls['font-weight'] || cs.fontWeight, 10)] || 'Regular';
+      const weight = parseInt(decls['font-weight'] || cs.fontWeight, 10) || 400;
       const lh = decls['line-height'] || '1.4';
       const ls = decls['letter-spacing'] || '0';
       const align = decls['text-align'] || 'left';
       const wm = 'writing-mode' in ov ? ov['writing-mode'] : cs.writingMode;
       const vertical = /vertical/.test(wm);
       const col = colorInfo('color' in ov ? ov.color : (decls.color || cs.color));
-      return sec('テキスト',
-        prow(`<div class="fld" id="pp-font" data-k="font-family"><span class="v" style="font-family:'${esc(fam)}';font-size:12.5px">${esc(fam)}</span>${icon('chevron-down')}</div>`) +
-        prow(fld('', weight, ''), fld('', size, 'px')) +
-        prow(fld('LH', esc(lh), ''), fld('LS', esc(ls), '')) +
-        prow(`<div class="icon-seg"><span class="${align === 'left' ? 'on' : ''}">${icon('align-left')}</span><span class="${align === 'center' ? 'on' : ''}">${icon('align-center')}</span><span class="${align === 'right' ? 'on' : ''}">${icon('align-right')}</span></div>`,
-          `<div class="icon-seg" id="pp-wm" style="margin-left:auto"><span class="${!vertical ? 'on' : ''}">${icon('text-h')}</span><span class="${vertical ? 'on' : ''}">${icon('text-v')}</span></div>`) +
-        prow(`<div class="fld" id="pp-color" data-k="color"><span class="sw" style="background:${col.css}"></span><span class="v">${esc(col.name)}</span><span class="u">${col.hex}</span></div>`), '');
+      const txt = plainOf(el.innerHTML).replace(/\s+/g, ' ').trim();
+      return sec('テキスト', `<div class="fld tx"><span class="v">${esc(txt.slice(0, 60)) || '<span class="muted">テキスト</span>'}</span></div>`) +
+        sec('タイポグラフィ',
+          lab('テキストスタイル', sel('<span class="muted">未設定</span>')) +
+          lab('色', `<div class="fld" id="pp-color" data-k="color"><span class="sw" style="background:${col.css}"></span><span class="v">${esc(col.none ? 'なし' : col.name && col.name !== col.css ? col.name : col.hex || col.name)}</span><span class="u">100 %</span></div>`) +
+          lab('フォント', `<div class="fld sel" id="pp-font" data-k="font-family"><span class="v" style="font-family:'${esc(fam)}'">${esc(fam)}</span>${chev()}</div>`) +
+          pair(lab('サイズ', fld('', size, `px${chev()}`)), lab('太さ', sel(String(weight)))) +
+          pair(lab('行間', fld('', esc(lh), '')), lab('文字間隔', fld('', esc(ls), ''))) +
+          lab('揃え', prow(`<div class="icon-seg"><span class="${align === 'left' ? 'on' : ''}">${icon('align-left')}</span><span class="${align === 'center' ? 'on' : ''}">${icon('align-center')}</span><span class="${align === 'right' ? 'on' : ''}">${icon('align-right')}</span></div>`,
+            `<div class="icon-seg" id="pp-wm" style="margin-left:auto"><span class="${!vertical ? 'on' : ''}">${icon('text-h')}</span><span class="${vertical ? 'on' : ''}">${icon('text-v')}</span></div>`)));
     },
     imageSec(el) {
       const has = Site.hasImg(el) || el.hasAttribute('data-demo-bg');
       let url = '';
       if (has) url = el.hasAttribute('data-demo-bg') ? (el.style.getPropertyValue('--demo-bg').match(/url\("?(.*?)"?\)/) || [])[1] : Site.imageUrl(el);
+      const file = url ? String(url).split('/').pop() : '';
       return sec('画像',
-        `<div class="rp-thumb" id="pp-img" style="${url ? `background-image:url('${url}')` : ''}">${url ? '' : icon('image')}</div>` +
-        `<div class="rp-btn">${icon('upload')}${url ? '画像を変更' : '画像を選択'}</div>` +
-        lrow('フィット', fld('', 'カバー', '')) + lrow('代替テキスト', fld('', '—', '')), '');
+        `<div class="rp-thumb" id="pp-img"><i style="${url ? `background-image:url('${url}')` : ''}"></i>${url ? '' : icon('image')}</div>` +
+        `<div class="fld"><span class="v">${file ? 'https://storage.googleapis.com/studio-design-asset-files/projects/…/' + esc(file) : '<span class="muted">URL</span>'}</span></div>`) +
+        `<div class="rp-sec">${pair(lab('背景位置', this.dots(1, 1)), '<div>' + lab('繰り返し', '<span class="rp-chk"></span>') + lab('背景サイズ', sel('cover')) + '</div>')}${lab('フィルター', fld('', '<span class="muted">なし</span>', ''))}</div>`;
     },
-    layoutSec(d) {
+    layoutSec(d, el, bpKeys = new Set()) {
+      const w = fmtLen(d('width')), hh = fmtLen(d('height'));
+      const mwRaw = d('max-width');
+      const mw = mwRaw === 'none' ? 'なし' : fmtLen(mwRaw || 'auto').join('');
+      // fields carry ids (for scripted editing) and an orange dot when the value is specific to the current breakpoint
+      const f = (v, u, id, prop) =>
+        `<div class="fld" id="${id}" data-k="${prop}">${bpKeys.has(prop) ? '<span class="bp-dot"></span>' : ''}<span class="v">${v === 'Auto' ? '--' : v}</span><span class="u">${v === 'Auto' ? 'auto' : u || 'px'}${chev()}</span></div>`;
+      const m = box4(d('margin')), p = box4(d('padding'));
+      const four = (vals, kind) => `<div class="rp-4"><div class="rp-2">${fld(side(0), vals[0], '')}${fld(side(1), vals[1], '')}</div><div class="rp-2">${fld(side(2), vals[2], '')}${fld(side(3), vals[3], '')}</div><span class="rp-link ${kind}"></span></div>`;
       const dir = d('flex-direction') || 'column';
+      const wrap = d('flex-wrap') === 'wrap';
+      const di = wrap ? 2 : { column: 0, row: 1, 'row-reverse': 3, 'column-reverse': 4 }[dir] ?? 0;
+      const dirs = ['arrow-down', 'arrow-right', 'wrap', 'arrow-left', 'arrow-up'].map((ic, i) => `<span class="${i === di ? 'on' : ''}">${icon(ic)}</span>`).join('');
       const pos = (v) => (v === 'center' ? 1 : v === 'flex-end' || v === 'end' ? 2 : v === 'space-between' ? 1 : 0);
       const jc = d('justify-content') || 'flex-start', ai = d('align-items') || 'center';
       let r, c;
       if (dir === 'row') { c = pos(jc); r = pos(ai); } else { r = pos(jc); c = pos(ai); }
-      let cells = '';
-      for (let i = 0; i < 9; i++) cells += `<i class="${i === r * 3 + c ? 'on' : ''}"></i>`;
+      const H = ['左寄せ', '中央寄せ', '右寄せ'][c], V = ['上揃え', '中央揃え', '下揃え'][r];
       const gap = fmtLen(d('gap') || '0px')[0];
-      return sec('レイアウト', `<div class="rp-row" style="gap:10px;align-items:flex-start">
-        <div class="align-grid ${dir === 'row' ? '' : 'col'}">${cells}</div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0">
-          <div class="icon-seg"><span class="${dir === 'column' ? 'on' : ''}">${icon('arrow-down')}</span><span class="${dir === 'row' ? 'on' : ''}">${icon('arrow-right')}</span><span class="${d('flex-wrap') === 'wrap' ? 'on' : ''}">${icon('wrap')}</span></div>
-          ${fld('G', gap, 'px')}
-        </div></div>`);
+      return sec('レイアウト',
+        pair(lab('幅', f(w[0], w[1], 'pp-w', 'width')), lab('高さ', f(hh[0], hh[1], 'pp-h', 'height'))) +
+        pair(lab('最大幅', `<div class="fld" id="pp-maxw" data-k="max-width">${bpKeys.has('max-width') ? '<span class="bp-dot"></span>' : ''}<span class="v">${mw === 'Auto' ? '--' : mw}</span></div>`), lab('最小幅', fld('', '--', ''))) +
+        lab('マージン', four(m, 'mg')) + lab('パディング', four(p, 'pd')) +
+        lab('方向', `<div class="icon-seg dir">${dirs}</div>`) +
+        lab('ギャップ', fld(icon('gap'), gap, '')) +
+        lab('配置', `<div class="rp-2 al">${this.dots(r, c)}<div>${lab('水平', sel(H))}${lab('垂直', sel(V))}</div></div>`));
     },
-    sizeSec(d, el, bpKeys = new Set()) {
-      const w = fmtLen(d('width')), h = fmtLen(d('height'));
-      const mwRaw = d('max-width');
-      const mw = mwRaw === 'none' ? 'なし' : fmtLen(mwRaw || 'auto').join('');
-      // fields carry ids (for scripted editing) and an orange dot when the value is specific to the current breakpoint
-      const f = (k, v, u, id, prop) =>
-        `<div class="fld" id="${id}" data-k="${prop}">${bpKeys.has(prop) ? '<span class="bp-dot"></span>' : ''}<span class="k">${k}</span><span class="v">${v}</span>${u ? `<span class="u">${u}</span>` : ''}</div>`;
-      return sec('サイズ', prow(f('W', w[0], w[1], 'pp-w', 'width'), f('H', h[0], h[1], 'pp-h', 'height')) +
-        prow(f('最大幅', mw, '', 'pp-maxw', 'max-width'), fld('最小幅', 'Auto', '')), '');
+    lookSec(d, type) {
+      const bg = colorInfo(d('background') || d('background-color'));
+      return sec('外観',
+        lab('背景色', `<div class="fld" id="pp-fill" data-k="background"><span class="sw ${bg.none ? 'none' : ''}" style="background:${bg.none ? '' : bg.css}"></span><span class="v">${esc(bg.none ? 'なし' : bg.name && bg.name !== bg.css ? bg.name : bg.hex || bg.name)}</span></div>`) +
+        lab('角丸', `<div class="rp-2 rad">${fld(icon('radius'), fmtRadius(d('border-radius')), `px${chev()}`)}<span class="rp-ic4"></span></div>`) +
+        pair(lab('不透明度', fld('', '100', '%')), lab('枠線', fld(icon('square'), '<span class="muted">なし</span>', ''))) +
+        pair(lab('影', fld(icon('shadow'), '<span class="muted">なし</span>', '')), lab('フィルター', fld(icon('filter'), '<span class="muted">なし</span>', ''))));
     },
-    spacingSec(d) {
-      const m = box4(d('margin')), p = box4(d('padding'));
-      return sec('余白', `<div class="spacing"><span class="cap">MARGIN</span>
-        <span style="left:50%;top:14px">${m[0]}</span><span style="left:calc(100% - 18px);top:50%">${m[1]}</span>
-        <span style="left:50%;top:calc(100% - 14px)">${m[2]}</span><span style="left:18px;top:50%">${m[3]}</span>
-        <div class="inner"><span class="cap">PADDING</span>
-          <span style="left:50%;top:10px">${p[0]}</span><span style="left:calc(100% - 16px);top:50%">${p[1]}</span>
-          <span style="left:50%;top:calc(100% - 10px)">${p[2]}</span><span style="left:16px;top:50%">${p[3]}</span>
-        </div></div>`, '');
+    posSec(d, cs) {
+      const pos = d('position') || cs.position;
+      const name = pos === 'absolute' ? '絶対' : pos === 'fixed' ? '固定' : pos === 'sticky' ? 'スティッキー' : '相対';
+      return sec('ポジション', pair(lab('位置', sel(name, '', icon('pin'))), lab('重ね順', '<div class="rp-z"><span>−</span><span class="n">0</span><span>+</span></div>')) +
+        lab('はみ出し', sel('表示')));
     },
   };
 
@@ -873,7 +933,7 @@
     palette(anchor, currentKey) {
       const items = Object.entries(COLORS).map(([k, [name, css, hex]]) =>
         `<div class="pop-item ${k === currentKey ? 'on' : ''}" data-color="${k}"><span class="sw" style="background:${css}"></span>${name}<small>${hex}</small></div>`).join('');
-      this.open(anchor, `<div class="pop-title">プロジェクトカラー</div>${items}`);
+      this.open(anchor, `<div class="pop-tabs"><span>カスタム</span><span class="on">スタイル</span>${icon('x')}</div>${items}`);
     },
     fonts(anchor, current) {
       const items = FONT_LIST.map(([f, tag]) =>
@@ -1266,6 +1326,7 @@
   async function clickUi(target, o = {}) {
     const el = typeof target === 'string' ? $(target) : target;
     if (!el) return;
+    await Props.reveal(el);
     const [x, y] = uiPoint(el, o.ax != null ? o.ax : 0.5, o.ay != null ? o.ay : 0.5);
     await Cursor.moveTo(x, y, o);
     UI.hover(el);
@@ -1276,6 +1337,7 @@
   }
   async function hoverUi(target, o = {}) {
     const el = typeof target === 'string' ? $(target) : target;
+    await Props.reveal(el);
     const [x, y] = uiPoint(el, o.ax != null ? o.ax : 0.5, o.ay != null ? o.ay : 0.5);
     await Cursor.moveTo(x, y, o);
     UI.hover(el);
@@ -1294,9 +1356,10 @@
   function deselect() { Overlay.select(null); Layers.select(null); Props.show(null); }
 
   const GHOSTS = {
-    box: ['square', 'ボックス'], text: ['type', 'テキスト'], image: ['image', '画像'], button: ['button', 'ボタン'],
-    link: ['link', 'リンク'], embed: ['code', '埋め込み'], form: ['form', 'フォーム'],
+    box: ['square', 'Box'], text: ['type', 'Text'], image: ['image', 'Image'], button: ['square', 'Box'],
+    link: ['type', 'Text'], embed: ['code', 'Blank'], form: ['form', 'Form1'],
   };
+  const TILE_OF = { button: 'box', link: 'text' };
   /**
    * Drag a tile from the "add" panel (or an asset / CMS collection) and drop it onto the canvas.
    *   from:  'box' | 'text' | ...  or  {asset:'id'} or {cms:true}
@@ -1347,7 +1410,7 @@
       ghostCls = 'cms';
     } else {
       await Panels.open('add');
-      source = $(`.tile[data-tile="${from}"]`);
+      source = $(`.tile[data-tile="${TILE_OF[from] || from}"]`);
       ghost = `${icon(GHOSTS[from][0])}${GHOSTS[from][1]}`;
     }
     if (o.prepare) o.prepare();
@@ -1407,7 +1470,7 @@
   /** drag a tile of the "add" panel onto any rect of the canvas (the caller decides what the drop does) */
   async function dragTileTo(tile, rect, at) {
     await Panels.open('add');
-    const source = $(`.tile[data-tile="${tile}"]`);
+    const source = $(`.tile[data-tile="${TILE_OF[tile] || tile}"]`);
     await dragGhost(source, `${icon(GHOSTS[tile][0])}${GHOSTS[tile][1]}`, '', rect, at);
   }
 
@@ -1473,17 +1536,211 @@
   }
   /** fixed labels the engine itself writes: right panel, popovers, caption chips (⚠ / ✓), IME window (for preloadFonts) */
   function uiStrings() {
-    return [Props.pageHtml, Props.elHtml, Props.textSec, Props.imageSec, Props.layoutSec, Props.sizeSec, Props.spacingSec,
+    return [Props.pageHtml, Props.elHtml, Props.textSec, Props.imageSec, Props.layoutSec, Props.lookSec, Props.posSec, Props.dots, rebuildChrome,
       Caption.set, Caption.issue, Caption.fixed, Issue.show, Issue.ok, Ime.show, Ime.setMode, KeyStrip.render, KeyStrip.mode, Toast.show, Clip.open]
-      .map((f) => f.toString()).join('') + JSON.stringify(TYPE_LABEL) + JSON.stringify(COLORS) + JSON.stringify(FONT_LIST) + Object.values(WEIGHTS).join('');
+      .map((f) => f.toString()).join('') + JSON.stringify(TYPE_LABEL) + JSON.stringify(PAGE) + JSON.stringify(RAIL) + JSON.stringify(TILES) + JSON.stringify(COLORS) + JSON.stringify(FONT_LIST) + Object.values(WEIGHTS).join('');
+  }
+
+  /* ------------------------------------------------------- editor chrome */
+  /**
+   * STUDIO's editor as it is now (Editor 5.0: released 2025-11-25 as the default editor; help.studio.design/ja, screenshots
+   * up to 2026-10): no top bar — a narrow icon rail with the /S menu, the left panel headed by 「プロジェクト / ページ ▾」,
+   * the right panel headed by zoom · members · preview · 公開, and a floating breakpoint toolbar at the bottom of the canvas.
+   * The page markup still carries the older layout; it is rearranged here before the first frame (ids kept for scenario.js).
+   */
+  const RAIL = [
+    ['add', '追加', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><path d="M16.75 13.2v7.1M13.2 16.75h7.1"/>'],
+    ['pages', 'ページ', '<path class="fillable" d="M13.6 3H7.2A2.2 2.2 0 0 0 5 5.2v13.6A2.2 2.2 0 0 0 7.2 21h9.6a2.2 2.2 0 0 0 2.2-2.2V8.4z"/><path d="M13.6 3v5.4H19"/>'],
+    ['layers', 'レイヤー', '<path d="m12 3 9 4.6-9 4.6-9-4.6z"/><path d="m3 12.2 9 4.6 9-4.6"/><path d="m3 16.6 9 4.6 9-4.6"/>'],
+    ['style', 'スタイル', '<path d="m3 19 5.6-14h1.2l5.6 14M5.3 13.6h7.8"/><path d="M18.2 11.6c1.4 1.8 2.4 3.1 2.4 4.4a2.4 2.4 0 0 1-4.8 0c0-1.3 1-2.6 2.4-4.4z"/>'],
+    ['assets', 'アップロード', '<path d="M3 7.2A2.2 2.2 0 0 1 5.2 5h3.9l2 2.2h7.7A2.2 2.2 0 0 1 21 9.4v8.4a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.8z"/><path d="M3 10.4h18"/>'],
+    ['stock', 'ストック', '<path d="M12.5 4H6.2A2.2 2.2 0 0 0 4 6.2v11.6A2.2 2.2 0 0 0 6.2 20h11.6a2.2 2.2 0 0 0 2.2-2.2v-6"/><path d="M17.5 3v6M14.5 6h6"/><circle cx="9" cy="9.5" r="1.6"/><path d="m4.5 18.5 5.2-5.2 3.3 3.3 2.2-2.2 4.3 4.3"/>'],
+    ['cms', '接続', '<path d="M4 7.5h10"/><circle cx="17" cy="7.5" r="2.6"/><circle cx="7" cy="16.5" r="2.6"/><path d="M10 16.5h10"/>'],
+    ['comp', 'コンポーネント', '<path d="M12 3.2 15.2 6.4 12 9.6 8.8 6.4zM12 14.4l3.2 3.2-3.2 3.2-3.2-3.2zM6.4 8.8 9.6 12l-3.2 3.2L3.2 12zM17.6 8.8 20.8 12l-3.2 3.2-3.2-3.2z"/>'],
+    null,
+    ['history', 'バージョン履歴', '<path d="M3.5 12a8.5 8.5 0 1 0 2.5-6l-2.5 2.5"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/>'],
+    ['comment', 'コメント', '<path d="M7.6 19.6A8.5 8.5 0 1 0 4.4 16.4L3 21z"/><path d="M8.3 12h.01M12 12h.01M15.7 12h.01" stroke-width="2.4"/>'],
+    ['content', 'コンテンツ編集', '<path d="M16.9 3.6a2.3 2.3 0 0 1 3.3 3.3L8 19.1 3.6 20.4l1.3-4.4z"/><path d="m14.8 5.7 3.3 3.3"/>'],
+    '-',
+    ['guide', 'Studio設定ガイド', '<path d="M12 6.6C10 5 7 4.5 4 4.8v13.6c3-.3 6 .2 8 1.8 2-1.6 5-2.1 8-1.8V4.8c-3-.3-6 .2-8 1.8z"/><path d="M12 6.6v13.6"/>'],
+    ['help', 'ヘルプ', '<path d="M9.2 9.2a2.9 2.9 0 1 1 4 2.6c-.8.4-1.2 1-1.2 1.8v.8"/><path d="M12 18h.01" stroke-width="2.4"/>'],
+  ];
+  const railSvg = (p) => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  const TILE_ICONS = {
+    section: '<path d="M7 3v18M17 3v18M3 7h18M3 17h18"/>',
+    box: '<rect x="4.5" y="4.5" width="15" height="15" rx="2"/>',
+    image: '<rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="m4.5 17 4.5-4.5 3 3 2.5-2.5 5 5"/>',
+    text: '<path d="M6 5h12M12 5v14"/>',
+    icon: '<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/>',
+    rich: '<rect x="4.5" y="4" width="15" height="16" rx="1.5"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/>',
+    video: '<rect x="4.5" y="4.5" width="15" height="15" rx="1.5"/><path d="m10.4 9.2 4.4 2.8-4.4 2.8z"/>',
+    blank: '<path d="m9 8-4 4 4 4M15 8l4 4-4 4"/>',
+    form1: '<rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M7.5 7.5h9v3h-9zM7.5 13h9v3h-9z"/>',
+    form2: '<rect x="4" y="7.5" width="16" height="9" rx="1.5"/><rect x="8" y="10.5" width="8" height="3" rx=".8"/>',
+    form3: '<rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M7.5 7.5h4v3h-4zM12.5 7.5h4v3h-4zM7.5 13h9v3h-9z"/>',
+    input: '<rect x="3.5" y="8" width="17" height="8" rx=".8"/><path d="M7 10.2v3.6M6 10.2h2M6 13.8h2"/>',
+    area: '<rect x="3.5" y="4.5" width="17" height="15" rx=".8"/><path d="M7 8h4M9 8v5M17.5 16.5l-2 2"/>',
+    select: '<rect x="3.5" y="8" width="17" height="8" rx=".8"/><path d="m14.5 11 1.5 1.5 1.5-1.5"/>',
+    radio: '<circle cx="6.5" cy="8" r="2"/><circle cx="6.5" cy="16" r="2"/><path d="M11 8h9M11 16h9"/>',
+  };
+  const tileSvg = (k) => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${TILE_ICONS[k]}</svg>`;
+  // the tiles of 追加 › 基本 (English names, as in the editor); data-tile keeps the scenario's element kinds
+  const TILES = [
+    ['基本', [['section', 'Section', 'section'], ['box', 'Box', 'box'], ['image', 'Image', 'image'], ['text', 'Text', 'text'], ['icon', 'Icon', 'icon'], ['rich', 'RichText', 'rich'], ['video', 'Video', 'video']]],
+    ['埋め込み', [['blank', 'Blank', 'embed'], ['map', 'Map', 'map'], ['yt', 'YouTube', 'yt'], ['vimeo', 'Vimeo', 'vimeo'], ['lottie', 'Lottie', 'lottie']]],
+    ['フォーム', [['form1', 'Form1', 'form'], ['form2', 'Form2', 'form2'], ['form3', 'Form3', 'form3']]],
+    ['フォームパーツ', [['input', '', 'input'], ['area', '', 'area'], ['select', '', 'select'], ['radio', '', 'radio']]],
+  ];
+  const BRAND = {
+    map: '<svg class="ic" viewBox="0 0 24 24"><path d="M12 2.5a6.5 6.5 0 0 0-6.5 6.5c0 4.6 6.5 12.5 6.5 12.5S18.5 13.6 18.5 9A6.5 6.5 0 0 0 12 2.5z" fill="#ea4335"/><path d="M12 2.5A6.5 6.5 0 0 0 7 4.9l5 6.1z" fill="#1a73e8"/><path d="M5.5 9c0 1.1.4 2.4 1 3.7L12 11 7 4.9A6.5 6.5 0 0 0 5.5 9z" fill="#fbbc04"/><path d="M6.5 12.7c1.6 3.6 5.5 8.8 5.5 8.8l2.3-3.3L12 11z" fill="#34a853"/><circle cx="12" cy="9" r="2.3" fill="#a52714"/></svg>',
+    yt: '<svg class="ic" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5" fill="#ff0000"/><path d="m10 9 5 3-5 3z" fill="#fff"/></svg>',
+    vimeo: '<svg class="ic" viewBox="0 0 24 24"><path d="M21.5 7.4c-.1 1.9-1.4 4.4-3.9 7.6-2.6 3.3-4.7 5-6.5 5-1.1 0-2-1-2.8-3l-1.5-5.5c-.6-2-1.2-3-1.8-3-.1 0-.6.3-1.5.9L2.6 8.2 5.4 5.7c1.3-1.1 2.2-1.7 2.8-1.7 1.5-.1 2.4.9 2.8 3.1.4 2.4.7 3.9.8 4.5.4 1.9.9 2.9 1.4 2.9.4 0 1-.6 1.8-1.9.8-1.3 1.3-2.2 1.3-2.9.1-1.1-.3-1.6-1.3-1.6-.5 0-.9.1-1.4.3.9-3 2.7-4.5 5.3-4.4 1.9 0 2.8 1.3 2.6 3.4z" fill="#1ab7ea"/></svg>',
+    lottie: '<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4.5" fill="#00ddb3"/><path d="M7.5 16c2.5 0 3-2.4 4.1-5S14 7.5 16.5 7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+  };
+  function rebuildChrome(o) {
+    const app = $('#app');
+    const project = ($('.tb-project-name') || {}).textContent || '';
+    // ---- the rail: the /S menu, the panels, then history / comments / content editing, the guide and help
+    const rail = $('.rail');
+    rail.innerHTML = `<div class="rail-logo"><img src="../../shared/logos/studio.svg" alt="Studio"></div>` + RAIL.map((r) => (r === null ? '<div class="rail-spacer"></div>' : r === '-' ? '<div class="rail-div"></div>'
+      : `<button class="rail-btn${r[0] === 'layers' ? ' active' : ''}" data-tab="${r[0]}" title="${r[1]}">${railSvg(r[2])}</button>`)).join('');
+    // ---- the left panel: 「project / page ▾」 and the collapse button above every panel
+    const left = $('.left-panel');
+    left.insertAdjacentHTML('afterbegin', `<div class="lp-crumb"><b class="pj">${esc(project)}</b><span class="sl">/</span><b class="pg" id="crumbPage">Home</b>${icon('chevron-down')}<span class="sp"></span><svg class="ic lp-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H9M13 8l-4 4 4 4M5 5v14"/></svg></div>`);
+    // 追加: 基本 / パーツ / セクション, then the element tiles
+    const add = $('.lp[data-panel="add"]');
+    add.innerHTML = `<div class="lp-head"><span>追加</span></div><div class="seg seg3"><span class="on">基本</span><span>パーツ</span><span>セクション</span></div>
+      <div class="lp-scroll">${TILES.map(([g, list]) => `<div class="lp-group-title">${g}</div><div class="tile-grid">${list.map(([ic, name, kind]) =>
+        `<div class="tile${name ? '' : ' part'}" data-tile="${kind}"><div class="tile-box">${BRAND[ic] || tileSvg(ic)}</div>${name ? `<span>${name}</span>` : ''}</div>`).join('')}</div>`).join('')}</div>`;
+    // ページ: rows with the path in grey; the home / 404 / modal icons; CMS pages as a folder
+    const pg = $('.lp[data-panel="pages"]');
+    $$('.pg-group', pg).forEach((g) => g.remove());
+    $$('.pg-row', pg).forEach((row) => {
+      const ic = row.querySelector('svg, i');
+      const name = row.querySelector('span'), small = row.querySelector('small');
+      const key = row.dataset.page;
+      let svg = '<path d="M13.6 3H7.2A2.2 2.2 0 0 0 5 5.2v13.6A2.2 2.2 0 0 0 7.2 21h9.6a2.2 2.2 0 0 0 2.2-2.2V8.4z"/><path d="M13.6 3v5.4H19"/>';
+      if (key === 'home') { svg += '<path d="M8.6 17v-3.4L12 11l3.4 2.6V17z"/>'; row.classList.add('active'); }
+      else if (key === '404') svg += '<path d="M10.4 12.4a1.7 1.7 0 1 1 2.3 1.6c-.5.2-.7.5-.7 1M12 17.2h.01"/>';
+      else if (row.querySelector('[data-icon="modal"]') || /modal/.test(ic && ic.innerHTML || '')) svg = '<rect x="4.5" y="4.5" width="15" height="15" rx="1.5" stroke-dasharray="2 2"/><rect x="8.5" y="9" width="7" height="6" rx="1"/>';
+      if (row.classList.contains('cms')) {
+        // a CMS page lives in the folder of its path: 「› 📁 /news」
+        const dir = (name.textContent.split('/')[0] || '').trim();
+        name.textContent = '/' + dir;
+        if (small) small.remove();
+        svg = '<path d="M3 7.2A2.2 2.2 0 0 1 5.2 5h3.9l2 2.2h7.7A2.2 2.2 0 0 1 21 9.4v8.4a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.8z"/>';
+        row.insertAdjacentHTML('afterbegin', `<span class="pg-chev">${icon('chevron-down')}</span>`);
+      }
+      if (ic) ic.outerHTML = railSvg(svg);
+      if (small && key === 'home') small.textContent = '/';
+    });
+    // アップロード: 「すべて ▾」 and +, search, kinds, then the files (built in boot)
+    const as = $('.lp[data-panel="assets"]');
+    $('.lp-head', as).innerHTML = '<span>アップロード</span>';
+    $('.seg', as).outerHTML = `<div class="as-bar"><b>すべて</b>${icon('chevron-down')}<span class="sp"></span>${icon('plus')}</div>
+      <div class="lp-search">${icon('search')}<span>Search</span></div><div class="as-kinds"><span class="on">全種類</span><span>画像</span><span>動画</span><span>PDF</span></div>`;
+    // 接続 › CMS: one heading per model, with its 「リスト」 and 「カルーセル」 previews (the list shows the model's items)
+    const cms = $('.lp[data-panel="cms"]');
+    $('.lp-head', cms).innerHTML = '<span>接続</span>';
+    const sc = $('.lp-scroll', cms);
+    const models = $$('.cms-col', sc).map((col) => ({ col, items: col.nextElementSibling && col.nextElementSibling.classList.contains('cms-items') ? col.nextElementSibling : null }));
+    const html = [];
+    sc.innerHTML = '';
+    sc.insertAdjacentHTML('beforebegin', '<div class="seg seg3"><span class="on">CMS</span><span>API</span><span>RSS</span></div>');
+    models.forEach(({ col, items }) => {
+      const nm = col.querySelector('.cms-col-name').textContent;
+      const count = col.querySelector('.cms-count');
+      const model = document.createElement('div');
+      model.className = 'cn-model';
+      model.innerHTML = `<div class="cn-h">${icon('file')}<b>${esc(nm)}</b></div>`;
+      col.className = 'cn-card cms-col';
+      col.innerHTML = '';
+      if (items) col.appendChild(items);
+      col.insertAdjacentHTML('beforeend', '<span class="cn-lbl">リスト</span>');
+      if (count) { count.hidden = true; col.appendChild(count); }
+      model.appendChild(col);
+      model.insertAdjacentHTML('beforeend', '<div class="cn-card car"><div class="cn-car"><i></i></div><span class="cn-lbl">カルーセル</span></div>');
+      // the carousel preview shows the model's first item, once the list has been filled
+      if (items) new MutationObserver(() => { const t = items.querySelector('.cms-thumb'); const c = model.querySelector('.cn-car i'); if (t && c) c.style.backgroundImage = t.style.backgroundImage; }).observe(items, { childList: true });
+      sc.appendChild(model);
+    });
+    // レイヤー: the header's two buttons and the 「名称」 column
+    const ly = $('.lp[data-panel="layers"]');
+    $('.lp-head', ly).innerHTML = `<span>レイヤー</span><span class="lp-head-btns"><span class="hb on">${railSvg('<path d="m8 6-6 6 6 6M16 6l6 6-6 6" stroke-width="1.5"/>')}</span><span class="hb">${railSvg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>')}</span></span>`;
+    $('.lp-head', ly).insertAdjacentHTML('afterend', `<div class="ly-cols"><span>名称</span>${railSvg('<path d="m5 4 5.5 15 2.2-6.3L19 10.5z"/>')}${railSvg('<path d="M5 17h14M8 13.5a4 4 0 0 1 8 0M12 5v2M5.5 8l1.4 1.4M18.5 8l-1.4 1.4"/>')}</div>`);
+    // ---- the right panel: zoom · members · preview · 公開 above the properties
+    const props = $('#props');
+    const right = document.createElement('aside');
+    right.className = 'right-panel';
+    props.className = 'rp-body';
+    props.replaceWith(right);
+    const zoom = $('#zoomLabel'), prev = $('#btnPreview'), pub = $('#btnPublish');
+    right.innerHTML = `<div class="rp-top"><svg class="ic rp-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11M11 8l4 4-4 4M19 5v14"/></svg><span class="sp"></span>
+      <span class="rp-zoom" id="rpZoom"></span><span class="rp-mem"><span class="inv">${icon('plus')}</span><span class="av"></span></span></div>`;
+    $('#rpZoom').append(zoom);
+    $('#rpZoom').insertAdjacentHTML('beforeend', icon('chevron-down'));
+    prev.className = 'rp-prev';
+    prev.innerHTML = railSvg('<path d="M8 5.5v13l10.5-6.5z"/>');
+    pub.className = 'rp-pub';
+    $('.rp-top', right).append(prev, pub);
+    right.appendChild(props);
+    // ---- the canvas: the page label with its buttons, and the breakpoint toolbar floating at the bottom
+    const fl = $('.frame-label');
+    $('.fl-size', fl).hidden = true;
+    fl.insertAdjacentHTML('beforeend', `<span class="fl-tools">${railSvg('<path d="M5 7h14M10 11v6M14 11v6M6.5 7l1 12.5h9L17.5 7M9.5 7V4.5h5V7"/>')}${railSvg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>')}${icon('plus')}</span>`);
+    const bpw = $('#bpWidth');
+    const bar = document.createElement('div');
+    bar.className = 'bp-bar';
+    bar.innerHTML = `<span class="bp-w"></span><div class="bp-switch"></div><span class="bp-more">${railSvg('<path d="M12 5.5h.01M12 12h.01M12 18.5h.01" stroke-width="2.6"/>')}</span>`;
+    $('.bp-w', bar).append(bpw);
+    $('.bp-w', bar).insertAdjacentHTML('beforeend', 'px');
+    const sw = $('.bp-switch', bar);
+    const devs = {
+      'bp-pc': '<rect x="3" y="5" width="18" height="12" rx="1.5"/><path d="M9 20h6"/>',
+      'bp-small': '<rect x="5" y="5" width="14" height="10" rx="1.2"/><path d="M3 18h18"/>',
+      'bp-tablet': '<rect x="5.5" y="3" width="13" height="18" rx="2"/><path d="M5.5 6.5h13"/>',
+      'bp-mobile': '<rect x="7" y="3.5" width="10" height="17" rx="2"/><path d="M7 7h10"/>',
+    };
+    ['bp-pc', ...(o.small ? ['bp-small'] : []), 'bp-tablet', 'bp-mobile'].forEach((id) => {
+      let b = document.getElementById(id);
+      if (!b) { b = document.createElement('button'); b.className = 'bp-btn'; b.id = id; }
+      b.innerHTML = railSvg(devs[id]);
+      sw.appendChild(b);
+    });
+    $('#canvas').appendChild(bar);
+    $('.topbar').remove();
+    // ---- 公開: a sheet sliding down over the editor — the site's URL, 独自ドメイン設定, the status, the 「⤒ 公開」 button
+    const pm = $('#publishModal');
+    const url = $('.m-url', pm).textContent.trim();
+    const doBtn = $('#btnDoPublish'), cancel = $('#btnCancel'), open = $('#btnOpenSite');
+    const prog = $('#mProgress'), ok = $('#mSuccess'), st = $('#mStatus');
+    pm.classList.add('pubsheet');
+    const m = $('.modal', pm);
+    m.innerHTML = `<img class="ps-logo" src="../../shared/logos/studio.svg" alt="Studio"><div class="ps-act"></div>
+      <div class="ps-mid"><div class="ps-url"><span class="ps-x">${railSvg('<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><path d="m9.2 9.2 5.6 5.6M14.8 9.2l-5.6 5.6" stroke="#fff" stroke-width="1.8"/>')}</span><span class="m-url">https://${esc(url)}</span></div><span class="ps-dom">独自ドメイン設定</span></div>
+      <div class="ps-state"></div>`;
+    doBtn.className = 'ps-pub';
+    doBtn.innerHTML = `${railSvg('<path d="M6 4.5h12M12 20V9M7.5 13.5 12 9l4.5 4.5"/>')}公開`;
+    cancel.className = 'ps-cancel';
+    $('.ps-act', m).append(doBtn, cancel);
+    open.className = 'ps-open';
+    open.innerHTML = railSvg('<path d="M14 4h6v6M10 14 20 4M18 13.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5.5"/>');
+    $('.ps-url', m).append(open);
+    $('.ps-mid', m).append(prog, ok);
+    st.className = o.published ? 'pill pill-green' : 'pill';
+    st.textContent = o.published ? '公開中' : '非公開';
+    $('.ps-state', m).append(st);
+    $('.ps-state', m).insertAdjacentHTML('beforeend', `<small>https://${esc(url)}</small>`);
+    app.classList.add('s5');
   }
 
   /* ------------------------------------------------------------- bootstrap */
   async function boot(fast) {
+    rebuildChrome({"small": true, "published": true});
     hydrateIcons();
     // assets panel
     $('#assetGrid').innerHTML = ASSETS.map(([id, file]) =>
-      `<div class="asset" data-asset="${id}"><div class="a-img" style="background-image:url(assets/img/${file})"></div><small>${file.replace(/^(.{8})[^.]*/, "$1")}</small></div>`).join('');
+      `<div class="asset" data-asset="${id}"><div class="a-img"><i style="background-image:url(assets/img/${file})"></i></div><small>${icon('image')}${file.replace(/^(.{8})[^.]*/, "$1")}</small></div>`).join('');
     Cursor.init();
     Ghost.init();
     Pop.init();

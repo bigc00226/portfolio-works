@@ -101,12 +101,27 @@
   /** the wall-clock time at this point of the video (taskbar clock, "last updated" stamps) */
   const now = () => window.Win11.fmt.stamp();
 
+  /* the admin's frame (js/makeshop-login-frame.js: MsUi.shell — left menu, header, right side bar as the admin draws
+     them since 2026-07-27); the views of index.html go into its page area. ショップデザイン is folded until the video opens it. */
+  const MS_FRAME = {
+    shopName: '旅するように和菓子と出逢う', shopId: 'gaxwagashi', avatar: 'purple', homeId: 'msNavHome',
+    groups: { design: [['navTemplate', 'テンプレート選択・編集'], ['', 'お知らせの管理']] },
+    closed: { design: true }, groupIds: { design: 'navDesign' }, subIds: { design: 'navDesignSub' },
+  };
+  (() => {
+    const sh = $('#msShell');
+    const views = [...sh.querySelectorAll('.ms-view')];
+    sh.classList.add('ms-adm');
+    sh.innerHTML = window.MsUi.shell(MS_FRAME);
+    views.forEach((v) => $('#msMain').appendChild(v));
+  })();
+
   const Admin = {
     mode: 'basic',
     sets: [],
     view(name, crumb) {
       $$('#msShell .ms-view').forEach((v) => v.classList.toggle('on', v.dataset.view === name));
-      if (crumb) $('#msCrumb').innerHTML = crumb.map((c, i) => (i ? '<span class="sl">/</span>' : '') + `<span>${esc(c)}</span>`).join('');
+      if (crumb) $('#msCrumb').innerHTML = window.MsUi.crumbs(crumb);
       $$('.ms-item, .ms-subitem').forEach((e) => e.classList.remove('on'));
       if (name === 'home') $('.ms-item[data-nav="home"]').classList.add('on');
       if (name === 'dslist') $('#navTemplate').classList.add('on');

@@ -55,6 +55,23 @@
     Browser.loading('ms', false);
     await wait(420);
   }
+  /** 商品登録 is opened from 商品一覧 (its 商品登録 button), as in the admin — the same total waits as go() */
+  async function goNewItem(render) {
+    await clickUi('#msNavItems', { after: 60 });
+    Browser.loading('ms', true);
+    await wait(180);
+    Browser.nav('ms', { title: MS.title('商品一覧'), url: MS.URL + '/products' });
+    MS.items(0);
+    Browser.loading('ms', false);
+    await wait(160);
+    await clickUi('#msItemsNew', { after: 60 });
+    Browser.loading('ms', true);
+    await wait(180);
+    Browser.nav('ms', { title: MS.title('商品登録'), url: MS.URL + '/products/new' });
+    render();
+    Browser.loading('ms', false);
+    await wait(220);
+  }
   const scrollMain = async (y, ms = 700) => { const el = $('#msScroll'); const s = el.scrollTop; await D.tween(ms, (e) => { el.scrollTop = s + (y - s) * e; }, D.Ease.inOut); };
   const toEl = async (sel, off = 120, ms = 700) => { const el = $(sel), box = $('#msScroll'); await scrollMain(el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - off, ms); };
   const done = (k) => MS.done.add(k);
@@ -88,13 +105,13 @@
     await window.MsLoginFrame.signIn({ id: MS.ID, password: MS.PASSWORD });
     Browser.loading('ms', true);
     await wait(900);
-    Browser.nav('ms', { title: MS.title('ホーム'), url: MS.URL + '/dashboard', page: 'ms' });
+    Browser.nav('ms', { title: MS.title('ダッシュボード'), url: MS.URL + '/dashboard', page: 'ms' });
     MS.home();
     Browser.loading('ms', false);
     await wait(600);
     Caption.set('ショップ開設の準備：まずはカテゴリーから（シーン別とスタイル別の 2 系統）');
     await hoverUi('.ms-setup', { hold: 1100 });
-    await go('msNavCats', () => MS.cats(), 'カテゴリー設定', '/products/categories');
+    await go('msNavCats', () => MS.cats(), 'カテゴリ設定', '/products/categories');
     Caption.set('シーン別に「胡蝶蘭」を追加：URL はトップページや特集からリンクする文字列');
     await choose('#catParent', ['シーン別（By scene）', 'スタイル別（Style）'], 'シーン別（By scene）', { look: 400 });
     await typeInput('#catName', ja('胡蝶蘭'), { kps: 11 });
@@ -102,7 +119,7 @@
     await clickUi('#catAdd', { after: 80 });
     await wait(300);
     MS.cats({ have: ['mothorchid'], flash: 'mothorchid' });
-    MS.toast('カテゴリーを追加しました');
+    MS.toast('カテゴリを追加しました。');
     await wait(900);
     await hoverUi('#catTbl tbody tr[data-cat="mothorchid"]', { hold: 900 });
     Caption.set('スタイル別には「花束・ブーケ」（URL：bouquets）');
@@ -112,7 +129,7 @@
     await clickUi('#catAdd', { after: 80 });
     await wait(300);
     MS.cats({ have: ['mothorchid', 'bouquets'], flash: 'bouquets', parent: 'スタイル別（Style）' });
-    MS.toast('カテゴリーを追加しました');
+    MS.toast('カテゴリを追加しました。');
     await wait(1000);
     Caption.set('残りのカテゴリーも同じ手順で登録（シーン別 7・スタイル別 7）');
     const order = ['birthday-anniversary', 'congratulatory', 'roses', 'offering', 'promotion-arewell', 'express', 'arrangement', 'preserved', 'stands', 'ct126', 'namabana', 'ct278'];
@@ -134,7 +151,7 @@
   scene('items', async () => {
     Caption.step(2);
     Caption.set('商品登録：まず 1 商品を画面から登録して、項目と表示を確かめる');
-    await go('msNavNew', () => MS.productNew(), '商品登録', '/products/new');
+    await goNewItem(() => MS.productNew());
     await typeInput('#pnName', [...ja('ミディ'), ...ja('胡蝶蘭'), { direct: ' ' }, ...ja('ホワイト')], { kps: 11 });
     await typeInput('#pnNo', '6WO01', { kps: 10 });
     await typeInput('#pnPrice', '19800', { kps: 9 });
@@ -166,7 +183,7 @@
     await hoverUi('.ms-opt', { hold: 1600 });
     await clickUi('#pnSave', { after: 80 });
     Browser.loading('ms', true); await wait(700); Browser.loading('ms', false);
-    MS.toast('商品を登録しました');
+    MS.toast('商品を登録しました。');
     await wait(500);
     await go('msNavItems', () => MS.items(1), '商品一覧', '/products');
     Caption.set('一覧で確認：画像・税込価格・カテゴリー');
@@ -181,7 +198,7 @@
     await readHold(2000);
     Issue.hide();
     await Win.switchTo('browser');
-    await go('msNavCsv', () => MS.csv(), '商品一括登録', '/products/csv/upload');
+    await go('msNavCsv', () => MS.csv(), '商品情報一括アップロード', '/products/csv/upload');
     await clickUi('#csvPick', { after: 80 });
     await FileDialog.pick({ folder: DIR(['data']), pick: 'products_hanahiro.csv', files: [{ name: 'products_hanahiro.csv', date: '2026/11/07 12:48', type: 'Microsoft Excel CSV', size: '6 KB' }] });
     MS.csv({ file: 'products_hanahiro.csv', size: '6 KB・48 行' });
@@ -261,7 +278,7 @@
     await Keycap.show(['Ctrl', 'C'], 500);
     await Win.switchTo('browser');
     await Browser.clickTab('ms');
-    await go('msNavCreator', () => MS.creator(''), 'クリエイターモード', '/design/creator/pages/top');
+    await go('msNavCreator', () => MS.creator(''), 'ページの編集', '/shop-design/ms-design-creator/1/pages');
     await clickUi('#cmCode .ms-cl', { kind: 'text', after: 80 });
     await Keycap.show(['Ctrl', 'V'], 600);
     MS.creator(Code.text('design/top.html'));
@@ -329,7 +346,7 @@
     Caption.step(4);
     Caption.set('会員登録・ログイン：ゲスト購入もできる会員制度、ログイン ID はメールアドレス');
     await Browser.clickTab('ms');
-    await go('msNavMemberCfg', () => MS.memberCfg(), '会員設定', '/members/settings');
+    await go('msNavMemberCfg', () => MS.memberCfg(), '登録フォーム項目', '/members/settings/register-form');
     await hoverUi('.ms-rd', { hold: 900 });
     Caption.set('登録項目に「生年月日」を追加（お誕生日・記念日のご案内用）');
     await toEl('#mcItems', 160);
@@ -341,7 +358,7 @@
     await toEl('#mcRate', 200);
     await typeInput('#mcRate', '5', { kps: 8 });
     await clickUi('#mcSave', { after: 80 });
-    MS.toast('会員設定を保存しました');
+    MS.toast('変更内容を保存しました。');
     await wait(800);
     done('member');
     Caption.set('ショップのヘッダーに「ログイン」「会員登録」が出る（会員登録ページは makeshop 標準の画面）');
@@ -358,16 +375,16 @@
     Caption.step(5);
     Caption.set('決済：クレジットカード・Amazon Pay・PayPay（ご利用ガイドのとおり）');
     await Browser.clickTab('ms');
-    await go('msNavPay', () => MS.pay(), '決済設定', '/settings/payment');
+    await go('msNavPay', () => MS.pay(), '決済一覧', '/settings/payment/list');
     for (const k of ['card', 'amazon', 'paypay']) { await clickUi('#pay-' + k, { after: 60 }); $('#pay-' + k).classList.add('on'); await wait(250); }
     await hoverUi('.ms-pay[data-pay="card"] .ms-brands', { hold: 1400 });
     await hoverUi('.ms-pay[data-pay="cod"]', { hold: 1200 });
     await clickUi('#paySave', { after: 80 });
-    MS.toast('決済設定を保存しました');
+    MS.toast('変更内容を保存しました。');
     done('pay');
     await wait(500);
     Caption.set('配送：宅配便・地域別の送料（東京都下 770 円／関東 1,100 円／本州・四国 1,320 円／北海道・九州・沖縄 1,815 円）');
-    await go('msNavShip', () => MS.ship({ tokyoMissing: true }), '配送設定', '/settings/delivery');
+    await go('msNavShip', () => MS.ship({ tokyoMissing: true }), '配送方法設定', '/settings/delivery/methods');
     await hoverUi('#shipTbl tbody tr[data-reg="kanto"] td.prefs', { hold: 1500 });
     const fees = { tokyo: 770, kanto: 1100, honshu: 1320, far: 1815 };
     for (const k of Object.keys(fees)) await typeInput('#fee-' + k, String(fees[k]), { kps: 10 });
@@ -378,7 +395,7 @@
     await toEl('#leadPanel', 90, 0);
     await wait(400);
     await clickUi('#shipSave', { after: 80 });
-    MS.toast('配送設定を保存しました');
+    MS.toast('配送方法を更新しました。');
     await wait(500);
     // check: the fee to Tokyo
     Caption.set('送料シミュレーションで確認：東京都に送ると…');
@@ -401,7 +418,7 @@
     await clickUi('#shipTbl tr[data-reg="tokyo"] td.prefs', { after: 80 });
     MS.ship({ fees, lead: 3 });
     await clickUi('#shipSave', { after: 80 });
-    MS.toast('配送設定を保存しました');
+    MS.toast('配送方法を更新しました。');
     await toEl('#simPanel', 140);
     await choose('#simPref', ['北海道', '埼玉県', '千葉県', '東京都', '神奈川県', '大阪府'], '東京都', { look: 300 });
     await clickUi('#simGo', { after: 80 });
@@ -428,7 +445,7 @@
     MS.ship({ fees, lead: 4, sim: { pref: '東京都', fee: 770, reg: '東京都下' } });
     await toEl('#leadPanel', 90, 0);
     await clickUi('#shipSave', { after: 80 });
-    MS.toast('配送設定を保存しました');
+    MS.toast('配送方法を更新しました。');
     Caption.fixed('最短のお届け日が 4 日後（11月11日）に');
     Issue.ok($('#leadSel'), '11月11日(水) から');
     await readHold(2200);
@@ -479,16 +496,16 @@
   scene('open', async () => {
     Caption.step(7);
     Caption.set('準備ができたので、ショップを公開');
-    await go('msNavOpen', () => MS.open(false), 'ショップ公開設定', '/settings/open');
-    await clickUi([...$$('.ms-rd')].find((e) => /公開する/.test(e.textContent)), { after: 80 });
+    await go('msNavOpen', () => MS.open(false), '開店状態の設定', '/settings/shop-info/open-state');
+    await clickUi([...$$('.ms-rd')].find((e) => e.textContent.trim() === '開店'), { after: 80 });
     MS.open(true);
     await clickUi('#opSave', { after: 80 });
     Browser.loading('ms', true); await wait(700); Browser.loading('ms', false);
     MS.published(true);
-    MS.toast('ショップを公開しました');
+    MS.toast('設定の更新に成功しました。');
     done('open');
     await wait(600);
-    await go('msNavHome', () => MS.home(), 'ホーム', '/dashboard');
+    await go('msNavHome', () => MS.home(), 'ダッシュボード', '/dashboard');
     Caption.set('ショップ開設の準備がすべて完了');
     for (const el of [...$$('.ms-setup')].slice(0, 7)) await hoverUi(el, { hold: 380 });
     await wait(900);

@@ -727,6 +727,7 @@
     await realWait(380);
     await clickUi('#gtmName', { kind: 'text' });
     $('#gtmName').classList.add('focus');
+    $('#gtmName').classList.remove('ph');
     Gtm.cur.name = await typeInto(fieldTarget($('#gtmName')), JA.tagName, { kps: 12 });
     $('#gtmName').classList.remove('focus');
     $('#gtmName').textContent = Gtm.cur.name;
@@ -753,7 +754,8 @@
     await hold(600);
     await clickUi('#gtmSave', { kind: 'hand' });
     $('#gtmPanel').classList.remove('show');
-    Gtm.tags.unshift({ name: Gtm.cur.name, type: 'Google タグ', trig: 'All Pages', date: 'たった今' });
+    Gtm.tags.unshift({ name: Gtm.cur.name, type: 'Google タグ', trig: 'All Pages', date: '数秒前' });
+    Gtm.setChanges(1);
     Gtm.tagsView(0);
     await hold(900);
 
@@ -820,7 +822,7 @@
     Issue.hide();
     await clickUi('#gtmSave', { kind: 'hand' });
     $('#gtmPanel').classList.remove('show');
-    Gtm.tags[0].date = 'たった今';
+    Gtm.tags[0].date = '数秒前';
     Gtm.tagsView();
     await hold(500);
     await clickUi('#gtmPreview', { kind: 'hand' });
@@ -839,7 +841,8 @@
       { name: 'scroll', pm: 'percent_scrolled: 90' }, { name: 'click', pm: 'link_domain: ne.booking.chillnn.com', conv: true },
     ];
     for (let i = 0; i < evs.length; i++) {
-      GA.events.unshift({ ...evs[i], t: `14:1${2 + Math.floor(i / 3)}:${String(5 + i * 7).padStart(2, '0')}` });
+      const at = window.Win11.now(); // the event time follows the taskbar clock
+      GA.events.unshift({ ...evs[i], t: `${at.getHours()}:${String(at.getMinutes()).padStart(2, '0')}:${String(at.getSeconds()).padStart(2, '0')}` });
       GA.render('debug');
       await hold(520);
     }
@@ -852,19 +855,29 @@
     Caption.set('コンテナを公開（バージョン名を付けて送信）');
     await Browser.clickTab('gtm');
     await clickUi('#gtmSubmit', { kind: 'hand' });
-    Gtm.dialog(`<div class="gtm-dlg-box"><h3>変更を送信</h3><div class="gtm-fl">バージョン名</div><div class="gtm-in" id="gtmVer" style="width:100%;font-family:inherit"></div>
-      <div class="gtm-fl">変更内容</div><div style="color:#3c4043">タグを追加：${esc(Gtm.cur.name)}（Google タグ ・ All Pages）</div>
-      <div class="row"><span class="gbtn">キャンセル</span><span class="gbtn fill" id="gtmPublish">公開</span></div></div>`);
+    Gtm.dialog(`<div class="gx-sheet"><div class="hd"><span class="x">${D.icon('close')}</span>変更の送信<span class="gx-btn fill" id="gtmPublish">公開</span></div>
+      <div class="bd"><div class="cd"><h4>送信設定</h4>
+        <div class="gx-radio on"><i></i><span><b>バージョンの公開と作成</b></span></div>
+        <div class="fl">バージョン名</div><div class="gtm-in" id="gtmVer"></div>
+        <div class="fl">バージョンの説明</div><div class="gtm-in tarea"></div>
+        <div class="fl">環境への公開</div><div style="margin-left:30px">Live</div>
+        <div class="gx-radio" style="margin-top:14px"><i></i><span><b>バージョンの作成</b></span></div></div>
+        <div class="cd"><h4>ワークスペースの変更</h4><div class="gx-chg h"><span>名前</span><span>タイプ</span><span>変更</span></div>
+          <div class="gx-chg"><a>${esc(Gtm.cur.name)}</a><span>タグ</span><span>追加</span></div></div></div></div>`);
     await hold(500);
     await clickUi('#gtmVer', { kind: 'text' });
     $('#gtmVer').classList.add('focus');
     await typeInto(fieldTarget($('#gtmVer')), JA.version, { kps: 12 });
     $('#gtmVer').classList.remove('focus');
     await clickUi('#gtmPublish', { kind: 'hand' });
-    Gtm.dialog(`<div class="gtm-dlg-box"><div class="gtm-ok">${D.icon('check')}バージョン 4「GA4 計測設定」を公開しました</div>
-      <div style="color:#5f6368;margin-top:10px">コンテナ ${S.gtmId} ・ ne-auberge.jp</div><div class="row"><span class="gbtn fill">閉じる</span></div></div>`);
-    await hold(2200);
+    Gtm.setChanges(0);
+    $$('.gx-tabs > span:not(.r)').forEach((t, i) => t.classList.toggle('on', i === 1)); // バージョン tab
     Gtm.dialog('');
+    $('#gtmPage .gtm').insertAdjacentHTML('beforeend', `<div class="gx-ver" id="gtmVerPage"><div class="bn"><div class="l"><small>ne-auberge.jp<span>${S.gtmId}</span></small><b>バージョン 4 は公開中</b><span>公開日: 2026年11月1日（<span class="pii">k.sato@example.jp</span>）</span></div>
+      <div class="n"><div><b>${Gtm.tags.length}</b><span>タグ</span></div><div><b>0</b><span>トリガー</span></div><div><b>0</b><span>変数</span></div></div></div></div>`);
+    await hold(2200);
+    $('#gtmVerPage').outerHTML = '';
+    $$('.gx-tabs > span:not(.r)').forEach((t, i) => t.classList.toggle('on', i === 0));
   });
 
   /* -------------------------------------------------- 6 deploy + live */

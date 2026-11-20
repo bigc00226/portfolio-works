@@ -109,7 +109,7 @@
 .keystrip { bottom: calc(var(--tb-h) + 78px + var(--player-pad, 0px)) !important; transition: opacity .2s, transform .2s, bottom .3s ease !important; }
 body.no-captions .keystrip { bottom: calc(var(--tb-h) + 22px + var(--player-pad, 0px)) !important; }
 /* typing near the bottom of the screen (a terminal prompt, a low field): the key display moves up out of the way */
-.keystrip.ks-top { top: 96px; bottom: auto !important; }
+.keystrip.ks-top, body.no-captions .keystrip.ks-top { top: 96px; bottom: auto !important; }
 .keycap { bottom: calc(var(--tb-h) + 136px + var(--player-pad, 0px)) !important; }
 
 /* ------------------------------------------------------------ inside the player / while seeking */
@@ -168,3 +168,25 @@ body, body * { cursor: none !important; }
 .br-omni #brLock { color: #474747; }
 .br-prof.w11 { width: 34px; height: 32px; background: none; margin: 0; border-radius: 0; display: grid; place-items: center; }
 .br-bar .br-nav svg { display: block; }
+
+/* ------------------------------------------------------------ Chrome の枠：2023 年のデザイン変更以降の見た目に合わせる
+   （2026-11-20、この PC の Chrome 157 を日本語・ライト・100% 換算で撮影して採寸。Lancers デモ 15 の監査済みの枠と同じ値）
+   タブ列 40px・#d3e3fd、左端にタブ検索、選択中のタブは裾が外へ丸まる、ツールバー 46px・下線 #e1e3e1、アドレスバー 34px・#edf2fa */
+.br-tabsbar, .cw-tabs { --cw-tabs: 40px; height: 40px; background: #d3e3fd; }
+.br-tabsbar::before, .cw-tabs::before { content: ""; flex: none; align-self: flex-end; width: 28px; height: 28px; margin: 0 8px 4px 0; border-radius: 8px;
+  background: #e9effb url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233c3c3c' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E") center / 20px no-repeat; }
+.br-tab, .cw-tab { height: 34px; border-radius: 10px 10px 0 0; font-size: 12px; color: #3c3c3c; }
+.br-tab + .br-tab::before, .cw-tab + .cw-tab::before { border-left-color: #9ea3aa; top: 10px; }
+.br-tab.on, .cw-tab.on { color: #1f1f1f; z-index: 2; }
+.br-tab.on::before, .cw-tab.on::before, .br-tab.on::after, .cw-tab.on::after { content: ""; display: block; position: absolute; top: auto; bottom: 0; width: 10px; height: 10px; border: 0; pointer-events: none; }
+.br-tab.on::before, .cw-tab.on::before { left: -10px; background: radial-gradient(circle at 0 0, transparent 9.5px, #fff 10px); }
+.br-tab.on::after, .cw-tab.on::after { right: -10px; background: radial-gradient(circle at 100% 0, transparent 9.5px, #fff 10px); }
+.br-tab.is-hover:not(.on) { background: rgba(255, 255, 255, .5); border-radius: 8px; height: 28px; margin-bottom: 3px; }
+.br-newtab, .cw-newtab { width: 28px; height: 28px; margin: 0 0 4px 10px; border-radius: 50%; display: grid; place-items: center; color: #3c3c3c; }
+.br-bar, .cw-bar { height: 46px; padding: 0 6px; gap: 2px; border-bottom: 1px solid #e1e3e1; color: #3c3c3c; }
+.br-nav, .cw-nav { width: 34px; height: 34px; color: #3c3c3c; }
+.br-nav.off, .cw-nav.off { opacity: 1; color: #b6b9be; }
+.br-omni, .cw-omni { height: 34px; border-radius: 17px; background: #edf2fa; margin: 0 8px 0 6px; color: #1f1f1f; }
+.br-omni.focus { background: #fff; }
+.br-url .dim, .cw-url .dim { color: #61656b; }
+.br-omni .br-star, .br-omni #brLock { color: #3c3c3c; }

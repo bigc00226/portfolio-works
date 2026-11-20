@@ -8,7 +8,7 @@
  *                       boxes with their own computed style for the typing, the checkboxes / radios / the file input are
  *                       the page's own, the result of a submit (validation tips, the response) is the one Contact Form 7
  *                       rendered for the same form (WP.data: invalid / kTooLarge / kSent)
- *   Mail                the clinic's inbox (a webmail look-alike without logos; miyazawaclinic.net's mail is on Google)
+ *   Mail                the clinic's inbox (Gmail, reproduced in js/gmail.js — miyazawaclinic.net's mail is on Google)
  */
 (function () {
   'use strict';
@@ -263,31 +263,20 @@
 
   /* ---------------------------------------------------------------- the clinic's inbox */
   $('#brContent').insertAdjacentHTML('afterbegin', `
-    <div class="br-page" data-page="mail"><div class="wm" id="wm">
-      <aside class="wm-side"><div class="wm-compose"><i data-icon="pencil"></i>作成</div>
-        <div class="wm-f on"><i data-ic="inbox"></i>受信トレイ<b id="wmCount"></b></div><div class="wm-f"><i data-icon="star"></i>スター付き</div><div class="wm-f"><i data-ic="clock"></i>スヌーズ中</div><div class="wm-f"><i data-icon="arrow-right"></i>送信済み</div><div class="wm-f"><i data-icon="file"></i>下書き</div>
-        <div class="wm-lbl">ラベル</div><div class="wm-f"><i data-icon="tag"></i>お問い合わせ</div><div class="wm-f"><i data-icon="tag"></i>ご予約</div></aside>
-      <main class="wm-main"><div class="wm-top"><div class="wm-search"><i data-icon="search"></i>メールを検索</div><span class="wm-acct">京</span></div><div class="wm-body" id="wmBody"></div></main>
-    </div></div>`);
+    <div class="br-page" data-page="mail">${window.GmailUI.shell({ account: '京', avatar: '#00897b', labels: ['お問い合わせ', 'ご予約'] })}</div>`);
   const Mail = {
     list: [],
     render(o = {}) {
-      const unread = this.list.filter((m) => !m.read).length;
-      $('#wmCount').textContent = unread || '';
-      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) :
-        `<div class="wm-list">${this.list.map((m, i) => `<div class="wm-row${m.read ? '' : ' unread'}${o.newIdx != null && i <= o.newIdx ? ' new' : ''}" data-mail="${i}"><span class="wm-star">${icon('star')}</span><span class="wm-from">${esc(m.from)}</span><span class="wm-subj"><b>${esc(m.subject)}</b> — <span class="sa-mute">${esc(m.snippet)}</span></span><span class="wm-date">${esc(m.time)}</span></div>`).join('')}</div>`;
-      D.hydrateIcons($('#wmBody'));
+      // Gmail's inbox / message view (js/gmail.js)
+      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) : window.GmailUI.list(this.list, { ...o, newAll: true });
+      window.GmailUI.count(this.list);
     },
     reading(m) {
-      return `<div class="wm-read"><div class="wm-tools"><span data-back>${icon('arrow-left')}</span>${icon('download')}${icon('alert')}${icon('x-circle')}</div>
-        <h2>${esc(m.subject)} <span class="sa-tag">${esc(m.label || '受信トレイ')}</span></h2>
-        <div class="wm-hd"><span class="wm-av">${esc(m.from[0])}</span><div><b>${esc(m.from)}</b> <span class="sa-mute">&lt;${esc(m.addr)}&gt;</span><div class="sa-mute">To: ${esc(m.to)}</div></div><span class="wm-date">${esc(m.time)}</span></div>
-        <div class="wm-text" id="wmText">${esc(m.text)}</div></div>`;
+      return window.GmailUI.reading({ ...m, html: null }, this.list);
     },
     add(m) { this.list.unshift({ read: false, ...m }); },
     row(i) { return $(`#wmBody .wm-row[data-mail="${i}"]`); },
   };
-  D.hydrateIcons($('#wm'));
 
   window.CC = CC;
   window.Front = Front;

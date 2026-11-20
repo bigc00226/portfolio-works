@@ -72,3 +72,33 @@
 .ms-op:last-child { border-bottom: 0; }
 .ms-op svg { width: 16px; height: 16px; color: #6f738a; }
 .ms-op.is-hover { background: #f2f4fc; }
+/* CSV一括処理 as the admin lays it out (manual.makeshop.jp/hc/ja/articles/53559390589721): bordered cards, link-coloured titles */
+.ms-adm .ms-csv-job { padding: 16px 16px; }
+.ms-csv-job .t { font-size: 14px; color: #10163d; }
+.ms-csv-job p { margin: 4px 0 0; font-size: 12px; color: #6f738a; }
+.ms-csv-job .lk { display: flex; margin-top: 12px; }
+.ms-csv-job .lk > span { color: #4558c4; padding: 0 12px; border-left: 1px solid #e6eaf0; }
+.ms-csv-job .lk > span:first-child { padding-left: 0; border-left: 0; }
+.ms-csv-job .lk > span.is-hover { text-decoration: underline; }
+.ms-csv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0 24px 16px; }
+.ms-csv-card { border: 1px solid #cad1e0; border-radius: 4px; padding: 16px; }
+.ms-csv-card .t { color: #4558c4; font-size: 14px; }
+.ms-csv-card p { margin: 8px 0 12px; font-size: 12px; line-height: 1.6; color: #6f738a; }
+.ms-csv-acts { display: flex; gap: 16px; font-size: 13px; color: #4558c4; }
+.ms-csv-acts > span { display: inline-flex; align-items: center; gap: 4px; }
+.ms-csv-acts svg { width: 16px; height: 16px; }
+/* 商品リストダウンロード: the admin's older screen (in a frame) — square bullets, grey option boxes, grey button */
+.ms-legacy { font-family: "ＭＳ Ｐゴシック", "MS PGothic", Meiryo, sans-serif; font-size: 12px; }
+.ms-legacy .ms-note { font-size: 12px !important; color: #333; }
+.ms-lg-h { margin: 18px 0 8px; font-weight: 700; color: #333; }
+.ms-lg-h::before { content: ""; display: inline-block; width: 6px; height: 6px; background: #f39800; margin-right: 6px; vertical-align: 2px; }
+.ms-legacy .ms-sel { height: 24px; border-radius: 2px; border-color: #999; font-size: 12px; min-width: 150px; }
+.ms-lg-opt { display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 10px; margin: 0 0 8px; background: #f2f2f2; border: 1px solid #ddd; color: #333; max-width: 640px; }
+.ms-lg-opt u { color: #1a0dab; }
+.ms-lg-btn { margin: 16px 0 4px; max-width: 640px; text-align: center; }
+.ms-lg-btn > span { display: inline-block; padding: 7px 18px; border: 1px solid #aaa; border-radius: 3px; background: linear-gradient(#fff, #e6e6e6); font-weight: 700; color: #333; }
+.ms-lg-btn > span.is-hover { background: linear-gradient(#fff, #d9d9d9); }
+/* 会員一覧 › CSVダウンロード (dialog) */
+.ms-dlg-bg { position: absolute; inset: 0; background: rgba(16, 22, 61, .35); }
+.ms-adm .ms-dlg { position: absolute; left: 50%; top: 120px; transform: translateX(-50%); width: 560px; margin: 0; box-shadow: 0 10px 14px 0 #11316129; }
+.ms-dlg-b { display: flex; justify-content: flex-end; gap: 12px; }

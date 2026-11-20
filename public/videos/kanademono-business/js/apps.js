@@ -20,12 +20,7 @@
 
   /* ============================================================ extra browser pages: mail + PDF viewer */
   $('#brContent').insertAdjacentHTML('afterbegin', `
-    <div class="br-page" data-page="mail"><div class="wm" id="wm">
-      <aside class="wm-side"><div class="wm-compose"><i data-icon="pencil"></i>作成</div>
-        <div class="wm-f on"><i data-ic="inbox"></i>受信トレイ<b id="wmCount"></b></div><div class="wm-f"><i data-icon="star"></i>スター付き</div><div class="wm-f"><i data-ic="clock"></i>スヌーズ中</div><div class="wm-f"><i data-icon="arrow-right"></i>送信済み</div><div class="wm-f"><i data-icon="file"></i>下書き</div>
-        <div class="wm-lbl">ラベル</div><div class="wm-f"><i data-icon="tag"></i>法人会員</div><div class="wm-f"><i data-icon="tag"></i>見積もり</div></aside>
-      <main class="wm-main"><div class="wm-search"><i data-icon="search"></i>メールを検索</div><div class="wm-body" id="wmBody"></div></main>
-    </div></div>
+    <div class="br-page" data-page="mail">${window.GmailUI.shell({ account: 'K', avatar: '#5e8e3e', labels: ['法人会員', '見積もり'] })}</div>
     <div class="br-page" data-page="acct"><div class="ac" id="ac"><iframe id="acFrame" title="ログイン - KANADEMONO"></iframe><div class="ac-home" id="acHome" hidden></div></div></div>
     <div class="br-page" data-page="pdf"><div class="pv" id="pv"><img id="pvImg" alt=""><div id="pvSpots"></div></div></div>`);
 
@@ -145,18 +140,12 @@
   const Mail = {
     list: [],
     render(o = {}) {
-      const unread = this.list.filter((m) => !m.read).length;
-      $('#wmCount').textContent = unread || '';
-      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) :
-        `<div class="wm-list">${this.list.map((m, i) => `<div class="wm-row${m.read ? '' : ' unread'}${i === o.newIdx ? ' new' : ''}" data-mail="${i}"><span class="wm-star">${icon('star')}</span><span class="wm-from">${esc(m.from)}</span><span class="wm-subj"><b>${esc(m.subject)}</b> — <span class="sa-mute">${esc(m.snippet)}</span></span>${m.att ? `<span class="wm-att">${icon('file')}</span>` : ''}<span class="wm-date">${esc(m.time)}</span></div>`).join('')}</div>`;
-      D.hydrateIcons($('#wmBody'));
+      // Gmail's inbox / message view (js/gmail.js)
+      $('#wmBody').innerHTML = o.open != null ? this.reading(this.list[o.open]) : window.GmailUI.list(this.list, { ...o, newAll: false });
+      window.GmailUI.count(this.list);
     },
     reading(m) {
-      return `<div class="wm-read"><div class="wm-tools"><span data-back>${icon('arrow-left')}</span>${icon('download')}${icon('alert')}${icon('x-circle')}</div>
-        <h2>${esc(m.subject)} <span class="sa-tag">${esc(m.label || '受信トレイ')}</span></h2>
-        <div class="wm-hd"><span class="wm-av">${esc(m.from[0])}</span><div><b>${esc(m.from)}</b> <span class="sa-mute">&lt;${esc(m.addr)}&gt;</span><div class="sa-mute">To: ${m.to}</div></div><span class="wm-date">${esc(m.time)}</span></div>
-        <div class="wm-text" id="wmText">${m.html}</div>
-        ${m.att ? `<div class="wm-attach" id="wmAttach"><div class="wm-pdf">${icon('file')}<b>PDF</b></div><span>${esc(m.att)}</span></div>` : ''}</div>`;
+      return window.GmailUI.reading(m, this.list);
     },
     add(m) { this.list.unshift({ read: false, ...m }); },
   };
@@ -266,7 +255,7 @@
       h.hidden = false;
       h.innerHTML = `<header><a class="ac-shop">KANADEMONO</a><nav><span>ショップ</span><span class="on">注文</span></nav><span class="sp"></span>
           <span class="ac-co">${K.ic('building')}${esc(CO)} ・ 本社${K.ic('chevron-down')}</span><span class="ac-av">${K.ic('user')}</span></header>
-        <main><h1>注文</h1><div class="ac-empty">${K.ic('inbox')}<b>まだ注文はありません</b><p>${esc(CO)}（本社）として購入すると、法人価格・請求書払い（30 日以内）が適用されます</p><span class="ac-btn">ショップに行く</span></div></main>`;
+        <main><h1>注文</h1><div class="ac-empty">${K.ic('inbox')}<b>まだ注文はありません</b><span class="ac-btn">ショップに行く</span></div></main>`;
       K.hydrate(h);
     },
   };
