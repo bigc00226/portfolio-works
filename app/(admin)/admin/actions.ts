@@ -3,22 +3,13 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { changePassword, login, logout, requireAdmin, revokeOthers } from '@/lib/server/auth';
+import { changePassword, logout, requireAdmin, revokeOthers } from '@/lib/server/auth';
 import { get, run, tx } from '@/lib/server/db';
 import { clientIp } from '@/lib/server/client';
 
 export type FormState = { ok?: boolean; error?: string; message?: string } | null;
 
-const safeNext = (v: FormDataEntryValue | null) => {
-  const s = typeof v === 'string' ? v : '';
-  return s.startsWith('/admin') && !s.startsWith('/admin/login') && !s.includes('//') ? s : '/admin';
-};
-
-export async function loginAction(_: FormState, fd: FormData): Promise<FormState> {
-  const r = await login(String(fd.get('password') ?? ''));
-  if (!r.ok) return { error: r.error };
-  redirect(safeNext(fd.get('next')));
-}
+// signing in is not a Server Action: app/(admin)/admin/login/route.ts (a plain HTML form, no React)
 
 export async function logoutAction() {
   await logout();

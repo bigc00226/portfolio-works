@@ -88,19 +88,6 @@ function Password({ name, label, autoComplete, autoFocus, onValue }: { name: str
   );
 }
 
-export function LoginForm({ action, next }: { action: (s: FormState, fd: FormData) => Promise<FormState>; next: string }) {
-  const [state, run, pending] = useActionState(action, null);
-  return (
-    <form action={run} className="ad-form">
-      <input type="hidden" name="next" value={next} />
-      <input type="text" name="username" autoComplete="username" value="admin" readOnly hidden />
-      <Password name="password" label="パスワード" autoComplete="current-password" autoFocus />
-      {state?.error && <p className="ad-msg err" role="alert">{state.error}</p>}
-      <button className="ad-btn" disabled={pending}>{pending ? '確認しています…' : 'ログイン'}</button>
-    </form>
-  );
-}
-
 const strength = (s: string) => {
   if (!s) return 0;
   let n = 0;
