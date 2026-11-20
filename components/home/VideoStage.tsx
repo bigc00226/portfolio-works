@@ -12,6 +12,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { VideoEntry } from '@/lib/registry';
 import { paths, fmtTime } from '@/lib/paths';
 import { VideoCard } from './VideoCard';
+import { trackEvent } from '@/lib/track-client';
 import { Close, Play, PlayGlyph } from './icons';
 
 type Cat = { label: string; color: string };
@@ -31,8 +32,26 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
   const opener = useRef<HTMLElement | null>(null);
   const timer = useRef(0);
   const isOpen = useRef(false);
+  const shownId = useRef<string | null>(null); // the details shown last (each switch to another video counts once)
   const before = useRef<Map<HTMLElement, DOMRect> | null>(null);
+  const pt = useRef<{ sx: number; sy: number; y: number } | null>(null);
+  const pinned = useRef<{ el: HTMLElement; f: number; y: number } | null>(null);
   const v = videos.find((x) => x.id === active) ?? null;
+
+  // When the grid narrows the cards get shorter, so every row below the first moves up — a card near the bottom
+  // would slide out from under the pointer (and, near the end of the grid, the whole area with it: the details
+  // closed, the grid widened back under the pointer, opened again, endlessly). So the card that opens or closes the
+  // details is pinned: the page scrolls by exactly as much as the card moved, and the point of the card under the
+  // pointer stays under the pointer. The other cards glide around it.
+  const pin = (id: string | null, y?: number) => {
+    pinned.current = null;
+    const el = id ? stage.current?.querySelector<HTMLElement>(`.vcard[data-id="${CSS.escape(id)}"]`) : null;
+    if (!el || sheetMode()) return;
+    const r = el.getBoundingClientRect();
+    if (!r.height || r.bottom < 0 || r.top > innerHeight) return;
+    const py = y != null && y >= r.top && y <= r.bottom ? y : Math.max(r.top, 0);
+    pinned.current = { el, f: (py - r.top) / r.height, y: py };
+  };
 
   // The grid changes its width in one step; the cards then glide from where they were to where they are (FLIP:
   // transforms only — no layout or repaint per frame, smooth even without a GPU). Only the cards near the screen move.
@@ -46,6 +65,13 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
     before.current = m;
   };
   useLayoutEffect(() => {
+    const p = pinned.current;
+    pinned.current = null;
+    if (p && p.el.isConnected) {
+      const r = p.el.getBoundingClientRect();
+      const d = r.top + p.f * r.height - p.y;
+      if (Math.abs(d) >= 1) scrollTo({ top: scrollY + d, behavior: 'instant' });
+    }
     const m = before.current;
     before.current = null;
     if (!m) return;
@@ -65,14 +91,16 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
   const later = (fn: () => void, ms: number) => { stop(); timer.current = window.setTimeout(fn, ms); };
   const show = (id: string, asSheet = false) => {
     stop();
-    if (!isOpen.current && !asSheet) snapshot();
+    if (!isOpen.current && !asSheet) { snapshot(); pin(id, pt.current?.y); }
     isOpen.current = true;
+    if (id !== shownId.current) { shownId.current = id; trackEvent('detail', id); }
     setSheet(asSheet); setActive(id); setOpen(true);
   };
   const hide = () => {
     stop();
-    if (isOpen.current && !sheet) snapshot();
+    if (isOpen.current && !sheet) { snapshot(); pin(active, pt.current?.y); }
     isOpen.current = false;
+    shownId.current = null;
     setOpen(false);
   };
   const hideRef = useRef(hide);
@@ -108,6 +136,11 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
     <div className={`vstage${open ? ' peek' : ''}`} ref={stage}
       onPointerMove={(e) => {
         if (e.pointerType === 'touch' || sheetMode()) return;
+        // the browser also reports a "move" when the page moves under a still pointer (layout change, scrolling):
+        // only a pointer that really moved on the screen may open or switch the details
+        const p = pt.current, moved = !p || p.sx !== e.screenX || p.sy !== e.screenY;
+        pt.current = { sx: e.screenX, sy: e.screenY, y: e.clientY };
+        if (!moved) return;
         const card = cardOf(e.target);
         if (!card) { stop(); return; } // between the cards or on the details: keep what is open
         const id = card.dataset.id!;
@@ -116,7 +149,8 @@ export function VideoStage({ videos, catFor }: { videos: VideoEntry[]; catFor: (
       }}
       onPointerLeave={(e) => {
         if (e.pointerType === 'touch' || sheetMode()) return;
-        if (open) later(hide, CLOSE_MS); else stop();
+        // closes only if the pointer is still outside once the delay is over (the area may have come back under it)
+        if (open) later(() => { if (!stage.current?.matches(':hover')) hide(); }, CLOSE_MS); else stop();
       }}
       onClick={(e) => {
         const card = cardOf(e.target);

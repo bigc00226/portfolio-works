@@ -11,6 +11,7 @@
  */
 import { useEffect, useRef } from 'react';
 import { paths } from '@/lib/paths';
+import { videoState } from '@/lib/track-client';
 
 type VideoInfo = { id: string; title: string; client: string; tool: string };
 type Chapter = { t: number; title: string };
@@ -84,6 +85,7 @@ export function Player({ video, duration, chapters, others }: Props) {
       if (!m || m.__stage !== 1 || e.source !== iframe.contentWindow) return;
       const was = st;
       st = m; stAt = performance.now();
+      videoState(m, DURATION);
       if (m.ready) loadingSrc = false;
       if (seekingTo != null && m.ready && !m.seeking && !m.reloading && m.seekId === seekId) seekingTo = null;
       // a state sent before the video got the last click still says the old thing: keep what the viewer asked for

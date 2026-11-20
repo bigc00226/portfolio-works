@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import type { SiteCard } from './Library';
 import { paths, host } from '@/lib/paths';
+import { trackEvent } from '@/lib/track-client';
 import { Close, Ext, Lock, Monitor, Next, Phone, Prev, Reload } from './icons';
 
 type Dev = 'pc' | 'sp';
@@ -24,6 +25,9 @@ export const SitePreview = forwardRef<SitePreviewHandle>(function SitePreview(_,
   const [load, setLoad] = useState(0); // bumps on every (re)load of the frame
   const [loaded, setLoaded] = useState(false);
   const s = state ? state.list[state.i] : null;
+  // each site shown in the preview counts once for the visitor statistics (lib/track-client.ts)
+  // (closing empties the state, so opening the same site again counts again; reloading the frame does not)
+  useEffect(() => { if (s?.id) trackEvent('site', s.id); }, [s?.id]);
 
   useImperativeHandle(ref, () => ({
     open(list, i, dev) {

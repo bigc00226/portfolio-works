@@ -14,3 +14,6 @@ tools/snapshots/*/.capture/
 .DS_Store
 Thumbs.db
 *.log
+
+# analytics database (SQLite) of the admin dashboard
+data/

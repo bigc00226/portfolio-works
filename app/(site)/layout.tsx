@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Noto_Sans_JP, Shippori_Mincho_B1 } from 'next/font/google';
+import { Tracker } from '@/components/Tracker';
+import { TRACK_HEAD } from '@/lib/track-inline';
 import './home.css';
 
 // The list page and the player page are separate root layouts (route groups): their global styles never meet,
@@ -34,8 +36,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja" className={`${inter.variable} ${noto.variable} ${shippori.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: HEAD }} />
+        {/* the visitor statistics: the first message, before hydration (lib/track-inline.ts) */}
+        <script dangerouslySetInnerHTML={{ __html: TRACK_HEAD }} />
       </head>
-      <body>{children}</body>
+      <body>{children}<Tracker /></body>
     </html>
   );
 }
