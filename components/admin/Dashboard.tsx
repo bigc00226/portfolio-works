@@ -8,7 +8,7 @@ import {
 import Link from 'next/link';
 import { Feed } from './Feed';
 
-type Data = ReturnType<typeof dashboard>;
+type Data = Awaited<ReturnType<typeof dashboard>>;
 type K = Data['kpi'];
 
 const Arrow = ({ up }: { up: boolean }) => <svg viewBox="0 0 12 12" fill="currentColor"><path d={up ? 'M6 2l4 5H7.2v3H4.8V7H2z' : 'M6 10l4-5H7.2V2H4.8v3H2z'} /></svg>;

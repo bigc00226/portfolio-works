@@ -7,7 +7,7 @@ export const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0
 
 export async function filters(searchParams: Search) {
   const sp = await searchParams;
-  const range = parseRange(one(sp.range));
+  const range = await parseRange(one(sp.range));
   const bots = one(sp.bots) === '1';
   const p = new URLSearchParams({ range: range.key });
   if (bots) p.set('bots', '1');

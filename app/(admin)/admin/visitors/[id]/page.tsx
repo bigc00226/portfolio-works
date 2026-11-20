@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: '訪問者の詳細' };
 export default async function VisitorPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Search }) {
   await requireAdmin();
   const { qs } = await filters(searchParams);
-  const d = visitorDetail(Number((await params).id));
+  const d = await visitorDetail(Number((await params).id));
   if (!d) notFound();
   const s = d.summary;
   const tiles: [string, string][] = [

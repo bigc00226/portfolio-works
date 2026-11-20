@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     return new Response(null, { status: 400 });
   }
   try {
-    const r = record(body, req.headers);
+    const r = await record(body, req.headers);
     if (process.env.TRACK_DEBUG) console.log('[track]', r.status, JSON.stringify(body).slice(0, 160));
     return r.json ? Response.json(r.json, { status: r.status, headers: { 'Cache-Control': 'no-store' } }) : new Response(null, { status: r.status });
   } catch (e) {

@@ -33,11 +33,11 @@ export const RANGES = [
 export type RangeKey = (typeof RANGES)[number]['key'];
 export type Range = { key: RangeKey; label: string; from: number; to: number; prev: [number, number] | null; hourly: boolean };
 
-export function parseRange(key: string | undefined, now = Date.now()): Range {
+export async function parseRange(key: string | undefined, now = Date.now()): Promise<Range> {
   const r = RANGES.find((x) => x.key === key) ?? RANGES[2];
   if (r.key === '24h') return { key: r.key, label: r.label, from: now - DAY, to: now, prev: [now - 2 * DAY, now - DAY], hourly: true };
   if (r.key === 'all') {
-    const first = get<{ t: number | null }>('SELECT MIN(ts) AS t FROM views')?.t ?? null;
+    const first = (await get<{ t: number | null }>('SELECT MIN(ts) AS t FROM views'))?.t ?? null;
     const from = startOfDay(first ?? now - 29 * DAY);
     return { key: r.key, label: r.label, from: Math.min(from, startOfDay(now) - 6 * DAY), to: now, prev: null, hourly: false };
   }
@@ -130,13 +130,13 @@ const bounced = (s: Session) => s.views.length === 1 && s.events === 0 && !s.vie
 type Kpis = { visitors: number; newVisitors: number; views: number; sessions: number; bounce: number; avgSession: number;
   plays: number; completes: number; completion: number; watchMs: number; details: number; siteOpens: number; avgPct: number };
 
-function kpis(vs: ViewRow[], es: EventRow[], from: number): Kpis {
+async function kpis(vs: ViewRow[], es: EventRow[], from: number): Promise<Kpis> {
   const evByView = groupBy(es, (e) => e.view_id);
   const ss = sessionsOf(vs, evByView);
   const visitors = new Set(vs.map((v) => v.visitor_id));
   const firstSeen = new Map<number, number>();
   if (visitors.size) {
-    all<{ visitor_id: number; first: number }>('SELECT visitor_id, MIN(ts) AS first FROM views GROUP BY visitor_id').forEach((r) => firstSeen.set(r.visitor_id, r.first));
+    (await all<{ visitor_id: number; first: number }>('SELECT visitor_id, MIN(ts) AS first FROM views GROUP BY visitor_id')).forEach((r) => firstSeen.set(r.visitor_id, r.first));
   }
   const played = vs.filter((v) => v.played && v.kind === 'watch');
   const plays = played.length, completes = vs.filter((v) => v.completed).length;
@@ -197,11 +197,11 @@ function retention(played: ViewRow[]) {
   });
 }
 
-export function dashboard(r: Range, bots: boolean) {
-  const vs = views(r.from, r.to, bots), es = events(r.from, r.to, bots);
+export async function dashboard(r: Range, bots: boolean) {
+  const [vs, es] = await Promise.all([views(r.from, r.to, bots), events(r.from, r.to, bots)]);
   const evByView = groupBy(es, (e) => e.view_id);
-  const k = kpis(vs, es, r.from);
-  const prev = r.prev ? kpis(views(r.prev[0], r.prev[1], bots), events(r.prev[0], r.prev[1], bots), r.prev[0]) : null;
+  const k = await kpis(vs, es, r.from);
+  const prev = r.prev ? await kpis(...(await Promise.all([views(r.prev[0], r.prev[1], bots), events(r.prev[0], r.prev[1], bots)])), r.prev[0]) : null;
 
   // over time
   const bk = buckets(r);
@@ -226,7 +226,7 @@ export function dashboard(r: Range, bots: boolean) {
   // calendar: the last 26 weeks up to the end of the period, visitors per day
   const calTo = startOfDay(r.to) + DAY;
   const calFrom = calTo - 26 * 7 * DAY;
-  const calRows = all<{ ts: number; visitor_id: number }>(`SELECT v.ts, v.visitor_id FROM views v JOIN visitors s ON s.id = v.visitor_id
+  const calRows = await all<{ ts: number; visitor_id: number }>(`SELECT v.ts, v.visitor_id FROM views v JOIN visitors s ON s.id = v.visitor_id
     WHERE v.ts >= ? AND v.ts < ? AND s.excluded = 0 AND (? = 1 OR v.is_bot = 0)`, calFrom, calTo, bots ? 1 : 0);
   const calMap = new Map<string, Set<number>>();
   calRows.forEach((x) => { const d = dayKey(x.ts); if (!calMap.has(d)) calMap.set(d, new Set()); calMap.get(d)!.add(x.visitor_id); });
@@ -309,14 +309,14 @@ export function dashboard(r: Range, bots: boolean) {
 
   // the latest page loads, with what happened on them
   const recent = [...vs].reverse().slice(0, 40).map((v) => viewItem(v, evByView.get(v.id) ?? []));
-  const people = visitorsInRange(vs, es).slice(0, 15);
+  const people = (await visitorsInRange(vs, es)).slice(0, 15);
 
   return {
     kpi: k, prev, series, heat, calendar, browsers, browserVersions, oses, osVersions, devices, sources, referrers, langs,
     pages, videos: vstats, retention: retention(played), hist, funnel, radar, treemap, flow, recent, people,
     scatter: vstats.filter((v) => v.plays > 0).map((v) => ({ id: v.id, label: v.title, platform: v.platformLabel, x: v.plays, y: Math.round(v.avgPct * 1000) / 10, size: v.watchMs })),
-    live: live(bots),
-    totals: totals(),
+    live: await live(bots),
+    totals: await totals(),
     now: Date.now(),
   };
 }
@@ -334,17 +334,17 @@ function viewItem(v: ViewRow, evs: EventRow[]) {
 }
 
 /** who is on the site right now (a message within the last 90 s) */
-function live(bots: boolean) {
+async function live(bots: boolean) {
   const now = Date.now();
-  const rows = all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id
+  const rows = await all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id
     WHERE v.last_ts >= ? AND s.excluded = 0 AND (? = 1 OR v.is_bot = 0) ORDER BY v.last_ts DESC`, now - 90_000, bots ? 1 : 0);
   const seen = new Set<number>();
   return rows.filter((v) => (seen.has(v.visitor_id) ? false : (seen.add(v.visitor_id), true))).map((v) => ({ ip: v.ip, visitor: v.visitor_id, page: pageLabel(v), browser: browserName(v), os: osName(v) }));
 }
 
-function totals() {
-  return get<{ visitors: number; views: number; events: number; first: number | null }>(
-    'SELECT (SELECT COUNT(*) FROM visitors) AS visitors, (SELECT COUNT(*) FROM views) AS views, (SELECT COUNT(*) FROM events) AS events, (SELECT MIN(ts) FROM views) AS first')!;
+async function totals() {
+  return (await get<{ visitors: number; views: number; events: number; first: number | null }>(
+    'SELECT (SELECT COUNT(*) FROM visitors) AS visitors, (SELECT COUNT(*) FROM views) AS views, (SELECT COUNT(*) FROM events) AS events, (SELECT MIN(ts) FROM views) AS first'))!;
 }
 
 /* ------------------------------------------------------------------ visitors */
@@ -371,9 +371,9 @@ function summarize(id: number, ip: string, firstSeen: number, lastSeen: number, 
   };
 }
 
-function visitorsInRange(vs: ViewRow[], es: EventRow[]) {
+async function visitorsInRange(vs: ViewRow[], es: EventRow[]) {
   const evs = groupBy(es, (e) => e.visitor_id);
-  const meta = new Map(all<{ id: number; first_seen: number; last_seen: number; note: string }>('SELECT id, first_seen, last_seen, note FROM visitors').map((x) => [x.id, x]));
+  const meta = new Map((await all<{ id: number; first_seen: number; last_seen: number; note: string }>('SELECT id, first_seen, last_seen, note FROM visitors')).map((x) => [x.id, x]));
   return [...groupBy(vs, (v) => v.visitor_id)].map(([id, list]) => {
     const m = meta.get(id)!;
     return summarize(id, list[0].ip, m.first_seen, m.last_seen, 0, m.note, list, evs.get(id) ?? []);
@@ -381,12 +381,12 @@ function visitorsInRange(vs: ViewRow[], es: EventRow[]) {
 }
 
 export type VisitorSort = 'recent' | 'views' | 'watch' | 'first' | 'ip';
-export function visitorList(o: { range: Range; bots: boolean; q: string; sort: VisitorSort; showExcluded: boolean }) {
-  const vs = all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id
+export async function visitorList(o: { range: Range; bots: boolean; q: string; sort: VisitorSort; showExcluded: boolean }) {
+  const vs = await all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id
     WHERE v.ts >= ? AND v.ts < ? AND (? = 1 OR v.is_bot = 0) AND (? = 1 OR s.excluded = 0) ORDER BY v.ts`, o.range.from, o.range.to, o.bots ? 1 : 0, o.showExcluded ? 1 : 0);
-  const es = all<EventRow>('SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE ts >= ? AND ts < ?', o.range.from, o.range.to);
+  const es = await all<EventRow>('SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE ts >= ? AND ts < ?', o.range.from, o.range.to);
   const evs = groupBy(es, (e) => e.visitor_id);
-  const meta = new Map(all<{ id: number; first_seen: number; last_seen: number; excluded: number; note: string }>('SELECT id, first_seen, last_seen, excluded, note FROM visitors').map((x) => [x.id, x]));
+  const meta = new Map((await all<{ id: number; first_seen: number; last_seen: number; excluded: number; note: string }>('SELECT id, first_seen, last_seen, excluded, note FROM visitors')).map((x) => [x.id, x]));
   const q = o.q.trim().toLowerCase();
   let list = [...groupBy(vs, (v) => v.visitor_id)].map(([id, l]) => {
     const m = meta.get(id)!;
@@ -401,11 +401,11 @@ export function visitorList(o: { range: Range; bots: boolean; q: string; sort: V
   return list.sort(by[o.sort] ?? by.recent);
 }
 
-export function visitorDetail(id: number) {
-  const s = get<{ id: number; ip: string; first_seen: number; last_seen: number; excluded: number; note: string }>('SELECT * FROM visitors WHERE id = ?', id);
+export async function visitorDetail(id: number) {
+  const s = await get<{ id: number; ip: string; first_seen: number; last_seen: number; excluded: number; note: string }>('SELECT * FROM visitors WHERE id = ?', id);
   if (!s) return null;
-  const vs = all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE v.visitor_id = ? ORDER BY v.ts`, id);
-  const es = all<EventRow>('SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE visitor_id = ? ORDER BY ts', id);
+  const vs = await all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE v.visitor_id = ? ORDER BY v.ts`, id);
+  const es = await all<EventRow>('SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE visitor_id = ? ORDER BY ts', id);
   const evByView = groupBy(es, (e) => e.view_id);
   const summary = summarize(s.id, s.ip, s.first_seen, s.last_seen, s.excluded, s.note, vs, es);
   const sessions = sessionsOf(vs, evByView).reverse().map((x) => ({
@@ -416,7 +416,7 @@ export function visitorDetail(id: number) {
     browser: browserName(l[0]), os: osName(l[0]), device: deviceName(l[0].device), bot: !!l[0].is_bot, lang: l[l.length - 1].lang, tz: l[l.length - 1].tz,
     screen: l[l.length - 1].screen, ua: '', first: l[0].ts, last: l[l.length - 1].ts, views: l.length,
   }));
-  const uas = all<{ ua: string; n: number }>('SELECT ua, COUNT(*) AS n FROM views WHERE visitor_id = ? GROUP BY ua ORDER BY n DESC', id);
+  const uas = await all<{ ua: string; n: number }>('SELECT ua, COUNT(*) AS n FROM views WHERE visitor_id = ? GROUP BY ua ORDER BY n DESC', id);
   const watched = videos.map((x) => {
     const w = vs.filter((v) => v.kind === 'watch' && v.video_id === x.id);
     const d = es.filter((e) => e.name === 'detail' && e.target === x.id);
@@ -437,7 +437,7 @@ export function visitorDetail(id: number) {
 
 /* ------------------------------------------------------------------ history */
 
-export function history(o: { range: Range; bots: boolean; q: string; kind: string; video: string; page: number; per: number }) {
+export async function history(o: { range: Range; bots: boolean; q: string; kind: string; video: string; page: number; per: number }) {
   const where = ['v.ts >= ?', 'v.ts < ?', '(? = 1 OR v.is_bot = 0)'];
   const p: (string | number)[] = [o.range.from, o.range.to, o.bots ? 1 : 0];
   if (o.q) { where.push('(s.ip LIKE ? OR v.browser LIKE ? OR v.os LIKE ?)'); p.push(`%${o.q}%`, `%${o.q}%`, `%${o.q}%`); }
@@ -445,21 +445,22 @@ export function history(o: { range: Range; bots: boolean; q: string; kind: strin
   if (o.kind === 'played') where.push('v.played = 1');
   if (o.video) { where.push('v.video_id = ?'); p.push(o.video); }
   const w = where.join(' AND ');
-  const total = get<{ n: number }>(`SELECT COUNT(*) AS n FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE ${w}`, ...p)!.n;
-  const rows = all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE ${w} ORDER BY v.ts DESC LIMIT ? OFFSET ?`, ...p, o.per, (o.page - 1) * o.per);
+  const total = (await get<{ n: number }>(`SELECT COUNT(*) AS n FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE ${w}`, ...p))!.n;
+  const rows = await all<ViewRow>(`SELECT ${VIEW_COLS} FROM views v JOIN visitors s ON s.id = v.visitor_id WHERE ${w} ORDER BY v.ts DESC LIMIT ? OFFSET ?`, ...p, o.per, (o.page - 1) * o.per);
   const ids = rows.map((r) => r.id);
-  const es = ids.length ? all<EventRow>(`SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE view_id IN (${ids.map(() => '?').join(',')}) ORDER BY ts`, ...ids) : [];
+  const es = ids.length ? await all<EventRow>(`SELECT id, view_id, visitor_id, ts, name, target FROM events WHERE view_id IN (${ids.map(() => '?').join(',')}) ORDER BY ts`, ...ids) : [];
   const evByView = groupBy(es, (e) => e.view_id);
   return { total, rows: rows.map((v) => ({ ...viewItem(v, evByView.get(v.id) ?? []), excluded: !!v.excluded })) };
 }
 
 /* ------------------------------------------------------------------ one video */
 
-export function videoReport(id: string, r: Range, bots: boolean) {
+export async function videoReport(id: string, r: Range, bots: boolean) {
   const x = getVideo(id);
   if (!x) return null;
-  const vs = views(r.from, r.to, bots).filter((v) => v.kind === 'watch' && v.video_id === id);
-  const es = events(r.from, r.to, bots).filter((e) => e.target === id);
+  const [allVs, allEs] = await Promise.all([views(r.from, r.to, bots), events(r.from, r.to, bots)]);
+  const vs = allVs.filter((v) => v.kind === 'watch' && v.video_id === id);
+  const es = allEs.filter((e) => e.target === id);
   const played = vs.filter((v) => v.played);
   const bk = buckets(r).map((b) => ({
     key: b.key, label: b.label,
@@ -477,9 +478,10 @@ export function videoReport(id: string, r: Range, bots: boolean) {
     visitor: vid, ip: l[0].ip, browser: browserName(l[l.length - 1]), os: osName(l[l.length - 1]), views: l.length,
     best: Math.max(...l.map(pct)), watchMs: l.reduce((a, v) => a + v.watch_ms, 0), completed: l.some((v) => v.completed), last: l[l.length - 1].ts,
   })).sort((a, b) => b.last - a.last);
-  return { video: { id: x.id, title: x.title, client: x.client, tool: x.tool, duration: x.duration }, stat: videoStats(views(r.from, r.to, bots), events(r.from, r.to, bots)).find((s) => s.id === id)!, retention: retention(played), series: bk, chapters, viewers };
+  return { video: { id: x.id, title: x.title, client: x.client, tool: x.tool, duration: x.duration }, stat: videoStats(allVs, allEs).find((s) => s.id === id)!, retention: retention(played), series: bk, chapters, viewers };
 }
 
-export function videoTable(r: Range, bots: boolean) {
-  return videoStats(views(r.from, r.to, bots), events(r.from, r.to, bots));
+export async function videoTable(r: Range, bots: boolean) {
+  const [vs, es] = await Promise.all([views(r.from, r.to, bots), events(r.from, r.to, bots)]);
+  return videoStats(vs, es);
 }

@@ -39,16 +39,16 @@ async function verify(pw: string, stored: string) {
 
 /** the stored hash; the first call stores the hash of the initial password */
 async function storedHash() {
-  let h = getMeta('admin_password');
+  let h = await getMeta('admin_password');
   if (!h) {
     h = await hashPassword(INITIAL_PASSWORD);
-    setMeta('admin_password', h);
-    setMeta('password_initial', '1');
+    await setMeta('admin_password', h);
+    await setMeta('password_initial', '1');
   }
   return h;
 }
 
-export const isInitialPassword = () => getMeta('password_initial') !== '0';
+export const isInitialPassword = async () => (await getMeta('password_initial')) !== '0';
 
 async function requestInfo() {
   const h = await headers();
@@ -60,21 +60,21 @@ export type LoginResult = { ok: true } | { ok: false; error: string };
 export async function login(password: string): Promise<LoginResult> {
   const { ip, ua, https } = await requestInfo();
   const now = Date.now();
-  run('DELETE FROM login_failures WHERE ts < ?', now - LOCK_WINDOW);
-  const fails = get<{ n: number; first: number }>('SELECT COUNT(*) AS n, MIN(ts) AS first FROM login_failures WHERE ip = ?', ip)!;
+  await run('DELETE FROM login_failures WHERE ts < ?', now - LOCK_WINDOW);
+  const fails = (await get<{ n: number; first: number }>('SELECT COUNT(*) AS n, MIN(ts) AS first FROM login_failures WHERE ip = ?', ip))!;
   if (fails.n >= LOCK_AFTER) {
     const min = Math.max(1, Math.ceil((fails.first + LOCK_WINDOW - now) / 60_000));
     return { ok: false, error: `パスワードを続けて間違えたため、ロックしています。${min} 分後にもう一度お試しください。` };
   }
   if (!password || !(await verify(password, await storedHash()))) {
-    run('INSERT INTO login_failures (ip, ts) VALUES (?, ?)', ip, now);
+    await run('INSERT INTO login_failures (ip, ts) VALUES (?, ?)', ip, now);
     const left = LOCK_AFTER - fails.n - 1;
     return { ok: false, error: left > 0 ? `パスワードが違います（あと ${left} 回でロックされます）。` : 'パスワードが違います。15 分間ロックします。' };
   }
-  run('DELETE FROM login_failures WHERE ip = ?', ip);
-  run('DELETE FROM admin_sessions WHERE expires < ?', now);
+  await run('DELETE FROM login_failures WHERE ip = ?', ip);
+  await run('DELETE FROM admin_sessions WHERE expires < ?', now);
   const token = randomBytes(32).toString('base64url');
-  run('INSERT INTO admin_sessions (token, created, expires, ip, ua) VALUES (?, ?, ?, ?, ?)', sha256(token), now, now + SESSION_MS, ip, ua);
+  await run('INSERT INTO admin_sessions (token, created, expires, ip, ua) VALUES (?, ?, ?, ?, ?)', sha256(token), now, now + SESSION_MS, ip, ua);
   (await cookies()).set(COOKIE, token, { httpOnly: true, sameSite: 'lax', secure: https, path: '/admin', maxAge: SESSION_MS / 1000 });
   return { ok: true };
 }
@@ -83,7 +83,7 @@ export async function login(password: string): Promise<LoginResult> {
 export async function session() {
   const token = (await cookies()).get(COOKIE)?.value;
   if (!token) return null;
-  const s = get<{ token: string; created: number; expires: number }>('SELECT token, created, expires FROM admin_sessions WHERE token = ?', sha256(token));
+  const s = await get<{ token: string; created: number; expires: number }>('SELECT token, created, expires FROM admin_sessions WHERE token = ?', sha256(token));
   return s && s.expires > Date.now() ? s : null;
 }
 
@@ -97,7 +97,7 @@ export async function requireAdmin() {
 export async function logout() {
   const jar = await cookies();
   const token = jar.get(COOKIE)?.value;
-  if (token) run('DELETE FROM admin_sessions WHERE token = ?', sha256(token));
+  if (token) await run('DELETE FROM admin_sessions WHERE token = ?', sha256(token));
   jar.delete({ name: COOKIE, path: '/admin' });
 }
 
@@ -108,18 +108,18 @@ export async function changePassword(current: string, next: string): Promise<Log
   if (next.length < 8) return { ok: false, error: '新しいパスワードは 8 文字以上にしてください。' };
   if (next.length > 200) return { ok: false, error: '新しいパスワードは 200 文字以内にしてください。' };
   if (next === current) return { ok: false, error: '現在と同じパスワードです。' };
-  setMeta('admin_password', await hashPassword(next));
-  setMeta('password_initial', next === INITIAL_PASSWORD ? '1' : '0');
-  setMeta('password_changed', String(Date.now()));
-  run('DELETE FROM admin_sessions WHERE token <> ?', s.token);
+  await setMeta('admin_password', await hashPassword(next));
+  await setMeta('password_initial', next === INITIAL_PASSWORD ? '1' : '0');
+  await setMeta('password_changed', String(Date.now()));
+  await run('DELETE FROM admin_sessions WHERE token <> ?', s.token);
   return { ok: true };
 }
 
-export const signedInSessions = () =>
-  get<{ n: number }>('SELECT COUNT(*) AS n FROM admin_sessions WHERE expires > ?', Date.now())?.n ?? 0;
+export const signedInSessions = async () =>
+  (await get<{ n: number }>('SELECT COUNT(*) AS n FROM admin_sessions WHERE expires > ?', Date.now()))?.n ?? 0;
 
 /** signs out every browser but this one */
 export async function revokeOthers() {
   const s = await session();
-  if (s) run('DELETE FROM admin_sessions WHERE token <> ?', s.token);
+  if (s) await run('DELETE FROM admin_sessions WHERE token <> ?', s.token);
 }

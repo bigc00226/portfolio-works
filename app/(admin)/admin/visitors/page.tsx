@@ -22,7 +22,7 @@ export default async function VisitorsPage({ searchParams }: { searchParams: Sea
   const q = one(sp.q).slice(0, 100), sort = (SORTS.find((s) => s.key === one(sp.sort))?.key ?? 'recent') as VisitorSort;
   const showExcluded = one(sp.excluded) === '1';
   const page = Math.max(1, parseInt(one(sp.page) || '1', 10) || 1);
-  const list = visitorList({ range, bots, q, sort, showExcluded });
+  const list = await visitorList({ range, bots, q, sort, showExcluded });
   const rows = list.slice((page - 1) * PER, page * PER);
   const pages = Math.max(1, Math.ceil(list.length / PER));
   const keep = (o: Record<string, string | number>) => {

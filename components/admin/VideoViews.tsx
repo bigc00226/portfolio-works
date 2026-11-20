@@ -60,7 +60,7 @@ export function VideoOverview({ rows, qs }: { rows: VideoStat[]; qs: string }) {
   );
 }
 
-type Report = NonNullable<ReturnType<typeof videoReport>>;
+type Report = NonNullable<Awaited<ReturnType<typeof videoReport>>>;
 
 export function VideoDetail({ r, hourly }: { r: Report; hourly: boolean }) {
   const st = r.stat;

@@ -20,7 +20,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Sear
   const { sp, range, bots, qs, ranges } = await filters(searchParams);
   const q = one(sp.q).slice(0, 100), kind = one(sp.kind), video = one(sp.video);
   const page = Math.max(1, parseInt(one(sp.page) || '1', 10) || 1);
-  const h = history({ range, bots, q, kind, video, page, per: PER });
+  const h = await history({ range, bots, q, kind, video, page, per: PER });
   const pages = Math.max(1, Math.ceil(h.total / PER));
   const link = (p: number) => {
     const u = new URLSearchParams({ range: range.key, ...(bots ? { bots: '1' } : {}), ...(q ? { q } : {}), ...(kind ? { kind } : {}), ...(video ? { video } : {}), page: String(p) });

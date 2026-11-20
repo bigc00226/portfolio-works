@@ -7,6 +7,7 @@ import { fmtDateTime, fmtN } from '@/lib/admin-format';
 import { Shell, PageHead } from '@/components/admin/Shell';
 import { FilterBar, AutoRefresh } from '@/components/admin/ui';
 import { Dashboard } from '@/components/admin/Dashboard';
+import { StoreNotice } from '@/components/admin/StoreNotice';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'ダッシュボード' };
@@ -14,14 +15,15 @@ export const metadata: Metadata = { title: 'ダッシュボード' };
 export default async function AdminHome({ searchParams }: { searchParams: Search }) {
   await requireAdmin();
   const { range, bots, qs, ranges } = await filters(searchParams);
-  const d = dashboard(range, bots);
+  const [d, initial] = await Promise.all([dashboard(range, bots), isInitialPassword()]);
   return (
     <Shell active="dash" qs={qs}>
       <AutoRefresh />
       <PageHead title="ダッシュボード" sub={<>{fmtDateTime(range.from)} 〜 {fmtDateTime(range.to)}（{range.label}）・30 秒ごとに更新</>}>
         <FilterBar path="/admin" ranges={ranges} range={range.key} bots={bots} />
       </PageHead>
-      {isInitialPassword() && (
+      <StoreNotice />
+      {initial && (
         <div className="ad-banner">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3 2.5 20h19z" /><path d="M12 10v4M12 17h.01" /></svg>
           パスワードが初期設定のままです。ほかの人に見られないよう、変更してください。

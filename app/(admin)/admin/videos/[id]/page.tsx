@@ -16,7 +16,7 @@ export default async function VideoPage({ params, searchParams }: { params: Prom
   await requireAdmin();
   const id = decodeURIComponent((await params).id);
   const { range, bots, qs, ranges } = await filters(searchParams);
-  const r = videoReport(id, range, bots);
+  const r = await videoReport(id, range, bots);
   if (!r) notFound();
   return (
     <Shell active="videos" qs={qs}>

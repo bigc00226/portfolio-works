@@ -6,7 +6,7 @@
  * A view can only be updated from the IP address that opened it.
  */
 import 'server-only';
-import { get, run, tx } from './db';
+import { get, run, many } from './db';
 import { clientIp, parseAgent, sourceOf, type Hints } from './client';
 import { getVideo } from '@/lib/registry';
 
@@ -24,7 +24,7 @@ function limited(ip: string) {
 
 type Body = Record<string, unknown>;
 
-export function record(body: Body, headers: Headers): { status: number; json?: unknown } {
+export async function record(body: Body, headers: Headers): Promise<{ status: number; json?: unknown }> {
   const ip = clientIp(headers);
   if (limited(ip)) return { status: 429 };
   const now = Date.now();
@@ -40,32 +40,31 @@ export function record(body: Body, headers: Headers): { status: number; json?: u
     const wm = path.match(/^\/watch\/([^/?#]+)/);
     const videoId = wm ? decodeURIComponent(wm[1]) : null;
     const kind = path === '/' ? 'home' : videoId && getVideo(videoId) ? 'watch' : 'other';
-    const id = tx(() => {
-      run('INSERT INTO visitors (ip, first_seen, last_seen) VALUES (?, ?, ?) ON CONFLICT(ip) DO UPDATE SET last_seen = excluded.last_seen', ip, now, now);
-      const vis = get<{ id: number }>('SELECT id FROM visitors WHERE ip = ?', ip)!;
-      const r = run(
-        `INSERT INTO views (visitor_id, ts, last_ts, path, kind, video_id, referrer, ref_host, source, ua, browser, browser_ver, os, os_ver, device, is_bot, lang, tz, screen)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        vis.id, now, now, path, kind, kind === 'watch' ? videoId : null, ref, refHost, source, ua,
-        a.browser, a.browserVer, a.os, a.osVer, a.device, a.isBot ? 1 : 0, str(body.lang, 20), str(body.tz, 60), str(body.screen, 20),
-      );
-      return Number(r.lastInsertRowid);
-    });
+    // one round trip: the visitor (one row per address), then the view of that visitor
+    const [, r] = await many(
+      ['INSERT INTO visitors (ip, first_seen, last_seen) VALUES (?, ?, ?) ON CONFLICT(ip) DO UPDATE SET last_seen = excluded.last_seen', ip, now, now],
+      [`INSERT INTO views (visitor_id, ts, last_ts, path, kind, video_id, referrer, ref_host, source, ua, browser, browser_ver, os, os_ver, device, is_bot, lang, tz, screen)
+        SELECT id, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? FROM visitors WHERE ip = ?`,
+        now, now, path, kind, kind === 'watch' ? videoId : null, ref, refHost, source, ua,
+        a.browser, a.browserVer, a.os, a.osVer, a.device, a.isBot ? 1 : 0, str(body.lang, 20), str(body.tz, 60), str(body.screen, 20), ip],
+    );
+    if (!r.changes) return { status: 500 };
+    const id = r.lastInsertRowid;
     return { status: 200, json: { id } };
   }
   const id = num(body.id, Number.MAX_SAFE_INTEGER);
-  const view = id ? get<{ id: number; visitor_id: number; video_id: string | null }>(
+  const view = id ? await get<{ id: number; visitor_id: number; video_id: string | null }>(
     'SELECT views.id, views.visitor_id, views.video_id FROM views JOIN visitors ON visitors.id = views.visitor_id WHERE views.id = ? AND visitors.ip = ?', id, ip) : undefined;
   if (!view) return { status: 404 };
   if (body.t === 'ping') {
     const len = view.video_id ? getVideo(view.video_id)?.duration ?? 0 : 0;
     const day = 86_400_000;
-    tx(() => {
-      run(`UPDATE views SET last_ts = ?, active_ms = MAX(active_ms, ?), watch_ms = MAX(watch_ms, ?), max_pos_ms = MAX(max_pos_ms, ?),
+    await many(
+      [`UPDATE views SET last_ts = ?, active_ms = MAX(active_ms, ?), watch_ms = MAX(watch_ms, ?), max_pos_ms = MAX(max_pos_ms, ?),
              played = MAX(played, ?), completed = MAX(completed, ?) WHERE id = ?`,
-        now, num(body.active, day), num(body.watch, day), Math.min(num(body.pos, day), len || day), body.played ? 1 : 0, body.done ? 1 : 0, view.id);
-      run('UPDATE visitors SET last_seen = MAX(last_seen, ?) WHERE id = ?', now, view.visitor_id);
-    });
+        now, num(body.active, day), num(body.watch, day), Math.min(num(body.pos, day), len || day), body.played ? 1 : 0, body.done ? 1 : 0, view.id],
+      ['UPDATE visitors SET last_seen = MAX(last_seen, ?) WHERE id = ?', now, view.visitor_id],
+    );
     return { status: 204 };
   }
   if (body.t === 'ev') {
@@ -73,8 +72,8 @@ export function record(body: Body, headers: Headers): { status: number; json?: u
     if (!EVENTS.has(name)) return { status: 400 };
     const target = str(body.target, 120) || view.video_id || '';
     // a quarter / the end of a video counts once per page load
-    if (name !== 'detail' && name !== 'site' && get('SELECT 1 FROM events WHERE view_id = ? AND name = ? AND target = ?', view.id, name, target)) return { status: 204 };
-    run('INSERT INTO events (view_id, visitor_id, ts, name, target) VALUES (?, ?, ?, ?, ?)', view.id, view.visitor_id, now, name, target);
+    if (name !== 'detail' && name !== 'site' && await get('SELECT 1 FROM events WHERE view_id = ? AND name = ? AND target = ?', view.id, name, target)) return { status: 204 };
+    await run('INSERT INTO events (view_id, visitor_id, ts, name, target) VALUES (?, ?, ?, ?, ?)', view.id, view.visitor_id, now, name, target);
     return { status: 204 };
   }
   return { status: 400 };
